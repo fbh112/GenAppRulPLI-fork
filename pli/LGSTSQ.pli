@@ -1,0 +1,121 @@
+  /******************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                                                                *
+  * By default queue name of GENAERRS is used if                   *
+  *  parm Q=nnnn is passed then Queue name GENAnnnn is used        *
+  *                                                                *
+  * Error message logger: writes to TDQ CSMT and to the GENA TSQ   *
+  *                                                                *
+  ******************************************************************/
+  LGSTSQ: Proc(COMM_AREA_PTR) Options(Main);
+
+   DCL 1  WS_FLAG                CHAR(1) INIT(' ');
+   DCL 1  WS_RESP                FIXED BIN(31);
+   DCL 1  WS_STARTCODE           CHAR(2) INIT(' ');
+   DCL 1  WS_INVOKEPROG          CHAR(8) INIT(' ');
+   DCL 1  WS_PRINSYSID           CHAR(4) INIT(' ');
+   DCL 1  WS_RECV,
+       03 WS_RECV_TRANID         CHAR(5),
+       03 WS_RECV_DATA           CHAR(74);
+   DCL 1  WS_RECV_LEN            FIXED BIN(15) INIT(80);
+
+   DCL 1  WRITE_MSG,
+       03 WRITE_MSG_SYSID        CHAR(4),
+       03 FILLER_X               CHAR(1) INIT(' '),
+       03 WRITE_MSG_MSG          CHAR(90);
+   DCL 1  STSQ                   CHAR(8) INIT(' ');
+
+   DCL 1  TEMPO                  CHAR(90) INIT(' ');
+   DCL 1  STDQ_NAME              CHAR(4) INIT('CSMT');
+   DCL 1  MSGEND                 CHAR(24)
+                                 INIT('Transaction ended      ');
+
+  /*---------------------------------------------------------------*/
+  /* Linkage: the caller passes up to 90 bytes of message text     */
+  /*---------------------------------------------------------------*/
+   DCL COMM_AREA_PTR PTR;
+   DCL 1  COMMA BASED(COMM_AREA_PTR),
+       03 COMMA_DATA             CHAR(90);
+
+  /*---------------------------------------------------------------*/
+   WRITE_MSG = ' ';
+   WS_RECV   = ' ';
+
+   EXEC CICS ASSIGN SYSID(WRITE_MSG_SYSID)
+             RESP(WS_RESP);
+
+   EXEC CICS ASSIGN STARTCODE(WS_STARTCODE)
+             RESP(WS_RESP);
+
+   EXEC CICS ASSIGN PRINSYSID(WS_PRINSYSID)
+             RESP(WS_RESP);
+
+   EXEC CICS ASSIGN INVOKINGPROG(WS_INVOKEPROG)
+             RESP(WS_RESP);
+
+   IF (WS_INVOKEPROG <> ' ') THEN DO;
+     /* Invoked by another program: message is in the commarea */
+     WS_FLAG = 'C';
+     WRITE_MSG_MSG = COMMA_DATA;
+     WS_RECV_LEN = EIBCALEN;
+   END;
+   ELSE DO;
+     /* Invoked from a terminal: message is the typed input */
+     EXEC CICS RECEIVE INTO(WS_RECV)
+               LENGTH(WS_RECV_LEN)
+               RESP(WS_RESP);
+     WS_FLAG = 'R';
+     WRITE_MSG_MSG = WS_RECV_DATA;
+     WS_RECV_LEN = WS_RECV_LEN - 5;
+   END;
+
+   STSQ = 'GENAERRS';
+   IF (SUBSTR(WRITE_MSG_MSG,1,2) = 'Q=') THEN DO;
+     /* Q=nnnn selects queue GENAnnnn; text follows after 7 bytes */
+     SUBSTR(STSQ,5,4) = SUBSTR(WRITE_MSG_MSG,3,4);
+     TEMPO = SUBSTR(WRITE_MSG_MSG,8,83);
+     WRITE_MSG_MSG = TEMPO;
+     WS_RECV_LEN = WS_RECV_LEN - 7;
+   END;
+
+   WS_RECV_LEN = WS_RECV_LEN + 5;
+
+  /* Write output message to TDQ CSMT */
+   EXEC CICS WRITEQ TD QUEUE(STDQ_NAME)
+             FROM(WRITE_MSG)
+             RESP(WS_RESP)
+             LENGTH(WS_RECV_LEN);
+
+  /* Write output message to Genapp TSQ                             */
+  /* If no space is available then the task will not wait for       */
+  /*  storage to become available but will ignore the request...    */
+   EXEC CICS WRITEQ TS QUEUE(STSQ)
+             FROM(WRITE_MSG)
+             RESP(WS_RESP)
+             NOSUSPEND
+             LENGTH(WS_RECV_LEN);
+
+   IF (WS_FLAG = 'R') THEN DO;
+     EXEC CICS SEND TEXT FROM(FILLER_X)
+               TERMINAL
+               WAIT
+               ERASE
+               LENGTH(1)
+               FREEKB;
+   END;
+
+   EXEC CICS RETURN;
+
+  END LGSTSQ;

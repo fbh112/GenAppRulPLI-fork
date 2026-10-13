@@ -1,0 +1,162 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                  Batch customer report                         *
+  *                                                                *
+  * Reads customer numbers from CUSTIN, selects each customer from *
+  * DB2 and writes a formatted report line to CUSTRPT (via the     *
+  * LGBATCHF subroutine). Batch (non-CICS) program.                *
+  *                                                                *
+  * Notes (kept from the COBOL version):                           *
+  *  - A customer that is not found is still reported, using       *
+  *    whatever is left in the commarea from the previous row.     *
+  *  - WRITE_ERROR_MESSAGE only builds ERROR_MSG; it is not        *
+  *    written anywhere.                                           *
+  ******************************************************************/
+  LGBATCH: Proc Options(Main);
+
+  DCL CUSTIN         FILE RECORD INPUT SEQUENTIAL
+                     ENV(FB RECSIZE(10));
+  DCL CUSTRPT        FILE RECORD OUTPUT SEQUENTIAL
+                     ENV(FB RECSIZE(80));
+
+  DCL 1 CUSTIN_RECORD,
+        3 CUSTIN_CUSTNUMBER  PIC '9999999999';
+  DCL CUSTRPT_LINE   CHAR(80);
+
+  DCL FI_EOF         BIT(1) INIT('0'B);
+  DCL PLIRETC        BUILTIN;
+
+  /* Variables for time/date processing */
+  DCL WS_TIME        CHAR(8)  INIT(' ');
+  DCL WS_DATE        CHAR(10) INIT(' ');
+
+  /* Error Message structure */
+  DCL 1 ERROR_MSG,
+        3 EM_DATE    CHAR(8)  INIT(' '),
+        3 *          CHAR(1)  INIT(' '),
+        3 EM_TIME    CHAR(6)  INIT(' '),
+        3 *          CHAR(9)  INIT(' LGBATCH'),
+        3 EM_VARIABLE,
+          5 *        CHAR(6)  INIT(' CNUM='),
+          5 EM_CUSNUM  CHAR(10) INIT(' '),
+          5 *        CHAR(6)  INIT(' PNUM='),
+          5 EM_POLNUM  CHAR(10) INIT(' '),
+          5 EM_SQLREQ  CHAR(16) INIT(' '),
+          5 *        CHAR(9)  INIT(' SQLCODE='),
+          5 EM_SQLRC   PIC '+(5)9';
+
+  /* Host variables for input to DB2 integer types */
+  DCL 1 DB2_IN_INTEGERS,
+        3 DB2_CUSTOMERNUMBER_INT FIXED BIN(31) INIT(0);
+
+  /* Customer subroutine, reports one customer */
+  DCL LGBATCHF ENTRY(PIC '9999999999', PTR, CHAR(80));
+
+  /* Commarea work area, also visible to the SQL precompiler */
+  DCL BATCH_COMM_AREA CHAR(32500);
+
+  EXEC SQL INCLUDE SQLCA;
+  EXEC SQL INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*/
+  COMM_AREA_PTR = ADDR(BATCH_COMM_AREA);
+
+  ON UNDEFINEDFILE(CUSTIN) BEGIN;
+     DISPLAY('FILE STATUS AT OPEN CUSTIN');
+     CALL PLIRETC(16);
+     STOP;
+  END;
+  OPEN FILE(CUSTIN);
+  OPEN FILE(CUSTRPT);
+
+  ON ENDFILE(CUSTIN) FI_EOF = '1'B;
+
+  READ FILE(CUSTIN) INTO(CUSTIN_RECORD);
+
+  DO WHILE (^FI_EOF);
+     CALL PROCESS_RECORD;
+     READ FILE(CUSTIN) INTO(CUSTIN_RECORD);
+  END;
+
+  CLOSE FILE(CUSTIN);
+  CLOSE FILE(CUSTRPT);
+  RETURN;
+
+  /*================================================================*/
+  PROCESS_RECORD: PROCEDURE;
+
+     /* initialize DB2 host variables */
+     DB2_CUSTOMERNUMBER_INT = CUSTIN_CUSTNUMBER;
+
+     /* Obtain details from DB2 */
+     CALL GET_CUSTOMER_INFO;
+
+     CALL LGBATCHF(CUSTIN_CUSTNUMBER, COMM_AREA_PTR, CUSTRPT_LINE);
+     WRITE FILE(CUSTRPT) FROM(CUSTRPT_LINE);
+
+  END PROCESS_RECORD;
+
+  /*================================================================*/
+  GET_CUSTOMER_INFO: PROCEDURE;
+
+     EM_SQLREQ = ' SELECT CUSTOMER';
+     EXEC SQL
+         SELECT FIRSTNAME,
+                LASTNAME,
+                DATEOFBIRTH,
+                HOUSENAME,
+                HOUSENUMBER,
+                POSTCODE,
+                PHONEMOBILE,
+                PHONEHOME,
+                EMAILADDRESS
+         INTO  :CA_FIRST_NAME,
+               :CA_LAST_NAME,
+               :CA_DOB,
+               :CA_HOUSE_NAME,
+               :CA_HOUSE_NUM,
+               :CA_POSTCODE,
+               :CA_PHONE_MOBILE,
+               :CA_PHONE_HOME,
+               :CA_EMAIL_ADDRESS
+         FROM CUSTOMER
+         WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT;
+
+     SELECT (SQLCODE);
+        WHEN (0)
+           CA_RETURN_CODE = '00';
+        WHEN (100)
+           CA_RETURN_CODE = '01';
+        OTHERWISE DO;
+           CA_RETURN_CODE = '90';
+           CALL WRITE_ERROR_MESSAGE;
+        END;
+     END;
+
+  END GET_CUSTOMER_INFO;
+
+  /*================================================================*
+  * Procedure to build the error message                           *
+  *   message will include Date, Time, Program Name, Customer      *
+  *   Number, Policy Number and SQLCODE.                           *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+     /* Save SQLCODE in message */
+     EM_SQLRC = SQLCODE;
+     EM_DATE = WS_DATE;
+     EM_TIME = WS_TIME;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGBATCH;

@@ -1,0 +1,64 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                  Format customer report line                   *
+  *                                                                *
+  * Batch subroutine called by LGBATCH. Builds the text of one     *
+  * report line from the customer number and the commarea details. *
+  *                                                                *
+  * Parameters (all by reference):                                 *
+  *   CUSTNUMBER  customer number, PIC 9(10)                       *
+  *   COMM_PTR    pointer to a LGCMAREA commarea                   *
+  *   LS_LINE     output line, CHAR(80)                            *
+  ******************************************************************/
+  LGBATCHF: Proc(CUSTNUMBER, COMM_PTR, LS_LINE);
+
+  DCL CUSTNUMBER    PIC '9999999999';
+  DCL COMM_PTR      PTR;
+  DCL LS_LINE       CHAR(80);
+
+  DCL FIRST_TOKEN   CHAR(10) VAR;
+  DCL LAST_TOKEN    CHAR(20) VAR;
+  DCL POS           FIXED BIN(15);
+
+  %INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*/
+  COMM_AREA_PTR = COMM_PTR;
+
+  /* COBOL STRING ... DELIMITED BY SPACE: keep text up to 1st blank */
+  POS = INDEX(CA_FIRST_NAME,' ');
+  IF POS = 0 THEN
+     FIRST_TOKEN = CA_FIRST_NAME;
+  ELSE IF POS = 1 THEN
+     FIRST_TOKEN = '';
+  ELSE
+     FIRST_TOKEN = SUBSTR(CA_FIRST_NAME,1,POS-1);
+
+  POS = INDEX(CA_LAST_NAME,' ');
+  IF POS = 0 THEN
+     LAST_TOKEN = CA_LAST_NAME;
+  ELSE IF POS = 1 THEN
+     LAST_TOKEN = '';
+  ELSE
+     LAST_TOKEN = SUBSTR(CA_LAST_NAME,1,POS-1);
+
+  LS_LINE = 'Customer ' || CUSTNUMBER || ' is ' ||
+            FIRST_TOKEN || ' ' || LAST_TOKEN;
+
+  DISPLAY('LGBATCHF WAS HERE... ' || LS_LINE);
+
+  RETURN;
+
+  END LGBATCHF;

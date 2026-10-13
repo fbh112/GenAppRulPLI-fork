@@ -1,0 +1,270 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                    Endowment Policy Menu                          */
+  /*                                                                   */
+  /* Menu for Endowment Policy Transactions (transaction SSP2)         */
+  /*                                                                   */
+  /*********************************************************************/
+  LGTESTP2: Proc(DFHEIPTR,COMM_AREA_PTR) Options(Main,Reentrant);
+
+  DCL MSGEND CHAR(24) STATIC INIT('Transaction ended');
+
+  %INCLUDE SSMAP;
+  %INCLUDE LGCMAREA;
+  DCL BASE_COMM_AREA CHAR(STG(COMM_AREA));
+
+  /*-------------------------------------------------------------------*/
+  IF EIBCALEN = 0 THEN DO;
+
+     COMM_AREA_PTR = ADDR(BASE_COMM_AREA);
+     SSMAPP2O = ' ';
+     CA_REQUEST_ID = ' ';
+     CA_RETURN_CODE = 0;
+     CA_CUSTOMER_NUM = 0;
+     CA_REQUEST_INITIALISER = ' ';
+     ENP2CNOO = '0000000000';
+     ENP2PNOO = '0000000000';
+
+     /* Display Main Menu */
+     EXEC CICS SEND MAP ('SSMAPP2')
+               MAPSET ('SSMAP')
+               ERASE;
+  END;
+
+  A_GAIN:
+
+     EXEC CICS HANDLE AID
+               CLEAR(CLEARIT)
+               PF3(ENDIT);
+     EXEC CICS HANDLE CONDITION
+               MAPFAIL(ENDIT);
+
+     EXEC CICS RECEIVE MAP('SSMAPP2')
+               INTO(SSMAPP2I)
+               MAPSET('SSMAP');
+
+     SELECT (ENP2OPTO);
+
+        WHEN ('1') DO;
+           CA_REQUEST_ID = '01IEND';
+           CA_CUSTOMER_NUM = ENP2CNOO;
+           CA_POLICY_NUM = ENP2PNOO;
+           EXEC CICS LINK PROGRAM('LGIPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENP2IDAI = CA_ISSUE_DATE;
+           ENP2EDAI = CA_EXPIRY_DATE;
+           ENP2FNMI = CA_E_FUND_NAME;
+           ENP2TERI = CA_E_TERM;
+           ENP2SUMI = CA_E_SUM_ASSURED;
+           ENP2LIFI = CA_E_LIFE_ASSURED;
+           ENP2WPRI = CA_E_WITH_PROFITS;
+           ENP2MANI = CA_E_MANAGED_FUND;
+           ENP2EQUI = CA_E_EQUITIES;
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('2') DO;
+           CA_REQUEST_ID = '01AEND';
+           CA_CUSTOMER_NUM = ENP2CNOI;
+           CA_PAYMENT = 0;
+           CA_BROKERID = 0;
+           CA_BROKERSREF = ' ';
+           CA_ISSUE_DATE = ENP2IDAI;
+           CA_EXPIRY_DATE = ENP2EDAI;
+           CA_E_FUND_NAME = ENP2FNMI;
+           CA_E_TERM = ENP2TERI;
+           CA_E_SUM_ASSURED = ENP2SUMI;
+           CA_E_LIFE_ASSURED = ENP2LIFI;
+           CA_E_WITH_PROFITS = ENP2WPRI;
+           CA_E_MANAGED_FUND = ENP2MANI;
+           CA_E_EQUITIES = ENP2EQUI;
+           EXEC CICS LINK PROGRAM('LGAPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_ADD;
+           END;
+
+           ENP2CNOI = CA_CUSTOMER_NUM;
+           ENP2PNOI = CA_POLICY_NUM;
+           ENP2FNMI = CA_E_FUND_NAME;
+           ENP2OPTI = ' ';
+           ERP2FLDO = 'New Life Policy Inserted';
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('3') DO;
+           CA_REQUEST_ID = '01DEND';
+           CA_CUSTOMER_NUM = ENP2CNOO;
+           CA_POLICY_NUM = ENP2PNOO;
+           EXEC CICS LINK PROGRAM('LGDPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_DELETE;
+           END;
+
+           ENP2IDAI = ' ';
+           ENP2EDAI = ' ';
+           ENP2FNMI = ' ';
+           ENP2TERI = ' ';
+           ENP2SUMI = ' ';
+           ENP2LIFI = ' ';
+           ENP2WPRI = ' ';
+           ENP2MANI = ' ';
+           ENP2EQUI = ' ';
+           ERP2FLDO = 'Life Policy Deleted';
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('4') DO;
+           CA_REQUEST_ID = '01IEND';
+           CA_CUSTOMER_NUM = ENP2CNOO;
+           CA_POLICY_NUM = ENP2PNOO;
+           EXEC CICS LINK PROGRAM('LGIPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENP2IDAI = CA_ISSUE_DATE;
+           ENP2EDAI = CA_EXPIRY_DATE;
+           ENP2FNMI = CA_E_FUND_NAME;
+           ENP2TERI = CA_E_TERM;
+           ENP2SUMI = CA_E_SUM_ASSURED;
+           ENP2LIFI = CA_E_LIFE_ASSURED;
+           ENP2WPRI = CA_E_WITH_PROFITS;
+           ENP2MANI = CA_E_MANAGED_FUND;
+           ENP2EQUI = CA_E_EQUITIES;
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP');
+           EXEC CICS RECEIVE MAP('SSMAPP2')
+                     INTO(SSMAPP2I)
+                     MAPSET('SSMAP');
+
+           CA_REQUEST_ID = '01UEND';
+           CA_CUSTOMER_NUM = ENP2CNOI;
+           CA_PAYMENT = 0;
+           CA_BROKERID = 0;
+           CA_BROKERSREF = ' ';
+           CA_ISSUE_DATE = ENP2IDAI;
+           CA_EXPIRY_DATE = ENP2EDAI;
+           CA_E_FUND_NAME = ENP2FNMI;
+           CA_E_TERM = ENP2TERI;
+           CA_E_SUM_ASSURED = ENP2SUMI;
+           CA_E_LIFE_ASSURED = ENP2LIFI;
+           CA_E_WITH_PROFITS = ENP2WPRI;
+           CA_E_MANAGED_FUND = ENP2MANI;
+           CA_E_EQUITIES = ENP2EQUI;
+           EXEC CICS LINK PROGRAM('LGUPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_UPD;
+
+           ENP2CNOI = CA_CUSTOMER_NUM;
+           ENP2PNOI = CA_POLICY_NUM;
+           ENP2OPTI = ' ';
+           ERP2FLDO = 'Life Policy Updated';
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP');
+
+           GO TO ENDIT_STARTIT;
+        END;
+
+        OTHERWISE DO;
+
+           ERP2FLDO = 'Please enter a valid option';
+           ENP2OPTL = -1;
+
+           EXEC CICS SEND MAP ('SSMAPP2')
+                     FROM(SSMAPP2O)
+                     MAPSET ('SSMAP')
+                     CURSOR;
+           GO TO ENDIT_STARTIT;
+        END;
+     END;
+
+     /* Send message to terminal and return */
+
+     EXEC CICS RETURN;
+
+     ENDIT_STARTIT:
+        EXEC CICS RETURN
+                  TRANSID('SSP2')
+                  COMMAREA(COMM_AREA);
+
+     ENDIT:
+        EXEC CICS SEND TEXT
+                  FROM(MSGEND)
+                  LENGTH(STG(MSGEND))
+                  ERASE
+                  FREEKB;
+        EXEC CICS RETURN;
+
+     CLEARIT:
+
+        SSMAPP2I = ' ';
+        EXEC CICS SEND MAP ('SSMAPP2')
+                  MAPSET ('SSMAP')
+                  MAPONLY;
+
+        EXEC CICS RETURN
+                  TRANSID('SSP2')
+                  COMMAREA(COMM_AREA);
+
+     NO_ADD:
+        SELECT (CA_RETURN_CODE);
+           When (70) DO;
+              ERP2FLDO = 'Customer does not exist';
+              Go To ERROR_OUT;
+           END;
+           OTHERWISE DO;
+              ERP2FLDO = 'Error Adding Life Policy';
+              Go To ERROR_OUT;
+           END;
+        END;
+
+     NO_UPD:
+        ERP2FLDO = 'Error Updating Life Policy';
+        Go To ERROR_OUT;
+
+     NO_DELETE:
+        ERP2FLDO = 'Error Deleting Life Policy';
+        Go To ERROR_OUT;
+
+     NO_DATA:
+        ERP2FLDO = 'No data was returned.';
+        Go To ERROR_OUT;
+
+     ERROR_OUT:
+        EXEC CICS SEND MAP ('SSMAPP2')
+                  FROM(SSMAPP2O)
+                  MAPSET ('SSMAP');
+
+        SSMAPP2I = ' ';
+        COMM_AREA_RAW = ' ';
+        CA_REQUEST_ID = ' ';
+        CA_RETURN_CODE = 0;
+        CA_CUSTOMER_NUM = 0;
+        CA_REQUEST_INITIALISER = ' ';
+
+        GO TO ENDIT_STARTIT;
+  END LGTESTP2;

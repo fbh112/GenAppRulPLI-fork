@@ -1,0 +1,86 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                  Batch DB2 test driver                         *
+  *                                                                *
+  * Selects customer 1 from DB2 and displays the report line       *
+  * built by LGBATCHF. Batch (non-CICS) program.                   *
+  ******************************************************************/
+  LGBATDB2: Proc Options(Main);
+
+  /* Host variables for input to DB2 integer types */
+  DCL 1 DB2_IN_INTEGERS,
+        3 DB2_CUSTOMERNUMBER_INT FIXED BIN(31),
+        3 CUSTIN_CUSTNUMBER      PIC '9999999999',
+        3 CUSTRPT_LINE           CHAR(80);
+
+  /* Customer subroutine, reports one customer */
+  DCL LGBATCHF ENTRY(PIC '9999999999', PTR, CHAR(80));
+
+  /* Commarea work area, also visible to the SQL precompiler */
+  DCL BATCH_COMM_AREA CHAR(32500);
+
+  EXEC SQL INCLUDE SQLCA;
+  EXEC SQL INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*/
+  COMM_AREA_PTR = ADDR(BATCH_COMM_AREA);
+
+  DISPLAY('LGBATDB2 SQLCode : ' || SQLCODE);
+  DISPLAY('LGBATDB2 SQLState: ' || SQLSTATE);
+
+  DB2_CUSTOMERNUMBER_INT = 1;
+  CALL PROCESS_RECORD;
+
+  RETURN;
+
+  /*================================================================*/
+  PROCESS_RECORD: PROCEDURE;
+
+     /* Obtain details from DB2 */
+     CALL GET_CUSTOMER_INFO;
+     CUSTIN_CUSTNUMBER = DB2_CUSTOMERNUMBER_INT;
+     CALL LGBATCHF(CUSTIN_CUSTNUMBER, COMM_AREA_PTR, CUSTRPT_LINE);
+     DISPLAY(CUSTRPT_LINE);
+
+  END PROCESS_RECORD;
+
+  /*================================================================*/
+  GET_CUSTOMER_INFO: PROCEDURE;
+
+     EXEC SQL
+         SELECT FIRSTNAME,
+                LASTNAME,
+                DATEOFBIRTH,
+                HOUSENAME,
+                HOUSENUMBER,
+                POSTCODE,
+                PHONEMOBILE,
+                PHONEHOME,
+                EMAILADDRESS
+         INTO  :CA_FIRST_NAME,
+               :CA_LAST_NAME,
+               :CA_DOB,
+               :CA_HOUSE_NAME,
+               :CA_HOUSE_NUM,
+               :CA_POSTCODE,
+               :CA_PHONE_MOBILE,
+               :CA_PHONE_HOME,
+               :CA_EMAIL_ADDRESS
+         FROM CUSTOMER
+         WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT;
+
+  END GET_CUSTOMER_INFO;
+
+  END LGBATDB2;

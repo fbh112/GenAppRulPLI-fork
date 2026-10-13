@@ -1,0 +1,267 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                      House Policy Menu                            */
+  /*                                                                   */
+  /* Menu for House Policy Transactions (transaction SSP3)             */
+  /*                                                                   */
+  /*********************************************************************/
+  LGTESTP3: Proc(DFHEIPTR,COMM_AREA_PTR) Options(Main,Reentrant);
+
+  DCL MSGEND CHAR(24) STATIC INIT('Transaction ended');
+
+  %INCLUDE SSMAP;
+  %INCLUDE LGCMAREA;
+  DCL BASE_COMM_AREA CHAR(STG(COMM_AREA));
+
+  /*-------------------------------------------------------------------*/
+  IF EIBCALEN = 0 THEN DO;
+
+     COMM_AREA_PTR = ADDR(BASE_COMM_AREA);
+     SSMAPP3O = ' ';
+     CA_REQUEST_ID = ' ';
+     CA_RETURN_CODE = 0;
+     CA_CUSTOMER_NUM = 0;
+     CA_REQUEST_INITIALISER = ' ';
+     ENP3CNOO = '0000000000';
+     ENP3PNOO = '0000000000';
+     ENP3VALO = '00000000';
+     ENP3BEDO = '000';
+
+     /* Display Main Menu */
+     EXEC CICS SEND MAP ('SSMAPP3')
+               MAPSET ('SSMAP')
+               ERASE;
+  END;
+
+  A_GAIN:
+
+     EXEC CICS HANDLE AID
+               CLEAR(CLEARIT)
+               PF3(ENDIT);
+     EXEC CICS HANDLE CONDITION
+               MAPFAIL(ENDIT);
+
+     EXEC CICS RECEIVE MAP('SSMAPP3')
+               INTO(SSMAPP3I)
+               MAPSET('SSMAP');
+
+     SELECT (ENP3OPTO);
+
+        WHEN ('1') DO;
+           CA_REQUEST_ID = '01IHOU';
+           CA_CUSTOMER_NUM = ENP3CNOO;
+           CA_POLICY_NUM = ENP3PNOO;
+           EXEC CICS LINK PROGRAM('LGIPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENP3IDAI = CA_ISSUE_DATE;
+           ENP3EDAI = CA_EXPIRY_DATE;
+           ENP3TYPI = CA_H_PROPERTY_TYPE;
+           ENP3BEDI = CA_H_BEDROOMS;
+           ENP3VALI = CA_H_VALUE;
+           ENP3HNMI = CA_H_HOUSE_NAME;
+           ENP3HNOI = CA_H_HOUSE_NUMBER;
+           ENP3HPCI = CA_H_POSTCODE;
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('2') DO;
+           CA_REQUEST_ID = '01AHOU';
+           CA_CUSTOMER_NUM = ENP3CNOI;
+           CA_PAYMENT = 0;
+           CA_BROKERID = 0;
+           CA_BROKERSREF = ' ';
+           CA_ISSUE_DATE = ENP3IDAI;
+           CA_EXPIRY_DATE = ENP3EDAI;
+           CA_H_PROPERTY_TYPE = ENP3TYPI;
+           CA_H_BEDROOMS = ENP3BEDI;
+           CA_H_VALUE = ENP3VALI;
+           CA_H_HOUSE_NAME = ENP3HNMI;
+           CA_H_HOUSE_NUMBER = ENP3HNOI;
+           CA_H_POSTCODE = ENP3HPCI;
+           EXEC CICS LINK PROGRAM('LGAPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_ADD;
+           END;
+
+           ENP3CNOI = CA_CUSTOMER_NUM;
+           ENP3PNOI = CA_POLICY_NUM;
+           ENP3OPTI = ' ';
+           ERP3FLDO = 'New House Policy Inserted';
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('3') DO;
+           CA_REQUEST_ID = '01DHOU';
+           CA_CUSTOMER_NUM = ENP3CNOO;
+           CA_POLICY_NUM = ENP3PNOO;
+           EXEC CICS LINK PROGRAM('LGDPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_DELETE;
+           END;
+
+           ENP3IDAI = ' ';
+           ENP3EDAI = ' ';
+           ENP3TYPI = ' ';
+           ENP3BEDI = ' ';
+           ENP3VALI = ' ';
+           ENP3HNMI = ' ';
+           ENP3HNOI = ' ';
+           ENP3HPCI = ' ';
+           ENP3OPTI = ' ';
+           ERP3FLDO = 'House Policy Deleted';
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('4') DO;
+           CA_REQUEST_ID = '01IHOU';
+           CA_CUSTOMER_NUM = ENP3CNOO;
+           CA_POLICY_NUM = ENP3PNOO;
+           EXEC CICS LINK PROGRAM('LGIPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENP3IDAI = CA_ISSUE_DATE;
+           ENP3EDAI = CA_EXPIRY_DATE;
+           ENP3TYPI = CA_H_PROPERTY_TYPE;
+           ENP3BEDI = CA_H_BEDROOMS;
+           ENP3VALI = CA_H_VALUE;
+           ENP3HNMI = CA_H_HOUSE_NAME;
+           ENP3HNOI = CA_H_HOUSE_NUMBER;
+           ENP3HPCI = CA_H_POSTCODE;
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP');
+           EXEC CICS RECEIVE MAP('SSMAPP3')
+                     INTO(SSMAPP3I)
+                     MAPSET('SSMAP');
+
+           CA_REQUEST_ID = '01UHOU';
+           CA_CUSTOMER_NUM = ENP3CNOI;
+           CA_PAYMENT = 0;
+           CA_BROKERID = 0;
+           CA_BROKERSREF = ' ';
+           CA_ISSUE_DATE = ENP3IDAI;
+           CA_EXPIRY_DATE = ENP3EDAI;
+           CA_H_PROPERTY_TYPE = ENP3TYPI;
+           CA_H_BEDROOMS = ENP3BEDI;
+           CA_H_VALUE = ENP3VALI;
+           CA_H_HOUSE_NAME = ENP3HNMI;
+           CA_H_HOUSE_NUMBER = ENP3HNOI;
+           CA_H_POSTCODE = ENP3HPCI;
+           EXEC CICS LINK PROGRAM('LGUPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_UPD;
+
+           ENP3CNOI = CA_CUSTOMER_NUM;
+           ENP3PNOI = CA_POLICY_NUM;
+           ENP3OPTI = ' ';
+           ERP3FLDO = 'House Policy Updated';
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP');
+
+           GO TO ENDIT_STARTIT;
+        END;
+
+        OTHERWISE DO;
+
+           ERP3FLDO = 'Please enter a valid option';
+           ENP3OPTL = -1;
+
+           EXEC CICS SEND MAP ('SSMAPP3')
+                     FROM(SSMAPP3O)
+                     MAPSET ('SSMAP')
+                     CURSOR;
+           GO TO ENDIT_STARTIT;
+        END;
+     END;
+
+     /* Send message to terminal and return */
+
+     EXEC CICS RETURN;
+
+     ENDIT_STARTIT:
+        EXEC CICS RETURN
+                  TRANSID('SSP3')
+                  COMMAREA(COMM_AREA);
+
+     ENDIT:
+        EXEC CICS SEND TEXT
+                  FROM(MSGEND)
+                  LENGTH(STG(MSGEND))
+                  ERASE
+                  FREEKB;
+        EXEC CICS RETURN;
+
+     CLEARIT:
+
+        SSMAPP3I = ' ';
+        EXEC CICS SEND MAP ('SSMAPP3')
+                  MAPSET ('SSMAP')
+                  MAPONLY;
+
+        EXEC CICS RETURN
+                  TRANSID('SSP3')
+                  COMMAREA(COMM_AREA);
+
+     NO_ADD:
+        SELECT (CA_RETURN_CODE);
+           When (70) DO;
+              ERP3FLDO = 'Customer does not exist';
+              Go To ERROR_OUT;
+           END;
+           OTHERWISE DO;
+              ERP3FLDO = 'Error Adding House Policy';
+              Go To ERROR_OUT;
+           END;
+        END;
+
+     NO_UPD:
+        ERP3FLDO = 'Error Updating House Policy';
+        Go To ERROR_OUT;
+
+     NO_DELETE:
+        ERP3FLDO = 'Error Deleting House Policy';
+        Go To ERROR_OUT;
+
+     NO_DATA:
+        ERP3FLDO = 'No data was returned.';
+        Go To ERROR_OUT;
+
+     ERROR_OUT:
+        EXEC CICS SEND MAP ('SSMAPP3')
+                  FROM(SSMAPP3O)
+                  MAPSET ('SSMAP');
+
+        SSMAPP3I = ' ';
+        COMM_AREA_RAW = ' ';
+        CA_REQUEST_ID = ' ';
+        CA_RETURN_CODE = 0;
+        CA_CUSTOMER_NUM = 0;
+        CA_REQUEST_INITIALISER = ' ';
+
+        GO TO ENDIT_STARTIT;
+  END LGTESTP3;

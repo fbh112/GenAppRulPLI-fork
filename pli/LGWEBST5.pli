@@ -1,0 +1,248 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                  GenApp statistics collector                      */
+  /*                                                                   */
+  /* Queries the GENA named counters, keeps the previous/current/delta */
+  /* values of each success counter in TS queues GENA<code>V, and      */
+  /* restarts itself every minute (transaction SSST).                  */
+  /*                                                                   */
+  /* Differences to the COBOL version:                                 */
+  /*  - The 34 repeated QUERY COUNTER blocks are driven from a table.  */
+  /*  - SYMBLIST (S1-S40, built but never used by any command), the    */
+  /*    ASSIGN APPLID and the QUERY of counter GENAOTHER (value never  */
+  /*    used) have no observable effect and are not carried over.      */
+  /*  - If a rate queue cannot be read (first run) the previous value  */
+  /*    is taken as 0; COBOL reused whatever was left in WS-TSQDATA.   */
+  /*                                                                   */
+  /*********************************************************************/
+  LGWEBST5: Proc Options(Main);
+
+  DCL COUNTVAL       FIXED BIN(31) INIT(0);
+  DCL COUNTSUCCESS   FIXED BIN(31);
+  DCL COUNTERRORS    FIXED BIN(31);
+  DCL COUNTINQ       FIXED BIN(31);
+  DCL COUNTADD       FIXED BIN(31);
+  DCL COUNTUPD       FIXED BIN(31);
+  DCL COUNTDEL       FIXED BIN(31);
+  DCL DRATEVAL       PIC '999999999';
+  DCL NRATEVAL       PIC '999999999';
+  DCL ORATEVAL       PIC '999999999';
+  DCL ICOUNTVAL      PIC '999999';
+  DCL OCOUNTVAL      FIXED BIN(31);
+  DCL NCOUNTVAL      FIXED BIN(31);
+  DCL HHVAL          FIXED BIN(31);
+  DCL MMVAL          FIXED BIN(31);
+  DCL SSVAL          FIXED BIN(31);
+  DCL WS_RESP        FIXED BIN(31);
+  DCL WS_ABSTIME     FIXED BIN(31) INIT(0);
+  DCL WS_TIME        CHAR(8);
+  DCL WS_DATE        CHAR(10) INIT(' ');
+  DCL TSQPRE         CHAR(4)  STATIC INIT('GENA');
+  DCL WS_TSQNAME     CHAR(8);
+  DCL WS_TSQDATA     CHAR(9);
+  DCL WS_TSQLEN      FIXED BIN(15);
+  DCL WS_HHMMSS      CHAR(6);
+  DCL WS_OLDV        CHAR(6);
+  DCL WS_NEWV        CHAR(6);
+  DCL I              FIXED BIN(15);
+
+  DCL 1 WS_HEADER,
+        3 WS_EYECATCHER CHAR(16) INIT('LGWEBST5------WS'),
+        3 WS_TRANSID    CHAR(4),
+        3 WS_TERMID     CHAR(4),
+        3 WS_TASKNUM    PIC '9999999',
+        3 WS_CALEN      PIC '9999999';
+
+  DCL GENACOUNT      CHAR(16) STATIC INIT('GENACUSTNUM');
+  DCL GENAPOOL       CHAR(8)  STATIC INIT('GENA');
+
+  /* Success counters (..00) and error counters (..99), in report order */
+  DCL CT_SUCCESS(17) CHAR(16) STATIC INIT(
+        'GENA01ICUS00', 'GENA01ACUS00', 'GENA01IMOT00',
+        'GENA01AMOT00', 'GENA01DMOT00', 'GENA01UMOT00',
+        'GENA01IEND00', 'GENA01AEND00', 'GENA01DEND00',
+        'GENA01UEND00', 'GENA01IHOU00', 'GENA01AHOU00',
+        'GENA01DHOU00', 'GENA01UHOU00', 'GENA01ICOM00',
+        'GENA01ACOM00', 'GENA01DCOM00');
+  DCL CT_ERROR(17)   CHAR(16) STATIC INIT(
+        'GENA01ICUS99', 'GENA01ACUS99', 'GENA01IMOT99',
+        'GENA01AMOT99', 'GENA01DMOT99', 'GENA01UMOT99',
+        'GENA01IEND99', 'GENA01AEND99', 'GENA01DEND99',
+        'GENA01UEND99', 'GENA01IHOU99', 'GENA01AHOU99',
+        'GENA01DHOU99', 'GENA01UHOU99', 'GENA01ICOM99',
+        'GENA01ACOM99', 'GENA01DCOM99');
+  /* Rate queue code for each success counter: GENA<code>V */
+  DCL CT_CODE(17)    CHAR(3) STATIC INIT(
+        '100', '200', '300', '400', '500', '600',
+        '700', '800', '900', 'A00', 'B00', 'C00',
+        'D00', 'E00', 'F00', 'G00', 'H00');
+  /* Operation of each counter: I inquire, A add, D delete, U update */
+  DCL CT_OPS         CHAR(17) STATIC INIT('IAIADUIADUIADUIAD');
+
+  /*-------------------------------------------------------------------*/
+  WS_HEADER = ' ';
+  WS_EYECATCHER = 'LGWEBST5------WS';
+  WS_TRANSID = EIBTRNID;
+  WS_TERMID = EIBTRMID;
+  WS_TASKNUM = EIBTASKN;
+  WS_CALEN = EIBCALEN;
+
+  EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+  EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+            MMDDYYYY(WS_DATE)
+            TIME(WS_TIME);
+  CALL TRAN_RATE_INTERVAL;
+
+  COUNTSUCCESS = 0;
+  COUNTERRORS = 0;
+  COUNTINQ = 0;
+  COUNTADD = 0;
+  COUNTUPD = 0;
+  COUNTDEL = 0;
+
+  /* Customer number counter */
+  EXEC CICS QUERY COUNTER(GENACOUNT)
+            POOL(GENAPOOL)
+            VALUE(COUNTVAL)
+            RESP(WS_RESP);
+  WS_TSQNAME = TSQPRE || 'X05V';
+  NRATEVAL = COUNTVAL;
+  CALL TRAN_RATE_COUNTS;
+
+  /* Transaction counters */
+  DO I = 1 TO 17;
+     EXEC CICS QUERY COUNTER(CT_SUCCESS(I))
+               POOL(GENAPOOL)
+               VALUE(COUNTVAL)
+               RESP(WS_RESP);
+     COUNTSUCCESS = COUNTSUCCESS + COUNTVAL;
+     SELECT (SUBSTR(CT_OPS,I,1));
+        WHEN ('I') COUNTINQ = COUNTINQ + COUNTVAL;
+        WHEN ('A') COUNTADD = COUNTADD + COUNTVAL;
+        WHEN ('U') COUNTUPD = COUNTUPD + COUNTVAL;
+        WHEN ('D') COUNTDEL = COUNTDEL + COUNTVAL;
+     END;
+     WS_TSQNAME = TSQPRE || CT_CODE(I) || 'V';
+     NRATEVAL = COUNTVAL;
+     CALL TRAN_RATE_COUNTS;
+
+     EXEC CICS QUERY COUNTER(CT_ERROR(I))
+               POOL(GENAPOOL)
+               VALUE(COUNTVAL)
+               RESP(WS_RESP);
+     COUNTERRORS = COUNTERRORS + COUNTVAL;
+  END;
+
+  /* Totals */
+  WS_TSQNAME = TSQPRE || 'X00V';
+  NRATEVAL = COUNTSUCCESS;
+  CALL TRAN_RATE_COUNTS;
+
+  WS_TSQNAME = TSQPRE || 'X01V';
+  NRATEVAL = COUNTINQ;
+  CALL TRAN_RATE_COUNTS;
+
+  WS_TSQNAME = TSQPRE || 'X02V';
+  NRATEVAL = COUNTADD;
+  CALL TRAN_RATE_COUNTS;
+
+  WS_TSQNAME = TSQPRE || 'X03V';
+  NRATEVAL = COUNTUPD;
+  CALL TRAN_RATE_COUNTS;
+
+  WS_TSQNAME = TSQPRE || 'X04V';
+  NRATEVAL = COUNTDEL;
+  CALL TRAN_RATE_COUNTS;
+
+  EXEC CICS RETURN;
+
+  /*-------------------------------------------------------------------*/
+  /* Work out the seconds since the last run and restart in 1 minute    */
+  /*-------------------------------------------------------------------*/
+  TRAN_RATE_INTERVAL: PROCEDURE;
+
+     WS_TSQNAME = TSQPRE || '000V';
+     WS_TSQLEN = 6;
+     EXEC CICS READQ TS QUEUE(WS_TSQNAME)
+               INTO(WS_OLDV)
+               ITEM(1)
+               LENGTH(WS_TSQLEN)
+               RESP(WS_RESP);
+     IF WS_RESP ^= DFHRESP(NORMAL) THEN
+        WS_OLDV = '120000';
+
+     EXEC CICS DELETEQ TS QUEUE(WS_TSQNAME)
+               RESP(WS_RESP);
+
+     WS_HHMMSS = SUBSTR(WS_TIME,1,6);
+     EXEC CICS WRITEQ TS QUEUE(WS_TSQNAME)
+               FROM(WS_HHMMSS)
+               LENGTH(6)
+               RESP(WS_RESP);
+
+     HHVAL = SUBSTR(WS_HHMMSS,1,2);
+     MMVAL = SUBSTR(WS_HHMMSS,3,2);
+     SSVAL = SUBSTR(WS_HHMMSS,5,2);
+     NCOUNTVAL = (HHVAL * 3600) + (MMVAL * 60) + SSVAL;
+
+     HHVAL = SUBSTR(WS_OLDV,1,2);
+     MMVAL = SUBSTR(WS_OLDV,3,2);
+     SSVAL = SUBSTR(WS_OLDV,5,2);
+     OCOUNTVAL = (HHVAL * 3600) + (MMVAL * 60) + SSVAL;
+
+     ICOUNTVAL = ABS(NCOUNTVAL - OCOUNTVAL);
+     WS_NEWV = ICOUNTVAL;
+
+     WS_TSQNAME = TSQPRE || '000V';
+     EXEC CICS WRITEQ TS QUEUE(WS_TSQNAME)
+               FROM(WS_NEWV)
+               LENGTH(6)
+               RESP(WS_RESP);
+
+     EXEC CICS START TRANSID('SSST')
+               AFTER MINUTES(1)
+               RESP(WS_RESP);
+
+  END TRAN_RATE_INTERVAL;
+
+  /*-------------------------------------------------------------------*/
+  /* Rewrite queue WS_TSQNAME with: new value, old value, difference    */
+  /*-------------------------------------------------------------------*/
+  TRAN_RATE_COUNTS: PROCEDURE;
+
+     WS_TSQLEN = 9;
+     EXEC CICS READQ TS QUEUE(WS_TSQNAME)
+               INTO(WS_TSQDATA)
+               ITEM(1)
+               LENGTH(WS_TSQLEN)
+               RESP(WS_RESP);
+     IF WS_RESP = DFHRESP(NORMAL) THEN
+        ORATEVAL = WS_TSQDATA;
+     ELSE
+        ORATEVAL = 0;
+
+     EXEC CICS DELETEQ TS QUEUE(WS_TSQNAME)
+               RESP(WS_RESP);
+
+     WS_TSQDATA = NRATEVAL;
+     EXEC CICS WRITEQ TS QUEUE(WS_TSQNAME)
+               FROM(WS_TSQDATA)
+               LENGTH(9)
+               RESP(WS_RESP);
+
+     WS_TSQDATA = ORATEVAL;
+     EXEC CICS WRITEQ TS QUEUE(WS_TSQNAME)
+               FROM(WS_TSQDATA)
+               LENGTH(9)
+               RESP(WS_RESP);
+
+     DRATEVAL = ABS(NRATEVAL - ORATEVAL);
+     WS_TSQDATA = DRATEVAL;
+     EXEC CICS WRITEQ TS QUEUE(WS_TSQNAME)
+               FROM(WS_TSQDATA)
+               LENGTH(9)
+               RESP(WS_RESP);
+
+  END TRAN_RATE_COUNTS;
+
+  END LGWEBST5;

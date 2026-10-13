@@ -1,0 +1,117 @@
+  /******************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    ADD Customer                                *
+  *                                                                *
+  * VSAM KSDS Customer record ADD                                  *
+  *                                                                *
+  ******************************************************************/
+  LGACVS01: Proc(COMM_AREA_PTR) Options(Main);
+
+   DCL 1  WS_RESP                FIXED BIN(31);
+   DCL 1  WS_RESP2               FIXED BIN(31);
+   DCL 1  WS_Comm_Len            FIXED BIN(31) INIT(0);
+   DCL 1  WS_STARTCODE           CHAR(2) INIT(' ');
+   DCL 1  WS_SYSID               CHAR(4) INIT(' ');
+   DCL 1  WS_Commarea_Len        FIXED BIN(15) INIT(0);
+
+  /* Variables for time/date processing */
+   DCL 1  WS_ABSTIME             FIXED BIN(31) INIT(+0);
+   DCL 1  WS_TIME                CHAR(8)  INIT(' ');
+   DCL 1  WS_DATE                CHAR(10) INIT(' ');
+
+  /* Error Message structure */
+   DCL 1  ERROR_MSG,
+       03 EM_DATE                CHAR(10) INIT(' '),
+       03 *                      CHAR     INIT(' '),
+       03 EM_TIME                CHAR(8)  INIT(' '),
+       03 *                      CHAR(9)  INIT(' LGACVS01'),
+       03 EM_VARIABLE UNION,
+         5 EM_MSG_TEXT           CHAR(63),
+         5 *,
+          7 *                    CHAR(6)  INIT(' CNUM='),
+          7 EM_CUSNUM            CHAR(10) INIT(' '),
+          7 *                    CHAR(20)
+                                 INIT(' Write file KSDSCUST'),
+          7 *                    CHAR(6)  INIT(' RESP='),
+          7 EM_RESPRC            PIC '+(5)9',
+          7 *                    CHAR(7)  INIT(' RESP2='),
+          7 EM_RESP2RC           PIC '+(5)9';
+
+   DCL 1  CA_ERROR_MSG,
+       03 *                      CHAR(9)  INIT('COMMAREA='),
+       03 CA_Data                CHAR(90) INIT(' ');
+
+   DCL 1 Eyecatcher              CHAR(16)
+                                 INIT('Program LGACVS01');
+
+  %INCLUDE LGCMAREA;
+
+  /*---------------------------------------------------------------*/
+   WS_Commarea_Len = EIBCALEN;
+
+  /*---------------------------------------------------------------*/
+  /* Write the customer record: key is the customer number         */
+   Exec CICS Write File('KSDSCUST')
+             From(CA_Customer_Num)
+             Length(WS_Commarea_Len)
+             Ridfld(CA_Customer_Num)
+             KeyLength(10)
+             RESP(WS_RESP);
+
+   If (WS_RESP <> DFHRESP(NORMAL)) THEN DO;
+     WS_RESP2 = EIBRESP2;
+     CA_RETURN_CODE = '80';
+     CALL WRITE_ERROR_MESSAGE;
+     EXEC CICS ABEND ABCODE('LGV0') NODUMP;
+     EXEC CICS RETURN;
+   End;
+
+  RETURN;
+
+  /*---------------------------------------------------------------*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+   EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+
+   EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+             MMDDYYYY(WS_DATE)
+             TIME(WS_TIME);
+
+   EM_DATE = WS_DATE;
+   EM_TIME = WS_TIME;
+   EM_CUSNUM = CA_Customer_Num;
+   EM_RESPRC = WS_RESP;
+   EM_RESP2RC = WS_RESP2;
+   EXEC CICS LINK PROGRAM('LGSTSQ')
+             COMMAREA(ERROR_MSG)
+             LENGTH(STG(ERROR_MSG));
+
+   IF (EIBCALEN > 0) THEN DO;
+     IF (EIBCALEN < 91) THEN DO;
+       CA_Data = LEFT(COMM_AREA_RAW,EIBCALEN);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+     ELSE DO;
+       CA_Data = LEFT(COMM_AREA_RAW,90);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+   END;
+  RETURN;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGACVS01;

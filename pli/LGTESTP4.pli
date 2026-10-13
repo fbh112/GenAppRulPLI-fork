@@ -1,0 +1,260 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                   Commercial Policy Menu                          */
+  /*                                                                   */
+  /* Menu for Commercial Policy Transactions (transaction SSP4)        */
+  /*                                                                   */
+  /*********************************************************************/
+  LGTESTP4: Proc(DFHEIPTR,COMM_AREA_PTR) Options(Main,Reentrant);
+
+  DCL MSGEND CHAR(24) STATIC INIT('Transaction ended');
+
+  %INCLUDE SSMAP;
+  %INCLUDE LGCMAREA;
+  DCL BASE_COMM_AREA CHAR(STG(COMM_AREA));
+
+  /*-------------------------------------------------------------------*/
+  IF EIBCALEN = 0 THEN DO;
+
+     COMM_AREA_PTR = ADDR(BASE_COMM_AREA);
+     SSMAPP4O = ' ';
+     CA_REQUEST_ID = ' ';
+     CA_RETURN_CODE = 0;
+     CA_CUSTOMER_NUM = 0;
+     CA_REQUEST_INITIALISER = ' ';
+     ENP4CNOO = '0000000000';
+     ENP4PNOO = '0000000000';
+     ENP4FPEO = '    ';
+     ENP4FPRO = '        ';
+     ENP4CPEO = '    ';
+     ENP4CPRO = '        ';
+     ENP4XPEO = '    ';
+     ENP4XPRO = '        ';
+     ENP4WPEO = '    ';
+     ENP4WPRO = '        ';
+     ENP4STAO = '    ';
+
+     /* Display Main Menu */
+     EXEC CICS SEND MAP ('SSMAPP4')
+               MAPSET ('SSMAP')
+               ERASE;
+  END;
+
+  A_GAIN:
+
+     EXEC CICS HANDLE AID
+               CLEAR(CLEARIT)
+               PF3(ENDIT);
+     EXEC CICS HANDLE CONDITION
+               MAPFAIL(ENDIT);
+
+     EXEC CICS RECEIVE MAP('SSMAPP4')
+               INTO(SSMAPP4I)
+               MAPSET('SSMAP');
+
+     SELECT (ENP4OPTO);
+
+        WHEN ('1') DO;
+           /* Pick request ID based on which key fields are provided */
+           IF (ENP4CNOO ^= ' ' & ENP4CNOO ^= '0000000000') &
+              (ENP4PNOO ^= ' ' & ENP4PNOO ^= '0000000000') THEN DO;
+              CA_REQUEST_ID = '01ICOM';
+              CA_CUSTOMER_NUM = ENP4CNOO;
+              CA_POLICY_NUM = ENP4PNOO;
+           END;
+           ELSE IF (ENP4CNOO = ' ' | ENP4CNOO = '0000000000') &
+                   (ENP4PNOO ^= ' ' & ENP4PNOO ^= '0000000000') THEN DO;
+              CA_REQUEST_ID = '02ICOM';
+              CA_POLICY_NUM = ENP4PNOO;
+           END;
+           ELSE IF (ENP4CNOO ^= ' ' & ENP4CNOO ^= '0000000000') &
+                   (ENP4PNOO = ' ' | ENP4PNOO = '0000000000') THEN DO;
+              CA_REQUEST_ID = '03ICOM';
+              CA_CUSTOMER_NUM = ENP4CNOO;
+           END;
+           IF ENP4HPCO ^= ' ' & ENP4HPCO ^= '        ' THEN DO;
+              CA_REQUEST_ID = '05ICOM';
+              CA_B_Postcode = ENP4HPCO;
+           END;
+
+           EXEC CICS LINK PROGRAM('LGIPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENP4CNOI = CA_CUSTOMER_NUM;
+           ENP4IDAI = CA_ISSUE_DATE;
+           ENP4EDAI = CA_EXPIRY_DATE;
+           ENP4ADDI = CA_B_Address;
+           ENP4HPCI = CA_B_Postcode;
+           ENP4LATI = CA_B_Latitude;
+           ENP4LONI = CA_B_Longitude;
+           ENP4CUSI = CA_B_Customer;
+           ENP4PTYI = CA_B_PropType;
+           ENP4FPEI = CA_B_FirePeril;
+           ENP4FPRI = CA_B_FirePremium;
+           ENP4CPEI = CA_B_CrimePeril;
+           ENP4CPRI = CA_B_CrimePremium;
+           ENP4XPEI = CA_B_FloodPeril;
+           ENP4XPRI = CA_B_FloodPremium;
+           ENP4WPEI = CA_B_WeatherPeril;
+           ENP4WPRI = CA_B_WeatherPremium;
+           ENP4STAI = CA_B_Status;
+           ENP4REJI = CA_B_RejectReason;
+           EXEC CICS SEND MAP ('SSMAPP4')
+                     FROM(SSMAPP4O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('2') DO;
+           CA_REQUEST_ID = '01ACOM';
+           CA_CUSTOMER_NUM = ENP4CNOO;
+           CA_ISSUE_DATE = ENP4IDAO;
+           CA_EXPIRY_DATE = ENP4EDAO;
+           CA_B_Address = ENP4ADDO;
+           CA_B_Postcode = ENP4HPCO;
+           CA_B_Latitude = ENP4LATO;
+           CA_B_Longitude = ENP4LONO;
+           CA_B_Customer = ENP4CUSO;
+           CA_B_PropType = ENP4PTYO;
+           CA_B_FirePeril = ENP4FPEO;
+           CA_B_FirePremium = ENP4FPRO;
+           CA_B_CrimePeril = ENP4CPEO;
+           CA_B_CrimePremium = ENP4CPRO;
+           CA_B_FloodPeril = ENP4XPEO;
+           CA_B_FloodPremium = ENP4XPRO;
+           CA_B_WeatherPeril = ENP4WPEO;
+           CA_B_WeatherPremium = ENP4WPRO;
+           CA_B_Status = ENP4STAO;
+           CA_B_RejectReason = ENP4REJO;
+           EXEC CICS LINK PROGRAM('LGAPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_ADD;
+           END;
+           ENP4CNOI = CA_CUSTOMER_NUM;
+           ENP4PNOI = CA_POLICY_NUM;
+           ENP4OPTI = ' ';
+           ERP4FLDO = 'New Commercial Policy Inserted';
+           EXEC CICS SEND MAP ('SSMAPP4')
+                     FROM(SSMAPP4O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('3') DO;
+           CA_REQUEST_ID = '01DCOM';
+           CA_CUSTOMER_NUM = ENP4CNOO;
+           CA_POLICY_NUM = ENP4PNOO;
+           EXEC CICS LINK PROGRAM('LGDPOL01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_DELETE;
+           END;
+
+           ENP4EDAI = ' ';
+           ENP4ADDI = ' ';
+           ENP4HPCI = ' ';
+           ENP4LATI = ' ';
+           ENP4LONI = ' ';
+           ENP4CUSI = ' ';
+           ENP4PTYI = ' ';
+           ENP4FPEI = ' ';
+           ENP4FPRI = ' ';
+           ENP4CPEI = ' ';
+           ENP4CPRI = ' ';
+           ENP4XPEI = ' ';
+           ENP4XPRI = ' ';
+           ENP4WPEI = ' ';
+           ENP4WPRI = ' ';
+           ENP4STAI = ' ';
+           ENP4REJI = ' ';
+           ENP4OPTI = ' ';
+           ERP4FLDO = 'Commercial Policy Deleted';
+           EXEC CICS SEND MAP ('SSMAPP4')
+                     FROM(SSMAPP4O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        OTHERWISE DO;
+
+           ERP4FLDO = 'Please enter a valid option';
+           ENP4OPTL = -1;
+
+           EXEC CICS SEND MAP ('SSMAPP4')
+                     FROM(SSMAPP4O)
+                     MAPSET ('SSMAP')
+                     CURSOR;
+           GO TO ENDIT_STARTIT;
+        END;
+     END;
+
+     /* Send message to terminal and return */
+
+     EXEC CICS RETURN;
+
+     ENDIT_STARTIT:
+        EXEC CICS RETURN
+                  TRANSID('SSP4')
+                  COMMAREA(COMM_AREA);
+
+     ENDIT:
+        EXEC CICS SEND TEXT
+                  FROM(MSGEND)
+                  LENGTH(STG(MSGEND))
+                  ERASE
+                  FREEKB;
+        EXEC CICS RETURN;
+
+     CLEARIT:
+
+        SSMAPP4I = ' ';
+        EXEC CICS SEND MAP ('SSMAPP4')
+                  MAPSET ('SSMAP')
+                  MAPONLY;
+
+        EXEC CICS RETURN
+                  TRANSID('SSP4')
+                  COMMAREA(COMM_AREA);
+
+     NO_ADD:
+        SELECT (CA_RETURN_CODE);
+           When (70) DO;
+              ERP4FLDO = 'Customer does not exist';
+              Go To ERROR_OUT;
+           END;
+           OTHERWISE DO;
+              ERP4FLDO = 'Error Adding Commercial Policy';
+              Go To ERROR_OUT;
+           END;
+        END;
+
+     NO_DELETE:
+        ERP4FLDO = 'Error Deleting Commercial Policy';
+        Go To ERROR_OUT;
+
+     NO_DATA:
+        ERP4FLDO = 'No data was returned.';
+        Go To ERROR_OUT;
+
+     ERROR_OUT:
+        EXEC CICS SEND MAP ('SSMAPP4')
+                  FROM(SSMAPP4O)
+                  MAPSET ('SSMAP');
+
+        SSMAPP4I = ' ';
+        COMM_AREA_RAW = ' ';
+        CA_REQUEST_ID = ' ';
+        CA_RETURN_CODE = 0;
+        CA_CUSTOMER_NUM = 0;
+        CA_REQUEST_INITIALISER = ' ';
+
+        GO TO ENDIT_STARTIT;
+  END LGTESTP4;

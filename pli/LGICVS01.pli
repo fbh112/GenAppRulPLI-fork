@@ -1,0 +1,217 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    Inquire Customer VSAM                       *
+  *                                                                *
+  * Call by LINK or TRAN. Reads the GENACNTL TS queue for the      *
+  * customer number range, then reads KSDSCUST GTEQ to get a real  *
+  * customer number. Returned by COMMAREA or screen display.        *
+  *                                                                *
+  ******************************************************************/
+  LGICVS01: Proc(COMM_AREA_PTR) Options(Main);
+
+   DCL 1  WS_FLAG_TSQE              CHAR INIT('Y');
+   DCL 1  WS_FLAG_TSQH              CHAR INIT('Y');
+   DCL 1  WS_FLAG_TSQL              CHAR INIT('Y');
+   DCL 1  WS_FLAG                   CHAR INIT(' ');
+   DCL 1  WS_RANDOM_SEED            FIXED BIN(15) INIT(0);
+   DCL 1  WS_RANDOM_NUMBER          FIXED BIN(31) INIT(0);
+   DCL 1  WS_RESP                   FIXED BIN(31) INIT(0);
+   DCL 1  WS_STARTCODE              CHAR(2)  INIT(' ');
+   DCL 1  WS_SYSID                  CHAR(4)  INIT(' ');
+   DCL 1  WS_INVOKEPROG             CHAR(8)  INIT(' ');
+   DCL 1  WS_COMMAREA               CHAR(80);
+   DCL 1  WS_RECV                   CHAR(80),
+         3 WS_RECV_TRANID           CHAR(5),
+         3 WS_RECV_DATA             CHAR(74) INIT(' ');
+   DCL 1  WS_RECV_LEN               FIXED BIN(15) INIT(80);
+
+  /* READ-MSG with two overlay views for extracting customer numbers */
+   DCL 1  READ_MSG UNION,
+         3 READ_MSG_MSG             CHAR(80) INIT(' '),
+         3 *,
+           5 *                      CHAR(13),
+           5 READ_CUST_LOW          PIC '(10)9',
+         3 *,
+           5 *                      CHAR(14),
+           5 READ_CUST_HIGH         PIC '(10)9';
+
+   DCL 1  WS_CUST_LOW               FIXED DEC(10,0) INIT(1000001);
+   DCL 1  WS_CUST_HIGH              FIXED DEC(10,0) INIT(1000001);
+   DCL 1  WS_CUST_NUMBER            CHAR(10);
+
+  /* WRITE-MSG: eyecatcher 20, LOW label 13, LOW val 10, blank 1,
+                HIGH label 14, HIGH val 10, filler 60 */
+   DCL 1  WRITE_MSG,
+         3 WRITE_MSG_E              CHAR(20) INIT('**** GENAPP CNTL'),
+         3 WRITE_MSG_L              CHAR(13) INIT('LOW CUSTOMER='),
+         3 WRITE_MSG_LOW            CHAR(10) INIT(' '),
+         3 *                        CHAR     INIT(' '),
+         3 WRITE_MSG_H              CHAR(14) INIT('HIGH CUSTOMER='),
+         3 WRITE_MSG_HIGH           PIC '(10)9' INIT(0),
+         3 *                        CHAR(60) INIT(' ');
+
+  /* COMMAREA for LINK callers: passed from the caller. */
+   DCL COMM_AREA_PTR PTR;
+   DCL 1  COMMA_DATA BASED(COMM_AREA_PTR),
+         3 COMMA_DATA_H             CHAR(14),
+         3 COMMA_DATA_HIGH          PIC '(10)9',
+         3 COMMA_DATA_FILL          CHAR(60);
+
+   DCL 1  STSQ,
+         3 STSQ_NAME                CHAR(8) INIT('GENACNTL'),
+         3 STSQ_EXT                 CHAR(4);
+
+   DCL 1  TEMPO                     CHAR(90) INIT(' ');
+   DCL 1  CA_AREA,
+         3 CA_CUSTOMER_NUM          CHAR(10),
+         3 *                        CHAR(215);
+
+   DCL MSGEND                       CHAR(24)
+                                    INIT('Transaction ended');
+   DCL F82                          FIXED BIN(15) INIT(225);
+   DCL F10                          FIXED BIN(15) INIT(10);
+
+  /*----------------------------------------------------------------*
+  * Mainline                                                       *
+  *----------------------------------------------------------------*/
+   WS_RECV = ' ';
+
+   EXEC CICS ASSIGN SYSID(WS_SYSID)
+             RESP(WS_RESP);
+
+   EXEC CICS ASSIGN STARTCODE(WS_STARTCODE)
+             RESP(WS_RESP);
+
+   EXEC CICS ASSIGN INVOKINGPROG(WS_INVOKEPROG)
+             RESP(WS_RESP);
+
+   IF (SUBSTR(WS_STARTCODE,1,1) = 'D' | WS_INVOKEPROG ^= ' ') THEN DO;
+     WS_FLAG       = 'C';
+     WS_COMMAREA   = COMMA_DATA_H;
+     WS_RECV_LEN   = EIBCALEN;
+   END;
+   ELSE DO;
+     EXEC CICS RECEIVE INTO(WS_RECV)
+               LENGTH(WS_RECV_LEN)
+               RESP(WS_RESP);
+     WS_FLAG     = 'R';
+     WS_COMMAREA = WS_RECV_DATA;
+     WS_RECV_LEN = WS_RECV_LEN - 5;
+   END;
+
+   WS_CUST_LOW    = 1000001;
+   WS_CUST_HIGH   = 1000001;
+   WS_FLAG_TSQE   = 'Y';
+   WS_FLAG_TSQH   = 'Y';
+   WS_FLAG_TSQL   = 'Y';
+
+   EXEC CICS ENQ RESOURCE(STSQ_NAME)
+             LENGTH(STG(STSQ_NAME));
+
+   EXEC CICS READQ TS QUEUE(STSQ_NAME)
+             INTO(READ_MSG)
+             RESP(WS_RESP)
+             ITEM(1);
+
+   IF (WS_RESP = DFHRESP(NORMAL)) THEN DO;
+     WS_FLAG_TSQE = ' ';
+     DO UNTIL (WS_RESP > 0);
+       EXEC CICS READQ TS QUEUE(STSQ_NAME)
+                 INTO(READ_MSG)
+                 RESP(WS_RESP)
+                 NEXT;
+       IF (WS_RESP = DFHRESP(NORMAL) &
+           SUBSTR(READ_MSG_MSG,1,12) = 'LOW CUSTOMER') THEN DO;
+           WS_CUST_LOW  = READ_CUST_LOW;
+           WS_FLAG_TSQL = ' ';
+       END;
+       IF (WS_RESP = DFHRESP(NORMAL) &
+           SUBSTR(READ_MSG_MSG,1,13) = 'HIGH CUSTOMER') THEN DO;
+           WS_CUST_HIGH = READ_CUST_HIGH;
+           WS_FLAG_TSQH = ' ';
+       END;
+     END;
+   END;
+
+   WRITE_MSG_LOW  = WS_CUST_LOW;
+   WRITE_MSG_HIGH = WS_CUST_HIGH;
+
+  /* Write eyecatcher if TS queue did not already exist */
+   IF (WS_FLAG_TSQE = 'Y') THEN DO;
+     EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+               FROM(WRITE_MSG_E)
+               RESP(WS_RESP)
+               NOSUSPEND
+               LENGTH(20);
+   END;
+
+  /* Write LOW CUSTOMER record if not already present */
+   IF (WS_FLAG_TSQL = 'Y') THEN DO;
+     EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+               FROM(WRITE_MSG_L)
+               RESP(WS_RESP)
+               NOSUSPEND
+               LENGTH(23);
+   END;
+
+  /* Write HIGH CUSTOMER record if not already present */
+   IF (WS_FLAG_TSQH = 'Y') THEN DO;
+     EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+               FROM(WRITE_MSG_H)
+               RESP(WS_RESP)
+               NOSUSPEND
+               LENGTH(24);
+   END;
+
+   EXEC CICS DEQ RESOURCE(STSQ_NAME)
+             LENGTH(STG(STSQ_NAME));
+
+  /* Pick a random customer number in [WS_CUST_LOW, WS_CUST_HIGH] */
+   WS_RANDOM_NUMBER = FLOOR(RANDOM(EIBTASKN) *
+                       FLOAT(WS_CUST_HIGH - WS_CUST_LOW) +
+                       WS_CUST_LOW);
+   WRITE_MSG_HIGH   = WS_RANDOM_NUMBER;
+
+  /* Read KSDSCUST GTEQ to find the actual nearest key */
+   EXEC CICS READ FILE('KSDSCUST')
+             INTO(CA_AREA)
+             LENGTH(F82)
+             RIDFLD(WRITE_MSG_HIGH)
+             KEYLENGTH(F10)
+             RESP(WS_RESP)
+             GTEQ;
+
+   IF (WS_RESP = DFHRESP(NORMAL)) THEN
+     WRITE_MSG_HIGH = CA_CUSTOMER_NUM;
+
+   SELECT (WS_FLAG);
+     WHEN ('C') DO;
+       COMMA_DATA_H    = WRITE_MSG_H;
+       COMMA_DATA_HIGH = WRITE_MSG_HIGH;
+       COMMA_DATA_FILL = (60)' ';
+     END;
+     OTHERWISE DO;
+       EXEC CICS SEND TEXT FROM(WRITE_MSG_H)
+                 WAIT
+                 ERASE
+                 TERMINAL
+                 LENGTH(24)
+                 FREEKB;
+     END;
+   END;
+
+   EXEC CICS RETURN;
+
+  END LGICVS01;

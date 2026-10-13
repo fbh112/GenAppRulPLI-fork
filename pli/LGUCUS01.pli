@@ -1,0 +1,171 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    UPDATE Customer                             *
+  *                                                                *
+  * Business logic for updating customer details                   *
+  *                                                                *
+  ******************************************************************/
+  LGUCUS01: Proc(COMM_AREA_PTR) Options(Main);
+  /*----------------------------------------------------------------*
+  * Common defintions                                              *
+  *----------------------------------------------------------------*/
+  /* Run time (debug) infomation for this invocation */
+   DCL 1  WS_HEADER,
+        3 WS_EYECATCHER            CHAR(16)
+                                   INIT ('LGUCUS01------WS'),
+        3 WS_TRANSID               CHAR(4) INIT(''),
+        3 WS_TERMID                CHAR(4) INIT(''),
+        3 WS_TASKNUM               PIC '(7)9' INIT(0),
+        3 WS_FILLER                CHAR INIT(''),
+        3 WS_ADDR_DFHCOMMAREA      PTR INIT(SYSNULL()),
+        3 WS_CALEN                 FIXED BIN(15) INIT(0);
+
+  /* Variables for time/date processing */
+   DCL 1  WS_ABSTIME               FIXED DEC(15) INIT(+0);
+   DCL 1  WS_TIME                  CHAR(8)  INIT(' ');
+   DCL 1  WS_DATE                  CHAR(10) INIT(' ');
+
+   DCL 1  WS_POLICY_LENGTHS,
+        3 WS_CUSTOMER_LEN          FIXED BIN(15) INIT(72),
+        3 WS_POLICY_LEN            FIXED BIN(15) INIT(72),
+        3 WS_ENDOW_LEN             FIXED BIN(15) INIT(52),
+        3 WS_HOUSE_LEN             FIXED BIN(15) INIT(58),
+        3 WS_MOTOR_LEN             FIXED BIN(15) INIT(65),
+        3 WS_FULL_ENDOW_LEN        FIXED BIN(15) INIT(124),
+        3 WS_FULL_HOUSE_LEN        FIXED BIN(15) INIT(130),
+        3 WS_FULL_MOTOR_LEN        FIXED BIN(15) INIT(137),
+        3 WS_SUMRY_ENDOW_LEN       FIXED BIN(15) INIT(25);
+
+  /* Error Message structure */
+   DCL 1  ERROR_MSG,
+        3 EM_DATE                  CHAR(10) INIT(' '),
+        3 *                        CHAR     INIT(' '),
+        3 EM_TIME                  CHAR(8)  INIT(' '),
+        3 *                        CHAR(9)  INIT(' LGUCUS01'),
+        3 EM_VARIABLE UNION,
+          5 EM_MSG_TEXT            CHAR(63),
+          5 *,
+           7 *                     CHAR(6)  INIT(' CNUM='),
+           7 EM_CUSNUM             CHAR(10) INIT(' '),
+           7 *                     CHAR(6)  INIT(' PNUM='),
+           7 EM_POLNUM             CHAR(10) INIT(' '),
+           7 EM_SQLREQ             CHAR(16) INIT(' '),
+           7 *                     CHAR(9)  INIT(' SQLCODE='),
+           7 EM_SQLRC              PIC '+(5)9';
+
+   DCL 1  CA_ERROR_MSG,
+        3 *                        CHAR(9)  INIT('COMMAREA='),
+        3 CA_DATA                  CHAR(90) INIT(' ');
+
+  /*----------------------------------------------------------------*
+  * Definitions required for data manipulation                     *
+  *----------------------------------------------------------------*/
+  /* Fields to be used to calculate minimum commarea length required */
+   DCL 1 WS_COMMAREA_LENGTHS,
+         03 WS_CA_HEADER_LEN       FIXED BIN(15) INIT(28),
+         03 WS_REQUIRED_CA_LEN     FIXED BIN(15) INIT(0);
+
+   DCL LGUCDB01                    CHAR(8) INIT('LGUCDB01');
+
+   %INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*
+  * Common code                                                    *
+  *----------------------------------------------------------------*/
+  /* set up general variable */
+   WS_TRANSID = EIBTRNID;
+   WS_TERMID  = EIBTRMID;
+   WS_TASKNUM = EIBTASKN;
+
+  /*----------------------------------------------------------------*
+  * Check commarea and obtain required details                     *
+  *----------------------------------------------------------------*/
+  /* If NO commarea received issue an ABEND */
+   IF ( EIBCALEN = 0 ) THEN DO;
+       EM_MSG_TEXT = ' NO COMMAREA RECEIVED';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS ABEND ABCODE('LGCA') NODUMP;
+    END;
+
+  /* initialize commarea return code to zero */
+   CA_RETURN_CODE  = '00';
+   CA_NUM_POLICIES = 0;
+   WS_CALEN        = EIBCALEN;
+   WS_ADDR_DFHCOMMAREA = COMM_AREA_PTR;
+
+  /* and save in error msg field in case required */
+   EM_CUSNUM = CA_CUSTOMER_NUM;
+
+   IF (CA_REQUEST_ID ^= '01UCUS') THEN DO;
+     CA_RETURN_CODE = '99';
+     EXEC CICS RETURN;
+   END;
+
+  /* Call procedure to update required tables */
+   CALL UPDATE_CUSTOMER_INFO;
+
+  /* Return to caller */
+   EXEC CICS RETURN;
+
+  RETURN;
+
+  /*----------------------------------------------------------------*/
+  UPDATE_CUSTOMER_INFO: PROCEDURE;
+
+   EXEC CICS LINK PROGRAM(LGUCDB01)
+        COMMAREA(COMM_AREA)
+        LENGTH(32500);
+
+  END UPDATE_CUSTOMER_INFO;
+
+  /*================================================================*
+  * Procedure to write error message to Queues                     *
+  *   message will include Date, Time, Program Name, Customer      *
+  *   Number, Policy Number and SQLCODE.                           *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+  /* Obtain and format current time and date */
+   EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+
+   EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+             MMDDYYYY(WS_DATE)
+             TIME(WS_TIME);
+
+   EM_DATE = WS_DATE;
+   EM_TIME = WS_TIME;
+  /* Write output message to TDQ */
+   EXEC CICS LINK PROGRAM('LGSTSQ')
+             COMMAREA(ERROR_MSG)
+             LENGTH(STG(ERROR_MSG));
+
+  /* Write 90 bytes or as much as we have of commarea to TDQ */
+   IF ( EIBCALEN > 0 ) THEN DO;
+     IF ( EIBCALEN < 91 ) THEN DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,EIBCALEN);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+     ELSE DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,90);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+   END;
+  RETURN;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGUCUS01;

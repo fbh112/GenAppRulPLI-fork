@@ -1,0 +1,106 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                  Statistics counter update                        */
+  /*                                                                   */
+  /* Event-processing adapter target. Takes the request id / return    */
+  /* code from a DFHEP channel (or the COMMAREA) and gets the matching */
+  /* named counter GENA<request><rc> from pool GENA.                   */
+  /*                                                                   */
+  /*********************************************************************/
+  LGASTAT1: Proc(COMM_AREA_PTR) Options(Main);
+
+  /* Run time (debug) information for this invocation */
+  DCL WS_ABSTIME     FIXED BIN(31) INIT(0);
+  DCL WS_TIME        CHAR(8);
+  DCL WS_DATE        CHAR(10);
+  DCL 1 WS_QAREA,
+        3 WS_AREA_D  CHAR(8),
+        3 *          CHAR(2) INIT(' '),
+        3 WS_AREA_T  CHAR(6);
+  DCL WS_QLEN        FIXED BIN(15) INIT(16);
+  DCL WS_QNAME       CHAR(8)  STATIC INIT('GENASTRT');
+  DCL WS_CHANNAME1   CHAR(16) STATIC INIT('DFHEP.DATA.00001');
+  DCL WS_CHANNAME2   CHAR(16) STATIC INIT('DFHEP.DATA.00002');
+  DCL WS_DATA_REQ    CHAR(6);
+  DCL WS_DATA_RC     CHAR(2);
+  DCL 1 WS_HEADER,
+        3 WS_EYECATCHER CHAR(16) INIT('LGASTAT1------WS'),
+        3 WS_TRANSID    CHAR(4),
+        3 WS_TERMID     CHAR(4),
+        3 WS_TASKNUM    PIC '9999999',
+        3 WS_CALEN      PIC '9999999';
+  DCL WS_RESP        FIXED BIN(31);
+  DCL 1 GENACOUNT,
+        3 *             CHAR(4) INIT('GENA'),
+        3 GENACOUNTER   CHAR(6),
+        3 GENATYPE      CHAR(2),
+        3 *             CHAR(4) INIT('    ');
+  DCL TRANCOUNT      FIXED BIN(31);
+  DCL GENAPOOL       CHAR(8) STATIC INIT('GENA');
+
+  %INCLUDE LGCMAREA;
+
+  /*-------------------------------------------------------------------*/
+  WS_HEADER = ' ';
+  WS_EYECATCHER = 'LGASTAT1------WS';
+  WS_TRANSID = EIBTRNID;
+  WS_TERMID = EIBTRMID;
+  WS_TASKNUM = EIBTASKN;
+  WS_CALEN = EIBCALEN;
+
+  EXEC CICS GET CONTAINER(WS_CHANNAME1)
+            INTO(WS_DATA_REQ)
+            RESP(WS_RESP);
+
+  EXEC CICS GET CONTAINER(WS_CHANNAME2)
+            INTO(WS_DATA_RC)
+            RESP(WS_RESP);
+
+  IF WS_RESP = DFHRESP(NORMAL) THEN DO;
+     GENACOUNTER = WS_DATA_REQ;
+     GENATYPE = WS_DATA_RC;
+  END;
+  ELSE DO;
+     IF EIBCALEN = 0 THEN
+        EXEC CICS RETURN;
+     ELSE DO;
+        GENACOUNTER = CA_REQUEST_ID;
+        GENATYPE = CA_RETURN_CODE;
+     END;
+  END;
+
+  EXEC CICS READQ TS QUEUE(WS_QNAME)
+            INTO(WS_QAREA)
+            LENGTH(WS_QLEN)
+            RESP(WS_RESP);
+  IF WS_RESP = DFHRESP(QIDERR) THEN DO;
+     EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+     EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+               DDMMYYYY(WS_DATE)
+               TIME(WS_TIME);
+     WS_AREA_D = WS_DATE;
+     WS_AREA_T = WS_TIME;
+     WS_QLEN = STG(WS_QAREA);
+     EXEC CICS WRITEQ TS QUEUE(WS_QNAME)
+               FROM(WS_QAREA)
+               LENGTH(WS_QLEN)
+               RESP(WS_RESP);
+  END;
+
+  IF GENACOUNTER = '02ACUS' THEN
+     GENACOUNTER = '01ACUS';
+  IF GENACOUNTER = '02ICOM' |
+     GENACOUNTER = '03ICOM' |
+     GENACOUNTER = '05ICOM' THEN
+     GENACOUNTER = '01ICOM';
+  IF GENATYPE ^= '00' THEN
+     GENATYPE = '99';
+
+  EXEC CICS GET COUNTER(GENACOUNT)
+            POOL(GENAPOOL)
+            VALUE(TRANCOUNT)
+            RESP(WS_RESP);
+
+  EXEC CICS RETURN;
+
+  END LGASTAT1;

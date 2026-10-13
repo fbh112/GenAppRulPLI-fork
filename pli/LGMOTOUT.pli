@@ -1,0 +1,216 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *              Read Motor Table to File                          *
+  *                                                                *
+  * Select all rows from GENASA1.MOTOR and write each as a         *
+  * formatted record to the MOTOROUT sequential output file.       *
+  * Batch (non-CICS) program.                                      *
+  *                                                                *
+  * Return codes: 0 ok, 8 fetch error, 12 open/cursor error.       *
+  ******************************************************************/
+  LGMOTOUT: Proc Options(Main);
+
+  DCL MOTOROUT       FILE RECORD OUTPUT SEQUENTIAL
+                     ENV(FB RECSIZE(132));
+  DCL MOTOROUT_REC   CHAR(132);
+  DCL PLIRETC        BUILTIN;
+  DCL MOTOROUT_OK    BIT(1) INIT('1'B);
+
+  /* Variables for time/date processing */
+  DCL WS_TIME        CHAR(8)  INIT(' ');
+  DCL WS_DATE        CHAR(10) INIT(' ');
+
+  /* Row counter */
+  DCL WS_ROW_COUNT   PIC '999999999' INIT(0);
+
+  /* Error message structure */
+  DCL 1 ERROR_MSG,
+        3 EM_DATE    CHAR(8)  INIT(' '),
+        3 *          CHAR(1)  INIT(' '),
+        3 EM_TIME    CHAR(6)  INIT(' '),
+        3 *          CHAR(9)  INIT(' LGMOTOUT'),
+        3 EM_VARIABLE,
+          5 EM_SQLREQ  CHAR(16) INIT(' '),
+          5 *        CHAR(9)  INIT(' SQLCODE='),
+          5 EM_SQLRC   PIC '+(5)9';
+
+  /* Host variables for MOTOR table columns */
+  DCL 1 WS_MOTOR_HV,
+        3 HV_POLICY_NUMBER     FIXED BIN(31),
+        3 HV_MAKE              CHAR(15),
+        3 HV_MODEL             CHAR(15),
+        3 HV_VALUE             FIXED BIN(31),
+        3 HV_REGNUMBER         CHAR(7),
+        3 HV_COLOUR            CHAR(8),
+        3 HV_CC                FIXED BIN(15),
+        3 HV_YEAROFMANUFACTURE CHAR(10),
+        3 HV_PREMIUM           FIXED BIN(31),
+        3 HV_ACCIDENTS         FIXED BIN(31);
+
+  /* Output line layout (119 bytes, padded to the 132-byte record) */
+  DCL 1 WS_MOTOR_LINE,
+        3 WS_OUT_POLNUM    PIC '999999999',
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_MAKE      CHAR(15),
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_MODEL     CHAR(15),
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_VALUE     PIC '999999999',
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_REGNUMBER CHAR(7),
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_COLOUR    CHAR(8),
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_CC        PIC '9999',
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_YEAROFMFR CHAR(10),
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_PREMIUM   PIC '999999999',
+        3 *                CHAR(1) INIT(' '),
+        3 WS_OUT_ACCIDENTS PIC '999999999',
+        3 *                CHAR(15) INIT(' ');
+
+  /* DB2 CONTROL */
+  EXEC SQL INCLUDE SQLCA;
+
+  /* Declare cursor to read all motor rows */
+  EXEC SQL
+      DECLARE MOTOR_CSR CURSOR FOR
+      SELECT POLICYNUMBER,
+             MAKE,
+             MODEL,
+             VALUE,
+             REGNUMBER,
+             COLOUR,
+             CC,
+             YEAROFMANUFACTURE,
+             PREMIUM,
+             ACCIDENTS
+      FROM   GENASA1.MOTOR
+      FOR READ ONLY;
+
+  /*----------------------------------------------------------------*/
+  /* Open output file */
+  ON UNDEFINEDFILE(MOTOROUT) BEGIN;
+     DISPLAY('LGMOTOUT: OPEN MOTOROUT FAILED');
+     CALL PLIRETC(12);
+     STOP;
+  END;
+  OPEN FILE(MOTOROUT);
+
+  /* Open DB2 cursor */
+  EM_SQLREQ = ' OPEN MOTOR-CSR ';
+  EXEC SQL
+      OPEN MOTOR_CSR;
+  IF SQLCODE ^= 0 THEN DO;
+     EM_SQLRC = SQLCODE;
+     CALL WRITE_ERROR_MESSAGE;
+     CLOSE FILE(MOTOROUT);
+     CALL PLIRETC(12);
+     RETURN;
+  END;
+
+  /* Fetch loop */
+  DO WHILE (SQLCODE ^= 100 & SQLCODE >= 0);
+     CALL FETCH_MOTOR_ROWS;
+  END;
+
+  /* Close cursor */
+  EM_SQLREQ = ' CLOSE MOTOR-CSR ';
+  EXEC SQL
+      CLOSE MOTOR_CSR;
+
+  /* Close output file */
+  CLOSE FILE(MOTOROUT);
+
+  DISPLAY('LGMOTOUT: ROWS WRITTEN=' || WS_ROW_COUNT);
+  RETURN;
+
+  /*================================================================*/
+  FETCH_MOTOR_ROWS: PROCEDURE;
+
+     /* Fetch one row from MOTOR cursor */
+     EM_SQLREQ = ' FETCH MOTOR-CSR ';
+     EXEC SQL
+         FETCH MOTOR_CSR
+         INTO :HV_POLICY_NUMBER,
+              :HV_MAKE,
+              :HV_MODEL,
+              :HV_VALUE,
+              :HV_REGNUMBER,
+              :HV_COLOUR,
+              :HV_CC,
+              :HV_YEAROFMANUFACTURE,
+              :HV_PREMIUM,
+              :HV_ACCIDENTS;
+
+     SELECT (SQLCODE);
+        WHEN (0)
+           CALL WRITE_MOTOR_ROW;
+        WHEN (100)
+           ;
+        OTHERWISE DO;
+           EM_SQLRC = SQLCODE;
+           CALL WRITE_ERROR_MESSAGE;
+           CALL PLIRETC(8);
+        END;
+     END;
+
+  END FETCH_MOTOR_ROWS;
+
+  /*================================================================*/
+  WRITE_MOTOR_ROW: PROCEDURE;
+
+     /* Build output line */
+     WS_OUT_POLNUM    = HV_POLICY_NUMBER;
+     WS_OUT_MAKE      = HV_MAKE;
+     WS_OUT_MODEL     = HV_MODEL;
+     WS_OUT_VALUE     = HV_VALUE;
+     WS_OUT_REGNUMBER = HV_REGNUMBER;
+     WS_OUT_COLOUR    = HV_COLOUR;
+     WS_OUT_CC        = HV_CC;
+     WS_OUT_YEAROFMFR = HV_YEAROFMANUFACTURE;
+     WS_OUT_PREMIUM   = HV_PREMIUM;
+     WS_OUT_ACCIDENTS = HV_ACCIDENTS;
+
+     /* Write to output file */
+     MOTOROUT_REC = STRING(WS_MOTOR_LINE);
+     ON TRANSMIT(MOTOROUT) BEGIN;
+        MOTOROUT_OK = '0'B;
+     END;
+     MOTOROUT_OK = '1'B;
+     WRITE FILE(MOTOROUT) FROM(MOTOROUT_REC);
+     IF ^MOTOROUT_OK THEN DO;
+        DISPLAY('LGMOTOUT: WRITE FAILED');
+        CALL WRITE_ERROR_MESSAGE;
+     END;
+     ELSE
+        WS_ROW_COUNT = WS_ROW_COUNT + 1;
+
+  END WRITE_MOTOR_ROW;
+
+  /*================================================================*
+  * Procedure to write error message to display                    *
+  *   message will include Date, Time, Program Name, SQLCODE.      *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+     EM_SQLRC = SQLCODE;
+     EM_DATE = WS_DATE;
+     EM_TIME = WS_TIME;
+     DISPLAY(EM_DATE || ' ' || EM_TIME || ' LGMOTOUT' ||
+             EM_SQLREQ || ' SQLCODE=' || EM_SQLRC);
+  END WRITE_ERROR_MESSAGE;
+
+  END LGMOTOUT;

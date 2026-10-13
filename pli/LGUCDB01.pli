@@ -1,0 +1,203 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    UPDATE customer details                     *
+  *                                                                *
+  ******************************************************************/
+  LGUCDB01: Proc(COMM_AREA_PTR) Options(Main);
+  /*----------------------------------------------------------------*
+  * Common defintions                                              *
+  *----------------------------------------------------------------*/
+  /* Run time (debug) infomation for this invocation */
+   DCL 1  WS_HEADER,
+        3 WS_EYECATCHER            CHAR(16)
+                                   INIT ('LGUCDB01------WS'),
+        3 WS_TRANSID               CHAR(4) INIT(''),
+        3 WS_TERMID                CHAR(4) INIT(''),
+        3 WS_TASKNUM               PIC '(7)9' INIT(0),
+        3 WS_FILLER                CHAR INIT(''),
+        3 WS_ADDR_DFHCOMMAREA      PTR INIT(SYSNULL()),
+        3 WS_CALEN                 FIXED BIN(15) INIT(0),
+        3 WS_RETRY                 CHAR INIT(' ');
+
+  /* Host variables for input to DB2 integer types */
+   DCL 1 DB2_IN_INTEGERS,
+         03 DB2_CUSTOMERNUM_INT    FIXED BIN(31) INIT(0),
+         03 DB2_POLICYNUM_INT      FIXED BIN(31) INIT(0),
+         03 DB2_BROKERID_INT       FIXED BIN(31) INIT(0),
+         03 DB2_PAYMENT_INT        FIXED BIN(31) INIT(0),
+         03 DB2_E_TERM_SINT        FIXED BIN(15) INIT(0),
+         03 DB2_E_SUMASSURED_INT   FIXED BIN(31) INIT(0),
+         03 DB2_H_BEDROOMS_SINT    FIXED BIN(15) INIT(0),
+         03 DB2_H_VALUE_INT        FIXED BIN(31) INIT(0),
+         03 DB2_M_VALUE_INT        FIXED BIN(31) INIT(0),
+         03 DB2_M_CC_SINT          FIXED BIN(15) INIT(0),
+         03 DB2_M_PREMIUM_INT      FIXED BIN(31) INIT(0),
+         03 DB2_M_ACCIDENTS_INT    FIXED BIN(31) INIT(0);
+
+  /* Variables for time/date processing */
+   DCL 1  WS_ABSTIME               FIXED DEC(15) INIT(+0);
+   DCL 1  WS_TIME                  CHAR(8)  INIT(' ');
+   DCL 1  WS_DATE                  CHAR(10) INIT(' ');
+
+  /* Error Message structure */
+   DCL 1  ERROR_MSG,
+        3 EM_DATE                  CHAR(10) INIT(' '),
+        3 *                        CHAR     INIT(' '),
+        3 EM_TIME                  CHAR(8)  INIT(' '),
+        3 *                        CHAR(9)  INIT(' LGUCDB01'),
+        3 EM_VARIABLE UNION,
+          5 EM_MSG_TEXT            CHAR(63),
+          5 *,
+           7 *                     CHAR(6)  INIT(' CNUM='),
+           7 EM_CUSNUM             CHAR(10) INIT(' '),
+           7 *                     CHAR(6)  INIT(' PNUM='),
+           7 EM_POLNUM             CHAR(10) INIT(' '),
+           7 EM_SQLREQ             CHAR(16) INIT(' '),
+           7 *                     CHAR(9)  INIT(' SQLCODE='),
+           7 EM_SQLRC              PIC '+(5)9';
+
+   DCL 1  CA_ERROR_MSG,
+        3 *                        CHAR(9)  INIT('COMMAREA='),
+        3 CA_DATA                  CHAR(90) INIT(' ');
+
+   DCL LGUCVS01                    CHAR(8) INIT('LGUCVS01');
+
+  /*----------------------------------------------------------------*
+  *    DB2 CONTROL                                                  *
+  *----------------------------------------------------------------*/
+  /* SQLCA DB2 communications area */
+       EXEC SQL
+         INCLUDE SQLCA;
+
+       EXEC SQL
+         INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*
+  * Common code                                                    *
+  *----------------------------------------------------------------*/
+  /* set up general variable */
+   WS_TRANSID = EIBTRNID;
+   WS_TERMID  = EIBTRMID;
+   WS_TASKNUM = EIBTASKN;
+   WS_RETRY   = ' ';
+
+  /*----------------------------------------------------------------*
+  * Check commarea and obtain required details                     *
+  *----------------------------------------------------------------*/
+  /* If NO commarea received issue an ABEND */
+   IF ( EIBCALEN = 0 ) THEN DO;
+       EM_MSG_TEXT = ' NO COMMAREA RECEIVED';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS ABEND ABCODE('LGCA') NODUMP;
+    END;
+
+  /* initialize commarea return code to zero */
+   CA_RETURN_CODE = '00';
+   WS_CALEN       = EIBCALEN;
+   WS_ADDR_DFHCOMMAREA = COMM_AREA_PTR;
+
+  /* Convert commarea customer to DB2 integer format */
+   DB2_CUSTOMERNUM_INT = CA_CUSTOMER_NUM;
+  /* and save in error msg field in case required */
+   EM_CUSNUM = CA_CUSTOMER_NUM;
+
+  /* Call procedure to update required tables */
+   CALL UPDATE_CUSTOMER_INFO;
+
+  /* Link to VSAM update program */
+   EXEC CICS LINK PROGRAM(LGUCVS01)
+        COMMAREA(COMM_AREA)
+        LENGTH(225);
+
+  /* Return to caller */
+   EXEC CICS RETURN;
+
+  RETURN;
+
+  /*================================================================*
+  * Update row in Customer table                                   *
+  *================================================================*/
+  UPDATE_CUSTOMER_INFO: PROCEDURE;
+
+   EM_SQLREQ = ' UPDATE CUST    ';
+   EXEC SQL
+     UPDATE CUSTOMER
+       SET
+         FIRSTNAME     = :CA_FIRST_NAME,
+         LASTNAME      = :CA_LAST_NAME,
+         DATEOFBIRTH   = :CA_DOB,
+         HOUSENAME     = :CA_HOUSE_NAME,
+         HOUSENUMBER   = :CA_HOUSE_NUM,
+         POSTCODE      = :CA_POSTCODE,
+         PHONEMOBILE   = :CA_PHONE_MOBILE,
+         PHONEHOME     = :CA_PHONE_HOME,
+         EMAILADDRESS  = :CA_EMAIL_ADDRESS
+       WHERE
+           CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT;
+
+   IF (SQLCODE <> 0) THEN DO;
+  /* Non-zero SQLCODE from UPDATE statement */
+     IF (SQLCODE = 100) THEN
+         CA_RETURN_CODE = '01';
+     ELSE DO;
+         CA_RETURN_CODE = '90';
+  /* Write error message to TD QUEUE(CSMT) */
+         CALL WRITE_ERROR_MESSAGE;
+     END;
+   END;
+
+  END UPDATE_CUSTOMER_INFO;
+
+  /*================================================================*
+  * Procedure to write error message to Queues                     *
+  *   message will include Date, Time, Program Name, Customer      *
+  *   Number, Policy Number and SQLCODE.                           *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+  /* Save SQLCODE in message */
+   EM_SQLRC = SQLCODE;
+  /* Obtain and format current time and date */
+   EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+
+   EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+             MMDDYYYY(WS_DATE)
+             TIME(WS_TIME);
+
+   EM_DATE = WS_DATE;
+   EM_TIME = WS_TIME;
+  /* Write output message to TDQ */
+   EXEC CICS LINK PROGRAM('LGSTSQ')
+             COMMAREA(ERROR_MSG)
+             LENGTH(STG(ERROR_MSG));
+
+  /* Write 90 bytes or as much as we have of commarea to TDQ */
+   IF ( EIBCALEN > 0 ) THEN DO;
+     IF ( EIBCALEN < 91 ) THEN DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,EIBCALEN);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+     ELSE DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,90);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+   END;
+  RETURN;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGUCDB01;

@@ -1,0 +1,315 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                      Customer Menu                                */
+  /*                                                                   */
+  /* Menu for Customer Transactions (transaction SSC1)                 */
+  /*                                                                   */
+  /*********************************************************************/
+  LGTESTC1: Proc(DFHEIPTR,COMM_AREA_PTR) Options(Main,Reentrant);
+
+  DCL MSGEND CHAR(24) STATIC INIT('Transaction ended');
+
+  DCL WS_RESP         FIXED BIN(31);
+  DCL WS_ITEM_COUNT   FIXED BIN(15);
+  DCL WS_FLAG_TSQH    CHAR(1);
+
+  /* TS queue control area */
+  DCL 1 READ_MSG UNALIGNED,
+        3 READ_MSG_MSG CHAR(80);
+  DCL 1 FILLER_R UNION BASED(ADDR(READ_MSG)),
+        3 *,
+          5 FILL_14     CHAR(14),
+          5 READ_CUST_HIGH PIC '9999999999';
+
+  DCL 1 WRITE_MSG UNALIGNED,
+        3 WRITE_MSG_E    CHAR(20) INIT('**** GENAPP CNTL    '),
+        3 WRITE_MSG_L    CHAR(13) INIT('LOW CUSTOMER='),
+        3 WRITE_MSG_LOW  PIC '9999999999',
+        3 FILL_1         CHAR(1),
+        3 WRITE_MSG_H    CHAR(14) INIT('HIGH CUSTOMER='),
+        3 WRITE_MSG_HIGH PIC '9999999999';
+
+  DCL STSQ_NAME CHAR(8) STATIC INIT('GENACNTL');
+
+  %INCLUDE SSMAP;
+  %INCLUDE LGCMAREA;
+  DCL BASE_COMM_AREA CHAR(STG(COMM_AREA));
+
+  /*-------------------------------------------------------------------*/
+  IF EIBCALEN = 0 THEN DO;
+
+     /* Link to ADDIPGM1 on first call (initialises counters) */
+     EXEC CICS LINK PROGRAM('ADDIPGM1')
+               COMMAREA(COMM_AREA)
+               LENGTH(32500);
+
+     COMM_AREA_PTR = ADDR(BASE_COMM_AREA);
+     SSMAPC1I = ' ';
+     SSMAPC1O = ' ';
+     CA_REQUEST_ID = ' ';
+     CA_RETURN_CODE = 0;
+     CA_CUSTOMER_NUM = 0;
+     CA_REQUEST_INITIALISER = ' ';
+     ENT1CNOO = '0000000000';
+
+     /* Display Main Menu */
+     EXEC CICS SEND MAP ('SSMAPC1')
+               FROM(SSMAPC1O)
+               MAPSET ('SSMAP')
+               ERASE;
+  END;
+
+  A_GAIN:
+
+     EXEC CICS HANDLE AID
+               CLEAR(CLEARIT)
+               PF3(ENDIT);
+     EXEC CICS HANDLE CONDITION
+               MAPFAIL(ENDIT);
+
+     EXEC CICS RECEIVE MAP('SSMAPC1')
+               INTO(SSMAPC1I) ASIS TERMINAL
+               MAPSET('SSMAP');
+
+     SELECT (ENT1OPTO);
+
+        WHEN ('1') DO;
+           CA_REQUEST_ID = '01ICUS';
+           CA_CUSTOMER_NUM = ENT1CNOO;
+           EXEC CICS LINK PROGRAM('LGICUS01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENT1FNAI = CA_FIRST_NAME;
+           ENT1LNAI = CA_LAST_NAME;
+           ENT1DOBI = CA_DOB;
+           ENT1HNMI = CA_HOUSE_NAME;
+           ENT1HNOI = CA_HOUSE_NUM;
+           ENT1HPCI = CA_POSTCODE;
+           ENT1HP1I = CA_PHONE_HOME;
+           ENT1HP2I = CA_PHONE_MOBILE;
+           ENT1HMOI = CA_EMAIL_ADDRESS;
+           EXEC CICS SEND MAP ('SSMAPC1')
+                     FROM(SSMAPC1O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('2') DO;
+           CA_REQUEST_ID = '01ACUS';
+           CA_CUSTOMER_NUM = 0;
+           CA_FIRST_NAME = ENT1FNAI;
+           CA_LAST_NAME = ENT1LNAI;
+           CA_DOB = ENT1DOBI;
+           CA_HOUSE_NAME = ENT1HNMI;
+           CA_HOUSE_NUM = ENT1HNOI;
+           CA_POSTCODE = ENT1HPCI;
+           CA_PHONE_HOME = ENT1HP1I;
+           CA_PHONE_MOBILE = ENT1HP2I;
+           CA_EMAIL_ADDRESS = ENT1HMOI;
+           /* Replace nulls with blanks before linking */
+           COMM_AREA_RAW = TRANSLATE(COMM_AREA_RAW,' ','00'X);
+           CA_POSTCODE = UPPERCASE(CA_POSTCODE);
+           EXEC CICS LINK PROGRAM('LGACUS01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN DO;
+              EXEC CICS SYNCPOINT ROLLBACK;
+              GO TO NO_ADD;
+           END;
+
+           CALL WRITE_GENACNTL;
+           ENT1CNOI = CA_CUSTOMER_NUM;
+           ENT1OPTI = ' ';
+           ERRFLDO = 'New Customer Inserted';
+           EXEC CICS SEND MAP ('SSMAPC1')
+                     FROM(SSMAPC1O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        WHEN ('4') DO;
+           CA_REQUEST_ID = '01ICUS';
+           CA_CUSTOMER_NUM = ENT1CNOO;
+           EXEC CICS LINK PROGRAM('LGICUS01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_DATA;
+
+           ENT1FNAI = CA_FIRST_NAME;
+           ENT1LNAI = CA_LAST_NAME;
+           ENT1DOBI = CA_DOB;
+           ENT1HNMI = CA_HOUSE_NAME;
+           ENT1HNOI = CA_HOUSE_NUM;
+           ENT1HPCI = CA_POSTCODE;
+           ENT1HP1I = CA_PHONE_HOME;
+           ENT1HP2I = CA_PHONE_MOBILE;
+           ENT1HMOI = CA_EMAIL_ADDRESS;
+           EXEC CICS SEND MAP ('SSMAPC1')
+                     FROM(SSMAPC1O)
+                     MAPSET ('SSMAP');
+           EXEC CICS RECEIVE MAP('SSMAPC1')
+                     INTO(SSMAPC1I) ASIS TERMINAL
+                     MAPSET('SSMAP');
+
+           CA_REQUEST_ID = '01UCUS';
+           CA_CUSTOMER_NUM = ENT1CNOI;
+           CA_FIRST_NAME = ENT1FNAI;
+           CA_LAST_NAME = ENT1LNAI;
+           CA_DOB = ENT1DOBI;
+           CA_HOUSE_NAME = ENT1HNMI;
+           CA_HOUSE_NUM = ENT1HNOI;
+           CA_POSTCODE = ENT1HPCI;
+           CA_PHONE_HOME = ENT1HP1I;
+           CA_PHONE_MOBILE = ENT1HP2I;
+           CA_EMAIL_ADDRESS = ENT1HMOI;
+           /* Replace nulls with blanks before linking */
+           COMM_AREA_RAW = TRANSLATE(COMM_AREA_RAW,' ','00'X);
+           CA_POSTCODE = UPPERCASE(CA_POSTCODE);
+           EXEC CICS LINK PROGRAM('LGUCUS01')
+                     COMMAREA(COMM_AREA)
+                     LENGTH(32500);
+           IF CA_RETURN_CODE > 0 THEN
+              GO TO NO_UPD;
+
+           ENT1CNOI = CA_CUSTOMER_NUM;
+           ENT1OPTI = ' ';
+           ERRFLDO = 'Customer details updated';
+           EXEC CICS SEND MAP ('SSMAPC1')
+                     FROM(SSMAPC1O)
+                     MAPSET ('SSMAP');
+           GO TO ENDIT_STARTIT;
+        END;
+
+        OTHERWISE DO;
+
+           ERRFLDO = 'Please enter a valid option';
+           ENT1OPTL = -1;
+
+           EXEC CICS SEND MAP ('SSMAPC1')
+                     FROM(SSMAPC1O)
+                     MAPSET ('SSMAP')
+                     CURSOR;
+           GO TO ENDIT_STARTIT;
+        END;
+     END;
+
+     /* Send message to terminal and return */
+
+     EXEC CICS RETURN;
+
+     ENDIT_STARTIT:
+        EXEC CICS RETURN
+                  TRANSID('SSC1')
+                  COMMAREA(COMM_AREA);
+
+     ENDIT:
+        EXEC CICS SEND TEXT
+                  FROM(MSGEND)
+                  LENGTH(STG(MSGEND))
+                  ERASE
+                  FREEKB;
+        EXEC CICS RETURN;
+
+     CLEARIT:
+
+        SSMAPC1I = ' ';
+        EXEC CICS SEND MAP ('SSMAPC1')
+                  MAPSET ('SSMAP')
+                  MAPONLY;
+
+        EXEC CICS RETURN
+                  TRANSID('SSC1')
+                  COMMAREA(COMM_AREA);
+
+     NO_UPD:
+        ERRFLDO = 'Error Updating Customer';
+        Go To ERROR_OUT;
+
+     NO_ADD:
+        ERRFLDO = 'Error Adding Customer';
+        Go To ERROR_OUT;
+
+     NO_DATA:
+        ERRFLDO = 'No data was returned.';
+        Go To ERROR_OUT;
+
+     ERROR_OUT:
+        EXEC CICS SEND MAP ('SSMAPC1')
+                  FROM(SSMAPC1O)
+                  MAPSET ('SSMAP');
+
+        SSMAPC1I = ' ';
+        SSMAPC1O = ' ';
+        COMM_AREA_RAW = ' ';
+        CA_REQUEST_ID = ' ';
+        CA_RETURN_CODE = 0;
+        CA_CUSTOMER_NUM = 0;
+        CA_REQUEST_INITIALISER = ' ';
+
+        GO TO ENDIT_STARTIT;
+
+  /*-------------------------------------------------------------------*/
+  /*  WRITE_GENACNTL: Update GENACNTL TS queue with new customer number */
+  /*-------------------------------------------------------------------*/
+  WRITE_GENACNTL: PROCEDURE;
+
+     EXEC CICS ENQ RESOURCE(STSQ_NAME)
+               LENGTH(STG(STSQ_NAME));
+     WS_FLAG_TSQH = 'Y';
+     WS_ITEM_COUNT = 1;
+     EXEC CICS READQ TS QUEUE(STSQ_NAME)
+               INTO(READ_MSG)
+               RESP(WS_RESP)
+               ITEM(1);
+     IF WS_RESP = DFHRESP(NORMAL) THEN DO;
+        DO WHILE (WS_RESP = 0);
+           EXEC CICS READQ TS QUEUE(STSQ_NAME)
+                     INTO(READ_MSG)
+                     RESP(WS_RESP)
+                     NEXT;
+           WS_ITEM_COUNT = WS_ITEM_COUNT + 1;
+           IF WS_RESP = DFHRESP(NORMAL) &
+              SUBSTR(READ_MSG_MSG,1,13) = 'HIGH CUSTOMER' THEN DO;
+              WRITE_MSG_HIGH = CA_CUSTOMER_NUM;
+              WS_FLAG_TSQH = ' ';
+              EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+                        FROM(WRITE_MSG_H)
+                        LENGTH(24)
+                        RESP(WS_RESP)
+                        REWRITE
+                        ITEM(WS_ITEM_COUNT);
+              WS_RESP = 99;
+           END;
+        END;
+     END;
+
+     IF WS_FLAG_TSQH = 'Y' THEN DO;
+        EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+                  FROM(WRITE_MSG_E)
+                  RESP(WS_RESP)
+                  NOSUSPEND
+                  LENGTH(20);
+        WRITE_MSG_LOW = CA_CUSTOMER_NUM;
+        WRITE_MSG_HIGH = CA_CUSTOMER_NUM;
+        EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+                  FROM(WRITE_MSG_L)
+                  RESP(WS_RESP)
+                  NOSUSPEND
+                  LENGTH(23);
+        EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+                  FROM(WRITE_MSG_H)
+                  RESP(WS_RESP)
+                  NOSUSPEND
+                  LENGTH(24);
+     END;
+
+     EXEC CICS DEQ RESOURCE(STSQ_NAME)
+               LENGTH(STG(STSQ_NAME));
+
+  END WRITE_GENACNTL;
+
+  END LGTESTC1;

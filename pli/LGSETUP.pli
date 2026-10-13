@@ -1,0 +1,148 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                  GenApp environment set-up                        */
+  /*                                                                   */
+  /* Deletes and recreates the GenApp TS queues and named counters.    */
+  /* The high customer number can be supplied after the transaction    */
+  /* id (e.g. 'LGSE 0000000011'); default is 11.                       */
+  /*                                                                   */
+  /*********************************************************************/
+  LGSETUP: Proc Options(Main);
+
+  DCL WS_RESP        FIXED BIN(31);
+  DCL 1 WS_RECV,
+        3 WS_RECV_TRANID CHAR(5),
+        3 WS_RECV_DATA   CHAR(74);
+  DCL WS_RECV_LEN    FIXED BIN(15) INIT(80);
+
+  DCL 1 WRITE_MSG,
+        3 WRITE_MSG_E    CHAR(20) INIT('**** GENAPP CNTL    '),
+        3 WRITE_MSG_L    CHAR(13) INIT('LOW CUSTOMER='),
+        3 WRITE_MSG_LOW  PIC '9999999999',
+        3 *              CHAR(1)  INIT(' '),
+        3 WRITE_MSG_H    CHAR(14) INIT('HIGH CUSTOMER='),
+        3 WRITE_MSG_HIGH PIC '9999999999',
+        3 *              CHAR(60) INIT(' ');
+
+  DCL FRSTCUSTNUM    FIXED BIN(31) INIT(1);
+  DCL LASTCUSTNUM    FIXED BIN(31) INIT(11);
+  DCL ZERO_VALUE     FIXED BIN(31) INIT(0);
+  DCL GENACOUNT      CHAR(16) STATIC INIT('GENACUSTNUM');
+  DCL GENAPOOL       CHAR(8)  STATIC INIT('GENA');
+  DCL STSQ_STRT      CHAR(8)  STATIC INIT('GENASTRT');
+  DCL STSQ_STAT      CHAR(8)  STATIC INIT('GENASTAT');
+  DCL STSQ_ERRS      CHAR(8)  STATIC INIT('GENAERRS');
+  DCL STSQ_NAME      CHAR(8)  STATIC INIT('GENACNTL');
+
+  /* Transaction statistics counters (00 = ok, 99 = failed) */
+  DCL COUNTER_COUNT  FIXED BIN(15) STATIC INIT(36);
+  DCL COUNTER_IDX    FIXED BIN(15);
+  DCL 1 COUNTER_TABLE STATIC,
+       3 CNT_100 CHAR(16) INIT('GENA01ICUS00'),
+       3 CNT_199 CHAR(16) INIT('GENA01ICUS99'),
+       3 CNT_200 CHAR(16) INIT('GENA01ACUS00'),
+       3 CNT_299 CHAR(16) INIT('GENA01ACUS99'),
+       3 CNT_300 CHAR(16) INIT('GENA01IMOT00'),
+       3 CNT_399 CHAR(16) INIT('GENA01IMOT99'),
+       3 CNT_400 CHAR(16) INIT('GENA01AMOT00'),
+       3 CNT_499 CHAR(16) INIT('GENA01AMOT99'),
+       3 CNT_500 CHAR(16) INIT('GENA01DMOT00'),
+       3 CNT_599 CHAR(16) INIT('GENA01DMOT99'),
+       3 CNT_600 CHAR(16) INIT('GENA01UMOT00'),
+       3 CNT_699 CHAR(16) INIT('GENA01UMOT99'),
+       3 CNT_700 CHAR(16) INIT('GENA01IEND00'),
+       3 CNT_799 CHAR(16) INIT('GENA01IEND99'),
+       3 CNT_800 CHAR(16) INIT('GENA01AEND00'),
+       3 CNT_899 CHAR(16) INIT('GENA01AEND99'),
+       3 CNT_900 CHAR(16) INIT('GENA01DEND00'),
+       3 CNT_999 CHAR(16) INIT('GENA01DEND99'),
+       3 CNT_A00 CHAR(16) INIT('GENA01UEND00'),
+       3 CNT_A99 CHAR(16) INIT('GENA01UEND99'),
+       3 CNT_B00 CHAR(16) INIT('GENA01IHOU00'),
+       3 CNT_B99 CHAR(16) INIT('GENA01IHOU99'),
+       3 CNT_C00 CHAR(16) INIT('GENA01AHOU00'),
+       3 CNT_C99 CHAR(16) INIT('GENA01AHOU99'),
+       3 CNT_D00 CHAR(16) INIT('GENA01DHOU00'),
+       3 CNT_D99 CHAR(16) INIT('GENA01DHOU99'),
+       3 CNT_E00 CHAR(16) INIT('GENA01UHOU00'),
+       3 CNT_E99 CHAR(16) INIT('GENA01UHOU99'),
+       3 CNT_F00 CHAR(16) INIT('GENA01ICOM00'),
+       3 CNT_F99 CHAR(16) INIT('GENA01ICOM99'),
+       3 CNT_G00 CHAR(16) INIT('GENA01ACOM00'),
+       3 CNT_G99 CHAR(16) INIT('GENA01ACOM99'),
+       3 CNT_H00 CHAR(16) INIT('GENA01DCOM00'),
+       3 CNT_H99 CHAR(16) INIT('GENA01DCOM99'),
+       3 CNT_I00 CHAR(16) INIT('GENA01UCUS00'),
+       3 CNT_I99 CHAR(16) INIT('GENA01UCUS99');
+  DCL 1 COUNTER_ARRAY BASED(ADDR(COUNTER_TABLE)),
+       3 COUNTER_NAME(36) CHAR(16);
+
+  /*-------------------------------------------------------------------*/
+  EXEC CICS RECEIVE INTO(WS_RECV)
+            LENGTH(WS_RECV_LEN)
+            RESP(WS_RESP);
+  IF WS_RECV_LEN > 5 THEN DO;
+     WS_RECV_LEN = WS_RECV_LEN - 5;
+     LASTCUSTNUM = SUBSTR(WS_RECV_DATA,1,WS_RECV_LEN);
+  END;
+
+  /* Delete the TS queues */
+  EXEC CICS DELETEQ TS QUEUE(STSQ_ERRS)
+            RESP(WS_RESP);
+  EXEC CICS DELETEQ TS QUEUE(STSQ_STRT)
+            RESP(WS_RESP);
+  EXEC CICS DELETEQ TS QUEUE(STSQ_STAT)
+            RESP(WS_RESP);
+  EXEC CICS DELETEQ TS QUEUE(STSQ_NAME)
+            RESP(WS_RESP);
+
+  /* Re-create the customer number control queue */
+  WRITE_MSG_LOW = FRSTCUSTNUM;
+  WRITE_MSG_HIGH = LASTCUSTNUM;
+
+  EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+            FROM(WRITE_MSG_E)
+            RESP(WS_RESP)
+            NOSUSPEND
+            LENGTH(20);
+  EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+            FROM(WRITE_MSG_L)
+            RESP(WS_RESP)
+            NOSUSPEND
+            LENGTH(23);
+  EXEC CICS WRITEQ TS QUEUE(STSQ_NAME)
+            FROM(WRITE_MSG_H)
+            RESP(WS_RESP)
+            NOSUSPEND
+            LENGTH(24);
+
+  /* Customer number counter */
+  EXEC CICS DELETE COUNTER(GENACOUNT)
+            POOL(GENAPOOL)
+            RESP(WS_RESP);
+  EXEC CICS DEFINE COUNTER(GENACOUNT)
+            POOL(GENAPOOL)
+            VALUE(LASTCUSTNUM)
+            RESP(WS_RESP);
+
+  /* Transaction statistics counters */
+  DO COUNTER_IDX = 1 TO COUNTER_COUNT;
+     EXEC CICS DELETE COUNTER(COUNTER_NAME(COUNTER_IDX))
+               POOL(GENAPOOL)
+               RESP(WS_RESP);
+     EXEC CICS DEFINE COUNTER(COUNTER_NAME(COUNTER_IDX))
+               POOL(GENAPOOL)
+               VALUE(ZERO_VALUE)
+               RESP(WS_RESP);
+  END;
+
+  EXEC CICS SEND TEXT FROM(WRITE_MSG_H)
+            TERMINAL
+            WAIT
+            ERASE
+            LENGTH(24)
+            FREEKB;
+
+  EXEC CICS RETURN;
+
+  END LGSETUP;

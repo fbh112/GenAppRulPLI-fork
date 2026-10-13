@@ -1,0 +1,118 @@
+  /*********************************************************************/
+  /*                                                                   */
+  /*                  Policy VSAM key browse (GTEQ)                    */
+  /*                                                                   */
+  /* Reads KSDSPOLY with a generic GTEQ read for a partial key given   */
+  /* either in a COMMAREA (linked/started) or in terminal input.       */
+  /* Result is returned in the COMMAREA, or sent to the terminal.      */
+  /*                                                                   */
+  /*********************************************************************/
+  LGIPVS01: Proc(COMMA_PTR) Options(Main);
+
+  DCL WS_FLAG        CHAR(1);
+  DCL WS_RESP        FIXED BIN(31);
+  DCL WS_STARTCODE   CHAR(2)  INIT(' ');
+  DCL WS_SYSID       CHAR(4)  INIT(' ');
+  DCL WS_INVOKEPROG  CHAR(8)  INIT(' ');
+  DCL WS_COMMAREA    CHAR(80);
+  DCL 1 WS_RECV,
+        3 WS_RECV_TRANID CHAR(5),
+        3 WS_RECV_DATA   CHAR(74);
+  DCL WS_RECV_LEN    FIXED BIN(15) INIT(80);
+
+  DCL 1 WRITE_MSG,
+        3 WRITE_MSG_TEXT   CHAR(11) INIT('Policy Key='),
+        3 WRITE_MSG_KEY    UNION,
+          5 WRITE_MSG_KEY_CH CHAR(21),
+          5 *,
+            7 WRITE_MSG_TYPE    CHAR(1),
+            7 WRITE_MSG_CUSTNUM PIC '9999999999',
+            7 WRITE_MSG_POLNUM  PIC '9999999999',
+        3 *                CHAR(48) INIT(' ');
+
+  DCL 1 PART_KEY,
+        3 PART_KEY_TYPE    CHAR(1),
+        3 PART_KEY_NUM     PIC '9999999999';
+
+  DCL 1 CA_AREA,
+        3 CA_POLICY_TYPE   CHAR(1),
+        3 CA_CUSTOMER_NUM  CHAR(10),
+        3 CA_POLICY_NUM    CHAR(10),
+        3 *                CHAR(43);
+
+  DCL F64            FIXED BIN(15) STATIC INIT(64);
+  DCL F11            FIXED BIN(15) STATIC INIT(11);
+
+  /* Commarea passed on LINK (text + 21-byte policy key) */
+  DCL COMMA_PTR      PTR;
+  DCL 1 DFHCOMMAREA BASED(COMMA_PTR),
+        3 COMMA_DATA,
+          5 COMMA_DATA_TEXT CHAR(11),
+          5 COMMA_DATA_KEY  CHAR(21),
+          5 *               CHAR(58);
+
+  /*-------------------------------------------------------------------*/
+  WS_RECV = ' ';
+
+  EXEC CICS ASSIGN SYSID(WS_SYSID)
+            RESP(WS_RESP);
+
+  EXEC CICS ASSIGN STARTCODE(WS_STARTCODE)
+            RESP(WS_RESP);
+
+  EXEC CICS ASSIGN INVOKINGPROG(WS_INVOKEPROG)
+            RESP(WS_RESP);
+
+  IF SUBSTR(WS_STARTCODE,1,1) = 'D' | WS_INVOKEPROG ^= ' ' THEN DO;
+     WS_FLAG = 'C';
+     WS_COMMAREA = COMMA_DATA;
+     WS_RECV_LEN = 10;
+  END;
+  ELSE DO;
+     EXEC CICS RECEIVE INTO(WS_RECV)
+               LENGTH(WS_RECV_LEN)
+               RESP(WS_RESP);
+     WS_FLAG = 'R';
+     WS_COMMAREA = WS_RECV_DATA;
+     WS_RECV_LEN = WS_RECV_LEN - 6;
+  END;
+
+  CA_AREA = ' ';
+  PART_KEY_TYPE = SUBSTR(WS_COMMAREA,1,1);
+  PART_KEY_NUM = SUBSTR(WS_COMMAREA,2,WS_RECV_LEN);
+
+  EXEC CICS READ FILE('KSDSPOLY')
+            INTO(CA_AREA)
+            LENGTH(F64)
+            RIDFLD(PART_KEY)
+            KEYLENGTH(F11)
+            GENERIC
+            RESP(WS_RESP)
+            GTEQ;
+
+  IF CA_POLICY_TYPE ^= PART_KEY_TYPE |
+     WS_RESP ^= DFHRESP(NORMAL) THEN DO;
+     WRITE_MSG_TEXT = 'Policy Bad=';
+     WRITE_MSG_CUSTNUM = 13;
+     WRITE_MSG_POLNUM = 13;
+  END;
+  ELSE
+     WRITE_MSG_KEY_CH = SUBSTR(CA_AREA,1,21);
+
+  IF WS_FLAG = 'R' THEN DO;
+     EXEC CICS SEND TEXT FROM(WRITE_MSG)
+               TERMINAL
+               WAIT
+               ERASE
+               LENGTH(80)
+               FREEKB;
+  END;
+  ELSE DO;
+     COMMA_DATA = ' ';
+     COMMA_DATA_TEXT = WRITE_MSG_TEXT;
+     COMMA_DATA_KEY = WRITE_MSG_KEY_CH;
+  END;
+
+  EXEC CICS RETURN;
+
+  END LGIPVS01;

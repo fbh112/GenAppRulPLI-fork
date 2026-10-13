@@ -1,0 +1,194 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2013 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    ADD Customer                                *
+  *                                                                *
+  * To add customer's password to the security table with         *
+  * details. Default password is MD5 checksum                      *
+  *                                                                *
+  ******************************************************************/
+  LGACDB02: Proc(COMM_AREA_PTR) Options(Main);
+  /*----------------------------------------------------------------*
+  * Common defintions                                              *
+  *----------------------------------------------------------------*/
+  /* Run time (debug) infomation for this invocation */
+   DCL 1  WS_HEADER,
+        3 WS_EYECATCHER            CHAR(16)
+                                   INIT ('LGACDB02------WS'),
+        3 WS_TRANSID               CHAR(4) INIT(''),
+        3 WS_TERMID                CHAR(4) INIT(''),
+        3 WS_TASKNUM               PIC '(7)9' INIT(0),
+        3 WS_FILLER                CHAR INIT(''),
+        3 WS_ADDR_DFHCOMMAREA      PTR INIT(SYSNULL()),
+        3 WS_CALEN                 FIXED BIN(15) INIT(0);
+
+   DCL 1  WS_RESP                  FIXED BIN(31);
+
+  /* Variables for time/date processing */
+   DCL 1  WS_ABSTIME               FIXED DEC(15) INIT(+0);
+   DCL 1  WS_TIME                  CHAR(8)  INIT(' ');
+   DCL 1  WS_DATE                  CHAR(10) INIT(' ');
+
+  /* Error Message structure */
+   DCL 1  ERROR_MSG,
+        3 EM_DATE                  CHAR(10) INIT(' '),
+        3 *                        CHAR     INIT(' '),
+        3 EM_TIME                  CHAR(8)  INIT(' '),
+        3 *                        CHAR(9)  INIT(' LGACDB02'),
+        3 EM_VARIABLE UNION,
+          5 EM_MSG_TEXT            CHAR(63),
+          5 *,
+           7 *                     CHAR(6)  INIT(' CNUM='),
+           7 EM_CUSNUM             CHAR(10) INIT(' '),
+           7 *                     CHAR(6)  INIT(' PNUM='),
+           7 EM_POLNUM             CHAR(10) INIT(' '),
+           7 EM_SQLREQ             CHAR(16) INIT(' '),
+           7 *                     CHAR(9)  INIT(' SQLCODE='),
+           7 EM_SQLRC              PIC '+(5)9';
+
+   DCL 1  CA_ERROR_MSG,
+        3 *                        CHAR(9)  INIT('COMMAREA='),
+        3 CA_DATA                  CHAR(90) INIT(' ');
+
+  /*----------------------------------------------------------------*/
+   DCL WS_CS_PASSWORD              CHAR(16) INIT('NewPass');
+   DCL WS_CS_STATE                 CHAR     INIT('N');
+   DCL WS_CA_COUNT                 FIXED BIN(31) INIT(0);
+
+  /*----------------------------------------------------------------*
+  * Definitions required for data manipulation                     *
+  *----------------------------------------------------------------*/
+  /* Host variables for output from DB2 integer types */
+   DCL 1 DB2_OUT_INTEGERS,
+         03 DB2_CUSTOMERNUM_INT    FIXED BIN(31) INIT(0),
+         03 DB2_CUSTOMERCNT_INT    FIXED BIN(31) INIT(0);
+
+  /*----------------------------------------------------------------*
+  *    DB2 CONTROL                                                  *
+  *----------------------------------------------------------------*/
+  /* SQLCA DB2 communications area */
+       EXEC SQL
+         INCLUDE SQLCA;
+
+       EXEC SQL
+         INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*
+  * Common code                                                    *
+  *----------------------------------------------------------------*/
+  /* set up general variable */
+   WS_TRANSID = EIBTRNID;
+   WS_TERMID  = EIBTRMID;
+   WS_TASKNUM = EIBTASKN;
+
+  /*----------------------------------------------------------------*
+  * Process incoming commarea                                      *
+  *----------------------------------------------------------------*/
+  /* If NO commarea received issue an ABEND */
+   IF ( EIBCALEN = 0 ) THEN DO;
+       EM_MSG_TEXT = ' NO COMMAREA RECEIVED';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS ABEND ABCODE('LGCA') NODUMP;
+    END;
+
+  /* initialize commarea return code to zero */
+   CA_RETURN_CODE = '00';
+   WS_CALEN       = EIBCALEN;
+   WS_ADDR_DFHCOMMAREA = COMM_AREA_PTR;
+
+  /* Different types of security add */
+   SELECT ( CA_REQUEST_ID );
+  /*   New Customer add */
+     WHEN ('02ACUS') DO;
+         DB2_CUSTOMERNUM_INT = CA_CUSTOMER_NUM;
+         DB2_CUSTOMERCNT_INT = CA_CUSTSECR_COUNT;
+         CALL INSERT_CUSTOMER_PASSWORD;
+     END;
+     OTHERWISE DO;
+         CA_RETURN_CODE = '99';
+         EXEC CICS RETURN;
+     END;
+   END;
+
+  /* Return to caller */
+   EXEC CICS RETURN;
+
+  RETURN;
+
+  /*================================================================*
+  * Insert row into Customer Secure Table                          *
+  *================================================================*/
+  INSERT_CUSTOMER_PASSWORD: PROCEDURE;
+
+   EM_SQLREQ = ' INSERT SECURITY';
+   EXEC SQL
+     INSERT INTO CUSTOMER_SECURE
+               ( customerNumber,
+                 customerPass,
+                 state_indicator,
+                 pass_changes   )
+        VALUES ( :DB2_CUSTOMERNUM_INT,
+                 :CA_CUSTSECR_PASS,
+                 :CA_CUSTSECR_STATE,
+                 :DB2_CUSTOMERCNT_INT);
+
+   IF (SQLCODE <> 0) THEN DO;
+       CA_RETURN_CODE = '98';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS RETURN;
+   END;
+
+  END INSERT_CUSTOMER_PASSWORD;
+
+  /*================================================================*
+  * Procedure to write error message to Queues                     *
+  *   message will include Date, Time, Program Name, Customer      *
+  *   Number, Policy Number and SQLCODE.                           *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+  /* Save SQLCODE in message */
+   EM_SQLRC = SQLCODE;
+  /* Obtain and format current time and date */
+   EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+
+   EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+             MMDDYYYY(WS_DATE)
+             TIME(WS_TIME);
+
+   EM_DATE = WS_DATE;
+   EM_TIME = WS_TIME;
+  /* Write output message to TDQ */
+   EXEC CICS LINK PROGRAM('LGSTSQ')
+             COMMAREA(ERROR_MSG)
+             LENGTH(STG(ERROR_MSG));
+
+  /* Write 90 bytes or as much as we have of commarea to TDQ */
+   IF ( EIBCALEN > 0 ) THEN DO;
+     IF ( EIBCALEN < 91 ) THEN DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,EIBCALEN);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+     ELSE DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,90);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+   END;
+  RETURN;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGACDB02;

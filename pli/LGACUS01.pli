@@ -1,0 +1,535 @@
+  /*****************************************************************
+  *                                                                *
+  * LICENSED MATERIALS - PROPERTY OF IBM                           *
+  *                                                                *
+  * "RESTRICTED MATERIALS OF IBM"                                  *
+  *                                                                *
+  * CB12                                                           *
+  *                                                                *
+  * (C) COPYRIGHT IBM CORP. 2011, 2023 ALL RIGHTS RESERVED         *
+  *                                                                *
+  * US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION,      *
+  * OR DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE                   *
+  * CONTRACT WITH IBM CORPORATION                                  *
+  *                                                                *
+  *                    ADD Customer and Update policy logic        *
+  *                                                                *
+  * Business logic for adding a new customer & update policy       *
+  *                                                                *
+  * Notes on the COBOL original that are kept in this port:        *
+  *  - ACTION_CODE is initialised to '0' and is never changed, so  *
+  *    none of the EVALUATE branches is selected.                  *
+  *  - The request ids moved to CA_REQUEST_ID are longer than the  *
+  *    6-byte field in COBOL and are truncated; the truncated      *
+  *    values are coded explicitly here.                           *
+  *  - The COBOL CHECK-INPUTS paragraph re-initialised WS-HEADER   *
+  *    (zeroing WS-CALEN) before testing WS-CALEN, so it always    *
+  *    abended LGCA. This port tests EIBCALEN instead.             *
+  ******************************************************************/
+  LGACUS01: Proc(COMM_AREA_PTR) Options(Main);
+  /*----------------------------------------------------------------*
+  * Common defintions                                              *
+  *----------------------------------------------------------------*/
+  /* Run time (debug) infomation for this invocation */
+   DCL 1  WS_HEADER,
+        3 WS_EYECATCHER            CHAR(16)
+                                   INIT ('LGACUS01------WS'),
+        3 WS_TRANSID               CHAR(4) INIT(''),
+        3 WS_TERMID                CHAR(4) INIT(''),
+        3 WS_TASKNUM               PIC '(7)9' INIT(0),
+        3 WS_FILLER                CHAR INIT(''),
+        3 WS_ADDR_DFHCOMMAREA      PTR INIT(SYSNULL()),
+        3 WS_CALEN                 FIXED BIN(15) INIT(0);
+
+   DCL 1  WS_RESP                  FIXED BIN(31);
+   DCL 1  LASTCUSTNUM              FIXED BIN(31) INIT(0);
+   DCL 1  GENACOUNT                CHAR(16) INIT('GENACUSTNUM');
+   DCL 1  GENAPOOL                 CHAR(8)  INIT('GENA');
+
+  /* Variables for time/date processing */
+   DCL 1  WS_ABSTIME               FIXED DEC(15) INIT(+0);
+   DCL 1  WS_TIME                  CHAR(8)  INIT(' ');
+   DCL 1  WS_DATE                  CHAR(10) INIT(' ');
+
+  /* Error Message structure */
+   DCL 1  ERROR_MSG,
+        3 EM_DATE                  CHAR(10) INIT(' '),
+        3 *                        CHAR     INIT(' '),
+        3 EM_TIME                  CHAR(8)  INIT(' '),
+        3 *                        CHAR(9)  INIT(' LGACUS01'),
+        3 EM_VARIABLE UNION,
+          5 EM_MSG_TEXT            CHAR(63),
+          5 *,
+           7 *                     CHAR(6)  INIT(' CNUM='),
+           7 EM_CUSNUM             CHAR(10) INIT(' '),
+           7 *                     CHAR(6)  INIT(' PNUM='),
+           7 EM_POLNUM             CHAR(10) INIT(' '),
+           7 EM_SQLREQ             CHAR(16) INIT(' '),
+           7 *                     CHAR(9)  INIT(' SQLCODE='),
+           7 EM_SQLRC              PIC '+(5)9';
+
+  /* Commarea passed to LGACDB02 (customer security add) and the
+     DB2 integer work fields that COBOL kept in the same group */
+   DCL 1  CDB2AREA,
+        3 D2_REQUEST_ID            CHAR(6),
+        3 D2_RETURN_CODE           PIC '99',
+        3 D2_CUSTOMER_NUM          PIC '9999999999',
+        3 D2_CUSTSECR_PASS         CHAR(32),
+        3 D2_CUSTSECR_COUNT        CHAR(4),
+        3 D2_CUSTSECR_STATE        CHAR,
+        3 DB2_BROKERID_INT         FIXED BIN(31),
+        3 DB2_PAYMENT_INT          FIXED BIN(31),
+        3 DB2_E_TERM_SINT          FIXED BIN(15),
+        3 D2_CUSTSECR_DATA         CHAR(32445);
+
+   DCL 1  CA_ERROR_MSG,
+        3 *                        CHAR(9)  INIT('COMMAREA='),
+        3 CA_DATA                  CHAR(90) INIT(' ');
+
+  /*----------------------------------------------------------------*/
+   DCL LGACDB01                    CHAR(8) INIT('LGACDB01');
+   DCL LGACDB02                    CHAR(8) INIT('LGACDB02');
+   DCL LGACVS01                    CHAR(8) INIT('LGACVS01');
+   DCL LGAC_NCS                    CHAR(2) INIT('ON');
+   DCL WS_CS_PASSWORD              CHAR(16) INIT('NewPass');
+   DCL WS_CS_STATE                 CHAR     INIT('N');
+   DCL WS_CA_COUNT                 FIXED BIN(31) INIT(0);
+   DCL ATRANID                     CHAR(4) INIT('DSC1');
+
+  /*----------------------------------------------------------------*
+  * Definitions required for data manipulation                     *
+  *----------------------------------------------------------------*/
+  /* Fields to be used to check that commarea is correct length */
+   DCL 1 WS_COMMAREA_LENGTHS,
+         03 WS_CA_HEADER_LEN       FIXED BIN(15) INIT(18),
+         03 WS_REQUIRED_CA_LEN     FIXED BIN(15) INIT(0);
+
+  /* Policy lengths and DB2 policy host variables */
+       EXEC SQL
+         INCLUDE LGPOLICY;
+
+  /* Host variables for output from DB2 integer types */
+   DCL 1 DB2_OUT_INTEGERS,
+         03 DB2_CUSTOMERNUM_INT    FIXED BIN(31) INIT(0),
+         03 DB2_POLICYNUM_INT      FIXED BIN(31) INIT(0);
+
+   DCL ACTION_CODE                 CHAR(1) INIT('0');
+
+  /*----------------------------------------------------------------*
+  *    DB2 CONTROL                                                  *
+  *----------------------------------------------------------------*/
+  /* SQLCA DB2 communications area */
+       EXEC SQL
+         INCLUDE SQLCA;
+
+       EXEC SQL
+         INCLUDE LGCMAREA;
+
+  /*----------------------------------------------------------------*
+  * Mainline                                                       *
+  *----------------------------------------------------------------*/
+   CALL INIT_CICS_VARIABLES;
+
+   CALL CHECK_INPUTS;
+
+   SELECT;
+     WHEN (ACTION_CODE = '1') DO;
+  /* Call routine to Insert row in DB2 Customer table */
+         CA_REQUEST_ID = '01ICUS';
+         CALL ONBOARD_CUSTOMER;
+     END;
+     WHEN (ACTION_CODE = '2') DO;
+  /* Call routine to offer a policy to a given customer */
+         CA_REQUEST_ID = '02OCUS';
+         CALL OFFER_CUSTOMER;
+     END;
+     WHEN (ACTION_CODE = '3') DO;
+  /* Call routine to transfer customer and its policy */
+         CA_REQUEST_ID = '02UCUS';
+         CALL TRANSFER_CUSTOMER;
+     END;
+     WHEN (ACTION_CODE = '4') DO;
+  /* Call routine to delete customer and remove its policy */
+         CA_REQUEST_ID = '02DCUS';
+         CALL DELETE_CUSTOMER;
+     END;
+     OTHERWISE;
+   END;
+
+   EXEC CICS RETURN;
+
+  RETURN;
+
+  /*----------------------------------------------------------------*
+  * Common init code                                               *
+  *----------------------------------------------------------------*/
+  INIT_CICS_VARIABLES: PROCEDURE;
+  /* set up general variable */
+   WS_TRANSID = EIBTRNID;
+   WS_TERMID  = EIBTRMID;
+   WS_TASKNUM = EIBTASKN;
+   WS_CALEN   = EIBCALEN;
+  END INIT_CICS_VARIABLES;
+
+  CHECK_INPUTS: PROCEDURE;
+  /*----------------------------------------------------------------*
+  * Process incoming commarea                                      *
+  *----------------------------------------------------------------*/
+  /* If NO commarea received issue an ABEND */
+   IF ( EIBCALEN = 0 ) THEN DO;
+       EM_MSG_TEXT = ' NO COMMAREA RECEIVED';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS ABEND ABCODE('LGCA') NODUMP;
+    END;
+
+  /* initialize commarea return code to zero */
+   CA_RETURN_CODE  = '00';
+   CA_NUM_POLICIES = 0;
+   WS_ADDR_DFHCOMMAREA = COMM_AREA_PTR;
+
+  /* check commarea length */
+   WS_REQUIRED_CA_LEN = WS_REQUIRED_CA_LEN + WS_CA_HEADER_LEN;
+   WS_REQUIRED_CA_LEN = WS_REQUIRED_CA_LEN + WS_CUSTOMER_LEN;
+
+  /* if less set error return code and return to caller */
+   IF (WS_CALEN < WS_REQUIRED_CA_LEN) THEN DO;
+     CA_RETURN_CODE = '98';
+     EXEC CICS RETURN;
+   END;
+  END CHECK_INPUTS;
+
+  /*----------------------------------------------------------------*
+  * Logic add a customer in the DB                                 *
+  *----------------------------------------------------------------*/
+  ONBOARD_CUSTOMER: PROCEDURE;
+
+  /* initialize DB2 host variables */
+   DB2_OUT_INTEGERS = 0;
+
+  /* Call routine to Insert row in Customer table */
+   CALL OBTAIN_CUSTOMER_NUMBER;
+   CALL INSERT_CUSTOMER;
+
+   EXEC CICS LINK PROGRAM(LGACVS01)
+        COMMAREA(COMM_AREA)
+        LENGTH(225);
+
+   D2_CUSTOMER_NUM    = DB2_CUSTOMERNUM_INT;
+   D2_REQUEST_ID      = '02ACUS';
+   D2_CUSTSECR_COUNT  = '0000';
+   D2_CUSTSECR_STATE  = 'N';
+
+   EXEC CICS LINK PROGRAM(LGACDB02)
+        COMMAREA(CDB2AREA)
+        LENGTH(32500);
+
+   IF (CA_RETURN_CODE <> '00') THEN DO;
+     EXEC CICS RETURN;
+   END;
+
+  END ONBOARD_CUSTOMER;
+
+  /*----------------------------------------------------------------*/
+  OBTAIN_CUSTOMER_NUMBER: PROCEDURE;
+
+   EXEC CICS GET COUNTER(GENACOUNT)
+             POOL(GENAPOOL)
+             VALUE(LASTCUSTNUM)
+             RESP(WS_RESP);
+
+   IF (WS_RESP <> DFHRESP(NORMAL)) THEN DO;
+     LGAC_NCS = 'NO';
+     DB2_CUSTOMERNUM_INT = 0;
+   END;
+   ELSE DO;
+     DB2_CUSTOMERNUM_INT = LASTCUSTNUM;
+   END;
+
+  END OBTAIN_CUSTOMER_NUMBER;
+
+  /*================================================================*
+  * Insert row into Customer table based on customer number        *
+  *================================================================*/
+  INSERT_CUSTOMER: PROCEDURE;
+
+   EM_SQLREQ = ' INSERT CUSTOMER';
+
+   IF (LGAC_NCS = 'ON') THEN DO;
+     EXEC SQL
+       INSERT INTO CUSTOMER
+                 ( CUSTOMERNUMBER,
+                   FIRSTNAME,
+                   LASTNAME,
+                   DATEOFBIRTH,
+                   HOUSENAME,
+                   HOUSENUMBER,
+                   POSTCODE,
+                   PHONEMOBILE,
+                   PHONEHOME,
+                   EMAILADDRESS )
+          VALUES ( :DB2_CUSTOMERNUM_INT,
+                   :CA_FIRST_NAME,
+                   :CA_LAST_NAME,
+                   :CA_DOB,
+                   :CA_HOUSE_NAME,
+                   :CA_HOUSE_NUM,
+                   :CA_POSTCODE,
+                   :CA_PHONE_MOBILE,
+                   :CA_PHONE_HOME,
+                   :CA_EMAIL_ADDRESS );
+     IF (SQLCODE <> 0) THEN DO;
+       CA_RETURN_CODE = '90';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS RETURN;
+     END;
+   END;
+   ELSE DO;
+     EXEC SQL
+       INSERT INTO CUSTOMER
+                 ( CUSTOMERNUMBER,
+                   FIRSTNAME,
+                   LASTNAME,
+                   DATEOFBIRTH,
+                   HOUSENAME,
+                   HOUSENUMBER,
+                   POSTCODE,
+                   PHONEMOBILE,
+                   PHONEHOME,
+                   EMAILADDRESS )
+          VALUES ( DEFAULT,
+                   :CA_FIRST_NAME,
+                   :CA_LAST_NAME,
+                   :CA_DOB,
+                   :CA_HOUSE_NAME,
+                   :CA_HOUSE_NUM,
+                   :CA_POSTCODE,
+                   :CA_PHONE_MOBILE,
+                   :CA_PHONE_HOME,
+                   :CA_EMAIL_ADDRESS );
+     IF (SQLCODE <> 0) THEN DO;
+       CA_RETURN_CODE = '90';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS RETURN;
+     END;
+  /* get value of assigned customer number */
+     EXEC SQL
+       SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL();
+   END;
+
+   CA_CUSTOMER_NUM = DB2_CUSTOMERNUM_INT;
+
+  END INSERT_CUSTOMER;
+
+  /*================================================================*/
+  TRANSFER_CUSTOMER: PROCEDURE;
+
+   IF (CA_REQUEST_ID ^= '01ACLM') THEN
+     CALL TRANSFER_CUSTOMER_POLICY;
+
+  END TRANSFER_CUSTOMER;
+
+  /*================================================================*/
+  DELETE_CUSTOMER: PROCEDURE;
+
+   IF (CA_REQUEST_ID ^= '01ACLM') THEN
+     CALL DELETE_CUSTOMER_POLICY;
+
+  END DELETE_CUSTOMER;
+
+  /*================================================================*/
+  OFFER_CUSTOMER: PROCEDURE;
+
+   IF (CA_REQUEST_ID ^= '01ACLM') THEN
+     CALL INSERT_CUSTOMER_POLICY;
+
+  END OFFER_CUSTOMER;
+
+  /*================================================================*
+  * Issue INSERT on Policy table using values passed in commarea   *
+  * set the timestamp and allow DB2 to allocate a policy number.   *
+  *================================================================*/
+  INSERT_CUSTOMER_POLICY: PROCEDURE;
+
+  /* Move numeric fields to integer format */
+   DB2_BROKERID_INT = CA_BROKERID;
+   DB2_PAYMENT_INT  = CA_PAYMENT;
+
+   EM_SQLREQ = ' INSERT POLICY  ';
+   EXEC SQL
+     INSERT INTO POLICY
+               ( POLICYNUMBER,
+                 CUSTOMERNUMBER,
+                 ISSUEDATE,
+                 EXPIRYDATE,
+                 POLICYTYPE,
+                 LASTCHANGED,
+                 BROKERID,
+                 BROKERSREFERENCE,
+                 PAYMENT           )
+        VALUES ( DEFAULT,
+                 :DB2_CUSTOMERNUM_INT,
+                 :CA_ISSUE_DATE,
+                 :CA_EXPIRY_DATE,
+                 :DB2_POLICYTYPE,
+                 CURRENT TIMESTAMP,
+                 :DB2_BROKERID_INT,
+                 :CA_BROKERSREF,
+                 :DB2_PAYMENT_INT      );
+
+   SELECT (SQLCODE);
+     WHEN (0)
+         CA_RETURN_CODE = '00';
+     WHEN (-530) DO;
+         CA_RETURN_CODE = '70';
+         CALL WRITE_ERROR_MESSAGE;
+         EXEC CICS RETURN;
+     END;
+     OTHERWISE DO;
+         CA_RETURN_CODE = '90';
+         CALL WRITE_ERROR_MESSAGE;
+         EXEC CICS RETURN;
+     END;
+   END;
+
+  /* get value of assigned policy number */
+   EXEC SQL
+     SET :DB2_POLICYNUM_INT = IDENTITY_VAL_LOCAL();
+   CA_POLICY_NUM = DB2_POLICYNUM_INT;
+  /* and save in error msg field in case required */
+   EM_POLNUM = CA_POLICY_NUM;
+
+  /* get value of assigned Timestamp */
+   EXEC SQL
+     SELECT LASTCHANGED
+       INTO :CA_LASTCHANGED
+       FROM POLICY
+       WHERE POLICYNUMBER = :DB2_POLICYNUM_INT;
+
+  END INSERT_CUSTOMER_POLICY;
+
+  /*================================================================*
+  * Issue INSERT on Policy table using values passed in commarea   *
+  * set the timestamp and allow DB2 to allocate a policy number.   *
+  *================================================================*/
+  TRANSFER_CUSTOMER_POLICY: PROCEDURE;
+
+  /* Move numeric fields to integer format */
+   DB2_BROKERID_INT = CA_BROKERID;
+   DB2_PAYMENT_INT  = CA_PAYMENT;
+
+   EM_SQLREQ = ' INSERT POLICY  ';
+   EXEC SQL
+     INSERT INTO POLICY
+               ( POLICYNUMBER,
+                 CUSTOMERNUMBER,
+                 ISSUEDATE,
+                 EXPIRYDATE,
+                 POLICYTYPE,
+                 LASTCHANGED,
+                 BROKERID,
+                 BROKERSREFERENCE,
+                 PAYMENT           )
+        VALUES ( DEFAULT,
+                 :DB2_CUSTOMERNUM_INT,
+                 :CA_ISSUE_DATE,
+                 :CA_EXPIRY_DATE,
+                 :DB2_POLICYTYPE,
+                 CURRENT TIMESTAMP,
+                 :DB2_BROKERID_INT,
+                 :CA_BROKERSREF,
+                 :DB2_PAYMENT_INT      );
+
+   SELECT (SQLCODE);
+     WHEN (0)
+         CA_RETURN_CODE = '00';
+     WHEN (-530) DO;
+         CA_RETURN_CODE = '70';
+         CALL WRITE_ERROR_MESSAGE;
+         EXEC CICS RETURN;
+     END;
+     OTHERWISE DO;
+         CA_RETURN_CODE = '90';
+         CALL WRITE_ERROR_MESSAGE;
+         EXEC CICS RETURN;
+     END;
+   END;
+
+  /* get value of assigned policy number */
+   EXEC SQL
+     SET :DB2_POLICYNUM_INT = IDENTITY_VAL_LOCAL();
+   CA_POLICY_NUM = DB2_POLICYNUM_INT;
+  /* and save in error msg field in case required */
+   EM_POLNUM = CA_POLICY_NUM;
+
+  /* get value of assigned Timestamp */
+   EXEC SQL
+     SELECT LASTCHANGED
+       INTO :CA_LASTCHANGED
+       FROM POLICY
+       WHERE POLICYNUMBER = :DB2_POLICYNUM_INT;
+
+  END TRANSFER_CUSTOMER_POLICY;
+
+  /*================================================================*
+  * Delete appropriate row from policy table                       *
+  *  because of FOREIGN KEY definitions the delete should be       *
+  *  propagated to the appropriate 'policy type' table             *
+  *================================================================*/
+  DELETE_CUSTOMER_POLICY: PROCEDURE;
+
+   EM_SQLREQ = ' DELETE POLICY  ';
+   EXEC SQL
+     DELETE
+       FROM POLICY
+       WHERE ( CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT AND
+               POLICYNUMBER  = :DB2_POLICYNUM_INT      );
+
+  /* Treat SQLCODE 0 and SQLCODE 100 (record not found) as
+     successful - end result is record does not exist */
+   IF (SQLCODE <> 0) THEN DO;
+       CA_RETURN_CODE = '90';
+       CALL WRITE_ERROR_MESSAGE;
+       EXEC CICS RETURN;
+   END;
+
+  END DELETE_CUSTOMER_POLICY;
+
+  /*================================================================*
+  * Procedure to write error message to Queues                     *
+  *   message will include Date, Time, Program Name, Customer      *
+  *   Number, Policy Number and SQLCODE.                           *
+  *================================================================*/
+  WRITE_ERROR_MESSAGE: PROCEDURE;
+  /* Obtain and format current time and date */
+   EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);
+
+   EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME)
+             MMDDYYYY(WS_DATE)
+             TIME(WS_TIME);
+
+   EM_DATE = WS_DATE;
+   EM_TIME = WS_TIME;
+  /* Write output message to TDQ */
+   EXEC CICS LINK PROGRAM('LGSTSQ')
+             COMMAREA(ERROR_MSG)
+             LENGTH(STG(ERROR_MSG));
+
+  /* Write 90 bytes or as much as we have of commarea to TDQ */
+   IF ( EIBCALEN > 0 ) THEN DO;
+     IF ( EIBCALEN < 91 ) THEN DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,EIBCALEN);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+     ELSE DO;
+       CA_DATA = LEFT(COMM_AREA_RAW,90);
+       EXEC CICS LINK PROGRAM('LGSTSQ')
+                 COMMAREA(CA_ERROR_MSG)
+                 LENGTH(STG(CA_ERROR_MSG));
+     END;
+   END;
+  RETURN;
+  END WRITE_ERROR_MESSAGE;
+
+  END LGACUS01;
