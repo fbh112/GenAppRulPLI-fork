@@ -1,20 +1,20 @@
-  /*********************************************************************/
-  /*                                                                   */
-  /*                  GenApp statistics collector                      */
-  /*                                                                   */
-  /* Queries the GENA named counters, keeps the previous/current/delta */
-  /* values of each success counter in TS queues GENA<code>V, and      */
-  /* restarts itself every minute (transaction SSST).                  */
-  /*                                                                   */
-  /* Differences to the COBOL version:                                 */
-  /*  - The 34 repeated QUERY COUNTER blocks are driven from a table.  */
-  /*  - SYMBLIST (S1-S40, built but never used by any command), the    */
-  /*    ASSIGN APPLID and the QUERY of counter GENAOTHER (value never  */
-  /*    used) have no observable effect and are not carried over.      */
-  /*  - If a rate queue cannot be read (first run) the previous value  */
-  /*    is taken as 0; COBOL reused whatever was left in WS-TSQDATA.   */
-  /*                                                                   */
-  /*********************************************************************/
+ /*********************************************************************/
+ /*                                                                   */
+ /*                  GenApp statistics collector                      */
+ /*                                                                   */
+ /* Queries the GENA named counters, keeps the previous/current/delta */
+ /* values of each success counter in TS queues GENA<code>V, and      */
+ /* restarts itself every minute (transaction SSST).                  */
+ /*                                                                   */
+ /* Differences to the COBOL version:                                 */
+ /*  - The 34 repeated QUERY COUNTER blocks are driven from a table.  */
+ /*  - SYMBLIST (S1-S40, built but never used by any command), the    */
+ /*    ASSIGN APPLID and the QUERY of counter GENAOTHER (value never  */
+ /*    used) have no observable effect and are not carried over.      */
+ /*  - If a rate queue cannot be read (first run) the previous value  */
+ /*    is taken as 0; COBOL reused whatever was left in WS-TSQDATA.   */
+ /*                                                                   */
+ /*********************************************************************/
   LGWEBST5: Proc Options(Main);
 
   DCL COUNTVAL       FIXED BIN(31) INIT(0);
@@ -56,7 +56,7 @@
   DCL GENACOUNT      CHAR(16) STATIC INIT('GENACUSTNUM');
   DCL GENAPOOL       CHAR(8)  STATIC INIT('GENA');
 
-  /* Success counters (..00) and error counters (..99), in report order */
+/* Success counters (..00) and error counters (..99), in report order */
   DCL CT_SUCCESS(17) CHAR(16) STATIC INIT(
         'GENA01ICUS00', 'GENA01ACUS00', 'GENA01IMOT00',
         'GENA01AMOT00', 'GENA01DMOT00', 'GENA01UMOT00',
@@ -79,7 +79,7 @@
   /* Operation of each counter: I inquire, A add, D delete, U update */
   DCL CT_OPS         CHAR(17) STATIC INIT('IAIADUIADUIADUIAD');
 
-  /*-------------------------------------------------------------------*/
+ /*-------------------------------------------------------------------*/
   WS_HEADER = ' ';
   WS_EYECATCHER = 'LGWEBST5------WS';
   WS_TRANSID = EIBTRNID;
@@ -156,9 +156,9 @@
 
   EXEC CICS RETURN;
 
-  /*-------------------------------------------------------------------*/
-  /* Work out the seconds since the last run and restart in 1 minute    */
-  /*-------------------------------------------------------------------*/
+ /*-------------------------------------------------------------------*/
+ /* Work out the seconds since the last run and restart in 1 minute   */
+ /*-------------------------------------------------------------------*/
   TRAN_RATE_INTERVAL: PROCEDURE;
 
      WS_TSQNAME = TSQPRE || '000V';
@@ -205,9 +205,9 @@
 
   END TRAN_RATE_INTERVAL;
 
-  /*-------------------------------------------------------------------*/
-  /* Rewrite queue WS_TSQNAME with: new value, old value, difference    */
-  /*-------------------------------------------------------------------*/
+ /*-------------------------------------------------------------------*/
+ /* Rewrite queue WS_TSQNAME with: new value, old value, difference   */
+ /*-------------------------------------------------------------------*/
   TRAN_RATE_COUNTS: PROCEDURE;
 
      WS_TSQLEN = 9;
