@@ -6,7 +6,7 @@
  /*        APOST                                                      */
  /* ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS      */
  /*********************************************************************/
- EXEC SQL DECLARE GENASA1.POLICY TABLE
+ EXEC SQL DECLARE POLICY TABLE
            ( POLICYNUMBER                   INTEGER NOT NULL,
              CUSTOMERNUMBER                 INTEGER NOT NULL,
              ISSUEDATE                      DATE,

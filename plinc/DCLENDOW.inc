@@ -6,7 +6,7 @@
  /*        APOST                                                      */
  /* ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS      */
  /*********************************************************************/
- EXEC SQL DECLARE GENASA1.ENDOWMENT TABLE
+ EXEC SQL DECLARE ENDOWMENT TABLE
            ( POLICYNUMBER                   INTEGER NOT NULL,
              EQUITIES                       CHAR(1),
              WITHPROFITS                    CHAR(1),
