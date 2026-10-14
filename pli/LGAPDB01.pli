@@ -58,6 +58,7 @@
                                                                         00560000
  /* Define a varying length character string to contain actual          00570000
  * amount of data that will be inserted to Varchar field */             00580000
+  DCL 1 WS_VARCHAR CHAR(3900) VARYING ;
   DCL 1 WS_VARY_FIELD,                                                  00590000
      49 WS_VARY_LEN               FIXED BIN(15),                        00600000
      49 WS_VARY_CHAR              CHAR(3900);                           00610000
@@ -423,7 +424,7 @@
                                                                         03240000
   IF (WS_VARY_LEN > 0) THEN DO;                                         03250000
  /*       Commarea contains data for Varchar field */                   03260000
-     SUBSTR(WS_VARY_CHAR,1,WS_VARY_LEN) = CA_E_PADDING_DATA;            03270000
+     WS_VARCHAR = substr(CA_E_PADDING_DATA,1,WS_VARY_LEN);
      EXEC SQL                                                           03290000
        INSERT INTO ENDOWMENT                                            03300000
                  ( POLICYNUMBER,                                        03310000
@@ -443,7 +444,7 @@
                    :DB2_E_TERM_SINT,                                    03450000
                    :DB2_E_SUMASSURED_INT,                               03460000
                    :CA_E_LIFE_ASSURED,                                  03470000
-                   :WS_VARY_FIELD );                                    03480000
+                   :WS_VARCHAR );                                    03480000
   END;                                                                  03490000
   ELSE DO;                                                              03500000
      EXEC SQL                                                           03510000
