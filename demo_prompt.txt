@@ -1,0 +1,95 @@
+
+## Step 1 — Init local workspace and prepare
+prompt:
+run /init command
+Create local metadata database
+update the AGENTS.md file so all the created documentations are saved under docs/ folder
+
+
+## Step 2 — Application inventory
+prompt:
+Generate a complete inventory of the genapp application, with for each program, their type, role, and dependencies (used copybooks, BMS screens, DB2 tables and files used - with access mode -, queues, and called programs).
+
+
+## Step 3 — Db2 table CRUD matrix
+prompt:
+Create a CRUD matrix for the Db2 tables.
+
+
+## Step 4 — Find functional domains
+prompt:
+Identify the main functional domains or subsystems in this application
+For each domain, briefly show its business responsibility, main programs (CICS modules and batch programs), transactions, batch jobs (JCL), data stores, and key dependencies.
+Draw a domain map: one diagram showing the domains and how they interact (program calls, shared tables and files, queues, interfaces), so the boundaries between domains are visible at a glance.
+
+
+## Step 5 
+prompt:
+based on the analysis so far, if I want to migrate one of domain off the platform using the current application code in the workspace, for demo purpose, which domain should I choose? 
+
+
+## Step 6 — Focus on the {select_domain} domain: find its boundary
+prompt:
+Analyse the {select_domain} domain and document the boundaries.
+- Components and their roles: list every CICS module, batch job (JCL steps and the programs they run), Db2 table, file, queue and copybook involved, with its role and whether it belongs to {select_domain} alone or is shared with other domains.
+- Visualize the boundaries in the {select_domain} domain, organized by functional topics, showing the components, their roles and the data flows between them.
+- Batch: for each batch job in or touching the domain, show its steps, programs, input and output datasets and tables, and which other domains its data comes from or goes to. If there is no batch processing, say so.
+- Db2 usage: list every program and batch job, inside or outside {select_domain}, that reads or writes the domain's Db2 tables, with its access mode.
+- Integration points with other domains: list every module that calls, or is called by, programs in other domains, or that shares data with them – caller, callee, mechanism (LINK, START, CALL, shared table or file, queue) and the data passed. These are the places to modify when {select_domain} moves off the mainframe.
+- External interfaces: list every interface between the domain's mainframe components and distributed components – CICS web services, CICS Transaction Gateway (ECI/EPI), MQ queues, DPL, sockets, file transfers, events – with direction, contract (copybook or schema), the programs behind it, and its known consumers.
+
+
+
+## Step 7 — Business rules
+prompt:
+
+Focus on the {select_domain} domain, extract the business level rules and behaviours that would need to be preserved if {select_domain} were migrated off the mainframe.
+
+Focus on business validations, constraints, calculations, entity relationships and business outcomes, in both online and batch processing.
+
+Ignore generic error handling, logging, routing and other implementation specific logic unless it represents a business constraint.
+
+For each rule, give: an ID, the rule in business terms, conditions and outcome, where it is implemented (program and paragraph or procedure), the data involved, whether it is explicit in the code or inferred, and an example (input and expected result) that could be used to verify the same rule in the target system.
+
+Format the result so it can be published as-is to a wiki page such as Confluence (headings, one table per functional topic). Do not propose a target implementation.
+
+
+
+## Step 8 — Migration hotspots as a whole
+prompt:
+For the genapp application, identify the application-wide hotspots: 
+the program modules, copybooks, DB2 tables, VSAM files, and shared utilities that are used or 
+called by the largest number of programs or domains across the whole application.
+
+For each hotspot:
+- Show how many programs and how many domains depend on it
+- Explain why it is especially critical to change
+- Flag any anomalies (tables accessed by many programs, modules called by every program, etc.)
+
+Rank the hotspots by breadth of impact (most programs/domains first).
+
+## Step 9 - Migration one domain
+prompt:
+Based on this analysis, identify the main migration effort for migrate {select_domain} off the mainframe
+Focus on shared modules, shared data, highly coupled programs, and dependencies crossing the domain boundary. 
+Rank migration risk and explain why they matter. 
+
+
+## Step 10 -  To be state
+prompt:
+Assume  {select_domain} domain has been migrated off to a cloud platform,  document a high leve arechitecure diagram how the current applilication going to integrate with the subsystem that has been migrated to the new platform
+
+## Step 11 - program  documentation
+build-in workflow on {select_program}
+
+
+## Step 12 - Business Abstract
+build-in workflow on {select_program}
+
+
+## Final Verification
+prompt:
+summarize the analaysis we are runnig so far, map it to the usecases defication . give me a summary at the end
+{usecase_defination}
+
+
