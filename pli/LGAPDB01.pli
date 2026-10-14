@@ -111,7 +111,7 @@
       03 WS_FLOOD_FLG                CHAR(1) INIT(' '),                 01050040
       03 WS_CNT_POLICY               FIXED DEC(9) INIT(0),              01050050
       03 WS_CLM_CNT                  FIXED DEC(9) INIT(0),              01050060
-      03 WS_COMMISSION               FIXED DEC(4) INIT(0);              01050070
+      03 WS_COMMISSION               FIXED BIN(31) INIT(0);              0105007
   DCL 1 LGAPVS1                      CHAR(8) INIT('LGAPVS01');          01060000
  /*----------------------------------------------------------------*    01070000
  *    DB2 CONTROL                                                       01080000
@@ -423,8 +423,8 @@
      EXEC SQL                                                           03290000
        INSERT INTO ENDOWMENT                                            03300000
                  ( POLICYNUMBER,                                        03310000
-                   WITHPROFITS,                                         03320000
                    EQUITIES,                                            03330000
+                   WITHPROFITS,                                         03320000
                    MANAGEDFUND,                                         03340000
                    FUNDNAME,                                            03350000
                    TERM,                                                03360000
@@ -432,8 +432,8 @@
                    LIFEASSURED,                                         03380000
                    PADDINGDATA    )                                     03390000
           VALUES ( :DB2_POLICYNUM_INT,                                  03400000
-                   :CA_E_WITH_PROFITS,                                  03410000
                    :CA_E_EQUITIES,                                      03420000
+                   :CA_E_WITH_PROFITS,                                  03410000
                    :CA_E_MANAGED_FUND,                                  03430000
                    :CA_E_FUND_NAME,                                     03440000
                    :DB2_E_TERM_SINT,                                    03450000
