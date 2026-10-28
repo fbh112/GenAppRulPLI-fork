@@ -1,0 +1,1353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Domain Analysis - GenApp Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="customer-domain-analysis.html" class="nav-link active" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        
+                        <h1 id="customer-domain-analysis" tabindex="-1">Customer Domain Analysis</h1>
+<p>This page provides an application-level analysis of the customer domain, covering its layered architecture, shared data model, key programs, customer inquiry/add/update transaction flows, and the mechanisms used to keep customer data aligned across DB2 and VSAM. The domain is implemented as a consistent three-tier pattern: presentation-driven orchestration, DB2-centric business persistence, and a VSAM mirror layer used for secondary storage and lookup support.</p>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The customer domain is responsible for three primary business operations:</p>
+<ul>
+<li><strong>Customer addition</strong></li>
+<li><strong>Customer inquiry</strong></li>
+<li><strong>Customer update</strong></li>
+</ul>
+<p>At runtime, these operations are initiated by the presentation program <code>LGTESTC1</code>, which passes a shared COMMAREA into domain-specific orchestrators:</p>
+<ul>
+<li><code>LGACUS01</code> — Add customer orchestrator</li>
+<li><code>LGICUS01</code> — Inquire customer orchestrator</li>
+<li><code>LGUCUS01</code> — Update customer orchestrator</li>
+</ul>
+<p>These orchestrators delegate to DB2 backend programs for primary persistence and retrieval:</p>
+<ul>
+<li><code>LGACDB01</code> — Add customer in DB2</li>
+<li><code>LGICDB01</code> — Inquire customer in DB2</li>
+<li><code>LGUCDB01</code> — Update customer in DB2</li>
+</ul>
+<p>The DB2 layer then coordinates with VSAM mirror programs:</p>
+<ul>
+<li><code>LGACVS01</code> — Add customer to VSAM</li>
+<li><code>LGICVS01</code> — Discover a customer number from VSAM/range metadata</li>
+<li><code>LGUCVS01</code> — Update customer in VSAM</li>
+</ul>
+<p>A specialized security backend, <code>LGACDB02</code>, is invoked during customer creation to create a related <code>CUSTOMER_SECURE</code> row.</p>
+<p>The domain uses a <strong>shared COMMAREA contract</strong> (<code>LGCMAREA.inc</code>) across all programs. This gives the domain a uniform interface, but also creates tight coupling across the full call chain.</p>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The customer domain follows a strict layered architecture in which each operation passes through presentation, orchestration, DB2 persistence, and, where required, VSAM mirroring.</p>
+<div class="mermaid">
+graph TD
+    A[LGTESTC1 Presentation] --> B[Orchestrator Layer]
+    B --> C[LGACUS01 Add]
+    B --> D[LGICUS01 Inquire]
+    B --> E[LGUCUS01 Update]
+    C --> F[LGACDB01 DB2 Add]
+    D --> G[LGICDB01 DB2 Inquire]
+    E --> H[LGUCDB01 DB2 Update]
+    F --> I[LGACVS01 VSAM Add]
+    H --> J[LGUCVS01 VSAM Update]
+    F --> K[LGACDB02 Security Add]
+    G --> L[GENASA1.CUSTOMER]
+    F --> L
+    H --> L
+    K --> M[GENASA1.CUSTOMER_SECURE]
+    I --> N[KSDSCUST VSAM]
+    J --> N
+    D -. optional utility path .-> O[LGICVS01 Discovery Utility]
+    O --> P[GENACNTL TS Queue]
+    O --> N
+</div>
+<p>This architecture shows an important design principle: <strong>DB2 is the primary system of record for customer data</strong>, while VSAM acts as a mirrored secondary store for selected customer information. Inquiry is primarily DB2-based, while add and update perform dual-write behavior across DB2 and VSAM.</p>
+<h3 id="21-architectural-layers" tabindex="-1">2.1. Architectural Layers</h3>
+<h4 id="211-presentation-layer" tabindex="-1">2.1.1. Presentation Layer</h4>
+<ul>
+<li><strong>Program:</strong> <code>LGTESTC1</code></li>
+<li>Initiates customer operations</li>
+<li>Populates COMMAREA fields such as:
+<ul>
+<li><code>CA_REQUEST_ID</code></li>
+<li><code>CA_CUSTOMER_NUM</code></li>
+<li><code>CA_FIRST_NAME</code></li>
+<li><code>CA_LAST_NAME</code></li>
+<li><code>CA_EMAIL_ADDRESS</code></li>
+</ul>
+</li>
+<li>Uses CICS <code>LINK</code> to invoke orchestrators</li>
+</ul>
+<h4 id="212-orchestrator-layer" tabindex="-1">2.1.2. Orchestrator Layer</h4>
+<ul>
+<li><strong>Programs:</strong> <code>LGACUS01</code>, <code>LGICUS01</code>, <code>LGUCUS01</code></li>
+<li>Performs:
+<ul>
+<li>COMMAREA length validation</li>
+<li>Request ID gating</li>
+<li>Basic routing</li>
+<li>Error propagation</li>
+</ul>
+</li>
+</ul>
+<p>This layer does not own the actual persistence logic; instead, it enforces flow control and business entry-point discipline.</p>
+<h4 id="213-db2-backend-layer" tabindex="-1">2.1.3. DB2 Backend Layer</h4>
+<ul>
+<li><strong>Programs:</strong> <code>LGACDB01</code>, <code>LGICDB01</code>, <code>LGUCDB01</code></li>
+<li>Primary responsibilities:
+<ul>
+<li>SQL <code>INSERT</code></li>
+<li>SQL <code>SELECT</code></li>
+<li>SQL <code>UPDATE</code></li>
+<li>Customer number generation coordination</li>
+<li>Invocation of VSAM mirror operations</li>
+<li>Invocation of security-record creation during add</li>
+</ul>
+</li>
+</ul>
+<h4 id="214-vsam-mirror-layer" tabindex="-1">2.1.4. VSAM Mirror Layer</h4>
+<ul>
+<li><strong>Programs:</strong> <code>LGACVS01</code>, <code>LGICVS01</code>, <code>LGUCVS01</code></li>
+<li>Maintains a secondary keyed customer representation in <code>KSDSCUST</code></li>
+<li>Uses:
+<ul>
+<li><code>WRITE</code> for add</li>
+<li><code>READ UPDATE</code> + <code>REWRITE</code> for update</li>
+<li><code>GTEQ READ</code> in the inquiry utility path</li>
+</ul>
+</li>
+</ul>
+<h3 id="22-supporting-infrastructure" tabindex="-1">2.2. Supporting Infrastructure</h3>
+<p>The domain also depends on infrastructure resources:</p>
+<ul>
+<li><strong>Named counter:</strong> <code>GENACUSTNUM</code> in pool <code>GENA</code></li>
+<li><strong>TS queues:</strong>
+<ul>
+<li><code>GENACNTL</code> for customer number range discovery</li>
+<li><code>GENAWMQC</code> for an MQ cache-hit hook</li>
+</ul>
+</li>
+<li><strong>Shared error logging program:</strong> <code>LGSTSQ</code></li>
+</ul>
+<h2 id="3-data-model" tabindex="-1">3. Data Model</h2>
+<p>The customer domain data model spans DB2, VSAM, and the shared COMMAREA contract.</p>
+<h3 id="31-core-entities" tabindex="-1">3.1. Core Entities</h3>
+<p>The primary persistent entities are:</p>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Store</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td>DB2 (<code>GENASA1.CUSTOMER</code>)</td>
+<td>Primary customer master record</td>
+</tr>
+<tr>
+<td><code>CUSTOMER_SECURE</code></td>
+<td>DB2 (<code>GENASA1.CUSTOMER_SECURE</code>)</td>
+<td>Security-related customer record created during add</td>
+</tr>
+<tr>
+<td><code>KSDSCUST</code></td>
+<td>VSAM KSDS</td>
+<td>Mirrored customer record keyed by customer number</td>
+</tr>
+<tr>
+<td>COMMAREA (<code>LGCMAREA.inc</code>)</td>
+<td>Inter-program contract</td>
+<td>Shared request/response structure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-entity-relationships" tabindex="-1">3.2. Entity Relationships</h3>
+<div class="mermaid">
+graph TD
+    A[LGCMAREA Shared Contract] --> B[CUSTOMER]
+    A --> C[CUSTOMER_SECURE]
+    A --> D[KSDSCUST]
+    B --> C[Security record for customer]
+    B --> E[POLICY FK dependency]
+    D --> B[Mirrors selected customer fields]
+</div>
+<p>The relationships above illustrate that <code>CUSTOMER</code> is the central master entity. <code>CUSTOMER_SECURE</code> is created as an associated security record during onboarding. <code>KSDSCUST</code> mirrors customer data but is not the primary inquiry path. There is also an external dependency from the <code>POLICY</code> table to <code>CUSTOMER</code>.</p>
+<h3 id="33-commarea-contract" tabindex="-1">3.3. COMMAREA Contract</h3>
+<p>The domain boundary is defined by <code>LGCMAREA.inc</code>. It carries both control metadata and customer data. Important fields include:</p>
+<ul>
+<li><code>CA_REQUEST_ID</code></li>
+<li><code>CA_RETURN_CODE</code></li>
+<li><code>CA_CUSTOMER_NUM</code></li>
+<li><code>CA_FIRST_NAME</code></li>
+<li><code>CA_LAST_NAME</code></li>
+<li><code>CA_EMAIL_ADDRESS</code></li>
+</ul>
+<p>This shared contract is used by all customer-domain programs and by the calling presentation layer. Because layout compatibility is required end-to-end, any change to field sizes or positions is a breaking application-wide change.</p>
+<h3 id="34-data-ownership-and-persistence-roles" tabindex="-1">3.4. Data Ownership and Persistence Roles</h3>
+<table>
+<thead>
+<tr>
+<th>Data Element</th>
+<th>Primary Owner</th>
+<th>Secondary Copy</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer master attributes</td>
+<td>DB2 <code>CUSTOMER</code></td>
+<td>VSAM <code>KSDSCUST</code></td>
+<td>DB2 is authoritative</td>
+</tr>
+<tr>
+<td>Customer number</td>
+<td>CICS named counter / DB2 fallback</td>
+<td>Passed in COMMAREA and stored in both DB2/VSAM</td>
+<td>Dual-source risk exists</td>
+</tr>
+<tr>
+<td>Security password hash</td>
+<td>DB2 <code>CUSTOMER_SECURE</code></td>
+<td>None</td>
+<td>Created only during add</td>
+</tr>
+<tr>
+<td>Inquiry result fields</td>
+<td>DB2</td>
+<td>None for standard inquiry</td>
+<td>DB2 is the runtime retrieval path</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-key-programs-and-responsibilities" tabindex="-1">4. Key Programs and Responsibilities</h2>
+<h3 id="41-entry-and-orchestration-programs" tabindex="-1">4.1. Entry and Orchestration Programs</h3>
+<h4 id="411-lgtestc1" tabindex="-1">4.1.1. <code>LGTESTC1</code></h4>
+<ul>
+<li>Presentation/menu driver</li>
+<li>Calls orchestrators using CICS <code>LINK</code></li>
+<li>Sometimes calls <code>LGICVS01</code> separately to discover a sample customer number</li>
+</ul>
+<h4 id="412-lgacus01" tabindex="-1">4.1.2. <code>LGACUS01</code></h4>
+<ul>
+<li>Add-customer orchestrator</li>
+<li>Validates COMMAREA minimum length</li>
+<li>Routes request to <code>LGACDB01</code></li>
+</ul>
+<h4 id="413-lgicus01" tabindex="-1">4.1.3. <code>LGICUS01</code></h4>
+<ul>
+<li>Inquiry orchestrator</li>
+<li>Checks TS queue <code>GENAWMQC</code> for <code>MQHIT=</code></li>
+<li>Normally routes to <code>LGICDB01</code></li>
+<li>If MQ hit is detected, branches to placeholder program <code>AAAAAAAA</code></li>
+</ul>
+<h4 id="414-lgucus01" tabindex="-1">4.1.4. <code>LGUCUS01</code></h4>
+<ul>
+<li>Update orchestrator</li>
+<li>Validates <code>CA_REQUEST_ID='01UCUS'</code></li>
+<li>Returns <code>99</code> for invalid request ID/system error</li>
+<li>Routes to <code>LGUCDB01</code></li>
+</ul>
+<h3 id="42-db2-backend-programs" tabindex="-1">4.2. DB2 Backend Programs</h3>
+<h4 id="421-lgacdb01" tabindex="-1">4.2.1. <code>LGACDB01</code></h4>
+<ul>
+<li>Gets next customer number from CICS named counter <code>GENACUSTNUM</code></li>
+<li>Inserts row into <code>GENASA1.CUSTOMER</code></li>
+<li>Links to <code>LGACVS01</code> to mirror data into VSAM</li>
+<li>Links to <code>LGACDB02</code> to create <code>CUSTOMER_SECURE</code></li>
+</ul>
+<h4 id="422-lgicdb01" tabindex="-1">4.2.2. <code>LGICDB01</code></h4>
+<ul>
+<li>Executes <code>SELECT</code> from <code>GENASA1.CUSTOMER</code></li>
+<li>Maps row back into COMMAREA fields</li>
+<li>Returns <code>01</code> when SQLCODE is <code>100</code> or <code>-913</code></li>
+</ul>
+<h4 id="423-lgucdb01" tabindex="-1">4.2.3. <code>LGUCDB01</code></h4>
+<ul>
+<li>Executes <code>UPDATE</code> on <code>GENASA1.CUSTOMER</code></li>
+<li>Links to <code>LGUCVS01</code> to rewrite VSAM mirror record</li>
+</ul>
+<h3 id="43-vsam-and-utility-programs" tabindex="-1">4.3. VSAM and Utility Programs</h3>
+<h4 id="431-lgacvs01" tabindex="-1">4.3.1. <code>LGACVS01</code></h4>
+<ul>
+<li>Writes customer record into <code>KSDSCUST</code></li>
+<li>Receives only a fixed 225-byte portion of the COMMAREA</li>
+</ul>
+<h4 id="432-lgicvs01" tabindex="-1">4.3.2. <code>LGICVS01</code></h4>
+<ul>
+<li>Not part of the normal inquiry path</li>
+<li>Reads <code>GENACNTL</code> TS queue for customer number range</li>
+<li>Performs <code>GTEQ</code> read on <code>KSDSCUST</code></li>
+<li>Returns a valid customer number for discovery/demo purposes</li>
+</ul>
+<h4 id="433-lgucvs01" tabindex="-1">4.3.3. <code>LGUCVS01</code></h4>
+<ul>
+<li>Reads <code>KSDSCUST</code> with update intent</li>
+<li>Rewrites the record after DB2 update</li>
+</ul>
+<h4 id="434-lgacdb02" tabindex="-1">4.3.4. <code>LGACDB02</code></h4>
+<ul>
+<li>Receives a separate <code>CDB2AREA</code></li>
+<li>Inserts into <code>GENASA1.CUSTOMER_SECURE</code></li>
+<li>Uses a hardcoded MD5 password hash:
+<ul>
+<li><code>5732fec825535eeafb8fac50fee3a8aa</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="5-transaction-flow-add-customer" tabindex="-1">5. Transaction Flow: Add Customer</h2>
+<p>The add flow is a coordinated multi-step transaction spanning customer-number generation, DB2 insert, VSAM mirror creation, and security record creation.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as LGTESTC1
+    participant Orc as LGACUS01
+    participant DB as LGACDB01
+    participant CTR as GENACUSTNUM Counter
+    participant CUST as DB2 CUSTOMER
+    participant VS as LGACVS01
+    participant KS as KSDSCUST
+    participant SEC as LGACDB02
+    participant CS as DB2 CUSTOMER_SECURE
+
+    User->>Orc: LINK add request (01ACUS)
+    Orc->>Orc: Validate COMMAREA length
+    Orc->>DB: LINK full COMMAREA
+    DB->>CTR: Get next customer number
+    CTR-->>DB: Next number
+    DB->>CUST: INSERT customer row
+    CUST-->>DB: SQLCODE / row stored
+    DB->>VS: LINK 225-byte customer segment
+    VS->>KS: WRITE record
+    KS-->>VS: RESP
+    DB->>SEC: LINK security area (02ACUS)
+    SEC->>CS: INSERT secure row
+    CS-->>SEC: SQLCODE
+    SEC-->>DB: Return code
+    DB-->>Orc: Customer number + return code
+    Orc-->>User: Customer number + return code
+</div>
+<p>The add operation is notable because it establishes customer identity and then creates records in multiple stores. The intended business sequence is:</p>
+<ol>
+<li>Validate the request</li>
+<li>Assign customer number</li>
+<li>Insert master customer row in DB2</li>
+<li>Mirror customer data to VSAM</li>
+<li>Create the security row</li>
+</ol>
+<h3 id="51-add-flow-characteristics" tabindex="-1">5.1. Add Flow Characteristics</h3>
+<ul>
+<li>Primary persistence is to DB2</li>
+<li>VSAM receives only a subset of the COMMAREA</li>
+<li>Security data is handled through a separate COMMAREA structure</li>
+<li>The generated customer number is central to all downstream writes</li>
+</ul>
+<h3 id="52-customer-number-generation" tabindex="-1">5.2. Customer Number Generation</h3>
+<p>The preferred source of customer number is the CICS named counter:</p>
+<ul>
+<li><strong>Counter:</strong> <code>GENACUSTNUM</code></li>
+<li><strong>Pool:</strong> <code>GENA</code></li>
+</ul>
+<p>If that call fails, the application falls back to DB2 identity generation and uses <code>IDENTITY_VAL_LOCAL()</code> to recover the assigned value. This creates a dual-source identity model that can lead to inconsistency if callers assume the counter always succeeded.</p>
+<h3 id="53-example-logic-pattern" tabindex="-1">5.3. Example Logic Pattern</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Simplified add-path pattern */
+CALL LGACUS01;
+IF CA_RETURN_CODE = &#039;00&#039; THEN DO;
+   /* Customer inserted successfully */
+   /* CA_CUSTOMER_NUM returned to caller */
+END;</code></pre>
+</div>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">INSERT INTO GENASA1.CUSTOMER
+    (CUSTOMERNUMBER, FIRSTNAME, LASTNAME, EMAILADDRESS)
+VALUES
+    (:CA_CUSTOMER_NUM, :CA_FIRST_NAME, :CA_LAST_NAME, :CA_EMAIL_ADDRESS);</code></pre>
+</div>
+<h2 id="6-transaction-flow-inquire-customer" tabindex="-1">6. Transaction Flow: Inquire Customer</h2>
+<p>The inquiry flow is simpler than add/update because it is primarily DB2-based. However, it includes an inactive integration hook for MQ cache bypass logic.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as LGTESTC1
+    participant Orc as LGICUS01
+    participant MQ as GENAWMQC TS Queue
+    participant DB as LGICDB01
+    participant CUST as DB2 CUSTOMER
+
+    User->>Orc: LINK inquire request (01ICUS)
+    Orc->>MQ: READQ TS GENAWMQC
+    MQ-->>Orc: MQHIT record or none
+    alt Normal path
+        Orc->>DB: LINK COMMAREA
+        DB->>CUST: SELECT by customer number
+        CUST-->>DB: Customer row
+        DB-->>Orc: Fields + return code
+    else MQ cache hit
+        Orc->>Orc: LINK PROGRAM('AAAAAAAA')
+    end
+    Orc-->>User: Customer fields + return code
+</div>
+<p>This diagram highlights the distinction between the <strong>real inquiry path</strong> and the <strong>latent MQ cache hook</strong>. In practice, customer inquiry is fulfilled by <code>LGICDB01</code> querying DB2 directly.</p>
+<h3 id="61-normal-inquiry-path" tabindex="-1">6.1. Normal Inquiry Path</h3>
+<ol>
+<li><code>LGTESTC1</code> sends a customer number</li>
+<li><code>LGICUS01</code> checks <code>GENAWMQC</code></li>
+<li>If no cache-hit marker is found, it calls <code>LGICDB01</code></li>
+<li><code>LGICDB01</code> selects the customer row from DB2</li>
+<li>Retrieved fields are placed back into COMMAREA</li>
+<li>Control returns to the caller</li>
+</ol>
+<h3 id="62-inquiry-utility-path-via-lgicvs01" tabindex="-1">6.2. Inquiry Utility Path via <code>LGICVS01</code></h3>
+<p><code>LGICVS01</code> is not used to retrieve customer details in normal inquiry processing. Instead, it is a <strong>customer number discovery utility</strong>. It:</p>
+<ul>
+<li>Reads <code>GENACNTL</code> for low/high customer-number range</li>
+<li>Performs a <code>GTEQ</code> read against <code>KSDSCUST</code></li>
+<li>Returns a valid customer number for test/demo usage</li>
+</ul>
+<p>This is an important distinction: the VSAM inquiry program does not function as a parallel inquiry backend for customer master data.</p>
+<h3 id="63-inquiry-return-behavior" tabindex="-1">6.3. Inquiry Return Behavior</h3>
+<p><code>LGICDB01</code> sets:</p>
+<ul>
+<li><code>CA_RETURN_CODE='00'</code> on success</li>
+<li><code>CA_RETURN_CODE='01'</code> for:
+<ul>
+<li>SQLCODE <code>100</code> (not found)</li>
+<li>SQLCODE <code>-913</code> (deadlock/timeout treated as not found)</li>
+</ul>
+</li>
+</ul>
+<p>This means operational failures and business absence are partially conflated in the interface contract.</p>
+<h3 id="64-example-logic-pattern" tabindex="-1">6.4. Example Logic Pattern</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">CALL LGICUS01;
+IF CA_RETURN_CODE = &#039;00&#039; THEN DO;
+   /* Use returned CA_FIRST_NAME, CA_LAST_NAME, CA_EMAIL_ADDRESS */
+END;
+ELSE IF CA_RETURN_CODE = &#039;01&#039; THEN DO;
+   /* Customer not found or DB2 contention surfaced as not found */
+END;</code></pre>
+</div>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT FIRSTNAME, LASTNAME, EMAILADDRESS
+  INTO :CA_FIRST_NAME, :CA_LAST_NAME, :CA_EMAIL_ADDRESS
+  FROM GENASA1.CUSTOMER
+ WHERE CUSTOMERNUMBER = :CA_CUSTOMER_NUM;</code></pre>
+</div>
+<h2 id="7-transaction-flow-update-customer" tabindex="-1">7. Transaction Flow: Update Customer</h2>
+<p>The update flow changes customer data in DB2 and then rewrites the corresponding VSAM mirror record.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as LGTESTC1
+    participant Orc as LGUCUS01
+    participant DB as LGUCDB01
+    participant CUST as DB2 CUSTOMER
+    participant VS as LGUCVS01
+    participant KS as KSDSCUST
+
+    User->>Orc: LINK update request (01UCUS)
+    Orc->>Orc: Validate request ID
+    Orc->>DB: LINK COMMAREA
+    DB->>CUST: UPDATE customer row
+    CUST-->>DB: SQLCODE
+    DB->>VS: LINK 225-byte customer segment
+    VS->>KS: READ UPDATE
+    VS->>KS: REWRITE record
+    KS-->>VS: RESP
+    DB-->>Orc: Return code
+    Orc-->>User: Return code
+</div>
+<p>The update path is operationally straightforward but carries an important concurrency concern: the VSAM update uses a record-level lock as part of the read-for-update/rewrite sequence.</p>
+<h3 id="71-update-steps" tabindex="-1">7.1. Update Steps</h3>
+<ol>
+<li>Presentation sends update request with <code>CA_REQUEST_ID='01UCUS'</code></li>
+<li><code>LGUCUS01</code> validates the request ID</li>
+<li><code>LGUCDB01</code> updates the DB2 <code>CUSTOMER</code> row</li>
+<li><code>LGUCVS01</code> reads the matching VSAM record for update</li>
+<li><code>LGUCVS01</code> rewrites the VSAM record</li>
+<li>Return code is propagated back to caller</li>
+</ol>
+<h3 id="72-concurrency-behavior" tabindex="-1">7.2. Concurrency Behavior</h3>
+<p>The VSAM rewrite path uses a <strong>read-for-update followed by rewrite</strong>. Because this occurs in the same CICS task as the DB2 update, there is risk under concurrent updates to the same customer:</p>
+<ul>
+<li>one task may hold or wait on a VSAM lock</li>
+<li>another may be updating the same logical customer</li>
+<li>contention windows increase as the dual-write sequence spans both DB2 and VSAM</li>
+</ul>
+<h3 id="73-example-logic-pattern" tabindex="-1">7.3. Example Logic Pattern</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF CA_REQUEST_ID ^= &#039;01UCUS&#039; THEN
+   CA_RETURN_CODE = &#039;99&#039;;
+ELSE
+   CALL LGUCDB01;</code></pre>
+</div>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE GENASA1.CUSTOMER
+   SET FIRSTNAME    = :CA_FIRST_NAME,
+       LASTNAME     = :CA_LAST_NAME,
+       EMAILADDRESS = :CA_EMAIL_ADDRESS
+ WHERE CUSTOMERNUMBER = :CA_CUSTOMER_NUM;</code></pre>
+</div>
+<h2 id="8-data-consistency-across-db2-and-vsam" tabindex="-1">8. Data Consistency Across DB2 and VSAM</h2>
+<p>The customer domain keeps DB2 and VSAM aligned through <strong>application-managed dual writes</strong> rather than through a unified transactional persistence mechanism.</p>
+<h3 id="81-consistency-model" tabindex="-1">8.1. Consistency Model</h3>
+<p>The consistency strategy is:</p>
+<ul>
+<li>DB2 is the authoritative master store</li>
+<li>VSAM is maintained as a mirrored secondary representation</li>
+<li>Add and update operations explicitly invoke both DB2 and VSAM backends</li>
+<li>Inquiry uses DB2 as the standard retrieval source</li>
+</ul>
+<p>This means consistency is maintained procedurally by program logic rather than by a single atomic database transaction.</p>
+<div class="mermaid">
+graph TD
+    A[Customer Request] --> B[Orchestrator]
+    B --> C[DB2 Primary Operation]
+    C --> D[VSAM Mirror Operation]
+    C --> E[Security Record Creation]
+    D --> F[Return Code to Caller]
+    E --> F
+    C -. if DB2 succeeds and VSAM fails .-> G[Potential divergence]
+</div>
+<p>The model above emphasizes that mirror consistency depends on successful completion of all application steps. There is no evidence of rollback coordination between DB2 and VSAM.</p>
+<h3 id="82-add-consistency-behavior" tabindex="-1">8.2. Add Consistency Behavior</h3>
+<p>During add:</p>
+<ul>
+<li>DB2 insert occurs first</li>
+<li>VSAM write follows</li>
+<li>Security record creation occurs after customer insert</li>
+</ul>
+<p>Potential inconsistency scenarios include:</p>
+<ul>
+<li>DB2 insert succeeds, VSAM write fails</li>
+<li>DB2 insert succeeds, security insert fails</li>
+<li>Counter retrieval fails and DB2 identity fallback changes the assigned number source</li>
+</ul>
+<h3 id="83-update-consistency-behavior" tabindex="-1">8.3. Update Consistency Behavior</h3>
+<p>During update:</p>
+<ul>
+<li>DB2 update executes first</li>
+<li>VSAM rewrite follows</li>
+</ul>
+<p>Potential inconsistency scenario:</p>
+<ul>
+<li>DB2 update succeeds, VSAM rewrite fails with <code>81</code> or <code>82</code></li>
+</ul>
+<p>In that case, the customer record may be current in DB2 but stale in VSAM.</p>
+<h3 id="84-why-inquiry-remains-db2-centric" tabindex="-1">8.4. Why Inquiry Remains DB2-Centric</h3>
+<p>Because standard inquiry reads directly from DB2, customer inquiry generally reflects the authoritative version of customer data even if VSAM mirroring is temporarily inconsistent. This reduces business impact for inquiry, but does not eliminate downstream risk for any function that depends on VSAM content.</p>
+<h2 id="9-shared-resources-and-dependencies" tabindex="-1">9. Shared Resources and Dependencies</h2>
+<h3 id="91-shared-resources" tabindex="-1">9.1. Shared Resources</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Type</th>
+<th>Domain Use</th>
+<th>Risk if Unavailable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGCMAREA.inc</code></td>
+<td>PL/I include</td>
+<td>Shared COMMAREA layout across all programs</td>
+<td>Compile-time and interface breakage</td>
+</tr>
+<tr>
+<td><code>GENASA1.CUSTOMER</code></td>
+<td>DB2 table</td>
+<td>Add, inquire, update</td>
+<td>Core operations fail</td>
+</tr>
+<tr>
+<td><code>GENASA1.CUSTOMER_SECURE</code></td>
+<td>DB2 table</td>
+<td>Security insert during add</td>
+<td>Customer onboarding incomplete</td>
+</tr>
+<tr>
+<td><code>GENACUSTNUM</code> / <code>GENA</code></td>
+<td>CICS named counter</td>
+<td>Customer number generation</td>
+<td>Fallback to DB2 identity</td>
+</tr>
+<tr>
+<td><code>KSDSCUST</code></td>
+<td>VSAM KSDS</td>
+<td>Add mirror, update mirror, discovery read</td>
+<td>Mirror operations fail</td>
+</tr>
+<tr>
+<td><code>GENACNTL</code></td>
+<td>TS queue</td>
+<td>Customer number range for discovery utility</td>
+<td>Discovery degrades to default range</td>
+</tr>
+<tr>
+<td><code>GENAWMQC</code></td>
+<td>TS queue</td>
+<td>MQ cache-hit detection</td>
+<td>Bypass hook remains inactive</td>
+</tr>
+<tr>
+<td><code>LGSTSQ</code></td>
+<td>Shared program</td>
+<td>Error logging</td>
+<td>Failures become less visible</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-inbound-dependency" tabindex="-1">9.2. Inbound Dependency</h3>
+<table>
+<thead>
+<tr>
+<th>Caller Domain</th>
+<th>Program</th>
+<th>Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Presentation</td>
+<td><code>LGTESTC1</code></td>
+<td>Sends COMMAREA requests for add, inquire, update</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-outbound-dependencies" tabindex="-1">9.3. Outbound Dependencies</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Program/Resource</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operations</td>
+<td><code>LGSTSQ</code></td>
+<td>Error logging</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td><code>GENACUSTNUM</code></td>
+<td>Generate customer number</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td><code>GENACNTL</code></td>
+<td>Range lookup for discovery utility</td>
+</tr>
+</tbody>
+</table>
+<h3 id="94-cross-domain-constraint" tabindex="-1">9.4. Cross-Domain Constraint</h3>
+<p>The <code>POLICY</code> table has a foreign-key dependency on <code>CUSTOMER</code> with <code>ON DELETE CASCADE</code>. Although delete is not implemented in this domain, this is an important application-level dependency: any future delete operation would implicitly affect policy data.</p>
+<h2 id="10-return-codes-and-error-semantics" tabindex="-1">10. Return Codes and Error Semantics</h2>
+<p>The domain uses <code>CA_RETURN_CODE</code> in COMMAREA for status reporting.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Typical Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+<td>All programs</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>Customer not found / SQLCODE 100 / SQLCODE -913</td>
+<td><code>LGICDB01</code></td>
+</tr>
+<tr>
+<td><code>80</code></td>
+<td>VSAM write failure</td>
+<td><code>LGACVS01</code></td>
+</tr>
+<tr>
+<td><code>81</code></td>
+<td>VSAM read-for-update failure</td>
+<td><code>LGUCVS01</code></td>
+</tr>
+<tr>
+<td><code>82</code></td>
+<td>VSAM rewrite failure</td>
+<td><code>LGUCVS01</code></td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>Unexpected DB2 SQLCODE</td>
+<td>DB2 backends and <code>LGACDB02</code></td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>COMMAREA too short</td>
+<td>Orchestrators and DB2 backends</td>
+</tr>
+<tr>
+<td><code>99</code></td>
+<td>Invalid request ID or system error</td>
+<td><code>LGUCUS01</code>, <code>LGACDB02</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="101-interpretation-notes" tabindex="-1">10.1. Interpretation Notes</h3>
+<p>Two aspects are especially significant:</p>
+<ul>
+<li><code>01</code> can mean either true absence or a DB2 contention condition (<code>-913</code>)</li>
+<li><code>99</code> is used as a broad invalid/system-error category in selected programs</li>
+</ul>
+<p>This makes troubleshooting dependent on supporting logs and operational diagnostics rather than on return codes alone.</p>
+<h2 id="11-key-risks-and-notable-findings" tabindex="-1">11. Key Risks and Notable Findings</h2>
+<h3 id="111-dual-customer-number-sources" tabindex="-1">11.1. Dual Customer Number Sources</h3>
+<ul>
+<li>Primary source: CICS named counter</li>
+<li>Fallback source: DB2 identity</li>
+</ul>
+<p><strong>Impact:</strong> potential mismatch between expected and actual assigned customer number under counter failure conditions.</p>
+<h3 id="112-no-coordinated-db2vsam-rollback" tabindex="-1">11.2. No Coordinated DB2/VSAM Rollback</h3>
+<p>If DB2 succeeds and VSAM fails, the stores can diverge.</p>
+<p><strong>Impact:</strong> high consistency risk for add and update operations.</p>
+<h3 id="113-vsam-locking-risk-during-update" tabindex="-1">11.3. VSAM Locking Risk During Update</h3>
+<p>The read-for-update/rewrite pattern introduces record-level locking risk.</p>
+<p><strong>Impact:</strong> medium concurrency/deadlock exposure.</p>
+<h3 id="114-dead-mq-bypass-path" tabindex="-1">11.4. Dead MQ Bypass Path</h3>
+<p><code>LGICUS01</code> can branch to placeholder program <code>AAAAAAAA</code> if <code>GENAWMQC</code> indicates an MQ hit.</p>
+<p><strong>Impact:</strong> latent runtime failure if ever activated.</p>
+<h3 id="115-hardcoded-initial-password-hash" tabindex="-1">11.5. Hardcoded Initial Password Hash</h3>
+<p>The initial password hash is hardcoded as:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">TEXT</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-text">5732fec825535eeafb8fac50fee3a8aa</code></pre>
+</div>
+<p><strong>Impact:</strong> security weakness and onboarding rigidity.</p>
+<h3 id="116-commarea-as-a-blast-radius-multiplier" tabindex="-1">11.6. COMMAREA as a Blast-Radius Multiplier</h3>
+<p><code>LGCMAREA.inc</code> is shared across all customer programs and the presentation layer.</p>
+<p><strong>Impact:</strong> any structural change can break multiple programs simultaneously.</p>
+<h2 id="12-representative-code-examples" tabindex="-1">12. Representative Code Examples</h2>
+<h3 id="121-request-gating-example" tabindex="-1">12.1. Request Gating Example</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF CA_REQUEST_ID ^= &#039;01UCUS&#039; THEN
+   CA_RETURN_CODE = &#039;99&#039;;</code></pre>
+</div>
+<p>This pattern shows how update requests are validated before backend processing.</p>
+<h3 id="122-add-path-sql-example" tabindex="-1">12.2. Add Path SQL Example</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">INSERT INTO GENASA1.CUSTOMER
+    (CUSTOMERNUMBER, FIRSTNAME, LASTNAME, EMAILADDRESS)
+VALUES
+    (:CA_CUSTOMER_NUM, :CA_FIRST_NAME, :CA_LAST_NAME, :CA_EMAIL_ADDRESS);</code></pre>
+</div>
+<p>This represents the primary customer insert into DB2.</p>
+<h3 id="123-inquiry-sql-example" tabindex="-1">12.3. Inquiry SQL Example</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT FIRSTNAME, LASTNAME, EMAILADDRESS
+  INTO :CA_FIRST_NAME, :CA_LAST_NAME, :CA_EMAIL_ADDRESS
+  FROM GENASA1.CUSTOMER
+ WHERE CUSTOMERNUMBER = :CA_CUSTOMER_NUM;</code></pre>
+</div>
+<p>This represents the standard customer inquiry path.</p>
+<h3 id="124-update-sql-example" tabindex="-1">12.4. Update SQL Example</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE GENASA1.CUSTOMER
+   SET FIRSTNAME    = :CA_FIRST_NAME,
+       LASTNAME     = :CA_LAST_NAME,
+       EMAILADDRESS = :CA_EMAIL_ADDRESS
+ WHERE CUSTOMERNUMBER = :CA_CUSTOMER_NUM;</code></pre>
+</div>
+<p>This represents the authoritative update against DB2 before VSAM synchronization.</p>
+<h3 id="125-simplified-application-usage-example" tabindex="-1">12.5. Simplified Application Usage Example</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">CALL LGICUS01;
+IF CA_RETURN_CODE = &#039;00&#039; THEN DO;
+   PUT SKIP LIST(&#039;Customer found: &#039; || CA_FIRST_NAME || &#039; &#039; || CA_LAST_NAME);
+END;
+ELSE DO;
+   PUT SKIP LIST(&#039;Customer inquiry failed, RC=&#039; || CA_RETURN_CODE);
+END;</code></pre>
+</div>
+<h2 id="13-summary" tabindex="-1">13. Summary</h2>
+<p>The customer domain is a tightly structured, layered application component centered on DB2 as the master customer repository and VSAM as a mirrored secondary store. It uses a common COMMAREA contract, predictable orchestrator/backend separation, and explicit add/inquire/update program families.</p>
+<p>Its main strengths are consistency of layering and a clear operational model. Its main weaknesses are in <strong>cross-store consistency management</strong>, <strong>identity generation fallback behavior</strong>, <strong>shared-contract fragility</strong>, and <strong>latent dead code in the MQ bypass path</strong>. From an application architecture perspective, the domain is best understood as a DB2-first customer service with application-managed VSAM synchronization rather than a fully atomic dual-database transaction model.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-frontend-programs.html" class="card">
+                <span class="card-title">Customer Business Logic Programs</span>
+                <span class="card-description">Covers the business-logic layer programs for customer operations: LGACUS01 (add customer, policy offer, transfer, delete), LGICUS01 (customer inquiry with MQ routing), and LGUCUS01 (customer update), including their COMMAREA contracts, validation rules, and downstream LINK chains.</span>
+            </a>
+            <a href="customer-db2-programs.html" class="card">
+                <span class="card-title">Customer DB2 Back-End Programs</span>
+                <span class="card-description">Details the DB2-layer programs for the customer domain: LGACDB01 (insert new customer), LGACDB02 (insert customer security record), LGICDB01 (retrieve customer profile), and LGUCDB01 (update customer record), including SQL table targets, host variables, return codes, and error handling.</span>
+            </a>
+            <a href="customer-vsam-programs.html" class="card">
+                <span class="card-title">Customer VSAM Back-End Programs</span>
+                <span class="card-description">Covers the VSAM KSDS (KSDSCUST) access layer for the customer domain: LGACVS01 (write new customer record), LGICVS01 (random customer number selection via GTEQ browse), and LGUCVS01 (update existing customer record), including key construction, ENQ/DEQ serialization, and abend behaviour on failure.</span>
+            </a>
+            <a href="customer-domain-migration.html" class="card">
+                <span class="card-title">Customer Domain Migration Analysis</span>
+                <span class="card-description">Analysis of considerations, risks, and strategies for migrating the customer domain from its current PL/I on z/OS implementation, including data access patterns, CICS dependencies, and modernisation options.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-architectural-layers">2.1. Architectural Layers</a>
+<ul>
+<li class="toc-level-4"><a href="#211-presentation-layer">2.1.1. Presentation Layer</a></li>
+<li class="toc-level-4"><a href="#212-orchestrator-layer">2.1.2. Orchestrator Layer</a></li>
+<li class="toc-level-4"><a href="#213-db2-backend-layer">2.1.3. DB2 Backend Layer</a></li>
+<li class="toc-level-4"><a href="#214-vsam-mirror-layer">2.1.4. VSAM Mirror Layer</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#22-supporting-infrastructure">2.2. Supporting Infrastructure</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-data-model">3. Data Model</a>
+<ul>
+<li class="toc-level-3"><a href="#31-core-entities">3.1. Core Entities</a></li>
+<li class="toc-level-3"><a href="#32-entity-relationships">3.2. Entity Relationships</a></li>
+<li class="toc-level-3"><a href="#33-commarea-contract">3.3. COMMAREA Contract</a></li>
+<li class="toc-level-3"><a href="#34-data-ownership-and-persistence-roles">3.4. Data Ownership and Persistence Roles</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-key-programs-and-responsibilities">4. Key Programs and Responsibilities</a>
+<ul>
+<li class="toc-level-3"><a href="#41-entry-and-orchestration-programs">4.1. Entry and Orchestration Programs</a>
+<ul>
+<li class="toc-level-4"><a href="#411-lgtestc1">4.1.1. LGTESTC1</a></li>
+<li class="toc-level-4"><a href="#412-lgacus01">4.1.2. LGACUS01</a></li>
+<li class="toc-level-4"><a href="#413-lgicus01">4.1.3. LGICUS01</a></li>
+<li class="toc-level-4"><a href="#414-lgucus01">4.1.4. LGUCUS01</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#42-db2-backend-programs">4.2. DB2 Backend Programs</a>
+<ul>
+<li class="toc-level-4"><a href="#421-lgacdb01">4.2.1. LGACDB01</a></li>
+<li class="toc-level-4"><a href="#422-lgicdb01">4.2.2. LGICDB01</a></li>
+<li class="toc-level-4"><a href="#423-lgucdb01">4.2.3. LGUCDB01</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-vsam-and-utility-programs">4.3. VSAM and Utility Programs</a>
+<ul>
+<li class="toc-level-4"><a href="#431-lgacvs01">4.3.1. LGACVS01</a></li>
+<li class="toc-level-4"><a href="#432-lgicvs01">4.3.2. LGICVS01</a></li>
+<li class="toc-level-4"><a href="#433-lgucvs01">4.3.3. LGUCVS01</a></li>
+<li class="toc-level-4"><a href="#434-lgacdb02">4.3.4. LGACDB02</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-transaction-flow-add-customer">5. Transaction Flow: Add Customer</a>
+<ul>
+<li class="toc-level-3"><a href="#51-add-flow-characteristics">5.1. Add Flow Characteristics</a></li>
+<li class="toc-level-3"><a href="#52-customer-number-generation">5.2. Customer Number Generation</a></li>
+<li class="toc-level-3"><a href="#53-example-logic-pattern">5.3. Example Logic Pattern</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-transaction-flow-inquire-customer">6. Transaction Flow: Inquire Customer</a>
+<ul>
+<li class="toc-level-3"><a href="#61-normal-inquiry-path">6.1. Normal Inquiry Path</a></li>
+<li class="toc-level-3"><a href="#62-inquiry-utility-path-via-lgicvs01">6.2. Inquiry Utility Path via LGICVS01</a></li>
+<li class="toc-level-3"><a href="#63-inquiry-return-behavior">6.3. Inquiry Return Behavior</a></li>
+<li class="toc-level-3"><a href="#64-example-logic-pattern">6.4. Example Logic Pattern</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-transaction-flow-update-customer">7. Transaction Flow: Update Customer</a>
+<ul>
+<li class="toc-level-3"><a href="#71-update-steps">7.1. Update Steps</a></li>
+<li class="toc-level-3"><a href="#72-concurrency-behavior">7.2. Concurrency Behavior</a></li>
+<li class="toc-level-3"><a href="#73-example-logic-pattern">7.3. Example Logic Pattern</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-data-consistency-across-db2-and-vsam">8. Data Consistency Across DB2 and VSAM</a>
+<ul>
+<li class="toc-level-3"><a href="#81-consistency-model">8.1. Consistency Model</a></li>
+<li class="toc-level-3"><a href="#82-add-consistency-behavior">8.2. Add Consistency Behavior</a></li>
+<li class="toc-level-3"><a href="#83-update-consistency-behavior">8.3. Update Consistency Behavior</a></li>
+<li class="toc-level-3"><a href="#84-why-inquiry-remains-db2-centric">8.4. Why Inquiry Remains DB2-Centric</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-shared-resources-and-dependencies">9. Shared Resources and Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#91-shared-resources">9.1. Shared Resources</a></li>
+<li class="toc-level-3"><a href="#92-inbound-dependency">9.2. Inbound Dependency</a></li>
+<li class="toc-level-3"><a href="#93-outbound-dependencies">9.3. Outbound Dependencies</a></li>
+<li class="toc-level-3"><a href="#94-cross-domain-constraint">9.4. Cross-Domain Constraint</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#10-return-codes-and-error-semantics">10. Return Codes and Error Semantics</a>
+<ul>
+<li class="toc-level-3"><a href="#101-interpretation-notes">10.1. Interpretation Notes</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#11-key-risks-and-notable-findings">11. Key Risks and Notable Findings</a>
+<ul>
+<li class="toc-level-3"><a href="#111-dual-customer-number-sources">11.1. Dual Customer Number Sources</a></li>
+<li class="toc-level-3"><a href="#112-no-coordinated-db2vsam-rollback">11.2. No Coordinated DB2/VSAM Rollback</a></li>
+<li class="toc-level-3"><a href="#113-vsam-locking-risk-during-update">11.3. VSAM Locking Risk During Update</a></li>
+<li class="toc-level-3"><a href="#114-dead-mq-bypass-path">11.4. Dead MQ Bypass Path</a></li>
+<li class="toc-level-3"><a href="#115-hardcoded-initial-password-hash">11.5. Hardcoded Initial Password Hash</a></li>
+<li class="toc-level-3"><a href="#116-commarea-as-a-blast-radius-multiplier">11.6. COMMAREA as a Blast-Radius Multiplier</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#12-representative-code-examples">12. Representative Code Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#121-request-gating-example">12.1. Request Gating Example</a></li>
+<li class="toc-level-3"><a href="#122-add-path-sql-example">12.2. Add Path SQL Example</a></li>
+<li class="toc-level-3"><a href="#123-inquiry-sql-example">12.3. Inquiry SQL Example</a></li>
+<li class="toc-level-3"><a href="#124-update-sql-example">12.4. Update SQL Example</a></li>
+<li class="toc-level-3"><a href="#125-simplified-application-usage-example">12.5. Simplified Application Usage Example</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#13-summary">13. Summary</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

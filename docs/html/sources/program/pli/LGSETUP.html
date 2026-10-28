@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGSETUP</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link active">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p>LGSETUP is a CICS PL/I program that initialises (or re-initialises) the GenApp insurance application environment. When invoked from a terminal, it accepts an optional high customer number from the operator, then tears down and rebuilds all GenApp CICS infrastructure: it deletes and recreates the four GenApp temporary storage queues (control, statistics, start, and errors), writes the environment label and the customer number range (low and high) into the control queue, deletes and redefines the named customer-number counter (<code>GENACUSTNUM</code>) in the <code>GENA</code> pool seeded with the configured upper bound, and resets all 36 transaction statistics counters (covering insert, add, delete, and update operations for customers, motor, endowment, house, and commercial policies) to zero — ensuring every subsequent GenApp transaction starts from a clean, consistent state.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<p><strong>Terminal / CICS Input</strong></p>
+<ul>
+<li><code>WS_RECV</code> — The 80-byte buffer populated by <code>EXEC CICS RECEIVE</code>. It captures the raw terminal input that triggers the setup transaction.
+<ul>
+<li><code>WS_RECV_DATA</code> — The 74-character data portion of the received input (bytes 6–80). If the operator supplies a numeric value after the transaction ID (e.g. <code>LGSE 0000000011</code>), this field carries that value, which is converted and used to override the default high customer number (<code>LASTCUSTNUM</code>).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Optional Operator-Supplied Parameter</strong></p>
+<ul>
+<li><code>LASTCUSTNUM</code> — Although initialized to <code>11</code> in working storage, its effective value is determined at runtime by the operator input found in <code>WS_RECV_DATA</code>. If the input length exceeds 5 characters (i.e., data follows the transaction ID), the trailing portion is extracted and assigned to <code>LASTCUSTNUM</code>, making it a runtime input that controls the upper bound of the customer number counter (<code>GENACUSTNUM</code>) created via <code>EXEC CICS DEFINE COUNTER</code>.</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<h3 id="31-cics-temporary-storage-queue-writes-genacntl" tabindex="-1">3.1 CICS Temporary Storage Queue Writes (<code>GENACNTL</code>)</h3>
+<ul>
+<li><strong><code>STSQ_NAME</code> (<code>GENACNTL</code>) — Control Queue</strong>
+<ul>
+<li>The existing queue is first deleted via <code>EXEC CICS DELETEQ TS</code>, then three records are written to it via <code>EXEC CICS WRITEQ TS</code>:
+<ul>
+<li><strong><code>WRITE_MSG_E</code></strong> — Environment label record: the fixed 20-character string <code>'**** GENAPP CNTL    '</code>, identifying this as the GenApp control entry.</li>
+<li><strong><code>WRITE_MSG_L</code></strong> — Low customer record: the 23-character string <code>'LOW CUSTOMER='</code> concatenated with <code>WRITE_MSG_LOW</code> (the numeric value of <code>FRSTCUSTNUM</code>, always <code>1</code>), recording the lower boundary of the customer number range.</li>
+<li><strong><code>WRITE_MSG_H</code></strong> — High customer record: the 24-character string <code>'HIGH CUSTOMER='</code> concatenated with <code>WRITE_MSG_HIGH</code> (the numeric value of <code>LASTCUSTNUM</code>, defaulting to <code>11</code> or overridden from terminal input), recording the upper boundary of the customer number range.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="32-cics-temporary-storage-queue-deletions" tabindex="-1">3.2 CICS Temporary Storage Queue Deletions</h3>
+<ul>
+<li><strong><code>STSQ_ERRS</code> (<code>GENAERRS</code>)</strong> — The GenApp error queue is purged unconditionally as part of the environment reset.</li>
+<li><strong><code>STSQ_STRT</code> (<code>GENASTRT</code>)</strong> — The GenApp start queue is purged unconditionally as part of the environment reset.</li>
+<li><strong><code>STSQ_STAT</code> (<code>GENASTAT</code>)</strong> — The GenApp transaction statistics queue is purged unconditionally as part of the environment reset.</li>
+</ul>
+<h3 id="33-cics-named-counter-operations-pool-gena" tabindex="-1">3.3 CICS Named Counter Operations (Pool <code>GENA</code>)</h3>
+<ul>
+<li><strong><code>GENACOUNT</code> (<code>GENACUSTNUM</code>) — Customer Number Counter</strong>
+<ul>
+<li>Deleted then redefined via <code>EXEC CICS DELETE COUNTER</code> / <code>EXEC CICS DEFINE COUNTER</code>, with its initial <code>VALUE</code> set to <code>LASTCUSTNUM</code>. This resets the customer number sequence to the configured upper bound.</li>
+</ul>
+</li>
+<li><strong>36 Transaction Statistics Counters (<code>COUNTER_TABLE</code> / <code>COUNTER_ARRAY</code>)</strong> — Each of the 36 named counters (covering Insert, Add, Delete, Update operations for Customer, Motor, Endowment, House, and Commercial policy types, with <code>00</code>/<code>99</code> success/failure suffixes) is deleted and redefined with <code>VALUE(ZERO_VALUE)</code> (<code>0</code>), resetting all transaction statistics to zero.</li>
+</ul>
+<h3 id="34-terminal-display" tabindex="-1">3.4 Terminal Display</h3>
+<ul>
+<li><strong><code>WRITE_MSG_H</code></strong> — The high customer number record (<code>'HIGH CUSTOMER='</code> + <code>WRITE_MSG_HIGH</code>) is sent to the initiating terminal via <code>EXEC CICS SEND TEXT … TERMINAL WAIT ERASE FREEKB</code>, providing the operator with a visible confirmation of the configured upper customer number boundary after setup completes.</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#6dbf9e,color:#000
+    classDef process fill:#c7ceea,stroke:#8a93cc,color:#000
+    classDef decision fill:#ffdac1,stroke:#f4a66e,color:#000
+    classDef io fill:#ffe4e1,stroke:#f4a0a0,color:#000
+
+    A([Start - LGSETUP]):::startEnd
+    B[EXEC CICS RECEIVE<br>Read terminal input into WS_RECV<br>max 80 bytes]:::io
+    C{{Input length<br>greater than 5}}:::decision
+    D[Extract high customer number<br>from WS_RECV_DATA<br>override LASTCUSTNUM]:::process
+    E[Delete TS queue GENAERRS]:::io
+    F[Delete TS queue GENASTRT]:::io
+    G[Delete TS queue GENASTAT]:::io
+    H[Delete TS queue GENACNTL]:::io
+    I[Populate WRITE_MSG<br>with FRSTCUSTNUM and LASTCUSTNUM]:::process
+    J[WRITEQ TS GENACNTL<br>Write environment label record<br>20 bytes]:::io
+    K[WRITEQ TS GENACNTL<br>Write low customer number record<br>23 bytes]:::io
+    L[WRITEQ TS GENACNTL<br>Write high customer number record<br>24 bytes]:::io
+    M[DELETE COUNTER GENACUSTNUM<br>in pool GENA]:::io
+    N[DEFINE COUNTER GENACUSTNUM<br>in pool GENA<br>VALUE = LASTCUSTNUM]:::io
+    O[Initialize loop index<br>COUNTER_IDX = 1]:::process
+    P{{COUNTER_IDX<br>less than or equal to 36}}:::decision
+    Q[DELETE COUNTER COUNTER_NAME<br>from GENA pool]:::io
+    R[DEFINE COUNTER COUNTER_NAME<br>in GENA pool<br>VALUE = 0]:::io
+    S[Increment COUNTER_IDX]:::process
+    T[EXEC CICS SEND TEXT<br>Display high customer number<br>on terminal - ERASE and FREEKB]:::io
+    U[EXEC CICS RETURN]:::startEnd
+
+    A --> B
+    B --> C
+    C -- Yes --> D
+    D --> E
+    C -- No --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    K --> L
+    L --> M
+    M --> N
+    N --> O
+    O --> P
+    P -- Yes --> Q
+    Q --> R
+    R --> S
+    S --> P
+    P -- No --> T
+    T --> U
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGSETUP</code> is a CICS terminal-driven utility program that initialises (or re-initialises) the GenApp insurance application’s CICS runtime environment. It resets all four GenApp temporary storage (TS) queues, rebuilds the control queue with the customer number range boundaries, and resets all 37 named counters (one customer-numbering counter plus 36 transaction-statistics counters) in the <code>GENA</code> named counter pool. The high water mark for customer numbers can optionally be passed in from the terminal at invocation time; otherwise it defaults to 11.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Receive terminal input</strong>
+<code>EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN) RESP(WS_RESP)</code> reads up to 80 characters from the terminal. <code>WS_RECV</code> is split into a 5-character transaction-ID sub-field (<code>WS_RECV_TRANID</code>) and a 74-character data sub-field (<code>WS_RECV_DATA</code>).</p>
+<p><strong>Step 2 — Optional high customer number override</strong>
+After the RECEIVE, the returned <code>WS_RECV_LEN</code> reflects how many bytes were actually entered. If <code>WS_RECV_LEN &gt; 5</code>, the operator typed something beyond the transaction ID. The program strips the transaction-ID prefix (subtracts 5 from the length) and converts the remainder of <code>WS_RECV_DATA</code> into <code>LASTCUSTNUM</code>, overriding the default value of 11. If nothing was appended, <code>LASTCUSTNUM</code> stays at 11.</p>
+<p><strong>Step 3 — Delete all four GenApp TS queues</strong>
+Four <code>EXEC CICS DELETEQ TS</code> calls purge the existing queues unconditionally (RESP is captured but not tested, so errors — including QIDERR for a non-existent queue — are silently tolerated):</p>
+<ul>
+<li><code>GENAERRS</code> — error log queue</li>
+<li><code>GENASTRT</code> — start/heartbeat queue</li>
+<li><code>GENASTAT</code> — transaction-statistics queue</li>
+<li><code>GENACNTL</code> — control queue (will be rebuilt next)</li>
+</ul>
+<p><strong>Step 4 — Rebuild the control queue (GENACNTL)</strong>
+<code>WRITE_MSG_LOW</code> and <code>WRITE_MSG_HIGH</code> are stamped with <code>FRSTCUSTNUM</code> (= 1) and <code>LASTCUSTNUM</code> (default 11 or the operator-supplied value). Three <code>EXEC CICS WRITEQ TS</code> calls append records to the freshly deleted <code>GENACNTL</code> queue with <code>NOSUSPEND</code> (so the write fails immediately rather than waiting if the queue is temporarily full, keeping setup non-blocking):</p>
+<ol>
+<li>Environment label record — <code>'**** GENAPP CNTL    '</code> (20 bytes)</li>
+<li>Low customer number label + value — <code>'LOW CUSTOMER=0000000001'</code> (23 bytes)</li>
+<li>High customer number label + value — <code>'HIGH CUSTOMER=0000000011'</code> (24 bytes, or the overridden high value)</li>
+</ol>
+<p><strong>Step 5 — Reset the customer-number counter</strong>
+<code>EXEC CICS DELETE COUNTER(GENACUSTNUM) POOL(GENA)</code> removes any prior counter (silently tolerating NOTFND). <code>EXEC CICS DEFINE COUNTER(GENACUSTNUM) POOL(GENA) VALUE(LASTCUSTNUM)</code> recreates it, seeding it at <code>LASTCUSTNUM</code>. All new customer adds will increment this counter sequentially to generate unique customer IDs.</p>
+<p><strong>Step 6 — Reset the 36 transaction-statistics counters (loop)</strong>
+A <code>DO</code> loop iterates <code>COUNTER_IDX</code> from 1 to 36. For each element of <code>COUNTER_ARRAY</code> (the array overlay on <code>COUNTER_TABLE</code>), the program issues:</p>
+<ul>
+<li><code>EXEC CICS DELETE COUNTER</code> — removes the existing counter from pool <code>GENA</code></li>
+<li><code>EXEC CICS DEFINE COUNTER … VALUE(ZERO_VALUE)</code> — recreates it at zero</li>
+</ul>
+<p>The 36 counters track success (<code>00</code> suffix) and failure (<code>99</code> suffix) counts for every policy-type operation (Inquire/Add/Delete/Update × Customer/Motor/Endowment/House/Commercial).</p>
+<p><strong>Step 7 — Confirm to the terminal</strong>
+<code>EXEC CICS SEND TEXT FROM(WRITE_MSG_H) TERMINAL WAIT ERASE LENGTH(24) FREEKB</code> displays the high customer number record on the terminal, erases the screen first (<code>ERASE</code>), waits for the output to complete (<code>WAIT</code>), and releases the keyboard (<code>FREEKB</code>) so the operator sees the confirmation message.</p>
+<p><strong>Step 8 — Return</strong>
+<code>EXEC CICS RETURN</code> ends the task cleanly.</p>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Resource</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC CICS RECEIVE</code></td>
+<td>Terminal</td>
+<td>Reads optional high customer number from operator input</td>
+</tr>
+<tr>
+<td><code>EXEC CICS DELETEQ TS</code> × 4</td>
+<td>TS queues: <code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code>, <code>GENACNTL</code></td>
+<td>Purge old GenApp runtime queues</td>
+</tr>
+<tr>
+<td><code>EXEC CICS WRITEQ TS</code> × 3</td>
+<td>TS queue: <code>GENACNTL</code></td>
+<td>Recreate the control queue with environment label and customer number range</td>
+</tr>
+<tr>
+<td><code>EXEC CICS DELETE COUNTER</code></td>
+<td>Named counter pool <code>GENA</code>, counter <code>GENACUSTNUM</code></td>
+<td>Remove the old customer-ID sequence counter</td>
+</tr>
+<tr>
+<td><code>EXEC CICS DEFINE COUNTER</code></td>
+<td>Named counter pool <code>GENA</code>, counter <code>GENACUSTNUM</code></td>
+<td>Recreate the customer-ID sequence counter seeded at <code>LASTCUSTNUM</code></td>
+</tr>
+<tr>
+<td><code>EXEC CICS DELETE COUNTER</code> × 36</td>
+<td>Named counter pool <code>GENA</code>, 36 stat counters</td>
+<td>Remove all old transaction-statistics counters</td>
+</tr>
+<tr>
+<td><code>EXEC CICS DEFINE COUNTER</code> × 36</td>
+<td>Named counter pool <code>GENA</code>, 36 stat counters</td>
+<td>Recreate all statistics counters reset to zero</td>
+</tr>
+<tr>
+<td><code>EXEC CICS SEND TEXT</code></td>
+<td>Terminal</td>
+<td>Display setup confirmation to the operator</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p>When a system administrator wants to reset or freshly configure the GenApp insurance environment, they run the <code>LGSE</code> transaction from a CICS terminal. They can optionally type a maximum customer number (e.g. <code>LGSE 0000000050</code>) to set how many customers the system can hold; if they leave it blank, the system defaults to 11.</p>
+<p>The program then wipes and rebuilds four internal queues that GenApp uses to track what it is doing, writing a fresh label that records the minimum and maximum customer numbers. It also resets a counter that assigns new customer IDs — seeding it at the supplied (or default) upper limit — and resets all 36 operation-tracking counters (for motor, endowment, house, commercial, and customer operations) back to zero.</p>
+<p>Once everything is reset, the screen clears and shows the confirmed high customer number, letting the operator know the setup completed successfully.</p>
+<hr>
+<h3 id="43-database-tables-if-applicable" tabindex="-1">4.3 Database Tables (if applicable)</h3>
+<p><code>LGSETUP</code> does not access any DB2 tables. All external interactions are exclusively via CICS Temporary Storage queues and CICS Named Counters; no <code>EXEC SQL</code> statements are present.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<p><code>LGSETUP</code> is a single PL/I main procedure with no internal sub-procedures or named paragraph labels. All executable logic flows sequentially from the top of the <code>LGSETUP: Proc Options(Main)</code> body to <code>EXEC CICS RETURN</code>. The logical sections below correspond to the coherent functional blocks within that single procedure body.</p>
+<ul>
+<li>
+<p><strong>Input Reception and High Customer Number Override</strong></p>
+<ul>
+<li>Issues <code>EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN) RESP(WS_RESP)</code> to read the terminal input into the 80-byte <code>WS_RECV</code> buffer (5-character transaction ID + 74-character data area).</li>
+<li>Applies a conditional check: if <code>WS_RECV_LEN &gt; 5</code>, meaning extra data was typed after the transaction ID, it subtracts 5 from the received length and converts the data portion (<code>WS_RECV_DATA</code>) into <code>LASTCUSTNUM</code>, overriding the default value of 11. This allows the operator to specify a custom upper boundary for the customer number range at startup.</li>
+<li>If no extra data is present, <code>LASTCUSTNUM</code> retains its compile-time initialization of 11.</li>
+</ul>
+</li>
+<li>
+<p><strong>Temporary Storage Queue Cleanup</strong></p>
+<ul>
+<li>Deletes four GenApp TS queues in sequence using <code>EXEC CICS DELETEQ TS QUEUE(...)  RESP(WS_RESP)</code>:
+<ul>
+<li><code>GENAERRS</code> — the error-tracking queue (<code>STSQ_ERRS</code>)</li>
+<li><code>GENASTRT</code> — the start-event queue (<code>STSQ_STRT</code>)</li>
+<li><code>GENASTAT</code> — the transaction statistics queue (<code>STSQ_STAT</code>)</li>
+<li><code>GENACNTL</code> — the environment control queue (<code>STSQ_NAME</code>)</li>
+</ul>
+</li>
+<li>Responses are captured in <code>WS_RESP</code> but no error-branching logic is applied; the program continues regardless of whether a queue existed prior to deletion (tolerate <code>QIDERR</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Control Queue Reconstruction</strong></p>
+<ul>
+<li>Populates <code>WRITE_MSG_LOW</code> and <code>WRITE_MSG_HIGH</code> (PIC fields within the <code>WRITE_MSG</code> structure) with <code>FRSTCUSTNUM</code> (1) and <code>LASTCUSTNUM</code> (the resolved high customer number) respectively.</li>
+<li>Writes three separate records to the <code>GENACNTL</code> TS queue via <code>EXEC CICS WRITEQ TS QUEUE(STSQ_NAME) FROM(...) NOSUSPEND LENGTH(...)</code>:
+<ul>
+<li>Record 1 (20 bytes): the environment label <code>**** GENAPP CNTL    </code> from <code>WRITE_MSG_E</code>.</li>
+<li>Record 2 (23 bytes): the low customer label and numeric value (<code>LOW CUSTOMER=</code> + 10-digit number) from <code>WRITE_MSG_L</code>.</li>
+<li>Record 3 (24 bytes): the high customer label and numeric value (<code>HIGH CUSTOMER=</code> + 10-digit number) from <code>WRITE_MSG_H</code>.</li>
+</ul>
+</li>
+<li>The <code>NOSUSPEND</code> option ensures the write returns immediately with an error response rather than waiting if storage is unavailable.</li>
+</ul>
+</li>
+<li>
+<p><strong>Customer Number Counter Reset</strong></p>
+<ul>
+<li>Deletes the existing <code>GENACUSTNUM</code> named counter in the <code>GENA</code> pool via <code>EXEC CICS DELETE COUNTER(GENACOUNT) POOL(GENAPOOL) RESP(WS_RESP)</code>.</li>
+<li>Immediately redefines it via <code>EXEC CICS DEFINE COUNTER(GENACOUNT) POOL(GENAPOOL) VALUE(LASTCUSTNUM) RESP(WS_RESP)</code>, seeding the counter with the resolved high customer number. This counter governs the next customer number assigned during GenApp policy operations.</li>
+</ul>
+</li>
+<li>
+<p><strong>Transaction Statistics Counters Reset (Loop)</strong></p>
+<ul>
+<li>Iterates through all 36 entries in <code>COUNTER_TABLE</code> using a <code>DO COUNTER_IDX = 1 TO COUNTER_COUNT</code> loop, accessing each counter name via the <code>COUNTER_ARRAY</code> based-overlay (<code>COUNTER_NAME(COUNTER_IDX)</code>).</li>
+<li>For each counter, performs two CICS operations against the <code>GENA</code> pool:
+<ul>
+<li><code>EXEC CICS DELETE COUNTER(...)</code> — removes the existing counter if present.</li>
+<li><code>EXEC CICS DEFINE COUNTER(...) VALUE(ZERO_VALUE)</code> — recreates it initialized to 0.</li>
+</ul>
+</li>
+<li>Counters cover all policy operation types (customer, motor, endowment, house, commercial) and both success (<code>00</code>) and failure (<code>99</code>) variants (e.g., <code>GENA01ICUS00</code>, <code>GENA01IMOT99</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Terminal Display and Return</strong></p>
+<ul>
+<li>Sends the high customer number message (<code>WRITE_MSG_H</code>, 24 bytes) to the operator terminal via <code>EXEC CICS SEND TEXT FROM(WRITE_MSG_H) TERMINAL WAIT ERASE LENGTH(24) FREEKB</code>, erasing the screen, writing the confirmation text, waiting for the send to complete, and unlocking the keyboard (<code>FREEKB</code>).</li>
+<li>Issues <code>EXEC CICS RETURN</code> to hand control back to CICS and end the transaction cleanly.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-services" tabindex="-1">6.1 CICS Services</h3>
+<ul>
+<li>
+<p><strong>CICS Transaction Manager</strong></p>
+<ul>
+<li>The program runs as a CICS transaction (invoked via transaction ID <code>LGSE</code> or similar) and depends on the CICS runtime to dispatch and manage its execution</li>
+<li><code>EXEC CICS RECEIVE</code> — reads terminal input at program startup; the 80-byte input buffer (<code>WS_RECV</code>) captures the transaction ID and optional high customer number supplied by the operator</li>
+<li><code>EXEC CICS SEND TEXT</code> — sends the high-customer-number confirmation message back to the initiating terminal upon completion</li>
+<li><code>EXEC CICS RETURN</code> — signals CICS to end the transaction and return control to CICS</li>
+</ul>
+</li>
+<li>
+<p><strong>CICS Temporary Storage (TS) Facility</strong></p>
+<ul>
+<li><code>EXEC CICS DELETEQ TS</code> / <code>EXEC CICS WRITEQ TS</code> — the program deletes and recreates four named TS queues as part of environment reset:
+<ul>
+<li><strong><code>GENACNTL</code></strong> (<code>STSQ_NAME</code>) — GenApp control queue; receives the environment label, low customer number, and high customer number records after reset</li>
+<li><strong><code>GENASTAT</code></strong> (<code>STSQ_STAT</code>) — GenApp transaction statistics queue; deleted to clear accumulated statistics</li>
+<li><strong><code>GENASTRT</code></strong> (<code>STSQ_STRT</code>) — GenApp start queue; deleted to reset start-up tracking</li>
+<li><strong><code>GENAERRS</code></strong> (<code>STSQ_ERRS</code>) — GenApp error queue; deleted to clear previously recorded errors</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>CICS Named Counter Service (pool <code>GENA</code>)</strong></p>
+<ul>
+<li><code>EXEC CICS DELETE COUNTER</code> / <code>EXEC CICS DEFINE COUNTER</code> — the program deletes and recreates counters in the named counter pool <code>GENA</code>:
+<ul>
+<li><strong><code>GENACUSTNUM</code></strong> — customer number sequence counter; redefined with the operator-supplied (or default) high customer number as its initial value, establishing the upper bound for new customer IDs</li>
+<li><strong>36 transaction statistics counters</strong> (<code>GENA01ICUS00</code>, <code>GENA01ICUS99</code>, … <code>GENA01UCUS99</code>) — one counter per operation type (Insert, Add, Delete, Update) per policy entity (Customer, Motor, Endowment, House, Commercial) and per outcome (success <code>00</code> / failure <code>99</code>); all reset to zero</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="62-runtime-input" tabindex="-1">6.2 Runtime Input</h3>
+<ul>
+<li><strong>Operator terminal input</strong> — the operator may supply an optional high customer number value after the transaction ID on the terminal command line (e.g., <code>LGSE 0000000011</code>); if present, this overrides the default <code>LASTCUSTNUM</code> value of <code>11</code> and is used as the upper bound of the customer counter</li>
+</ul>
+<h3 id="63-internal-program-logic--configuration" tabindex="-1">6.3 Internal Program Logic / Configuration</h3>
+<ul>
+<li><strong><code>FRSTCUSTNUM</code></strong> (hardcoded <code>1</code>) — lower bound of the customer number range; written to the <code>GENACNTL</code> control queue as a fixed configuration value; not overridable at runtime</li>
+<li><strong><code>LASTCUSTNUM</code></strong> (default <code>11</code>, overridable via terminal input) — upper bound of the customer number range; written to the <code>GENACNTL</code> control queue and used as the initial value of the <code>GENACUSTNUM</code> named counter</li>
+<li><strong><code>COUNTER_TABLE</code> / <code>COUNTER_ARRAY</code></strong> — static, compile-time list of the 36 named counter identifiers iterated over during counter reset; defines the complete set of GenApp transaction statistics counters</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-input--data-validation-constraints" tabindex="-1">7.1 Input / Data Validation Constraints</h3>
+<ul>
+<li>
+<p><strong>Receive buffer fixed at 80 bytes</strong></p>
+<ul>
+<li><code>WS_RECV</code> is declared as a two-part structure totalling exactly 80 characters (<code>WS_RECV_TRANID</code> CHAR(5) + <code>WS_RECV_DATA</code> CHAR(74)); <code>WS_RECV_LEN</code> is initialised to <code>80</code> and passed to <code>EXEC CICS RECEIVE LENGTH(WS_RECV_LEN)</code>, meaning no more than 80 bytes of terminal input will be accepted into the buffer</li>
+<li>Any terminal input longer than 80 characters is silently truncated to the buffer boundary</li>
+</ul>
+</li>
+<li>
+<p><strong>Optional high-customer-number override validated by length only</strong></p>
+<ul>
+<li>The override value is accepted only when the received length (<code>WS_RECV_LEN</code>) is strictly greater than 5 (i.e., something beyond the 5-character transaction ID was typed)</li>
+<li>No format, range, or sign validation is applied to the supplied override string before it is converted with <code>SUBSTR(WS_RECV_DATA,1,WS_RECV_LEN-5)</code> and assigned to <code>LASTCUSTNUM</code> (a <code>FIXED BIN(31)</code> variable); a non-numeric string will cause a PL/I conversion error at runtime</li>
+<li>The maximum meaningful override length is implicitly constrained to 74 characters by the size of <code>WS_RECV_DATA</code>, but no explicit upper-bound check on the numeric value itself is coded</li>
+</ul>
+</li>
+<li>
+<p><strong>Low customer number is hardcoded to 1</strong></p>
+<ul>
+<li><code>FRSTCUSTNUM</code> is declared <code>FIXED BIN(31) INIT(1)</code> and never modified; the lower boundary of the customer number range cannot be changed without a code change</li>
+</ul>
+</li>
+<li>
+<p><strong>Default high customer number is 11</strong></p>
+<ul>
+<li><code>LASTCUSTNUM</code> defaults to <code>11</code> (<code>INIT(11)</code>); if no override is supplied the counter and control queue are always seeded with this value</li>
+</ul>
+</li>
+<li>
+<p><strong>Customer number display fields are 10-digit numeric picture</strong></p>
+<ul>
+<li><code>WRITE_MSG_LOW</code> and <code>WRITE_MSG_HIGH</code> are both declared <code>PIC '9999999999'</code>; they can only hold unsigned integers in the range 0–9999999999, imposing an implicit ceiling on any customer number written to the control queue or displayed on the terminal</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="72-named-counter-constraints" tabindex="-1">7.2 Named Counter Constraints</h3>
+<ul>
+<li>
+<p><strong>Exactly 36 transaction-statistics counters must exist</strong></p>
+<ul>
+<li><code>COUNTER_COUNT</code> is declared <code>FIXED BIN(15) STATIC INIT(36)</code> and drives the <code>DO</code> loop bounds; the loop always iterates over all 36 entries — no partial resets are possible</li>
+</ul>
+</li>
+<li>
+<p><strong>All transaction-statistics counters are reset to zero</strong></p>
+<ul>
+<li><code>ZERO_VALUE</code> is <code>FIXED BIN(31) INIT(0)</code>; every counter in <code>COUNTER_TABLE</code> is redefined with <code>VALUE(ZERO_VALUE)</code>, enforcing that no prior counts survive a setup run</li>
+</ul>
+</li>
+<li>
+<p><strong>Customer number counter is seeded to the high customer number value</strong></p>
+<ul>
+<li><code>EXEC CICS DEFINE COUNTER(GENACOUNT) … VALUE(LASTCUSTNUM)</code> means the counter starts at the value of <code>LASTCUSTNUM</code> (default 11 or the supplied override), not at 1 or 0; new customer numbers are derived by incrementing from this seed</li>
+</ul>
+</li>
+<li>
+<p><strong>All counters must reside in the single pool named <code>GENA</code></strong></p>
+<ul>
+<li><code>GENAPOOL</code> is <code>CHAR(8) STATIC INIT('GENA')</code>; every <code>DELETE COUNTER</code> and <code>DEFINE COUNTER</code> call specifies this pool, making all GenApp counters dependent on that named counter pool being available in CICS</li>
+</ul>
+</li>
+<li>
+<p><strong>Counter names are fixed-length 16-character strings padded with blanks</strong></p>
+<ul>
+<li>Each entry in <code>COUNTER_TABLE</code> is <code>CHAR(16)</code> with an initialiser shorter than 16 characters; PL/I pads with blanks on the right, so the counter name passed to CICS always occupies the full 16-character field</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="73-temporary-storage-queue-constraints" tabindex="-1">7.3 Temporary Storage Queue Constraints</h3>
+<ul>
+<li>
+<p><strong>Four TS queue names are hardcoded</strong></p>
+<ul>
+<li><code>STSQ_NAME</code> (<code>GENACNTL</code>), <code>STSQ_STAT</code> (<code>GENASTAT</code>), <code>STSQ_STRT</code> (<code>GENASTRT</code>), and <code>STSQ_ERRS</code> (<code>GENAERRS</code>) are all declared <code>CHAR(8) STATIC</code>; the queue names cannot be changed at runtime</li>
+</ul>
+</li>
+<li>
+<p><strong>Control queue records have fixed, predetermined lengths</strong></p>
+<ul>
+<li>Environment label (<code>WRITE_MSG_E</code>) is always written as exactly 20 bytes (<code>LENGTH(20)</code>)</li>
+<li>Low-customer record (<code>WRITE_MSG_L</code> + <code>WRITE_MSG_LOW</code> + separator = 13+10+1) is always written as exactly 23 bytes (<code>LENGTH(23)</code>)</li>
+<li>High-customer record (<code>WRITE_MSG_H</code> + <code>WRITE_MSG_HIGH</code> = 14+10) is always written as exactly 24 bytes (<code>LENGTH(24)</code>)</li>
+<li>Consumers of the <code>GENACNTL</code> queue must parse records at these exact offsets and lengths</li>
+</ul>
+</li>
+<li>
+<p><strong>TS queue writes use NOSUSPEND</strong></p>
+<ul>
+<li>All three <code>EXEC CICS WRITEQ TS</code> calls specify <code>NOSUSPEND</code>; if the TS queue storage is full CICS returns a non-normal <code>RESP</code> rather than waiting, but the program does not check <code>WS_RESP</code> after these writes, meaning a failure silently leaves the control queue incomplete</li>
+</ul>
+</li>
+<li>
+<p><strong>RESP codes from all CICS operations are not checked</strong></p>
+<ul>
+<li><code>WS_RESP</code> is populated after every CICS call (<code>DELETEQ TS</code>, <code>WRITEQ TS</code>, <code>DELETE COUNTER</code>, <code>DEFINE COUNTER</code>, <code>RECEIVE</code>) but is never tested; an error in any step (e.g., counter pool unavailable, queue write failure) does not halt execution or produce a diagnostic, allowing the program to continue in a partially initialised state</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="74-sequencing--ordering-constraints" tabindex="-1">7.4 Sequencing / Ordering Constraints</h3>
+<ul>
+<li>
+<p><strong>Input must be received before any environment reset begins</strong></p>
+<ul>
+<li><code>EXEC CICS RECEIVE</code> is the very first executable statement; the optional <code>LASTCUSTNUM</code> override is extracted from the input before any queue or counter operations, because those operations depend on the final value of <code>LASTCUSTNUM</code></li>
+</ul>
+</li>
+<li>
+<p><strong>TS queues must be deleted before being recreated</strong></p>
+<ul>
+<li>All four <code>EXEC CICS DELETEQ TS</code> calls complete before the <code>EXEC CICS WRITEQ TS</code> sequence begins, ensuring the control queue starts fresh and does not append to stale records</li>
+</ul>
+</li>
+<li>
+<p><strong>Control queue must be populated before the customer number counter is defined</strong></p>
+<ul>
+<li>The three <code>WRITEQ TS</code> operations for <code>GENACNTL</code> occur before <code>EXEC CICS DEFINE COUNTER(GENACOUNT)</code>; this ordering ensures the queue boundary values are visible to other programs before the counter becomes active, though it is not enforced by any explicit synchronisation mechanism</li>
+</ul>
+</li>
+<li>
+<p><strong>Customer number counter is reset before the statistics counters loop</strong></p>
+<ul>
+<li><code>DELETE COUNTER / DEFINE COUNTER</code> for <code>GENACUSTNUM</code> always precedes the 36-entry <code>DO</code> loop, establishing the sequence counter independently from the statistics counters</li>
+</ul>
+</li>
+<li>
+<p><strong>Terminal send is the last operation before EXEC CICS RETURN</strong></p>
+<ul>
+<li><code>EXEC CICS SEND TEXT … ERASE WAIT FREEKB</code> is issued only after all queue and counter setup is complete, ensuring the operator only sees the confirmation display once the environment is fully (re)initialised</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="75-resource--structural-limits" tabindex="-1">7.5 Resource / Structural Limits</h3>
+<ul>
+<li>
+<p><strong>Counter table is statically sized at exactly 36 entries</strong></p>
+<ul>
+<li>Adding or removing a policy operation type requires both a source code change to <code>COUNTER_TABLE</code> and a corresponding update to <code>COUNTER_COUNT</code>; the two are not automatically kept in sync</li>
+</ul>
+</li>
+<li>
+<p><strong>Receive data field is limited to 74 characters of user-supplied data</strong></p>
+<ul>
+<li>The numeric override for <code>LASTCUSTNUM</code> may be at most 74 digits long; however, <code>FIXED BIN(31)</code> can hold at most a 10-digit signed integer (~2.1 billion), so values exceeding that range will overflow without an explicit guard</li>
+</ul>
+</li>
+<li>
+<p><strong>Terminal display shows only the high-customer record</strong></p>
+<ul>
+<li><code>EXEC CICS SEND TEXT FROM(WRITE_MSG_H) LENGTH(24)</code> sends only the 24-byte high-customer field to the terminal; the environment label and low-customer records are written to the queue but not echoed to the screen</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-cics-response-code-capture-passive-error-collection" tabindex="-1">8.1 CICS Response Code Capture (Passive Error Collection)</h3>
+<ul>
+<li>Every EXEC CICS command in the program specifies <code>RESP(WS_RESP)</code>, directing CICS to store the response code in the <code>WS_RESP</code> variable rather than raising an exception condition
+<ul>
+<li>This applies to <code>EXEC CICS RECEIVE</code>, all four <code>EXEC CICS DELETEQ TS</code> calls, all three <code>EXEC CICS WRITEQ TS</code> calls, <code>EXEC CICS DELETE COUNTER</code> and <code>EXEC CICS DEFINE COUNTER</code> for both the customer number counter and all 36 statistics counters</li>
+<li>Using <code>RESP</code> suppresses the default CICS condition handling mechanism, meaning abnormal responses do not automatically cause a task abend or branch to an error handler</li>
+<li>The program captures these codes silently but does <strong>not</strong> inspect <code>WS_RESP</code> after any individual command; responses are collected but never evaluated or acted upon</li>
+</ul>
+</li>
+</ul>
+<h3 id="82-conditional-input-validation" tabindex="-1">8.2 Conditional Input Validation</h3>
+<ul>
+<li>After <code>EXEC CICS RECEIVE</code>, the program checks whether <code>WS_RECV_LEN</code> is greater than 5
+<ul>
+<li>If true, this indicates the operator supplied additional data after the transaction ID on the terminal input, and the program extracts that data as the high customer number override for <code>LASTCUSTNUM</code></li>
+<li>If false (i.e., only the transaction ID was entered), the <code>LASTCUSTNUM</code> default value of 11 is retained</li>
+<li>This acts as a guard against applying an empty or absent override value to the counter range</li>
+</ul>
+</li>
+</ul>
+<h3 id="83-tolerance-of-non-existent-resources-during-deletion" tabindex="-1">8.3 Tolerance of Non-Existent Resources During Deletion</h3>
+<ul>
+<li>The four <code>EXEC CICS DELETEQ TS</code> calls targeting the <code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code>, and <code>GENACNTL</code> queues are issued unconditionally during environment reset
+<ul>
+<li>Any queue that does not exist at the time of deletion would produce a non-normal RESP code, but since <code>WS_RESP</code> is never tested after these calls, the program silently absorbs the failure and continues</li>
+<li>This constitutes implicit tolerance of a “queue not found” condition, treating deletion of a pre-existing queue as a best-effort cleanup step</li>
+</ul>
+</li>
+<li>Similarly, <code>EXEC CICS DELETE COUNTER</code> is called for the customer number counter and each of the 36 statistics counters before redefining them
+<ul>
+<li>If a counter does not yet exist, the resulting RESP value is captured in <code>WS_RESP</code> but ignored, allowing the subsequent <code>EXEC CICS DEFINE COUNTER</code> to proceed regardless</li>
+</ul>
+</li>
+</ul>
+<h3 id="84-write-contention-prevention" tabindex="-1">8.4 Write Contention Prevention</h3>
+<ul>
+<li>All three <code>EXEC CICS WRITEQ TS</code> calls to the control queue <code>GENACNTL</code> include the <code>NOSUSPEND</code> option
+<ul>
+<li>This prevents the task from being suspended if the queue storage is temporarily unavailable, instead causing CICS to return immediately with a non-normal response code</li>
+<li>Combined with the <code>RESP(WS_RESP)</code> capture, any write failure is recorded in <code>WS_RESP</code> but not acted upon; the program proceeds to the next write unconditionally</li>
+</ul>
+</li>
+</ul>
+<h3 id="85-terminal-feedback-as-implicit-completion-signal" tabindex="-1">8.5 Terminal Feedback as Implicit Completion Signal</h3>
+<ul>
+<li>Upon completing all setup operations, the program issues <code>EXEC CICS SEND TEXT</code> to display the high customer number confirmation message on the operator’s terminal with <code>ERASE</code>, <code>WAIT</code>, and <code>FREEKB</code>
+<ul>
+<li>While not an error-reporting mechanism in isolation, this serves as an implicit success notification — the operator receives a terminal display only if execution reached the end of the setup logic without being interrupted by any unhandled abend</li>
+<li>The absence of this display would signal to the operator that setup did not complete</li>
+</ul>
+</li>
+</ul>
+<h3 id="86-no-active-error-branching-or-abend-logic" tabindex="-1">8.6 No Active Error Branching or Abend Logic</h3>
+<ul>
+<li>The program contains no <code>IF WS_RESP = ...</code> condition checks, no <code>EXEC CICS ABEND</code>, no <code>ON ERROR</code> or <code>ON CONDITION</code> PL/I condition handlers, and no error message writing routines
+<ul>
+<li>This is a deliberate design choice for an administrative setup transaction: failures in deleting or redefining resources are tolerated, and the program always attempts to complete the full sequence of operations regardless of intermediate RESP outcomes</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1-default-setup-no-high-customer-number-supplied" tabindex="-1">9.1 Example 1: Default Setup (No High Customer Number Supplied)</h3>
+<p><strong>Input:</strong>
+Terminal input: <code>LGSE </code> (transaction ID only, 5 characters — no trailing data)</p>
+<p><strong>Processing:</strong></p>
+<ul>
+<li><code>WS_RECV_LEN</code> = 5, so the <code>IF WS_RECV_LEN &gt; 5</code> branch is <strong>not</strong> taken.</li>
+<li><code>LASTCUSTNUM</code> retains its default value of <strong>11</strong>.</li>
+<li>All four TS queues (<code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code>, <code>GENACNTL</code>) are deleted.</li>
+<li>The <code>GENACNTL</code> queue is repopulated with three records:
+<ul>
+<li><code>**** GENAPP CNTL    </code> (20 bytes)</li>
+<li><code>LOW CUSTOMER=0000000001</code> (23 bytes)</li>
+<li><code>HIGH CUSTOMER=0000000011</code> (24 bytes)</li>
+</ul>
+</li>
+<li>The named counter <code>GENACUSTNUM</code> in pool <code>GENA</code> is deleted and redefined with <strong>VALUE(11)</strong>.</li>
+<li>All 36 transaction statistics counters (e.g., <code>GENA01ICUS00</code>, <code>GENA01IMOT99</code>, …) are deleted and redefined with <strong>VALUE(0)</strong>.</li>
+</ul>
+<p><strong>Expected Output (terminal display):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>HIGH CUSTOMER=0000000011</code></pre>
+</div>
+<p>The terminal receives the <code>WRITE_MSG_H</code> field (24 bytes), confirming the high customer number boundary.</p>
+<hr>
+<h3 id="92-example-2-custom-high-customer-number-supplied" tabindex="-1">9.2 Example 2: Custom High Customer Number Supplied</h3>
+<p><strong>Input:</strong>
+Terminal input: <code>LGSE 0000000050</code> (transaction ID + space + <code>0000000050</code>, total length = 15 characters)</p>
+<p><strong>Processing:</strong></p>
+<ul>
+<li><code>WS_RECV_LEN</code> = 15, which is <code>&gt; 5</code>, so the override branch <strong>is</strong> taken.
+<ul>
+<li><code>WS_RECV_LEN</code> is adjusted to <code>15 − 5 = 10</code>.</li>
+<li><code>LASTCUSTNUM</code> is set from <code>SUBSTR(WS_RECV_DATA, 1, 10)</code> → <strong>50</strong>.</li>
+</ul>
+</li>
+<li>All four TS queues are deleted and <code>GENACNTL</code> is rebuilt with:
+<ul>
+<li><code>LOW CUSTOMER=0000000001</code></li>
+<li><code>HIGH CUSTOMER=0000000050</code></li>
+</ul>
+</li>
+<li><code>GENACUSTNUM</code> counter is deleted and redefined with <strong>VALUE(50)</strong>, establishing customer numbers 1–50 as the valid range.</li>
+<li>All 36 statistics counters are reset to <strong>0</strong>.</li>
+</ul>
+<p><strong>Expected Output (terminal display):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>HIGH CUSTOMER=0000000050</code></pre>
+</div>
+<p>Any new customer created after this setup will be assigned a number drawn from the counter sequence up to 50, and the <code>GENACNTL</code> TS queue will reflect this range for any program that reads it to determine valid customer number boundaries.</p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a></li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-cics-temporary-storage-queue-writes-genacntl">3.1 CICS Temporary Storage Queue Writes (GENACNTL)</a></li>
+<li class="toc-level-3"><a href="#32-cics-temporary-storage-queue-deletions">3.2 CICS Temporary Storage Queue Deletions</a></li>
+<li class="toc-level-3"><a href="#33-cics-named-counter-operations-pool-gena">3.3 CICS Named Counter Operations (Pool GENA)</a></li>
+<li class="toc-level-3"><a href="#34-terminal-display">3.4 Terminal Display</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables-if-applicable">4.3 Database Tables (if applicable)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-services">6.1 CICS Services</a></li>
+<li class="toc-level-3"><a href="#62-runtime-input">6.2 Runtime Input</a></li>
+<li class="toc-level-3"><a href="#63-internal-program-logic--configuration">6.3 Internal Program Logic / Configuration</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-input--data-validation-constraints">7.1 Input / Data Validation Constraints</a></li>
+<li class="toc-level-3"><a href="#72-named-counter-constraints">7.2 Named Counter Constraints</a></li>
+<li class="toc-level-3"><a href="#73-temporary-storage-queue-constraints">7.3 Temporary Storage Queue Constraints</a></li>
+<li class="toc-level-3"><a href="#74-sequencing--ordering-constraints">7.4 Sequencing / Ordering Constraints</a></li>
+<li class="toc-level-3"><a href="#75-resource--structural-limits">7.5 Resource / Structural Limits</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-cics-response-code-capture-passive-error-collection">8.1 CICS Response Code Capture (Passive Error Collection)</a></li>
+<li class="toc-level-3"><a href="#82-conditional-input-validation">8.2 Conditional Input Validation</a></li>
+<li class="toc-level-3"><a href="#83-tolerance-of-non-existent-resources-during-deletion">8.3 Tolerance of Non-Existent Resources During Deletion</a></li>
+<li class="toc-level-3"><a href="#84-write-contention-prevention">8.4 Write Contention Prevention</a></li>
+<li class="toc-level-3"><a href="#85-terminal-feedback-as-implicit-completion-signal">8.5 Terminal Feedback as Implicit Completion Signal</a></li>
+<li class="toc-level-3"><a href="#86-no-active-error-branching-or-abend-logic">8.6 No Active Error Branching or Abend Logic</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1-default-setup-no-high-customer-number-supplied">9.1 Example 1: Default Setup (No High Customer Number Supplied)</a></li>
+<li class="toc-level-3"><a href="#92-example-2-custom-high-customer-number-supplied">9.2 Example 2: Custom High Customer Number Supplied</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGSETUP</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

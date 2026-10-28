@@ -1,0 +1,1154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGSTSQ</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link active">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p><code>LGSTSQ</code> is a CICS PL/I error message logging utility that accepts a text message — either passed via a communication area from a calling program or typed directly at a terminal — and writes it to two CICS queues: the standard Transient Data Queue (<code>CSMT</code>) for system-level logging and a Temporary Storage Queue (defaulting to <code>GENAERRS</code>, but dynamically overridable to <code>GENAnnnn</code> via a <code>Q=nnnn</code> prefix in the message text) for application-level error tracking. Each logged entry is prefixed with the CICS system identifier to identify the originating region, and when invoked interactively from a terminal, the program clears the screen after writing the message before returning control to CICS.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<p><strong>Procedure Parameters</strong></p>
+<ul>
+<li><code>COMM_AREA_PTR</code> — PL/I pointer passed as the main procedure parameter; addresses the CICS COMMAREA supplied by the calling program
+<ul>
+<li><code>COMMA_DATA</code> — 90-byte message text extracted from the COMMAREA via the <code>COMMA</code> based structure; used as the message body when the program is invoked by another program (<code>WS_FLAG = 'C'</code>)</li>
+</ul>
+</li>
+</ul>
+<p><strong>CICS Environment / Runtime Assignments</strong></p>
+<ul>
+<li><code>WRITE_MSG_SYSID</code> — 4-character CICS region identifier retrieved via <code>EXEC CICS ASSIGN SYSID</code>; prefixes every logged message record to identify its origin</li>
+<li><code>WS_STARTCODE</code> — 2-character task start code retrieved via <code>EXEC CICS ASSIGN STARTCODE</code>; indicates how the current CICS task was initiated</li>
+<li><code>WS_PRINSYSID</code> — 4-character principal facility system ID retrieved via <code>EXEC CICS ASSIGN PRINSYSID</code>; identifies the owning CICS region in a multi-region environment</li>
+<li><code>WS_INVOKEPROG</code> — 8-character invoking program name retrieved via <code>EXEC CICS ASSIGN INVOKINGPROG</code>; a non-blank value signals that the program was called via <code>EXEC CICS LINK</code> rather than from a terminal, driving the invocation-path decision</li>
+<li><code>EIBCALEN</code> — CICS Execute Interface Block field providing the length of the passed COMMAREA; used to set <code>WS_RECV_LEN</code> when the program is called-path invoked</li>
+</ul>
+<p><strong>Terminal / User Input</strong></p>
+<ul>
+<li><code>WS_RECV</code> — 80-byte structure populated by <code>EXEC CICS RECEIVE</code> when the program is invoked directly from a terminal (<code>WS_FLAG = 'R'</code>)
+<ul>
+<li><code>WS_RECV_DATA</code> — 74-byte user-entered data portion (after the 5-character transaction ID prefix); assigned to the output message field for logging</li>
+</ul>
+</li>
+</ul>
+<p><strong>Embedded Input Parameters within Message Text</strong></p>
+<ul>
+<li><code>WRITE_MSG_MSG</code> — 90-byte message text field; when it begins with <code>Q=nnnn</code>, the leading 7 bytes act as an inline parameter that overrides the target Temporary Storage Queue name (<code>STSQ</code>) to <code>GENAnnnn</code>, and the remainder becomes the actual log message</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<h3 id="31-logged-message-outputs" tabindex="-1">3.1 Logged message outputs</h3>
+<ul>
+<li>
+<p><code>WRITE_MSG</code></p>
+<ul>
+<li>Composite message record written to both CICS queues.</li>
+<li>Structure:
+<ul>
+<li><code>WRITE_MSG_SYSID</code>
+<ul>
+<li>4-character CICS system identifier placed at the start of the logged record.</li>
+<li>Identifies which CICS region produced the message.</li>
+</ul>
+</li>
+<li><code>WRITE_MSG_MSG</code>
+<ul>
+<li>Main message text content.</li>
+<li>Sourced from:
+<ul>
+<li><code>COMMA_DATA</code> when invoked by another program</li>
+<li><code>WS_RECV_DATA</code> when invoked from a terminal</li>
+</ul>
+</li>
+<li>If the text begins with <code>Q=nnnn</code>, the prefix is removed before logging and only the remaining message text is written.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Transient Data Queue write</p>
+<ul>
+<li>Destination queue: <code>STDQ_NAME</code>
+<ul>
+<li>Fixed as <code>CSMT</code></li>
+</ul>
+</li>
+<li>Data written: <code>WRITE_MSG</code></li>
+<li>Length written: <code>WS_RECV_LEN</code></li>
+<li>Role:
+<ul>
+<li>Sends the message to the standard CICS message log for operational visibility.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Temporary Storage Queue write</p>
+<ul>
+<li>Destination queue: <code>STSQ</code>
+<ul>
+<li>Defaults to <code>GENAERRS</code></li>
+<li>Can be overridden to <code>GENAnnnn</code> when the input message starts with <code>Q=nnnn</code></li>
+</ul>
+</li>
+<li>Data written: <code>WRITE_MSG</code></li>
+<li>Length written: <code>WS_RECV_LEN</code></li>
+<li>Options: <code>NOSUSPEND</code></li>
+<li>Role:
+<ul>
+<li>Persists the error or status message in a GenApp temporary storage queue for later retrieval or review.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="32-terminal-facing-output" tabindex="-1">3.2 Terminal-facing output</h3>
+<ul>
+<li><code>SEND TEXT</code> response to terminal
+<ul>
+<li>Data sent: <code>FILLER_X</code>
+<ul>
+<li>A single blank character</li>
+</ul>
+</li>
+<li>Sent only when <code>WS_FLAG = 'R'</code>
+<ul>
+<li>Meaning the program was started directly from a terminal rather than linked from another program</li>
+</ul>
+</li>
+<li>Role:
+<ul>
+<li>Clears or refreshes the terminal interaction and ends the user-facing transaction with a minimal response.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="33-invocation-dependent-output-content" tabindex="-1">3.3 Invocation-dependent output content</h3>
+<ul>
+<li>
+<p>Program-linked invocation output</p>
+<ul>
+<li>Relevant inputs affecting final outputs:
+<ul>
+<li><code>COMMA_DATA</code></li>
+<li><code>WS_INVOKEPROG</code></li>
+</ul>
+</li>
+<li>Role:
+<ul>
+<li>When the program is called by another program, the logged message text comes from the COMMAREA and is written to both queues.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Terminal invocation output</p>
+<ul>
+<li>Relevant inputs affecting final outputs:
+<ul>
+<li><code>WS_RECV_DATA</code></li>
+<li><code>WS_FLAG</code></li>
+</ul>
+</li>
+<li>Role:
+<ul>
+<li>When the program is entered from a terminal, the typed input becomes the logged message text, is written to both queues, and also causes the blank terminal text response to be sent.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="34-control-values-that-affect-observable-outputs" tabindex="-1">3.4 Control values that affect observable outputs</h3>
+<ul>
+<li>
+<p><code>STSQ</code></p>
+<ul>
+<li>Determines which temporary storage queue receives the logged message.</li>
+<li>Observable because it changes the destination of persisted output.</li>
+</ul>
+</li>
+<li>
+<p><code>WS_RECV_LEN</code></p>
+<ul>
+<li>Determines the exact number of bytes written to both queues.</li>
+<li>Adjusted based on:
+<ul>
+<li>COMMAREA length or received terminal length</li>
+<li>optional removal of <code>Q=nnnn</code> prefix</li>
+<li>addition of 5 bytes for the <code>SYSID</code> and separator portion of <code>WRITE_MSG</code></li>
+</ul>
+</li>
+<li>Observable because it controls how much data is actually recorded.</li>
+</ul>
+</li>
+</ul>
+<h3 id="35-return--completion-behavior" tabindex="-1">3.5 Return / completion behavior</h3>
+<ul>
+<li><code>EXEC CICS RETURN</code>
+<ul>
+<li>Ends the transaction and returns control to CICS.</li>
+<li>No application data return value is produced by the PL/I procedure itself.</li>
+<li>Observable as the program’s completion side effect after logging and optional terminal response.</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGSTSQ]) --> B[Initialize variables<br>Clear WRITE_MSG and WS_RECV]
+    B --> C[EXEC CICS ASSIGN<br>Get SYSID into WRITE_MSG_SYSID]
+    C --> D[EXEC CICS ASSIGN<br>Get STARTCODE into WS_STARTCODE]
+    D --> E[EXEC CICS ASSIGN<br>Get PRINSYSID into WS_PRINSYSID]
+    E --> F[EXEC CICS ASSIGN<br>Get INVOKINGPROG into WS_INVOKEPROG]
+    F --> G{{WS_INVOKEPROG<br>is not blank}}
+    G -- Yes --> H[Set WS_FLAG = C<br>Copy COMMAREA data to WRITE_MSG_MSG<br>Set WS_RECV_LEN = EIBCALEN]
+    G -- No --> I[EXEC CICS RECEIVE<br>Read terminal input into WS_RECV]
+    I --> J[Set WS_FLAG = R<br>Copy WS_RECV_DATA to WRITE_MSG_MSG<br>WS_RECV_LEN = WS_RECV_LEN - 5]
+    H --> K{{WRITE_MSG_MSG<br>starts with Q=}}
+    J --> K
+    K -- Yes --> L[Extract 4-char queue suffix<br>Set STSQ = GENAnnnn<br>Remove Q=nnnn prefix from message<br>WS_RECV_LEN = WS_RECV_LEN - 7]
+    K -- No --> M[Use default STSQ = GENAERRS]
+    L --> N[WS_RECV_LEN = WS_RECV_LEN + 5<br>Account for SYSID prefix]
+    M --> N
+    N --> O[EXEC CICS WRITEQ TD<br>Write WRITE_MSG to TDQ CSMT]
+    O --> P[EXEC CICS WRITEQ TS NOSUSPEND<br>Write WRITE_MSG to TSQ STSQ]
+    P --> Q{{WS_FLAG = R<br>Terminal invocation}}
+    Q -- Yes --> R[EXEC CICS SEND TEXT<br>Clear terminal screen<br>ERASE and FREEKB]
+    Q -- No --> S[EXEC CICS RETURN]
+    R --> S
+    S --> T([End LGSTSQ])
+
+    classDef startEnd fill:#d5e8d4,stroke:#82b366,color:#000
+    classDef process fill:#dae8fc,stroke:#6c8ebf,color:#000
+    classDef decision fill:#fff2cc,stroke:#d6b656,color:#000
+    classDef io fill:#f8cecc,stroke:#b85450,color:#000
+
+    class A,T startEnd
+    class B,C,D,E,F,H,I,J,L,M,N,O,P,R,S process
+    class G,K,Q decision
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGSTSQ</code> is a reusable CICS error/message logging utility. Its sole purpose is to accept a message (either from a calling program’s COMMAREA or from direct terminal input) and write that message to two CICS destinations: the Transient Data Queue (TDQ) <strong>CSMT</strong> (the standard CICS system log) and a Temporary Storage Queue (TSQ) named <strong>GENAERRS</strong> (or a dynamically overridden name). It acts as a centralized logging hub for the GenApp application.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 – Initialization</strong>
+Variables <code>WRITE_MSG</code> and <code>WS_RECV</code> are blanked. This ensures no stale data contaminates the output message structure before it is populated.</p>
+<p><strong>Step 2 – Gather CICS Environment Information</strong>
+Four <code>EXEC CICS ASSIGN</code> calls retrieve runtime attributes:</p>
+<ul>
+<li><code>SYSID</code> → stored in <code>WRITE_MSG_SYSID</code> to prefix the logged message with the originating CICS region identifier.</li>
+<li><code>STARTCODE</code> → stored in <code>WS_STARTCODE</code>; records how the task was initiated (terminal input, START command, etc.).</li>
+<li><code>PRINSYSID</code> → stored in <code>WS_PRINSYSID</code>; identifies the owning CICS system of the principal facility in a multi-region environment.</li>
+<li><code>INVOKINGPROG</code> → stored in <code>WS_INVOKEPROG</code>; a non-blank value means the program was called via <code>EXEC CICS LINK</code> from another program.</li>
+</ul>
+<p><strong>Step 3 – Determine Invocation Method</strong>
+A branch on <code>WS_INVOKEPROG</code> controls how the message text is obtained:</p>
+<ul>
+<li>
+<p><strong>Called by another program (<code>WS_INVOKEPROG ≠ ' '</code>):</strong></p>
+<ul>
+<li><code>WS_FLAG</code> is set to <code>'C'</code> (Called).</li>
+<li>The message is read directly from <code>COMMA_DATA</code> (the COMMAREA passed by the caller).</li>
+<li><code>WS_RECV_LEN</code> is set to <code>EIBCALEN</code> (the actual COMMAREA length as reported by the CICS Execute Interface Block), ensuring only the true data length is used.</li>
+</ul>
+</li>
+<li>
+<p><strong>Invoked from a terminal (<code>WS_INVOKEPROG = ' '</code>):</strong></p>
+<ul>
+<li><code>EXEC CICS RECEIVE</code> reads up to 80 bytes of terminal input into <code>WS_RECV</code>, which consists of a 5-character transaction ID prefix followed by 74 bytes of user data.</li>
+<li><code>WS_FLAG</code> is set to <code>'R'</code> (Received from terminal).</li>
+<li>The message text is taken from <code>WS_RECV_DATA</code> (the 74-byte data portion, skipping the transaction ID).</li>
+<li><code>WS_RECV_LEN</code> is decremented by 5 to strip the transaction ID length.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Step 4 – Queue Name Override Check</strong>
+The TSQ name defaults to <code>'GENAERRS'</code>. If the first two characters of the message text are <code>'Q='</code>, the program interprets the next 4 characters as a queue suffix:</p>
+<ul>
+<li><code>STSQ</code> is updated from <code>'GENAERRS'</code> to <code>'GENAnnnn'</code> (where <code>nnnn</code> is the 4-character suffix from the message).</li>
+<li>The message text is shifted left by 7 characters (removing the <code>'Q=nnnn '</code> prefix) so that the actual log text (starting at position 8) is what gets written, not the routing directive.</li>
+<li><code>WS_RECV_LEN</code> is decremented by 7 to reflect the shorter effective message.</li>
+</ul>
+<p>This mechanism allows callers to dynamically direct messages to different named TSQs within the <code>GENA</code> namespace without requiring separate program calls.</p>
+<p><strong>Step 5 – Adjust Length for SYSID Prefix</strong>
+<code>WS_RECV_LEN</code> is incremented by 5 (4-byte SYSID + 1-byte filler) to account for the <code>WRITE_MSG_SYSID</code> and <code>FILLER_X</code> fields prepended to the message before writing.</p>
+<p><strong>Step 6 – Write to Transient Data Queue (TDQ CSMT)</strong>
+<code>EXEC CICS WRITEQ TD</code> writes the complete <code>WRITE_MSG</code> structure (SYSID + space + message text) to the CICS Transient Data Queue named <code>CSMT</code>. CSMT is the standard CICS auxiliary trace/log destination, making the message visible in the CICS system log for operator and support review.</p>
+<p><strong>Step 7 – Write to Temporary Storage Queue (TSQ)</strong>
+<code>EXEC CICS WRITEQ TS</code> writes the same <code>WRITE_MSG</code> structure to the TSQ identified by <code>STSQ</code> (either <code>GENAERRS</code> or the dynamically determined <code>GENAnnnn</code>). The <code>NOSUSPEND</code> option is critical: if no CICS storage is available to queue the item, the write is silently ignored rather than suspending the task. This prevents the logging utility from becoming a blocking dependency that could stall application transactions.</p>
+<p><strong>Step 8 – Terminal Response (Conditional)</strong>
+If the program was invoked from a terminal (<code>WS_FLAG = 'R'</code>), <code>EXEC CICS SEND TEXT</code> is issued with <code>TERMINAL</code>, <code>WAIT</code>, <code>ERASE</code>, and <code>FREEKB</code> options. This clears the terminal screen and unlocks the keyboard, providing a clean visual response to the operator after the message has been logged.</p>
+<p><strong>Step 9 – Return</strong>
+<code>EXEC CICS RETURN</code> ends the CICS task cleanly. No ABEND is issued; the program always exits normally regardless of the write outcomes.</p>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICS Environment Query</td>
+<td><code>EXEC CICS ASSIGN SYSID</code></td>
+<td>Obtain the CICS region name for message prefixing</td>
+</tr>
+<tr>
+<td>CICS Environment Query</td>
+<td><code>EXEC CICS ASSIGN STARTCODE</code></td>
+<td>Record how the current task was started</td>
+</tr>
+<tr>
+<td>CICS Environment Query</td>
+<td><code>EXEC CICS ASSIGN PRINSYSID</code></td>
+<td>Identify the principal system in a multi-region setup</td>
+</tr>
+<tr>
+<td>CICS Environment Query</td>
+<td><code>EXEC CICS ASSIGN INVOKINGPROG</code></td>
+<td>Distinguish program linkage from terminal invocation</td>
+</tr>
+<tr>
+<td>Terminal Input</td>
+<td><code>EXEC CICS RECEIVE</code></td>
+<td>Read user-typed message text when invoked from a terminal</td>
+</tr>
+<tr>
+<td>TDQ Write</td>
+<td><code>EXEC CICS WRITEQ TD QUEUE(CSMT)</code></td>
+<td>Write logged message to the CICS system message log</td>
+</tr>
+<tr>
+<td>TSQ Write</td>
+<td><code>EXEC CICS WRITEQ TS QUEUE(STSQ)</code></td>
+<td>Write logged message to the GenApp application TSQ (GENAERRS or GENAnnnn)</td>
+</tr>
+<tr>
+<td>Terminal Output</td>
+<td><code>EXEC CICS SEND TEXT</code></td>
+<td>Clear and unlock terminal screen after terminal-initiated logging</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p><code>LGSTSQ</code> is a simple but important logging helper. When any other GenApp program encounters an error or needs to record a message, it calls <code>LGSTSQ</code> and passes the message text. The program figures out whether it was called by another program or typed directly at a terminal, collects the message, stamps it with the CICS system name, and writes it to two places: the standard CICS system log (CSMT) and a GenApp-specific message queue (GENAERRS). If the message starts with <code>Q=xxxx</code>, the caller can redirect the log entry to a different named queue, which is useful for separating messages from different parts of the application. If a terminal operator ran it directly, the screen is cleared at the end so it looks tidy. The program never crashes — even if there is no space to write to the queue, it moves on silently.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<p><code>LGSTSQ</code> does not interact with any DB2 database tables. It operates exclusively with CICS Transient Data Queues and Temporary Storage Queues. No <code>erDiagram</code> is applicable for this program.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<p>The LGSTSQ program is a single monolithic PL/I procedure (<code>LGSTSQ: Proc … End LGSTSQ</code>) with no separately named internal subroutines or labelled paragraphs. All logic flows inline from top to bottom. The logical sections described below correspond to the distinct functional blocks within that single procedure.</p>
+<ul>
+<li>
+<p><strong>LGSTSQ (Main Procedure — Initialization Block)</strong></p>
+<ul>
+<li>Serves as the program entry point, receiving <code>COMM_AREA_PTR</code> as the sole parameter, which is used to base the <code>COMMA</code> structure and access any inbound communication area data.</li>
+<li>Clears <code>WRITE_MSG</code> and <code>WS_RECV</code> to blanks to ensure no residual data contaminates output records.</li>
+<li>Issues four consecutive <code>EXEC CICS ASSIGN</code> calls to populate environmental context:
+<ul>
+<li><code>SYSID</code> → <code>WRITE_MSG_SYSID</code>: captures the 4-character CICS region identifier, which becomes the prefix of every logged message.</li>
+<li><code>STARTCODE</code> → <code>WS_STARTCODE</code>: retrieves the 2-character code indicating how the current CICS task was initiated.</li>
+<li><code>PRINSYSID</code> → <code>WS_PRINSYSID</code>: retrieves the owning system identifier of the principal facility.</li>
+<li><code>INVOKINGPROG</code> → <code>WS_INVOKEPROG</code>: retrieves the name of the calling program, or blanks if the task was not invoked by another program.</li>
+</ul>
+</li>
+<li>No control flow branching occurs here; all four ASSIGN calls execute unconditionally.</li>
+</ul>
+</li>
+<li>
+<p><strong>Invocation-Mode Detection and Message Population Block</strong></p>
+<ul>
+<li>Tests <code>WS_INVOKEPROG</code> to determine how the program was invoked, then populates <code>WRITE_MSG_MSG</code> and sets <code>WS_FLAG</code> accordingly.</li>
+<li><strong>Called-program path (<code>WS_INVOKEPROG &lt;&gt; ' '</code>)</strong>:
+<ul>
+<li>Sets <code>WS_FLAG = 'C'</code> to mark program-linkage invocation.</li>
+<li>Copies <code>COMMA_DATA</code> (the 90-byte communication area payload) directly into <code>WRITE_MSG_MSG</code>.</li>
+<li>Sets <code>WS_RECV_LEN</code> from <code>EIBCALEN</code> (the CICS-supplied communication area length field) to reflect the actual passed data length.</li>
+</ul>
+</li>
+<li><strong>Terminal path (ELSE)</strong>:
+<ul>
+<li>Executes <code>EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN)</code> to read the terminal-typed input into the 79-byte <code>WS_RECV</code> structure (5-char transaction ID + 74-char data).</li>
+<li>Sets <code>WS_FLAG = 'R'</code> to mark terminal invocation.</li>
+<li>Assigns <code>WS_RECV_DATA</code> (the 74-byte data portion, excluding the transaction ID) to <code>WRITE_MSG_MSG</code>.</li>
+<li>Subtracts 5 from <code>WS_RECV_LEN</code> to strip the transaction identifier from the reported length.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Queue-Name Override and Message Trimming Block</strong></p>
+<ul>
+<li>Defaults <code>STSQ</code> to <code>'GENAERRS'</code> as the standard Temporary Storage Queue (TSQ) name.</li>
+<li>Checks whether the first two characters of <code>WRITE_MSG_MSG</code> equal <code>'Q='</code>:
+<ul>
+<li>If true, extracts characters 3–6 of <code>WRITE_MSG_MSG</code> as a 4-character suffix and overlays positions 5–8 of <code>STSQ</code>, forming a dynamic queue name <code>GENAnnnn</code>.</li>
+<li>Extracts the remaining text starting at position 8 of <code>WRITE_MSG_MSG</code> (83 characters) into the <code>TEMPO</code> buffer, then copies <code>TEMPO</code> back to <code>WRITE_MSG_MSG</code>, effectively removing the 7-byte <code>Q=nnnn</code> prefix from the logged message.</li>
+<li>Decrements <code>WS_RECV_LEN</code> by 7 to account for the removed prefix.</li>
+</ul>
+</li>
+<li>After the conditional block, adds 5 to <code>WS_RECV_LEN</code> unconditionally to include the <code>WRITE_MSG_SYSID</code> + filler prefix in the final write length.</li>
+</ul>
+</li>
+<li>
+<p><strong>Transient Data Queue Write Block</strong></p>
+<ul>
+<li>Writes the fully composed <code>WRITE_MSG</code> record (SYSID + filler + message text) to the CICS Transient Data Queue (TDQ) named <code>CSMT</code> via <code>EXEC CICS WRITEQ TD</code>.</li>
+<li>Uses <code>WS_RECV_LEN</code> as the <code>LENGTH</code> parameter to write exactly the relevant portion of the record.</li>
+<li><code>CSMT</code> is the standard CICS system message log destination, making this write the primary audit trail entry.</li>
+</ul>
+</li>
+<li>
+<p><strong>Temporary Storage Queue Write Block</strong></p>
+<ul>
+<li>Writes the same <code>WRITE_MSG</code> record to the dynamically resolved TSQ (<code>STSQ</code>, either <code>'GENAERRS'</code> or <code>'GENAnnnn'</code>) via <code>EXEC CICS WRITEQ TS</code>.</li>
+<li>Specifies <code>NOSUSPEND</code>, meaning if CICS auxiliary storage is unavailable the write is silently abandoned rather than suspending the task and waiting for storage.</li>
+<li>Uses the same <code>WS_RECV_LEN</code> as the TD write for consistency.</li>
+</ul>
+</li>
+<li>
+<p><strong>Terminal Response and Return Block</strong></p>
+<ul>
+<li>Conditionally sends a terminal response only when <code>WS_FLAG = 'R'</code> (terminal invocation):
+<ul>
+<li>Issues <code>EXEC CICS SEND TEXT FROM(FILLER_X) TERMINAL WAIT ERASE LENGTH(1) FREEKB</code> to clear the terminal screen and unlock the keyboard, providing a minimal acknowledgement to the user.</li>
+<li>No response is sent when the program was invoked via program link (<code>WS_FLAG = 'C'</code>), since the caller has its own output handling.</li>
+</ul>
+</li>
+<li>Unconditionally issues <code>EXEC CICS RETURN</code> to end the CICS task and return control to CICS, regardless of which invocation path was taken.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-runtime-environment" tabindex="-1">6.1 CICS Runtime Environment</h3>
+<ul>
+<li><strong>CICS Region</strong> — The program runs exclusively under CICS. It uses the CICS Execute Interface (EXEC CICS) for all I/O, task control, and inter-program communication. Without a running CICS region the program cannot execute.
+<ul>
+<li><strong>Execute Interface Block (EIB)</strong> — The CICS-provided control block accessed implicitly throughout the program. The field <code>EIBCALEN</code> is read to determine the length of the communication area passed by the caller.</li>
+<li><strong>CICS ASSIGN service</strong> — Used at startup to interrogate CICS task attributes:
+<ul>
+<li><code>SYSID</code> — returns the 4-character identifier of the local CICS region, used as a prefix on every logged message.</li>
+<li><code>STARTCODE</code> — returns a 2-character code describing how the task was initiated (e.g., terminal input, START command, DPL).</li>
+<li><code>PRINSYSID</code> — returns the 4-character identifier of the system owning the principal facility (used in multi-region environments).</li>
+<li><code>INVOKINGPROG</code> — returns the name of the program that issued the <code>EXEC CICS LINK</code>; a non-blank value indicates the program was called programmatically rather than from a terminal.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="62-cics-queues-output-destinations" tabindex="-1">6.2 CICS Queues (Output Destinations)</h3>
+<ul>
+<li><strong>Transient Data Queue (TDQ) <code>CSMT</code></strong> — A standard CICS intrapartition destination used for system message logging. The program writes every message to this queue via <code>EXEC CICS WRITEQ TD</code>. <code>CSMT</code> must be defined in the CICS TDQ definitions (DCT) for the region.</li>
+<li><strong>Temporary Storage Queue (TSQ) <code>GENAERRS</code></strong> (default) — An 8-character CICS Temporary Storage Queue used as the primary application error log. Written via <code>EXEC CICS WRITEQ TS</code> with <code>NOSUSPEND</code>, meaning the write is skipped rather than suspending the task if storage is unavailable. The queue name defaults to <code>GENAERRS</code> but can be dynamically overridden to <code>GENAnnnn</code> at runtime.
+<ul>
+<li><strong>Dynamic TSQ name (<code>GENAnnnn</code>)</strong> — When the incoming message text begins with the prefix <code>Q=nnnn</code>, the last four characters are substituted into the TSQ name, directing output to an alternate queue <code>GENAnnnn</code>. The <code>nnnn</code> value is supplied at runtime by the caller or terminal user.</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-inter-program-communication" tabindex="-1">6.3 Inter-Program Communication</h3>
+<ul>
+<li><strong>Calling Program (via <code>EXEC CICS LINK</code>)</strong> — Any CICS program that invokes <code>LGSTSQ</code> by issuing an <code>EXEC CICS LINK</code> with a COMMAREA. The calling program passes up to 90 bytes of message text through the communication area. The program name is detected at runtime via <code>ASSIGN INVOKINGPROG</code>; no specific caller program name is hardcoded.
+<ul>
+<li><strong>COMMAREA (Communication Area)</strong> — Up to 90 bytes of message text passed from the invoking program. Accessed through the PL/I pointer parameter <code>COMM_AREA_PTR</code> and the based structure <code>COMMA</code>. Its length is read from <code>EIBCALEN</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="64-terminal-interface" tabindex="-1">6.4 Terminal Interface</h3>
+<ul>
+<li><strong>CICS Terminal (3270 or compatible)</strong> — When the program is invoked directly from a terminal (detected by <code>ASSIGN INVOKINGPROG</code> returning blank), it reads input via <code>EXEC CICS RECEIVE INTO(WS_RECV)</code>. The first 5 characters are the transaction identifier and the remaining 74 characters carry the message text. After logging, it responds via <code>EXEC CICS SEND TEXT</code> with <code>ERASE</code> and <code>FREEKB</code> to clear the screen and unlock the keyboard.
+<ul>
+<li><strong>CICS Transaction definition</strong> — A CICS transaction must be defined in the PCT/Program Autoinstall to associate a transaction ID with the program <code>LGSTSQ</code>, enabling terminal-initiated invocation.</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-data-size--field-length-constraints" tabindex="-1">7.1 Data Size &amp; Field Length Constraints</h3>
+<ul>
+<li>
+<p><strong>Communication area message text is capped at 90 bytes</strong></p>
+<ul>
+<li><code>COMMA_DATA</code> is declared as <code>CHAR(90)</code>, so any caller invoking the program via <code>EXEC CICS LINK</code> can pass at most 90 bytes of message content; anything beyond that is silently truncated by PL/I character assignment</li>
+<li><code>WRITE_MSG_MSG</code> is also <code>CHAR(90)</code>, enforcing the same ceiling for the logged message text regardless of invocation path</li>
+<li><code>TEMPO</code> is <code>CHAR(90)</code>, so the extracted body after stripping the <code>Q=nnnn</code> prefix is also bounded at 90 characters</li>
+</ul>
+</li>
+<li>
+<p><strong>Terminal input is bounded at 79 bytes of user data (74 bytes of usable message text)</strong></p>
+<ul>
+<li><code>WS_RECV</code> is declared as <code>CHAR(5) + CHAR(74)</code> = 79 bytes total; the <code>EXEC CICS RECEIVE LENGTH(WS_RECV_LEN)</code> call uses this fixed structure as the receive buffer, so input beyond 79 bytes is not captured</li>
+<li>The first 5 bytes of terminal input (<code>WS_RECV_TRANID</code>) are always the transaction identifier and are never forwarded to the log; only the trailing 74-byte <code>WS_RECV_DATA</code> becomes the message</li>
+</ul>
+</li>
+<li>
+<p><strong><code>WS_RECV_LEN</code> is initialised to 80</strong> and used as the LENGTH operand for both <code>WRITEQ TD</code> and <code>WRITEQ TS</code>; this is an absolute upper bound on the number of bytes written to either queue in a single call</p>
+</li>
+<li>
+<p><strong><code>WRITE_MSG</code> output record is exactly 95 bytes</strong> (4-byte SYSID + 1-byte filler + 90-byte message); the LENGTH passed to queue-write commands controls how many of those bytes are actually written, but the structure itself never exceeds 95 bytes</p>
+</li>
+</ul>
+<hr>
+<h3 id="72-invocation-path-constraints" tabindex="-1">7.2 Invocation-Path Constraints</h3>
+<ul>
+<li>
+<p><strong>Invocation method is mutually exclusive</strong>: the program follows exactly one of two paths and never both</p>
+<ul>
+<li>If <code>WS_INVOKEPROG</code> (populated via <code>EXEC CICS ASSIGN INVOKINGPROG</code>) is non-blank, the program treats itself as called by another program (<code>WS_FLAG = 'C'</code>), reads the message from <code>COMMA_DATA</code>, and sets <code>WS_RECV_LEN</code> to <code>EIBCALEN</code> (the actual COMMAREA length supplied by the caller)</li>
+<li>If <code>WS_INVOKEPROG</code> is blank (terminal invocation), the program issues <code>EXEC CICS RECEIVE</code> to read terminal input (<code>WS_FLAG = 'R'</code>) and subtracts 5 from the received length to exclude the transaction-ID prefix</li>
+</ul>
+</li>
+<li>
+<p><strong>A terminal response (<code>EXEC CICS SEND TEXT</code>) is sent only when invoked from a terminal</strong> (<code>WS_FLAG = 'R'</code>); callers that invoke the program via LINK never receive a screen response</p>
+</li>
+<li>
+<p><strong>COMMAREA must be present when called programmatically</strong>: the program unconditionally dereferences <code>COMM_AREA_PTR</code> and accesses <code>COMMA_DATA</code> when <code>WS_INVOKEPROG</code> is non-blank; if the calling program supplies a null or absent COMMAREA, the pointer dereference will cause an abend</p>
+</li>
+</ul>
+<hr>
+<h3 id="73-queue-name-override-constraints" tabindex="-1">7.3 Queue-Name Override Constraints</h3>
+<ul>
+<li>
+<p><strong>Queue-name override prefix must be exactly <code>Q=</code> in positions 1–2 of the message</strong></p>
+<ul>
+<li>The check <code>SUBSTR(WRITE_MSG_MSG,1,2) = 'Q='</code> is strict; any other prefix (e.g., lowercase <code>q=</code>, extra leading spaces) bypasses the override and uses the default queue <code>GENAERRS</code></li>
+</ul>
+</li>
+<li>
+<p><strong>The queue-name suffix must occupy exactly bytes 3–6 of the message</strong> (<code>SUBSTR(WRITE_MSG_MSG,3,4)</code>); the value is taken verbatim and placed into positions 5–8 of <code>STSQ</code>, producing a queue name of the form <code>GENAnnnn</code>; no validation of the 4-character suffix is performed</p>
+</li>
+<li>
+<p><strong>The <code>Q=nnnn</code> prefix occupies exactly 7 bytes</strong> (bytes 1–7); the actual message text begins at byte 8 (<code>SUBSTR(WRITE_MSG_MSG,8,83)</code>), and the effective message length is reduced by 7 (<code>WS_RECV_LEN = WS_RECV_LEN - 7</code>)</p>
+</li>
+<li>
+<p><strong>Default TSQ name is <code>GENAERRS</code></strong> — the first 4 characters (<code>GENA</code>) are hard-coded by the <code>INIT('GENAERRS')</code> assignment; only positions 5–8 can be overridden via the <code>Q=</code> prefix</p>
+</li>
+</ul>
+<hr>
+<h3 id="74-sequencing-constraints" tabindex="-1">7.4 Sequencing Constraints</h3>
+<ul>
+<li>
+<p><strong>CICS environment assignments must precede any message handling</strong>: <code>EXEC CICS ASSIGN SYSID</code>, <code>ASSIGN STARTCODE</code>, <code>ASSIGN PRINSYSID</code>, and <code>ASSIGN INVOKINGPROG</code> are all executed before the invocation-path branch, ensuring <code>WRITE_MSG_SYSID</code> and <code>WS_INVOKEPROG</code> are populated before they are used</p>
+</li>
+<li>
+<p><strong>Message content must be set before queue writes</strong>: the invocation-path branch (lines 68–82) populates <code>WRITE_MSG_MSG</code> before the optional <code>Q=</code> prefix extraction (lines 85–91) and before the <code>WRITEQ TD</code> / <code>WRITEQ TS</code> calls (lines 96–108); this ordering is mandatory</p>
+</li>
+<li>
+<p><strong>TDQ write precedes TSQ write</strong>: <code>EXEC CICS WRITEQ TD</code> (CSMT) is always issued before <code>EXEC CICS WRITEQ TS</code> (STSQ); both writes use the same <code>WRITE_MSG</code> buffer and <code>WS_RECV_LEN</code>, so neither can be reordered without risk of different data being logged</p>
+</li>
+<li>
+<p><strong>Terminal send (<code>EXEC CICS SEND TEXT</code>) must follow both queue writes</strong>: it is placed after all logging is complete and is conditioned on <code>WS_FLAG = 'R'</code></p>
+</li>
+<li>
+<p><strong><code>EXEC CICS RETURN</code> is unconditional and terminal</strong>: it is always the final statement; no logic may execute after the CICS task is returned</p>
+</li>
+</ul>
+<hr>
+<h3 id="75-resource-usage-constraints" tabindex="-1">7.5 Resource-Usage Constraints</h3>
+<ul>
+<li>
+<p><strong>TSQ write is non-blocking (<code>NOSUSPEND</code>)</strong>: if CICS temporary storage is exhausted and no space is available, the <code>WRITEQ TS</code> request is silently discarded rather than suspending the task; this means TSQ logging is best-effort only and may silently drop messages under storage pressure</p>
+</li>
+<li>
+<p><strong>TDQ write (<code>WRITEQ TD</code> to CSMT) has no <code>NOSUSPEND</code> option</strong>: a failure or suspension on the TDQ write will propagate normally via <code>WS_RESP</code>; no explicit error handling branch is coded, so CICS default condition handling applies</p>
+</li>
+<li>
+<p><strong><code>WS_RECV_LEN</code> is adjusted but not bounds-checked</strong>: the length is decremented by 5 for terminal input (to strip the transaction ID) and by a further 7 if the <code>Q=</code> prefix is detected, then incremented by 5 before queue writes; no guard prevents the value from going negative or exceeding the structure size if unusually short input is received</p>
+</li>
+</ul>
+<hr>
+<h3 id="76-output-formatting-constraints" tabindex="-1">7.6 Output Formatting Constraints</h3>
+<ul>
+<li>
+<p><strong>SYSID prefix is always prepended to the logged message</strong>: <code>WRITE_MSG_SYSID</code> (4 bytes, sourced from <code>EXEC CICS ASSIGN SYSID</code>) is always the first field of <code>WRITE_MSG</code>, ensuring every logged record is tagged with the originating CICS region identifier</p>
+</li>
+<li>
+<p><strong>A single blank byte (<code>FILLER_X</code>) always separates the SYSID from the message text</strong> in the output record; this is a fixed structural constraint of the <code>WRITE_MSG</code> declaration</p>
+</li>
+<li>
+<p><strong>Terminal response is always a single blank byte</strong>: <code>EXEC CICS SEND TEXT FROM(FILLER_X) LENGTH(1)</code> sends exactly 1 byte to the terminal with <code>ERASE</code> and <code>FREEKB</code>; no variable-length or formatted response is ever sent to the terminal</p>
+</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-resp-based-response-code-capture-on-cics-commands" tabindex="-1">8.1 RESP-Based Response Code Capture on CICS Commands</h3>
+<ul>
+<li>The program uses the <code>RESP(WS_RESP)</code> option on every EXEC CICS command it issues, including all four ASSIGN commands, the RECEIVE command, the WRITEQ TD command, and the WRITEQ TS command.</li>
+<li>By specifying <code>RESP</code>, the program suppresses CICS default exception handling (which would otherwise raise an ABEND) and instead captures the CICS response code into the <code>WS_RESP</code> variable (a FIXED BIN(31) field).</li>
+<li>This is a blanket error-suppression strategy: every CICS API call stores its outcome in <code>WS_RESP</code>, preventing any CICS-raised condition from terminating the task abnormally.</li>
+<li><strong>Notable gap:</strong> Although <code>WS_RESP</code> is populated after each command, the program never explicitly inspects its value. There are no IF-checks on <code>WS_RESP</code> following any CICS command. This means errors from any of these operations (e.g., a failed ASSIGN, a failed RECEIVE, or a failed queue write) are silently absorbed and processing continues unconditionally.</li>
+</ul>
+<h3 id="82-invocation-mode-detection-as-defensive-logic" tabindex="-1">8.2 Invocation-Mode Detection as Defensive Logic</h3>
+<ul>
+<li>The program determines how it was invoked by examining <code>WS_INVOKEPROG</code>, which is populated via <code>EXEC CICS ASSIGN INVOKINGPROG</code>.</li>
+<li>If <code>WS_INVOKEPROG</code> is non-blank, the program treats the invocation as a program-to-program LINK (sets <code>WS_FLAG = 'C'</code>) and sources the message from the COMMAREA.</li>
+<li>If <code>WS_INVOKEPROG</code> is blank, the program treats the invocation as a terminal-originated transaction (sets <code>WS_FLAG = 'R'</code>) and issues <code>EXEC CICS RECEIVE</code> to obtain input data.</li>
+<li>This check acts as a guard against reading incorrect input: terminal input is only received when the program is certain no calling program passed a communication area, preventing data source confusion.</li>
+</ul>
+<h3 id="83-nosuspend-option-on-temporary-storage-queue-write" tabindex="-1">8.3 NOSUSPEND Option on Temporary Storage Queue Write</h3>
+<ul>
+<li>The <code>EXEC CICS WRITEQ TS</code> command specifies the <code>NOSUSPEND</code> option.</li>
+<li>This instructs CICS not to suspend the task if temporary storage is unavailable (e.g., due to storage constraints). Instead of waiting, CICS immediately returns a non-zero response code in <code>WS_RESP</code>, and the program continues execution.</li>
+<li>This is a deliberate recovery strategy: the program treats the TSQ write as a best-effort operation. If the message cannot be logged to the Temporary Storage Queue, the program silently proceeds rather than blocking or abending.</li>
+<li>The Transient Data Queue write (WRITEQ TD to CSMT) does not use NOSUSPEND, so its behavior under resource constraints differs — though its errors are also absorbed by the RESP option.</li>
+</ul>
+<h3 id="84-conditional-terminal-response" tabindex="-1">8.4 Conditional Terminal Response</h3>
+<ul>
+<li>After writing to both queues, the program checks <code>WS_FLAG</code> to determine whether the task was terminal-initiated.</li>
+<li>If <code>WS_FLAG = 'R'</code> (terminal invocation), the program sends a blank response to the terminal via <code>EXEC CICS SEND TEXT</code> with the <code>ERASE</code> and <code>FREEKB</code> options, providing the terminal user with a cleared screen as an implicit acknowledgment.</li>
+<li>If <code>WS_FLAG = 'C'</code> (program invocation), no terminal send is performed. This prevents errors that would arise from attempting to send to a terminal that does not exist in a program-link context.</li>
+<li>This branching logic acts as a safeguard against issuing terminal I/O commands when no terminal principal facility is associated with the task.</li>
+</ul>
+<h3 id="85-queue-name-override-validation" tabindex="-1">8.5 Queue Name Override Validation</h3>
+<ul>
+<li>The program checks whether the first two characters of the message text equal <code>'Q='</code>, which signals a queue-name override parameter.</li>
+<li>When the prefix is detected, the program extracts the four-character queue suffix from positions 3–6 of the message and appends it to the fixed prefix <code>'GENA'</code>, forming a dynamic TSQ name (e.g., <code>'GENAnnnn'</code>).</li>
+<li>The message text is then trimmed to remove the seven-byte <code>Q=nnnn </code> prefix, and the receive length is decremented by seven to reflect the shorter payload.</li>
+<li>If the <code>Q=</code> prefix is not present, the default queue name <code>'GENAERRS'</code> is used unchanged.</li>
+<li>This constitutes input validation and fallback logic: the program gracefully handles both parameterized and default invocations without failing.</li>
+</ul>
+<h3 id="86-absence-of-explicit-error-reporting-or-abend-logic" tabindex="-1">8.6 Absence of Explicit Error Reporting or Abend Logic</h3>
+<ul>
+<li>The program does not issue any <code>EXEC CICS ABEND</code> commands, nor does it write its own error messages to any queue in response to failures. It is itself the error-logging utility, so there is no recursive error reporting.</li>
+<li>There is no use of PL/I <code>ON</code> condition handlers (such as <code>ON ERROR</code>, <code>ON CONDITION</code>, or <code>ON ENDFILE</code>).</li>
+<li>There is no checking of <code>EIBCALEN</code> to validate that a COMMAREA was passed before dereferencing <code>COMM_AREA_PTR</code>; however, the COMMAREA is only accessed inside the branch where <code>WS_INVOKEPROG</code> is non-blank, which implicitly indicates a calling program provided it.</li>
+<li>The program relies entirely on the RESP option to prevent abends and does not implement any secondary notification or retry mechanism for failed operations.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1--called-by-another-program-commarea-no-queue-override" tabindex="-1">9.1 Example 1 — Called by Another Program (COMMAREA, no queue override)</h3>
+<p><strong>Input:</strong></p>
+<ul>
+<li>Invoking program: <code>LGSICVP</code> (non-blank, so <code>WS_INVOKEPROG = 'LGSICVP'</code>)</li>
+<li>COMMAREA (<code>COMMA_DATA</code>, 90 bytes): <code>&quot;Policy not found for customer 1234567890&quot;</code></li>
+<li>CICS SYSID: <code>GENL</code></li>
+<li><code>EIBCALEN</code>: <code>42</code></li>
+</ul>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>WS_INVOKEPROG</code> is non-blank → <code>WS_FLAG = 'C'</code>.</li>
+<li><code>WRITE_MSG_MSG</code> is loaded from <code>COMMA_DATA</code>: <code>&quot;Policy not found for customer 1234567890&quot;</code>.</li>
+<li>The message does <strong>not</strong> start with <code>Q=</code>, so <code>STSQ</code> stays <code>'GENAERRS'</code>.</li>
+<li><code>WS_RECV_LEN = 42 + 5 = 47</code>.</li>
+<li><code>WRITE_MSG</code> (SYSID + space + message text) is written to TDQ <code>CSMT</code> and TSQ <code>GENAERRS</code>, length 47.</li>
+<li><code>WS_FLAG</code> is <code>'C'</code>, so no terminal send is performed.</li>
+</ol>
+<p><strong>Output written to CSMT and GENAERRS:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Policy not found for customer 1234567890</code></pre>
+</div>
+<p><em>(4-char SYSID + 1 space + message text, 47 bytes total)</em></p>
+<hr>
+<h3 id="92-example-2--called-by-another-program-commarea-with-queue-name-override-qnnnn" tabindex="-1">9.2 Example 2 — Called by Another Program (COMMAREA, with queue-name override <code>Q=nnnn</code>)</h3>
+<p><strong>Input:</strong></p>
+<ul>
+<li>Invoking program: <code>LGSICVP</code> (non-blank)</li>
+<li>COMMAREA (<code>COMMA_DATA</code>, 90 bytes): <code>&quot;Q=0042Policy limit exceeded for account 99&quot;</code></li>
+<li>CICS SYSID: <code>GENL</code></li>
+<li><code>EIBCALEN</code>: <code>43</code></li>
+</ul>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>WS_INVOKEPROG</code> is non-blank → <code>WS_FLAG = 'C'</code>, <code>WRITE_MSG_MSG = &quot;Q=0042Policy limit exceeded…&quot;</code>.</li>
+<li>First two characters are <code>Q=</code> → queue override detected.
+<ul>
+<li>Characters 3–6 (<code>0042</code>) are placed in positions 5–8 of <code>STSQ</code> → <code>STSQ = 'GENA0042'</code>.</li>
+<li>Characters 8–90 of the message (<code>&quot;Policy limit exceeded for account 99&quot;</code>) are extracted into <code>TEMPO</code> and reassigned to <code>WRITE_MSG_MSG</code>.</li>
+<li><code>WS_RECV_LEN = 43 − 7 = 36</code>.</li>
+</ul>
+</li>
+<li><code>WS_RECV_LEN = 36 + 5 = 41</code>.</li>
+<li><code>WRITE_MSG</code> is written to TDQ <code>CSMT</code> and TSQ <code>GENA0042</code>, length 41.</li>
+<li>No terminal send (<code>WS_FLAG = 'C'</code>).</li>
+</ol>
+<p><strong>Output written to CSMT and GENA0042:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Policy limit exceeded for account 99</code></pre>
+</div>
+<p><em>(7-byte <code>Q=nnnn </code> prefix is stripped; message logged to the overridden queue <code>GENA0042</code>)</em></p>
+<hr>
+<h3 id="93-example-3--invoked-directly-from-a-terminal" tabindex="-1">9.3 Example 3 — Invoked Directly from a Terminal</h3>
+<p><strong>Input:</strong></p>
+<ul>
+<li><code>WS_INVOKEPROG</code> is blank (no invoking program).</li>
+<li>Terminal user types transaction <code>LGSQ</code> followed by data: <code>LGSQ Account 888 is invalid   </code> (total 30 bytes received).</li>
+<li>CICS SYSID: <code>GENL</code></li>
+<li><code>WS_RECV_LEN</code> after <code>EXEC CICS RECEIVE</code>: <code>30</code></li>
+</ul>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>WS_INVOKEPROG</code> is blank → falls into the <code>ELSE</code> branch.</li>
+<li><code>EXEC CICS RECEIVE</code> fills <code>WS_RECV</code> (5-byte tranid <code>'LGSQ '</code> + 74-byte data area).</li>
+<li><code>WS_FLAG = 'R'</code>, <code>WRITE_MSG_MSG = WS_RECV_DATA</code> (<code>&quot;Account 888 is invalid   &quot;</code>).</li>
+<li><code>WS_RECV_LEN = 30 − 5 = 25</code> (strip tranid length).</li>
+<li>Message does not start with <code>Q=</code>, so <code>STSQ = 'GENAERRS'</code>.</li>
+<li><code>WS_RECV_LEN = 25 + 5 = 30</code>.</li>
+<li><code>WRITE_MSG</code> is written to TDQ <code>CSMT</code> and TSQ <code>GENAERRS</code>, length 30.</li>
+<li><code>WS_FLAG = 'R'</code> → <code>EXEC CICS SEND TEXT</code> clears the terminal screen before returning.</li>
+</ol>
+<p><strong>Output written to CSMT and GENAERRS:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Account 888 is invalid</code></pre>
+</div>
+<p><em>(Terminal is also cleared/refreshed after the write)</em></p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a></li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-logged-message-outputs">3.1 Logged message outputs</a></li>
+<li class="toc-level-3"><a href="#32-terminal-facing-output">3.2 Terminal-facing output</a></li>
+<li class="toc-level-3"><a href="#33-invocation-dependent-output-content">3.3 Invocation-dependent output content</a></li>
+<li class="toc-level-3"><a href="#34-control-values-that-affect-observable-outputs">3.4 Control values that affect observable outputs</a></li>
+<li class="toc-level-3"><a href="#35-return--completion-behavior">3.5 Return / completion behavior</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-runtime-environment">6.1 CICS Runtime Environment</a></li>
+<li class="toc-level-3"><a href="#62-cics-queues-output-destinations">6.2 CICS Queues (Output Destinations)</a></li>
+<li class="toc-level-3"><a href="#63-inter-program-communication">6.3 Inter-Program Communication</a></li>
+<li class="toc-level-3"><a href="#64-terminal-interface">6.4 Terminal Interface</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-data-size--field-length-constraints">7.1 Data Size &amp;amp; Field Length Constraints</a></li>
+<li class="toc-level-3"><a href="#72-invocation-path-constraints">7.2 Invocation-Path Constraints</a></li>
+<li class="toc-level-3"><a href="#73-queue-name-override-constraints">7.3 Queue-Name Override Constraints</a></li>
+<li class="toc-level-3"><a href="#74-sequencing-constraints">7.4 Sequencing Constraints</a></li>
+<li class="toc-level-3"><a href="#75-resource-usage-constraints">7.5 Resource-Usage Constraints</a></li>
+<li class="toc-level-3"><a href="#76-output-formatting-constraints">7.6 Output Formatting Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-resp-based-response-code-capture-on-cics-commands">8.1 RESP-Based Response Code Capture on CICS Commands</a></li>
+<li class="toc-level-3"><a href="#82-invocation-mode-detection-as-defensive-logic">8.2 Invocation-Mode Detection as Defensive Logic</a></li>
+<li class="toc-level-3"><a href="#83-nosuspend-option-on-temporary-storage-queue-write">8.3 NOSUSPEND Option on Temporary Storage Queue Write</a></li>
+<li class="toc-level-3"><a href="#84-conditional-terminal-response">8.4 Conditional Terminal Response</a></li>
+<li class="toc-level-3"><a href="#85-queue-name-override-validation">8.5 Queue Name Override Validation</a></li>
+<li class="toc-level-3"><a href="#86-absence-of-explicit-error-reporting-or-abend-logic">8.6 Absence of Explicit Error Reporting or Abend Logic</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1--called-by-another-program-commarea-no-queue-override">9.1 Example 1 — Called by Another Program (COMMAREA, no queue override)</a></li>
+<li class="toc-level-3"><a href="#92-example-2--called-by-another-program-commarea-with-queue-name-override-qnnnn">9.2 Example 2 — Called by Another Program (COMMAREA, with queue-name override Q=nnnn)</a></li>
+<li class="toc-level-3"><a href="#93-example-3--invoked-directly-from-a-terminal">9.3 Example 3 — Invoked Directly from a Terminal</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGSTSQ</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

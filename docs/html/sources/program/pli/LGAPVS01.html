@@ -1,0 +1,1308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGAPVS01</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link active">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p><code>LGAPVS01</code> is a CICS PL/I program that adds a new insurance policy record to a VSAM KSDS dataset named <code>KSDSPOLY</code>. It receives policy details through a Communication Area, extracts the policy type indicator from the request ID, and selects the appropriate policy-specific data fields — Commercial (<code>C</code>), Endowment (<code>E</code>), House (<code>H</code>), or Motor (<code>M</code>) — to populate a 64-byte working record structure. Using the customer number, policy number, and policy type as a composite 21-byte KSDS key, the program issues a CICS <code>WRITE FILE</code> command to persist the new policy record. If the write operation fails, the program sets a return code of <code>80</code> in the Communication Area, logs a timestamped diagnostic error message (including RESP codes and raw Communication Area content) by linking to the <code>LGSTSQ</code> logging program, and returns control to CICS.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<h3 id="21-program-parameter" tabindex="-1">2.1 Program Parameter</h3>
+<ul>
+<li><strong><code>COMM_AREA_PTR</code></strong> — Pointer parameter passed to <code>LGAPVS01</code> at invocation. It addresses the CICS Communication Area (<code>COMM_AREA</code>) in memory, providing all caller-supplied inputs to the program.</li>
+</ul>
+<h3 id="22-communication-area-fields-comm_area-via-comm_area_ptr" tabindex="-1">2.2 Communication Area Fields (<code>COMM_AREA</code> via <code>COMM_AREA_PTR</code>)</h3>
+<h4 id="221-core-request-fields" tabindex="-1">2.2.1 Core Request Fields</h4>
+<ul>
+<li><strong><code>CA_REQUEST_ID</code></strong> — 6-character request identifier supplied by the calling program. The 4th character is extracted to classify the policy type (<code>C</code>=Commercial, <code>E</code>=Endowment, <code>H</code>=House, <code>M</code>=Motor), driving the main <code>SELECT</code> branch.</li>
+<li><strong><code>CA_CUSTOMER_NUM</code></strong> — 10-digit customer number identifying the policyholder. Copied into the VSAM key and used in error message diagnostics.</li>
+<li><strong><code>CA_POLICY_NUM</code></strong> — 10-digit policy number supplied by the caller. Copied into the VSAM key (<code>WF_POLICY_KEY</code>) and used as the record identifier for the CICS <code>WRITE FILE</code> operation.</li>
+<li><strong><code>CA_RETURN_CODE</code></strong> — 2-digit return code field; written back to the caller (<code>'80'</code> on failure). Serves as both an input (caller-initialised context) and an output channel.</li>
+<li><strong><code>COMM_AREA_RAW</code></strong> — Raw 32,500-character overlay of the entire Communication Area. Read during error logging to capture and forward up to 90 bytes of raw COMMAREA content to diagnostic program <code>LGSTSQ</code>.</li>
+</ul>
+<h4 id="222-commercial-policy-fields-ca_commercial-when-ca_request_id4--c" tabindex="-1">2.2.2 Commercial Policy Fields (<code>CA_COMMERCIAL</code>, when <code>CA_REQUEST_ID[4] = 'C'</code>)</h4>
+<ul>
+<li><strong><code>CA_B_Postcode</code></strong> — 8-character postcode of the insured commercial property.</li>
+<li><strong><code>CA_B_Status</code></strong> — 4-digit status code reflecting the approval/standing state of the commercial policy.</li>
+<li><strong><code>CA_B_Customer</code></strong> — 255-character customer descriptor for the commercial policy.</li>
+</ul>
+<h4 id="223-endowment-policy-fields-ca_endowment-when-ca_request_id4--e" tabindex="-1">2.2.3 Endowment Policy Fields (<code>CA_ENDOWMENT</code>, when <code>CA_REQUEST_ID[4] = 'E'</code>)</h4>
+<ul>
+<li><strong><code>CA_E_WITH_PROFITS</code></strong> — Single-character flag indicating whether the endowment is with-profits.</li>
+<li><strong><code>CA_E_EQUITIES</code></strong> — Single-character flag indicating equities participation.</li>
+<li><strong><code>CA_E_MANAGED_FUND</code></strong> — Single-character flag indicating managed fund participation.</li>
+<li><strong><code>CA_E_FUND_NAME</code></strong> — 10-character name of the investment fund.</li>
+<li><strong><code>CA_E_LIFE_ASSURED</code></strong> — 31-character name of the life assured person.</li>
+</ul>
+<h4 id="224-house-policy-fields-ca_house-when-ca_request_id4--h" tabindex="-1">2.2.4 House Policy Fields (<code>CA_HOUSE</code>, when <code>CA_REQUEST_ID[4] = 'H'</code>)</h4>
+<ul>
+<li><strong><code>CA_H_PROPERTY_TYPE</code></strong> — 15-character classification of the residential property (e.g., <code>DETACHED</code>, <code>BUNGALOW</code>).</li>
+<li><strong><code>CA_H_BEDROOMS</code></strong> — 3-digit number of bedrooms in the property.</li>
+<li><strong><code>CA_H_VALUE</code></strong> — 8-digit insured value of the property.</li>
+<li><strong><code>CA_H_POSTCODE</code></strong> — 8-character postcode of the insured property.</li>
+<li><strong><code>CA_H_HOUSE_NAME</code></strong> — 20-character name or identifier of the insured house.</li>
+</ul>
+<h4 id="225-motor-policy-fields-ca_motor-when-ca_request_id4--m" tabindex="-1">2.2.5 Motor Policy Fields (<code>CA_MOTOR</code>, when <code>CA_REQUEST_ID[4] = 'M'</code>)</h4>
+<ul>
+<li><strong><code>CA_M_MAKE</code></strong> — 15-character vehicle manufacturer.</li>
+<li><strong><code>CA_M_MODEL</code></strong> — 15-character vehicle model.</li>
+<li><strong><code>CA_M_VALUE</code></strong> — 6-digit insured value of the vehicle.</li>
+<li><strong><code>CA_M_REGNUMBER</code></strong> — 7-character vehicle registration number.</li>
+</ul>
+<h3 id="23-cics-runtime-inputs" tabindex="-1">2.3 CICS Runtime Inputs</h3>
+<ul>
+<li><strong><code>EIBCALEN</code></strong> — CICS Execution Interface Block field providing the length of the Communication Area passed by the caller. Used to guard against zero-length COMMAREA and to bound raw COMMAREA logging in the error handler.</li>
+<li><strong><code>EIBRESP2</code></strong> — CICS EIB field providing the secondary response code from the <code>WRITE FILE</code> command. Captured on failure and included in the error message forwarded to <code>LGSTSQ</code>.</li>
+</ul>
+<h3 id="24-external-data-store" tabindex="-1">2.4 External Data Store</h3>
+<ul>
+<li><strong><code>KSDSPOLY</code></strong> (VSAM KSDS file) — The target VSAM Key-Sequenced Dataset to which the new policy record is written via <code>EXEC CICS WRITE FILE</code>. While it is an output destination, its availability and response (<code>WS_RESP</code>) directly govern the program’s success path and error-handling behaviour, making it a runtime environmental dependency.</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<p><strong>VSAM KSDS File Write — <code>KSDSPOLY</code></strong></p>
+<ul>
+<li><code>WF_POLICY_INFO</code> — the 64-byte record buffer written to the VSAM KSDS dataset <code>KSDSPOLY</code> via <code>EXEC CICS WRITE FILE</code>; it is the primary output of the program and contains:
+<ul>
+<li><code>WF_POLICY_KEY</code> — the 21-byte composite record key used as <code>RIDFLD</code>, made up of:
+<ul>
+<li><code>WF_REQUEST_ID</code> — 1-byte policy-type classifier (<code>C</code>, <code>E</code>, <code>H</code>, or <code>M</code>) extracted from position 4 of <code>CA_REQUEST_ID</code></li>
+<li><code>WF_CUSTOMER_NUM</code> — 10-character customer number copied from <code>CA_CUSTOMER_NUM</code></li>
+<li><code>WF_POLICY_NUM</code> — 10-character policy number copied from <code>CA_POLICY_NUM</code></li>
+</ul>
+</li>
+<li><code>WF_POLICY_DATA</code> (UNION) — 43-byte policy-type-specific payload, populated based on <code>WF_REQUEST_ID</code>:
+<ul>
+<li>Commercial (<code>C</code>): <code>WF_B_POSTCODE</code>, <code>WF_B_STATUS</code>, <code>WF_B_CUSTOMER</code></li>
+<li>Endowment (<code>E</code>): <code>WF_E_WITH_PROFITS</code>, <code>WF_E_EQUITIES</code>, <code>WF_E_MANAGED_FUND</code>, <code>WF_E_FUND_NAME</code>, <code>WF_E_LIFE_ASSURED</code></li>
+<li>House (<code>H</code>): <code>WF_H_PROPERTY_TYPE</code>, <code>WF_H_BEDROOMS</code>, <code>WF_H_VALUE</code>, <code>WF_H_POSTCODE</code>, <code>WF_H_HOUSE_NAME</code></li>
+<li>Motor (<code>M</code>): <code>WF_M_MAKE</code>, <code>WF_M_MODEL</code>, <code>WF_M_VALUE</code>, <code>WF_M_REGNUMBER</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Communication Area Return Code</strong></p>
+<ul>
+<li><code>CA_RETURN_CODE</code> — set to <code>'80'</code> and returned to the calling program when the <code>EXEC CICS WRITE FILE</code> command fails (i.e., <code>WS_RESP</code> ≠ <code>DFHRESP(NORMAL)</code>); the sole mechanism by which the program signals an error condition back to its caller</li>
+</ul>
+<p><strong>Diagnostic Error Logging via <code>LGSTSQ</code></strong></p>
+<ul>
+<li><code>ERROR_MSG</code> — structured error message passed via <code>EXEC CICS LINK</code> to program <code>LGSTSQ</code> on write failure; contains:
+<ul>
+<li><code>EM_DATE</code> / <code>EM_TIME</code> — timestamp of the error obtained via <code>EXEC CICS ASKTIME</code> and <code>EXEC CICS FORMATTIME</code></li>
+<li><code>EM_CUSNUM</code> — customer number (<code>CA_CUSTOMER_NUM</code>) identifying the failing request</li>
+<li><code>EM_RESPRC</code> / <code>EM_RESP2RC</code> — CICS <code>RESP</code> and <code>RESP2</code> codes (<code>WS_RESP</code>, <code>WS_RESP2</code>) pinpointing the exact failure reason from the <code>EXEC CICS WRITE FILE</code> call; literal text <code>' Write file KSDSPOLY'</code> is embedded to identify the failing operation</li>
+</ul>
+</li>
+<li><code>CA_ERROR_MSG</code> — secondary message passed in a follow-up <code>EXEC CICS LINK</code> to <code>LGSTSQ</code>; contains up to 90 bytes of the raw Communication Area (<code>COMM_AREA_RAW</code>) prefixed with the literal <code>'COMMAREA='</code>, providing input context for the failing transaction</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+flowchart TD
+    A([Start]):::startend
+    B[Read commarea length<br>and copy key fields]:::process
+    C[Derive request type<br>from request id]:::process
+    D{{Request type is Commercial}}:::decision
+    E[Copy commercial policy data]:::process
+    F{{Request type is Endowment}}:::decision
+    G[Copy endowment policy data]:::process
+    H{{Request type is House}}:::decision
+    I[Copy house policy data]:::process
+    J{{Request type is Motor}}:::decision
+    K[Copy motor policy data]:::process
+    L[Clear generic policy text]:::process
+    M[Refresh policy number]:::process
+    N[Write record to KSDSPOLY]:::process
+    O{{Write response normal}}:::decision
+    P[Return success]:::process
+    Q[Capture response details<br>set return code 80]:::process
+    R[Build timestamped error message]:::process
+    S[Link to LGSTSQ<br>to log main error]:::process
+    T{{Commarea length greater than zero}}:::decision
+    U{{Commarea length less than 91}}:::decision
+    V[Copy actual commarea bytes]:::process
+    W[Copy first 90 commarea bytes]:::process
+    X[Link to LGSTSQ<br>to log commarea data]:::process
+    Y[Return to caller]:::process
+    Z([End]):::startend
+
+    A --> B
+    B --> C
+    C --> D
+    D -- Yes --> E
+    D -- No --> F
+    E --> M
+    F -- Yes --> G
+    F -- No --> H
+    G --> M
+    H -- Yes --> I
+    H -- No --> J
+    I --> M
+    J -- Yes --> K
+    J -- No --> L
+    K --> M
+    L --> M
+    M --> N
+    N --> O
+    O -- Yes --> P
+    P --> Z
+    O -- No --> Q
+    Q --> R
+    R --> S
+    S --> T
+    T -- Yes --> U
+    T -- No --> Y
+    U -- Yes --> V
+    U -- No --> W
+    V --> X
+    W --> X
+    X --> Y
+    Y --> Z
+
+    classDef startend fill:#d9f2e6,stroke:#7aa37a,color:#000
+    classDef process fill:#f7d9e8,stroke:#b57aa1,color:#000
+    classDef decision fill:#fff4c2,stroke:#b59b4a,color:#000
+
+    class A,Z startend
+    class B,C,E,G,I,K,L,M,N,P,Q,R,S,V,W,X,Y process
+    class D,F,H,J,O,T,U decision
+</div>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h3 id="43-high-level-summary" tabindex="-1">4.3 High level Summary</h3>
+<p>LGAPVS01 adds a policy record to a VSAM KSDS file named KSDSPOLY. It receives policy details in the CICS COMMAREA, determines the policy type from the request identifier, moves the matching policy-specific fields into a compact working record, and writes a 64 byte record using a 21 byte composite key. If the VSAM write fails, it sets an error return code, logs diagnostic information, and returns control to the caller.</p>
+<h3 id="44-execution-flow" tabindex="-1">4.4 Execution Flow</h3>
+<ol>
+<li>
+<p><strong>Program starts and reads incoming data</strong></p>
+<ul>
+<li>The program is a CICS PL I program and receives a pointer to the COMMAREA.</li>
+<li>It stores the current COMMAREA length from <code>EIBCALEN</code> into <code>WS_Commarea_Len</code>.</li>
+<li>It builds the VSAM key fields by copying:
+<ul>
+<li><code>CA_REQUEST_ID</code> position 4 into <code>WF_Request_ID</code></li>
+<li><code>CA_POLICY_NUM</code> into <code>WF_Policy_Num</code></li>
+<li><code>CA_CUSTOMER_NUM</code> into <code>WF_Customer_Num</code></li>
+</ul>
+</li>
+<li>These fields form the KSDS key:
+<ul>
+<li>request type</li>
+<li>customer number</li>
+<li>policy number</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Determine policy type</strong></p>
+<ul>
+<li>The program uses the 4th character of <code>CA_REQUEST_ID</code> as the policy type selector.</li>
+<li>This is the main business control field.</li>
+<li>Supported values are:
+<ul>
+<li><code>C</code> commercial</li>
+<li><code>E</code> endowment</li>
+<li><code>H</code> house</li>
+<li><code>M</code> motor</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Populate commercial policy data when type is C</strong></p>
+<ul>
+<li>If the request type is commercial:
+<ul>
+<li><code>WF_B_Postcode</code> gets <code>CA_B_Postcode</code></li>
+<li><code>WF_B_Status</code> gets <code>CA_B_Status</code></li>
+<li><code>WF_B_Customer</code> gets <code>CA_B_Customer</code></li>
+</ul>
+</li>
+<li>This means only the commercial segment of the policy union is populated for the record body.</li>
+</ul>
+</li>
+<li>
+<p><strong>Populate endowment policy data when type is E</strong></p>
+<ul>
+<li>If the request type is endowment:
+<ul>
+<li>copy with profits flag</li>
+<li>copy equities flag</li>
+<li>copy managed fund flag</li>
+<li>copy fund name</li>
+<li>copy life assured</li>
+</ul>
+</li>
+<li>This prepares the endowment layout of the union for storage.</li>
+</ul>
+</li>
+<li>
+<p><strong>Populate house policy data when type is H</strong></p>
+<ul>
+<li>If the request type is house:
+<ul>
+<li>copy property type</li>
+<li>copy bedrooms</li>
+<li>copy property value</li>
+<li>copy postcode</li>
+<li>copy house name</li>
+</ul>
+</li>
+<li>This prepares the house layout of the union.</li>
+</ul>
+</li>
+<li>
+<p><strong>Populate motor policy data when type is M</strong></p>
+<ul>
+<li>If the request type is motor:
+<ul>
+<li>copy make</li>
+<li>copy model</li>
+<li>copy vehicle value</li>
+<li>copy registration number</li>
+</ul>
+</li>
+<li>This prepares the motor layout of the union.</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle any other request type</strong></p>
+<ul>
+<li>If the request type is not one of the supported values, the program clears <code>WF_Policy_Text</code> to blanks.</li>
+<li>There is no explicit rejection for an unknown type.</li>
+<li>The record can still proceed to the VSAM write with a valid key and blank policy data area.</li>
+<li>This is an important business behavior because unsupported request types are not blocked here.</li>
+</ul>
+</li>
+<li>
+<p><strong>Refresh the policy number</strong></p>
+<ul>
+<li>After the select block, <code>WF_Policy_Num</code> is assigned from <code>CA_Policy_Num</code> again.</li>
+<li>This appears to reinforce that the final key contains the intended policy number before the write.</li>
+</ul>
+</li>
+<li>
+<p><strong>Write the policy record to VSAM</strong></p>
+<ul>
+<li>The program issues:
+<ul>
+<li><code>EXEC CICS WRITE FILE('KSDSPOLY')</code></li>
+</ul>
+</li>
+<li>It writes:
+<ul>
+<li><code>FROM(WF_Policy_Info)</code></li>
+<li><code>LENGTH(64)</code></li>
+</ul>
+</li>
+<li>It uses:
+<ul>
+<li><code>RIDFLD(WF_Policy_Key)</code></li>
+<li><code>KEYLENGTH(21)</code></li>
+</ul>
+</li>
+<li>So the output record is a fixed 64 byte structure containing:
+<ul>
+<li>a 21 byte key</li>
+<li>a 43 byte policy data area</li>
+</ul>
+</li>
+<li>The CICS response code is returned in <code>WS_RESP</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check whether the write succeeded</strong></p>
+<ul>
+<li>The program tests whether <code>WS_RESP</code> equals <code>DFHRESP(NORMAL)</code>.</li>
+<li>If the response is normal:
+<ul>
+<li>no return code is changed</li>
+<li>the program simply returns to the caller</li>
+</ul>
+</li>
+<li>If the response is not normal:
+<ul>
+<li><code>WS_RESP2</code> is set from <code>EIBRESP2</code></li>
+<li><code>CA_RETURN_CODE</code> is set to <code>80</code></li>
+<li><code>WRITE_ERROR_MESSAGE</code> is called</li>
+<li>the program issues <code>EXEC CICS RETURN</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="45-validations-and-error-handling" tabindex="-1">4.5 Validations and Error Handling</h3>
+<ul>
+<li>
+<p><strong>CICS response validation</strong></p>
+<ul>
+<li>The only explicit runtime validation in this program is the result of the CICS <code>WRITE FILE</code>.</li>
+<li>A non normal response is treated as a failure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Caller return code</strong></p>
+<ul>
+<li>On write failure, the caller receives <code>CA_RETURN_CODE = '80'</code>.</li>
+<li>This signals that the add to VSAM did not complete successfully.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error logging procedure</strong></p>
+<ul>
+<li><code>WRITE_ERROR_MESSAGE</code> captures the current date and time using:
+<ul>
+<li><code>EXEC CICS ASKTIME</code></li>
+<li><code>EXEC CICS FORMATTIME</code></li>
+</ul>
+</li>
+<li>It populates an error structure containing:
+<ul>
+<li>date</li>
+<li>time</li>
+<li>program identifier</li>
+<li>customer number</li>
+<li>response code</li>
+<li>secondary response code</li>
+<li>static text indicating failure during write to KSDSPOLY</li>
+</ul>
+</li>
+<li>It sends this structure to program <code>LGSTSQ</code> using <code>EXEC CICS LINK</code>.</li>
+<li>This is the main logging mechanism.</li>
+</ul>
+</li>
+<li>
+<p><strong>Raw COMMAREA logging</strong></p>
+<ul>
+<li>If <code>EIBCALEN &gt; 0</code>, the program also logs COMMAREA content for diagnostics.</li>
+<li>If the COMMAREA length is less than 91 bytes:
+<ul>
+<li>it copies exactly that many bytes into <code>CA_Data</code></li>
+</ul>
+</li>
+<li>Otherwise:
+<ul>
+<li>it copies the first 90 bytes</li>
+</ul>
+</li>
+<li>It then links again to <code>LGSTSQ</code> to store that diagnostic text.</li>
+<li>This helps support teams see what input data caused the failure.</li>
+</ul>
+</li>
+</ul>
+<h3 id="46-important-business-rules" tabindex="-1">4.6 Important Business Rules</h3>
+<ul>
+<li>The <strong>policy type is determined only by the 4th character</strong> of <code>CA_REQUEST_ID</code>.</li>
+<li>The VSAM key is a <strong>composite business key</strong>:
+<ul>
+<li>1 byte request type</li>
+<li>10 byte customer number</li>
+<li>10 byte policy number</li>
+</ul>
+</li>
+<li>Only the <strong>policy specific subset</strong> matching the request type is moved into the data portion of the record.</li>
+<li>An <strong>unsupported request type is not rejected</strong> in this program; the data area is blanked and the write is still attempted.</li>
+<li>A failed VSAM write results in <strong>return code 80</strong> and diagnostic logging.</li>
+</ul>
+<h3 id="47-external-interactions" tabindex="-1">4.7 External Interactions</h3>
+<ul>
+<li>
+<p><strong>CICS VSAM file access</strong></p>
+<ul>
+<li><code>EXEC CICS WRITE FILE('KSDSPOLY')</code></li>
+<li>Purpose:
+<ul>
+<li>adds a new policy record to the VSAM KSDS policy store</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>CICS system services</strong></p>
+<ul>
+<li><code>EXEC CICS ASKTIME</code></li>
+<li><code>EXEC CICS FORMATTIME</code></li>
+<li>Purpose:
+<ul>
+<li>obtain a formatted timestamp for error logging</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>CICS LINK to LGSTSQ</strong></p>
+<ul>
+<li>Called from the error routine</li>
+<li>Purpose:
+<ul>
+<li>write operational error details and partial COMMAREA contents to a logging facility, likely a temporary storage queue based logger</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>No DB2 access</strong></p>
+<ul>
+<li>This program does not execute SQL and does not use database tables.</li>
+</ul>
+</li>
+</ul>
+<h3 id="48-plain-language-summary" tabindex="-1">4.8 Plain Language Summary</h3>
+<p>This program saves a new insurance policy into a VSAM file. It looks at the request code to decide whether the policy is commercial, endowment, house, or motor, then copies only the relevant details for that kind of policy into the record it stores. It builds a unique key from the policy type, customer number, and policy number, then asks CICS to write the record. If that write fails, it marks the request as failed, records an error message with the time and technical response codes, logs part of the incoming data for troubleshooting, and returns to the calling program.</p>
+<h3 id="49-database-tables-if-applicable" tabindex="-1">4.9 Database Tables if applicable</h3>
+<p>Not applicable.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<ul>
+<li>
+<p><strong>Main procedure LGAPVS01</strong></p>
+<ul>
+<li>Purpose: Adds a policy record to the VSAM KSDS file <code>KSDSPOLY</code> using data passed in the CICS COMMAREA.</li>
+<li>Operations performed:
+<ul>
+<li>Declares working storage for CICS response codes, COMMAREA length, timestamp formatting, error text, and the output policy record structure.</li>
+<li>Defines <code>WF_POLICY_INFO</code>, including:
+<ul>
+<li><code>WF_POLICY_KEY</code> composed of <code>WF_REQUEST_ID</code>, <code>WF_CUSTOMER_NUM</code>, and <code>WF_POLICY_NUM</code>.</li>
+<li>A union of policy-type-specific data areas for commercial, endowment, house, and motor policies.</li>
+</ul>
+</li>
+<li>Maps the COMMAREA through the included <code>LGCMAREA</code> layout, including raw access through <code>COMM_AREA_RAW</code>.</li>
+<li>Initializes key working fields from the COMMAREA:
+<ul>
+<li>Extracts <code>WF_REQUEST_ID</code> from the 4th character of <code>CA_REQUEST_ID</code>.</li>
+<li>Copies <code>CA_POLICY_NUM</code> to <code>WF_POLICY_NUM</code>.</li>
+<li>Copies <code>CA_CUSTOMER_NUM</code> to <code>WF_CUSTOMER_NUM</code>.</li>
+</ul>
+</li>
+<li>Uses <code>SELECT (WF_REQUEST_ID)</code> to populate the appropriate policy-specific portion of <code>WF_POLICY_INFO</code>:
+<ul>
+<li><code>'C'</code>: copies commercial fields such as postcode, status, and customer name.</li>
+<li><code>'E'</code>: copies endowment fields such as fund flags, fund name, and life assured.</li>
+<li><code>'H'</code>: copies house fields such as property type, bedrooms, value, postcode, and house name.</li>
+<li><code>'M'</code>: copies motor fields such as make, model, value, and registration number.</li>
+<li><code>OTHERWISE</code>: clears <code>WF_POLICY_TEXT</code>.</li>
+</ul>
+</li>
+<li>Reassigns <code>WF_POLICY_NUM</code> from <code>CA_POLICY_NUM</code> before issuing the write.</li>
+<li>Executes <code>EXEC CICS WRITE FILE('KSDSPOLY')</code>:
+<ul>
+<li>Writes <code>WF_POLICY_INFO</code> as a 64-byte record.</li>
+<li>Uses <code>WF_POLICY_KEY</code> as the KSDS key with key length 21.</li>
+<li>Captures the CICS response in <code>WS_RESP</code>.</li>
+</ul>
+</li>
+<li>Checks the write result:
+<ul>
+<li>If <code>WS_RESP</code> is not <code>DFHRESP(NORMAL)</code>, captures <code>EIBRESP2</code>, sets <code>CA_RETURN_CODE</code> to <code>'80'</code>, calls <code>WRITE_ERROR_MESSAGE</code>, and returns to CICS.</li>
+</ul>
+</li>
+<li>Ends with a normal <code>RETURN</code>.</li>
+</ul>
+</li>
+<li>Control flow elements:
+<ul>
+<li><code>SELECT</code>/<code>WHEN</code>/<code>OTHERWISE</code> branch based on policy type.</li>
+<li><code>IF</code> test on CICS write response to handle error versus normal completion.</li>
+</ul>
+</li>
+<li>External interactions:
+<ul>
+<li>CICS file I/O through <code>EXEC CICS WRITE FILE</code> to VSAM KSDS file <code>KSDSPOLY</code>.</li>
+<li>CICS return to caller with <code>EXEC CICS RETURN</code>.</li>
+<li>Invokes internal error logging paragraph <code>WRITE_ERROR_MESSAGE</code> when the write fails.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>WRITE_ERROR_MESSAGE</strong></p>
+<ul>
+<li>Purpose: Builds and sends diagnostic error information to the error logging program when the VSAM write fails.</li>
+<li>Operations performed:
+<ul>
+<li>Calls <code>EXEC CICS ASKTIME</code> to obtain the current absolute time.</li>
+<li>Calls <code>EXEC CICS FORMATTIME</code> to derive formatted date and time values.</li>
+<li>Populates the structured error message fields:
+<ul>
+<li><code>EM_DATE</code> and <code>EM_TIME</code></li>
+<li><code>EM_CUSNUM</code> from <code>CA_CUSTOMER_NUM</code></li>
+<li><code>EM_RESPRC</code> from <code>WS_RESP</code></li>
+<li><code>EM_RESP2RC</code> from <code>WS_RESP2</code></li>
+</ul>
+</li>
+<li>Links to external program <code>LGSTSQ</code> with <code>ERROR_MSG</code> to record the primary error details.</li>
+<li>If a COMMAREA is present (<code>EIBCALEN &gt; 0</code>), captures part of the raw COMMAREA into <code>CA_DATA</code> for additional diagnostics:
+<ul>
+<li>If COMMAREA length is less than 91, copies exactly <code>EIBCALEN</code> bytes.</li>
+<li>Otherwise, copies the first 90 bytes.</li>
+</ul>
+</li>
+<li>Links again to <code>LGSTSQ</code> with <code>CA_ERROR_MSG</code> to log the COMMAREA snapshot.</li>
+<li>Returns to the caller.</li>
+</ul>
+</li>
+<li>Control flow elements:
+<ul>
+<li>Outer <code>IF (EIBCALEN &gt; 0)</code> to determine whether COMMAREA data should be logged.</li>
+<li>Nested <code>IF (EIBCALEN &lt; 91)</code> / <code>ELSE</code> to choose between full available COMMAREA bytes or truncation to 90 bytes.</li>
+<li>No loops.</li>
+</ul>
+</li>
+<li>External interactions:
+<ul>
+<li>CICS time services via <code>EXEC CICS ASKTIME</code> and <code>EXEC CICS FORMATTIME</code>.</li>
+<li>CICS program calls via <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> for error logging.</li>
+<li>Reads raw COMMAREA content through <code>COMM_AREA_RAW</code> for diagnostic output.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-files-vsam-datasets" tabindex="-1">6.1 CICS Files (VSAM Datasets)</h3>
+<ul>
+<li><strong><code>KSDSPOLY</code></strong> — VSAM KSDS dataset targeted by <code>EXEC CICS WRITE FILE</code>. Receives a 64-byte policy record keyed on the 21-byte composite key (<code>WF_POLICY_KEY</code>). This is the primary data store written by the program; write failure causes an error return to the caller.</li>
+</ul>
+<h3 id="62-cics-runtime-services" tabindex="-1">6.2 CICS Runtime Services</h3>
+<ul>
+<li><strong><code>EXEC CICS WRITE FILE</code></strong> — Inserts the new policy record into <code>KSDSPOLY</code> using <code>WF_POLICY_INFO</code> as the source buffer and <code>WF_POLICY_KEY</code> (21 bytes) as the RIDFLD; the RESP value is captured in <code>WS_RESP</code> for error detection.</li>
+<li><strong><code>EXEC CICS RETURN</code></strong> — Terminates the CICS task and returns control to the calling transaction; invoked unconditionally at normal completion and after error handling.</li>
+<li><strong><code>EXEC CICS ASKTIME</code></strong> — Retrieves the current absolute time into <code>WS_ABSTIME</code>; used inside <code>WRITE_ERROR_MESSAGE</code> to timestamp diagnostic log entries.</li>
+<li><strong><code>EXEC CICS FORMATTIME</code></strong> — Formats <code>WS_ABSTIME</code> into <code>WS_DATE</code> (MMDDYYYY) and <code>WS_TIME</code> (HH:MM:SS) for inclusion in the error message written to the TS queue.</li>
+<li><strong>CICS EIB (Execute Interface Block)</strong> — The following EIB fields are referenced at runtime:
+<ul>
+<li><code>EIBCALEN</code> — read at program entry to capture the COMMAREA length and again inside <code>WRITE_ERROR_MESSAGE</code> to determine how many bytes of raw COMMAREA to log.</li>
+<li><code>EIBRESP2</code> — captured into <code>WS_RESP2</code> on a failed CICS WRITE to provide the secondary response code for diagnostics.</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-external-programs-invoked" tabindex="-1">6.3 External Programs Invoked</h3>
+<ul>
+<li><strong><code>LGSTSQ</code></strong> — Logging/diagnostics utility called via <code>EXEC CICS LINK</code> (up to three times inside <code>WRITE_ERROR_MESSAGE</code>):
+<ul>
+<li>First call passes <code>ERROR_MSG</code> containing timestamp, program name, policy number, customer number, RESP/RESP2 codes, and the literal <code>Write file KSDSPOLY</code>.</li>
+<li>Second and third calls (conditional on <code>EIBCALEN</code>) pass <code>CA_ERROR_MSG</code> containing the first 90 bytes (or <code>EIBCALEN</code> bytes, whichever is smaller) of the raw COMMAREA for context.</li>
+</ul>
+</li>
+</ul>
+<h3 id="64-input-parameters--commarea" tabindex="-1">6.4 Input Parameters / COMMAREA</h3>
+<ul>
+<li><strong><code>COMM_AREA</code> (via <code>COMM_AREA_PTR</code>)</strong> — The CICS COMMAREA passed by the calling program (e.g., the policy orchestrator <code>LGAPOL01</code>). It is the sole input to <code>LGAPVS01</code> and supplies all data needed to build the VSAM record:
+<ul>
+<li><code>CA_REQUEST_ID</code> (6 chars) — position 4 determines the policy type (<code>C</code>, <code>E</code>, <code>H</code>, or <code>M</code>).</li>
+<li><code>CA_CUSTOMER_NUM</code> — 10-digit customer identifier used in the VSAM key and error messages.</li>
+<li><code>CA_POLICY_NUM</code> — 10-digit policy number used in the VSAM key.</li>
+<li><code>CA_RETURN_CODE</code> — written back to <code>'80'</code> on VSAM write failure to signal the error to the caller.</li>
+<li><strong>Commercial (<code>CA_COMMERCIAL</code>)</strong> — <code>CA_B_Postcode</code>, <code>CA_B_Status</code>, <code>CA_B_Customer</code> used when request type is <code>'C'</code>.</li>
+<li><strong>Endowment (<code>CA_ENDOWMENT</code>)</strong> — <code>CA_E_WITH_PROFITS</code>, <code>CA_E_EQUITIES</code>, <code>CA_E_MANAGED_FUND</code>, <code>CA_E_FUND_NAME</code>, <code>CA_E_LIFE_ASSURED</code> used when request type is <code>'E'</code>.</li>
+<li><strong>House (<code>CA_HOUSE</code>)</strong> — <code>CA_H_PROPERTY_TYPE</code>, <code>CA_H_BEDROOMS</code>, <code>CA_H_VALUE</code>, <code>CA_H_POSTCODE</code>, <code>CA_H_HOUSE_NAME</code> used when request type is <code>'H'</code>.</li>
+<li><strong>Motor (<code>CA_MOTOR</code>)</strong> — <code>CA_M_MAKE</code>, <code>CA_M_MODEL</code>, <code>CA_M_VALUE</code>, <code>CA_M_REGNUMBER</code> used when request type is <code>'M'</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="65-include--copybook-files" tabindex="-1">6.5 Include / Copybook Files</h3>
+<ul>
+<li><strong><code>LGCMAREA.inc</code></strong> (<code>%INCLUDE LGCMAREA</code>) — Defines the <code>COMM_AREA</code> UNION structure (based on <code>COMM_AREA_PTR</code>) that maps all COMMAREA fields across all policy types, customer request, security request, and claim structures. The <code>%INCLUDE</code> directive is commented out in source and the copybook content is expanded inline in the expanded source file.</li>
+</ul>
+<h3 id="66-calling-programs-inbound-dependency" tabindex="-1">6.6 Calling Programs (Inbound Dependency)</h3>
+<ul>
+<li><strong><code>LGAPOL01</code></strong> (policy orchestrator) — The expected upstream caller that prepares the COMMAREA and issues <code>EXEC CICS LINK</code> or <code>EXEC CICS START</code> targeting <code>LGAPVS01</code>. <code>LGAPVS01</code> depends on this caller having correctly populated all COMMAREA fields before invocation.</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-data-validation-constraints" tabindex="-1">7.1 Data Validation Constraints</h3>
+<p><strong>Policy Type (Request ID)</strong></p>
+<ul>
+<li>The 4th character of <code>CA_REQUEST_ID</code> is extracted into <code>WF_Request_ID</code> (line 202) and must be one of exactly four values to trigger a recognised processing branch: <code>'C'</code> (Commercial), <code>'E'</code> (Endowment), <code>'H'</code> (House), or <code>'M'</code> (Motor).</li>
+<li>An unrecognised value falls to the <code>OTHERWISE</code> branch, which simply blanks <code>WF_Policy_Text</code>; no error is raised and no data is rejected — processing continues to the VSAM write with an empty policy data area, meaning invalid policy types silently produce a record containing only the key.</li>
+</ul>
+<p><strong>Numeric Fields (PIC format)</strong></p>
+<ul>
+<li><code>CA_CUSTOMER_NUM</code> is declared <code>PIC '9999999999'</code> — exactly 10 decimal digits; only numeric character values are structurally valid.</li>
+<li><code>CA_POLICY_NUM</code> is declared <code>PIC '9999999999'</code> — same 10-digit numeric constraint.</li>
+<li>Policy-type-specific numeric PIC fields impose implicit range ceilings:
+<ul>
+<li><code>CA_B_Status</code> / <code>CA_B_FirePeril</code> / <code>CA_B_CrimePeril</code> / <code>CA_B_FloodPeril</code> / <code>CA_B_WeatherPeril</code>: max 4 digits (<code>PIC '9999'</code>).</li>
+<li><code>CA_B_FirePremium</code>, <code>CA_B_CrimePremium</code>, <code>CA_B_FloodPremium</code>, <code>CA_B_WeatherPremium</code>, <code>CA_H_VALUE</code>, <code>CA_M_VALUE</code> (and their equivalents as stored): max 8 digits (<code>PIC '99999999'</code> / <code>PIC '(8)9'</code> / <code>PIC '(6)9'</code>).</li>
+<li><code>CA_E_TERM</code>, <code>CA_H_BEDROOMS</code> / working-field <code>WF_H_BEDROOMS</code> (<code>PIC '(3)9'</code>): 3-digit maximum.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Fixed-Length Character Fields</strong></p>
+<ul>
+<li>All character fields in the Communication Area and working storage have fixed, declared lengths enforced by the PL/I runtime (truncation or padding on assignment):
+<ul>
+<li><code>WF_Request_ID</code>: 1 character.</li>
+<li><code>WF_Customer_Num</code> / <code>WF_Policy_Num</code>: 10 characters each.</li>
+<li><code>WF_H_PROPERTY_TYPE</code>: 15 characters; <code>CA_H_PROPERTY_TYPE</code> same — no free-text overflow is possible.</li>
+<li><code>WF_M_REGNUMBER</code>: 7 characters; <code>CA_M_REGNUMBER</code> same.</li>
+<li><code>WF_E_LIFE_ASSURED</code>: 30 characters; <code>CA_E_LIFE_ASSURED</code> is 31 characters — only the first 30 characters are stored in the working field (truncation on assignment, line 219).</li>
+<li><code>WF_B_Postcode</code>: 8 characters; <code>WF_B_Customer</code>: 31 characters (source <code>CA_B_Customer</code> is 255 — truncated to 31 on assignment, line 211).</li>
+<li><code>CA_M_MAKE</code> / <code>WF_M_MAKE</code> and <code>CA_M_MODEL</code> / <code>WF_M_MODEL</code>: 15 characters each.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="72-structural--composite-key-constraints" tabindex="-1">7.2 Structural / Composite Key Constraints</h3>
+<ul>
+<li>The VSAM KSDS record key (<code>WF_Policy_Key</code>) is a strict composite of exactly 21 bytes: <code>WF_Request_ID</code> (1) + <code>WF_Customer_Num</code> (10) + <code>WF_Policy_Num</code> (10); declared at line 21–24 and passed as <code>RIDFLD</code> with <code>KeyLength(21)</code> (line 247–248).
+<ul>
+<li>All three components must be populated before the write; the program enforces this by copying their values from the Communication Area prior to entering the SELECT block (lines 202–204) and again reassigning <code>WF_Policy_Num</code> after the SELECT (line 242).</li>
+</ul>
+</li>
+<li>The record written to <code>KSDSPOLY</code> is hardcoded to exactly <strong>64 bytes</strong> via <code>LENGTH(64)</code> in the <code>EXEC CICS WRITE FILE</code> command (line 246); the <code>WF_Policy_Info</code> structure must fit this boundary — the union data area is 43 bytes plus the 21-byte key = 64 bytes total, enforcing a fixed record size.</li>
+<li>The KSDS file <code>KSDSPOLY</code> is the only permitted target for the write; no alternative file or dataset is referenced.</li>
+</ul>
+<hr>
+<h3 id="73-sequencing-and-ordering-constraints" tabindex="-1">7.3 Sequencing and Ordering Constraints</h3>
+<ul>
+<li><strong>Key population must precede the VSAM write</strong>: <code>WF_Request_ID</code>, <code>WF_Customer_Num</code>, and <code>WF_Policy_Num</code> are assigned from the Communication Area (lines 202–204) before the SELECT block and before the <code>EXEC CICS WRITE FILE</code>. <code>WF_Policy_Num</code> is additionally re-assigned at line 242 immediately before the write, ensuring the latest value is in place.</li>
+<li><strong>Policy-type branch must execute before the write</strong>: The SELECT/WHEN block (lines 206–240) that populates the policy-specific data area (<code>WF_Policy_Data</code>) must complete before the <code>EXEC CICS WRITE FILE</code> (line 244); the sequential flow of the program enforces this.</li>
+<li><strong>Error handling must follow the write</strong>: The <code>EXEC CICS WRITE FILE</code> (line 244) must complete before <code>WS_RESP</code> is tested (line 251). The response check, error logging, and <code>EXEC CICS RETURN</code> are strictly post-write steps.</li>
+<li><strong>WRITE_ERROR_MESSAGE must be called before EXEC CICS RETURN on failure</strong>: When <code>WS_RESP ≠ DFHRESP(NORMAL)</code>, the program calls <code>WRITE_ERROR_MESSAGE</code> to log diagnostics, then issues <code>EXEC CICS RETURN</code> — the error message is guaranteed to be written before the task terminates (lines 254–255).</li>
+<li><strong>Time/date retrieval is internal to error logging only</strong>: <code>EXEC CICS ASKTIME</code> and <code>EXEC CICS FORMATTIME</code> are invoked only inside <code>WRITE_ERROR_MESSAGE</code>; they are never called on the normal (success) path.</li>
+</ul>
+<hr>
+<h3 id="74-resource-and-size-constraints" tabindex="-1">7.4 Resource and Size Constraints</h3>
+<ul>
+<li><strong>VSAM record size is fixed at 64 bytes</strong> (<code>LENGTH(64)</code>, line 246); no variable-length records are permitted.</li>
+<li><strong>KSDS key length is fixed at 21 bytes</strong> (<code>KeyLength(21)</code>, line 248); no partial or extended keys are used.</li>
+<li><strong>Communication Area raw overlay is bounded at 32,500 bytes</strong> (<code>COMM_AREA_RAW CHAR(32500)</code>, line 100); any caller supplying a COMMAREA larger than 32,500 bytes would overflow this declared overlay.</li>
+<li><strong>Error diagnostic logging is capped at 90 bytes of COMMAREA data</strong>: In <code>WRITE_ERROR_MESSAGE</code>, if <code>EIBCALEN ≥ 91</code>, only the first 90 bytes of <code>COMM_AREA_RAW</code> are copied into <code>CA_Data</code> (line 285); if <code>EIBCALEN &lt; 91</code>, only <code>EIBCALEN</code> bytes are copied (line 279). No COMMAREA content beyond 90 bytes is ever logged.</li>
+<li><strong>Error logging requires EIBCALEN &gt; 0</strong>: The COMMAREA dump inside <code>WRITE_ERROR_MESSAGE</code> is conditionally guarded by <code>IF (EIBCALEN &gt; 0)</code> (line 277); if the COMMAREA length is zero, the raw COMMAREA is not logged (only the structured <code>ERROR_MSG</code> is written to <code>LGSTSQ</code>).</li>
+</ul>
+<hr>
+<h3 id="75-error-handling-and-return-code-constraints" tabindex="-1">7.5 Error Handling and Return-Code Constraints</h3>
+<ul>
+<li><strong>The only recognised success condition is <code>DFHRESP(NORMAL)</code></strong>: Any other CICS response from <code>EXEC CICS WRITE FILE</code> is treated as a fatal error (line 251).</li>
+<li><strong>On failure, <code>CA_RETURN_CODE</code> is set to <code>'80'</code></strong>: This is the sole return-code value written by this program to the caller on error (line 253); no finer-grained codes are issued regardless of the specific CICS RESP value.</li>
+<li><strong><code>WS_RESP2</code> is captured only on failure</strong>: The supplementary CICS response (<code>EIBRESP2</code>) is read into <code>WS_RESP2</code> exclusively inside the failure branch (line 252); it is not captured on the normal path.</li>
+<li><strong>On failure, the program always returns via <code>EXEC CICS RETURN</code></strong> (line 255), never via the normal <code>RETURN</code> statement (line 258) — ensuring no further processing occurs after a write error.</li>
+<li><strong>No explicit COMMAREA-length validation at program entry</strong>: Unlike the pattern described in <code>AGENTS.md</code> (which states programs should abend <code>LGCA</code> if <code>EIBCALEN = 0</code>), this program does not check <code>EIBCALEN</code> before accessing the COMMAREA; there is no guard against a zero-length or absent COMMAREA at the main logic level.</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-cics-file-write-response-check" tabindex="-1">8.1 CICS File Write Response Check</h3>
+<ul>
+<li>
+<p><strong>Explicit RESP check after EXEC CICS WRITE FILE</strong> — After issuing the <code>EXEC CICS WRITE FILE</code> command to write a 64-byte policy record to the VSAM KSDS dataset <code>KSDSPOLY</code>, the program captures the CICS response code in <code>WS_RESP</code> using the <code>RESP</code> option. Immediately after the write, the value of <code>WS_RESP</code> is compared against <code>DFHRESP(NORMAL)</code>. If they differ, the write is considered to have failed and an error path is taken. This is the sole I/O error detection mechanism in the program.</p>
+</li>
+<li>
+<p><strong>Secondary response code capture</strong> — On detecting a non-normal RESP, the program immediately reads <code>EIBRESP2</code> into <code>WS_RESP2</code>. This secondary CICS response code provides additional diagnostic detail (e.g., the specific reason the write failed) and is preserved for inclusion in the error log message.</p>
+</li>
+</ul>
+<h3 id="82-return-code-signalling-to-caller" tabindex="-1">8.2 Return Code Signalling to Caller</h3>
+<ul>
+<li><strong>Setting CA_RETURN_CODE to ‘80’</strong> — When the VSAM write fails, <code>CA_RETURN_CODE</code> in the Communication Area is set to the literal value <code>'80'</code> before the program terminates. Because the Communication Area is passed by reference via <code>COMM_AREA_PTR</code>, this value is visible to the calling program after control is returned, acting as a standardised error signal to the upstream caller.</li>
+</ul>
+<h3 id="83-error-logging-and-diagnostic-notification" tabindex="-1">8.3 Error Logging and Diagnostic Notification</h3>
+<ul>
+<li>
+<p><strong>Structured error message construction</strong> — The <code>ERROR_MSG</code> structure is pre-populated with a fixed program identifier (<code>LGAPVS01</code>), and on error it is further populated with the current date (<code>EM_DATE</code>), current time (<code>EM_TIME</code>), the customer number (<code>EM_CUSNUM</code>), the CICS primary response code (<code>EM_RESPRC</code>), and the secondary response code (<code>EM_RESP2RC</code>). The fixed literal <code>Write file KSDSPOLY</code> is embedded in the structure, identifying the failing operation contextually.</p>
+</li>
+<li>
+<p><strong>Timestamp retrieval for error messages</strong> — Inside <code>WRITE_ERROR_MESSAGE</code>, <code>EXEC CICS ASKTIME</code> retrieves the current absolute time into <code>WS_ABSTIME</code>, and <code>EXEC CICS FORMATTIME</code> formats it into a human-readable date (<code>WS_DATE</code>, MM/DD/YYYY) and time (<code>WS_TIME</code>). These are stamped into the error message to provide a precise point-in-time record of the failure.</p>
+</li>
+<li>
+<p><strong>Delegation to logging program LGSTSQ via EXEC CICS LINK</strong> — The fully populated <code>ERROR_MSG</code> structure is passed via <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> to a dedicated logging/queuing program. This externalises the logging concern and allows centralised, consistent error recording across multiple programs.</p>
+</li>
+<li>
+<p><strong>Communication Area dump for diagnostics</strong> — After logging the primary error message, the program checks <code>EIBCALEN</code> (the length of the Communication Area passed by the caller) to determine whether raw Communication Area content is available:</p>
+<ul>
+<li>If <code>EIBCALEN</code> is greater than zero but less than 91, the exact number of bytes indicated by <code>EIBCALEN</code> is extracted from <code>COMM_AREA_RAW</code> and placed into <code>CA_Data</code>, then forwarded to <code>LGSTSQ</code> via a second <code>EXEC CICS LINK</code> call.</li>
+<li>If <code>EIBCALEN</code> is 91 or greater, the first 90 bytes of <code>COMM_AREA_RAW</code> are extracted into <code>CA_Data</code> and similarly forwarded to <code>LGSTSQ</code>.</li>
+<li>If <code>EIBCALEN</code> is zero (no Communication Area), the raw dump step is skipped entirely.</li>
+<li>This mechanism ensures that diagnostic context — including the raw input that triggered the failure — is captured alongside the error details.</li>
+</ul>
+</li>
+</ul>
+<h3 id="84-program-termination-on-error" tabindex="-1">8.4 Program Termination on Error</h3>
+<ul>
+<li><strong>EXEC CICS RETURN after error handling</strong> — After <code>WRITE_ERROR_MESSAGE</code> completes, the program issues <code>EXEC CICS RETURN</code> to terminate the CICS task and return control to CICS. This prevents any further processing after a failed write, ensuring the program does not proceed in an inconsistent state.</li>
+</ul>
+<h3 id="85-fallback--default-value-logic" tabindex="-1">8.5 Fallback / Default Value Logic</h3>
+<ul>
+<li><strong>OTHERWISE branch in the SELECT block</strong> — The <code>SELECT</code> statement that dispatches on <code>WF_REQUEST_ID</code> (policy type discriminator) includes an <code>OTHERWISE</code> clause. If the request type character does not match any of the known values (<code>C</code>, <code>E</code>, <code>H</code>, <code>M</code>), the <code>WF_Policy_Text</code> field is cleared to spaces. This acts as a silent fallback that prevents uninitialised or stale data from being written into the policy data portion of the VSAM record, though no error is raised or returned to the caller for an unrecognised policy type.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1-adding-a-motor-insurance-policy-success-path" tabindex="-1">9.1 Example 1: Adding a Motor Insurance Policy (Success Path)</h3>
+<p><strong>Input (Communication Area fields):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>'01AMOT'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>'0000001234'</code></td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>'0000009901'</code></td>
+</tr>
+<tr>
+<td><code>CA_M_MAKE</code></td>
+<td><code>'TOYOTA         '</code></td>
+</tr>
+<tr>
+<td><code>CA_M_MODEL</code></td>
+<td><code>'COROLLA        '</code></td>
+</tr>
+<tr>
+<td><code>CA_M_VALUE</code></td>
+<td><code>'015000'</code></td>
+</tr>
+<tr>
+<td><code>CA_M_REGNUMBER</code></td>
+<td><code>'AB12CDE'</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program logic:</strong></p>
+<ol>
+<li><code>WF_REQUEST_ID</code> is set to character 4 of <code>CA_REQUEST_ID</code> → <code>'M'</code>.</li>
+<li><code>WF_POLICY_NUM</code> = <code>'0000009901'</code>, <code>WF_CUSTOMER_NUM</code> = <code>'0000001234'</code>.</li>
+<li>The <code>SELECT</code> block matches <code>WHEN ('M')</code> — motor fields (<code>MAKE</code>, <code>MODEL</code>, <code>VALUE</code>, <code>REGNUMBER</code>) are copied into <code>WF_M_POLICY_DATA</code>.</li>
+<li><code>WF_POLICY_NUM</code> is set a second time (to ensure correctness in the key).</li>
+<li><code>EXEC CICS WRITE FILE('KSDSPOLY')</code> writes the 64-byte <code>WF_POLICY_INFO</code> record, keyed by the 21-byte composite <code>WF_POLICY_KEY</code> = <code>'M' || '0000001234' || '0000009901'</code>.</li>
+<li><code>WS_RESP</code> = <code>DFHRESP(NORMAL)</code> → success; program returns without setting any error code.</li>
+</ol>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li>A new VSAM KSDS record is written to <code>KSDSPOLY</code> for the Motor policy.</li>
+<li><code>CA_RETURN_CODE</code> is <strong>not</strong> set (remains at its caller-supplied value, typically <code>'00'</code>).</li>
+<li>Control returns normally to the calling program.</li>
+</ul>
+<hr>
+<h3 id="92-example-2-adding-a-house-insurance-policy-success-path" tabindex="-1">9.2 Example 2: Adding a House Insurance Policy (Success Path)</h3>
+<p><strong>Input (Communication Area fields):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>'01AHSE'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>'0000005678'</code></td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>'0000002200'</code></td>
+</tr>
+<tr>
+<td><code>CA_H_PROPERTY_TYPE</code></td>
+<td><code>'DETACHED       '</code></td>
+</tr>
+<tr>
+<td><code>CA_H_BEDROOMS</code></td>
+<td><code>'004'</code></td>
+</tr>
+<tr>
+<td><code>CA_H_VALUE</code></td>
+<td><code>'00250000'</code></td>
+</tr>
+<tr>
+<td><code>CA_H_POSTCODE</code></td>
+<td><code>'SW1A 1AA'</code></td>
+</tr>
+<tr>
+<td><code>CA_H_HOUSE_NAME</code></td>
+<td><code>'ROSE COTTAGE '</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program logic:</strong></p>
+<ol>
+<li><code>WF_REQUEST_ID</code> = character 4 of <code>'01AHSE'</code> → <code>'H'</code>.</li>
+<li>Key fields are initialised: <code>WF_CUSTOMER_NUM</code> = <code>'0000005678'</code>, <code>WF_POLICY_NUM</code> = <code>'0000002200'</code>.</li>
+<li><code>SELECT</code> matches <code>WHEN ('H')</code> — all five house fields are copied into <code>WF_H_POLICY_DATA</code>.</li>
+<li>The composite KSDS key is <code>'H' || '0000005678' || '0000002200'</code> (21 bytes).</li>
+<li>CICS WRITE succeeds → normal return, no error code set.</li>
+</ol>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li>A new 64-byte house policy record is written to <code>KSDSPOLY</code>.</li>
+<li>Caller receives a successful return with no change to <code>CA_RETURN_CODE</code>.</li>
+</ul>
+<hr>
+<h3 id="93-example-3-vsam-write-failure-error-path" tabindex="-1">9.3 Example 3: VSAM Write Failure (Error Path)</h3>
+<p><strong>Input:</strong> Same as Example 1, but the VSAM file <code>KSDSPOLY</code> already contains a record with the same key (duplicate key condition), causing the CICS WRITE to return a non-normal <code>RESP</code>.</p>
+<p><strong>Program logic:</strong></p>
+<ol>
+<li>Steps 1–4 execute identically to Example 1.</li>
+<li><code>EXEC CICS WRITE FILE('KSDSPOLY')</code> fails; <code>WS_RESP</code> ≠ <code>DFHRESP(NORMAL)</code> (e.g., <code>DUPREC</code>).</li>
+<li><code>WS_RESP2</code> is captured from <code>EIBRESP2</code> for diagnostic detail.</li>
+<li><code>CA_RETURN_CODE</code> is set to <code>'80'</code>.</li>
+<li><code>WRITE_ERROR_MESSAGE</code> is called: it timestamps the error via <code>EXEC CICS ASKTIME</code>/<code>FORMATTIME</code>, formats a message containing policy number, customer number, <code>RESP</code>, and <code>RESP2</code>, then links to <code>LGSTSQ</code> to write the message to a CICS TS queue. Up to 90 bytes of the raw COMMAREA are also logged.</li>
+<li><code>EXEC CICS RETURN</code> terminates the program immediately.</li>
+</ol>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li>No record is written to <code>KSDSPOLY</code>.</li>
+<li><code>CA_RETURN_CODE</code> = <code>'80'</code> is returned to the caller, signalling the failure.</li>
+<li>An error diagnostic entry is written to the CICS TS queue via <code>LGSTSQ</code>, containing the timestamp, program name <code>LGAPVS01</code>, policy number, customer number, RESP and RESP2 values, and the first 90 bytes of the COMMAREA.</li>
+</ul>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a>
+<ul>
+<li class="toc-level-3"><a href="#21-program-parameter">2.1 Program Parameter</a></li>
+<li class="toc-level-3"><a href="#22-communication-area-fields-comm_area-via-comm_area_ptr">2.2 Communication Area Fields (COMM_AREA via COMM_AREA_PTR)</a>
+<ul>
+<li class="toc-level-4"><a href="#221-core-request-fields">2.2.1 Core Request Fields</a></li>
+<li class="toc-level-4"><a href="#222-commercial-policy-fields-ca_commercial-when-ca_request_id4--c">2.2.2 Commercial Policy Fields (CA_COMMERCIAL, when CA_REQUEST_ID[4] = &#039;C&#039;)</a></li>
+<li class="toc-level-4"><a href="#223-endowment-policy-fields-ca_endowment-when-ca_request_id4--e">2.2.3 Endowment Policy Fields (CA_ENDOWMENT, when CA_REQUEST_ID[4] = &#039;E&#039;)</a></li>
+<li class="toc-level-4"><a href="#224-house-policy-fields-ca_house-when-ca_request_id4--h">2.2.4 House Policy Fields (CA_HOUSE, when CA_REQUEST_ID[4] = &#039;H&#039;)</a></li>
+<li class="toc-level-4"><a href="#225-motor-policy-fields-ca_motor-when-ca_request_id4--m">2.2.5 Motor Policy Fields (CA_MOTOR, when CA_REQUEST_ID[4] = &#039;M&#039;)</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#23-cics-runtime-inputs">2.3 CICS Runtime Inputs</a></li>
+<li class="toc-level-3"><a href="#24-external-data-store">2.4 External Data Store</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a></li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a></li>
+<li class="toc-level-3"><a href="#43-high-level-summary">4.3 High level Summary</a></li>
+<li class="toc-level-3"><a href="#44-execution-flow">4.4 Execution Flow</a></li>
+<li class="toc-level-3"><a href="#45-validations-and-error-handling">4.5 Validations and Error Handling</a></li>
+<li class="toc-level-3"><a href="#46-important-business-rules">4.6 Important Business Rules</a></li>
+<li class="toc-level-3"><a href="#47-external-interactions">4.7 External Interactions</a></li>
+<li class="toc-level-3"><a href="#48-plain-language-summary">4.8 Plain Language Summary</a></li>
+<li class="toc-level-3"><a href="#49-database-tables-if-applicable">4.9 Database Tables if applicable</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-files-vsam-datasets">6.1 CICS Files (VSAM Datasets)</a></li>
+<li class="toc-level-3"><a href="#62-cics-runtime-services">6.2 CICS Runtime Services</a></li>
+<li class="toc-level-3"><a href="#63-external-programs-invoked">6.3 External Programs Invoked</a></li>
+<li class="toc-level-3"><a href="#64-input-parameters--commarea">6.4 Input Parameters / COMMAREA</a></li>
+<li class="toc-level-3"><a href="#65-include--copybook-files">6.5 Include / Copybook Files</a></li>
+<li class="toc-level-3"><a href="#66-calling-programs-inbound-dependency">6.6 Calling Programs (Inbound Dependency)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-data-validation-constraints">7.1 Data Validation Constraints</a></li>
+<li class="toc-level-3"><a href="#72-structural--composite-key-constraints">7.2 Structural / Composite Key Constraints</a></li>
+<li class="toc-level-3"><a href="#73-sequencing-and-ordering-constraints">7.3 Sequencing and Ordering Constraints</a></li>
+<li class="toc-level-3"><a href="#74-resource-and-size-constraints">7.4 Resource and Size Constraints</a></li>
+<li class="toc-level-3"><a href="#75-error-handling-and-return-code-constraints">7.5 Error Handling and Return-Code Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-cics-file-write-response-check">8.1 CICS File Write Response Check</a></li>
+<li class="toc-level-3"><a href="#82-return-code-signalling-to-caller">8.2 Return Code Signalling to Caller</a></li>
+<li class="toc-level-3"><a href="#83-error-logging-and-diagnostic-notification">8.3 Error Logging and Diagnostic Notification</a></li>
+<li class="toc-level-3"><a href="#84-program-termination-on-error">8.4 Program Termination on Error</a></li>
+<li class="toc-level-3"><a href="#85-fallback--default-value-logic">8.5 Fallback / Default Value Logic</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1-adding-a-motor-insurance-policy-success-path">9.1 Example 1: Adding a Motor Insurance Policy (Success Path)</a></li>
+<li class="toc-level-3"><a href="#92-example-2-adding-a-house-insurance-policy-success-path">9.2 Example 2: Adding a House Insurance Policy (Success Path)</a></li>
+<li class="toc-level-3"><a href="#93-example-3-vsam-write-failure-error-path">9.3 Example 3: VSAM Write Failure (Error Path)</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGAPVS01</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGDPVS01</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link active">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p>LGDPVS01 is a CICS-hosted PL/I program that deletes a specific insurance policy record from a VSAM KSDS file named KSDSPOLY. It receives a communication area identifying the target policy by customer number, policy number, and a request-type indicator, assembles these into a 21-byte composite key, and issues a CICS DELETE command against the file. If the delete fails, the program sets a return code of <code>81</code> in the communication area and logs a structured error message — including the timestamp, policy and customer identifiers, and the CICS response codes — by linking to the diagnostic program LGSTSQ, along with a raw snapshot of the communication area for further diagnosis, before returning control to the caller.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<h3 id="21-procedure-input" tabindex="-1">2.1 Procedure input</h3>
+<ul>
+<li><code>COMM_AREA_PTR</code>
+<ul>
+<li>Pointer parameter passed to the program.</li>
+<li>Provides access to the CICS communication area that contains the request data and is also updated with the outcome of processing.</li>
+</ul>
+</li>
+</ul>
+<h3 id="22-communication-area-inputs" tabindex="-1">2.2 Communication area inputs</h3>
+<ul>
+<li>
+<p><code>CA_REQUEST_ID</code></p>
+<ul>
+<li>Request identifier from the communication area.</li>
+<li>The program uses its fourth character to derive <code>WF_REQUEST_ID</code>, which becomes the first part of the VSAM key used for the delete.</li>
+</ul>
+</li>
+<li>
+<p><code>CA_CUSTOMER_NUM</code></p>
+<ul>
+<li>Customer number from the communication area.</li>
+<li>Used as part of the composite VSAM key to identify which policy record to delete.</li>
+<li>Also included in the error message when delete processing fails.</li>
+</ul>
+</li>
+<li>
+<p><code>CA_POLICY_NUM</code></p>
+<ul>
+<li>Policy number from the communication area.</li>
+<li>Used as part of the composite VSAM key for the VSAM delete operation.</li>
+</ul>
+</li>
+<li>
+<p><code>COMM_AREA_RAW</code></p>
+<ul>
+<li>Raw overlay of the entire communication area.</li>
+<li>Used only for diagnostics: when an error occurs, the program copies up to 90 bytes of the incoming commarea into an error record sent to the logging program.</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-cics-system-provided-inputs" tabindex="-1">2.3 CICS system-provided inputs</h3>
+<ul>
+<li>
+<p><code>EIBCALEN</code></p>
+<ul>
+<li>CICS-provided length of the incoming communication area.</li>
+<li>Used to determine how much of <code>COMM_AREA_RAW</code> can be copied into the diagnostic error payload.</li>
+</ul>
+</li>
+<li>
+<p><code>EIBRESP2</code></p>
+<ul>
+<li>CICS-provided secondary response code from the failed CICS command.</li>
+<li>Captured for error reporting when the VSAM delete does not complete normally.</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-external-data-sources-and-services" tabindex="-1">2.4 External data sources and services</h3>
+<ul>
+<li>
+<p>VSAM file <code>KSDSPOLY</code></p>
+<ul>
+<li>External VSAM KSDS file accessed by <code>EXEC CICS DELETE</code>.</li>
+<li>The program depends on the existence of a record matching the composite key built from request ID, customer number, and policy number.</li>
+</ul>
+</li>
+<li>
+<p>CICS program <code>LGSTSQ</code></p>
+<ul>
+<li>External logging program invoked through <code>EXEC CICS LINK</code>.</li>
+<li>Receives the constructed error message and, when available, a snapshot of the incoming commarea for diagnostics.</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-output-only-field-updated-by-the-program" tabindex="-1">2.5 Output-only field updated by the program</h3>
+<ul>
+<li><code>CA_RETURN_CODE</code>
+<ul>
+<li>Return code field in the communication area passed back to the caller.</li>
+<li>Not an input used to drive delete logic, but part of the externally visible interface; set to <code>'81'</code> when the delete fails.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<p><strong>VSAM KSDS Record Deletion</strong></p>
+<ul>
+<li>The primary side effect of the program is the deletion of a policy record from the VSAM KSDS file <code>KSDSPOLY</code>
+<ul>
+<li>The record is located using the 21-byte composite key <code>WF_POLICY_KEY</code> (built from <code>WF_REQUEST_ID</code> + <code>WF_CUSTOMER_NUM</code> + <code>WF_POLICY_NUM</code>)</li>
+<li>On success, the record identified by the policy number (<code>CA_POLICY_NUM</code>) and customer number (<code>CA_CUSTOMER_NUM</code>) is permanently removed from the file</li>
+</ul>
+</li>
+</ul>
+<p><strong>Communication Area Return Code (<code>CA_RETURN_CODE</code>)</strong></p>
+<ul>
+<li>The return code written back into the caller’s communication area signals the outcome of the delete operation
+<ul>
+<li>Set to <code>'81'</code> when the <code>EXEC CICS DELETE</code> command fails (i.e., <code>WS_RESP</code> ≠ <code>DFHRESP(NORMAL)</code>), indicating a file delete error to the invoking program</li>
+<li>Implicitly left at its original value (no error code set) when the delete succeeds, indicating normal completion</li>
+</ul>
+</li>
+</ul>
+<p><strong>Error Logging via LGSTSQ (on delete failure only)</strong></p>
+<ul>
+<li>When the delete fails, the program links to the <code>LGSTSQ</code> error-logging program twice via <code>EXEC CICS LINK</code>, producing two logged outputs:
+<ul>
+<li><strong>Primary error message (<code>ERROR_MSG</code>):</strong> A structured record passed as COMMAREA containing:
+<ul>
+<li>Formatted date (<code>EM_DATE</code>) and time (<code>EM_TIME</code>) of the failure</li>
+<li>Program identifier (<code>LGDPVS01</code>)</li>
+<li>Policy number (<code>EM_POLNUM</code>) and customer number (<code>EM_CUSNUM</code>) identifying the affected record</li>
+<li>Fixed descriptive text <code>&quot;Delete file KSDSPOLY&quot;</code></li>
+<li>Primary CICS response code (<code>EM_RESPRC</code> sourced from <code>WS_RESP</code>) and secondary response code (<code>EM_RESP2RC</code> sourced from <code>WS_RESP2</code> / <code>EIBRESP2</code>)</li>
+</ul>
+</li>
+<li><strong>Communication area diagnostic snapshot (<code>CA_ERROR_MSG</code>):</strong> A supplementary record passed as COMMAREA containing:
+<ul>
+<li>The literal prefix <code>&quot;COMMAREA=&quot;</code></li>
+<li>Up to 90 bytes of raw communication area content (<code>CA_DATA</code> sourced from <code>COMM_AREA_RAW</code>), capturing the exact input state at the time of failure for diagnostic purposes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGDPVS01]) --> B[Read EIBCALEN into WS_Commarea_Len]
+    B --> C[Build composite VSAM key<br>WF_Request_ID = CA_Request_ID char 4<br>WF_Policy_Num = CA_Policy_Num<br>WF_Customer_Num = CA_Customer_Num]
+    C --> D[EXEC CICS DELETE FILE KSDSPOLY<br>RIDFLD WF_Policy_Key KeyLength 21<br>RESP into WS_RESP]
+    D --> E{{WS_RESP = DFHRESP NORMAL}}
+    E -- Yes --> F([Return to Caller - Success])
+    E -- No --> G[Capture WS_RESP2 from EIBRESP2<br>Set CA_Return_Code = 81]
+    G --> H[CALL WRITE_ERROR_MESSAGE]
+    H --> I[EXEC CICS ASKTIME into WS_ABSTIME]
+    I --> J[EXEC CICS FORMATTIME<br>Populate WS_DATE and WS_TIME]
+    J --> K[Populate ERROR_MSG fields<br>date time program<br>policy num customer num<br>RESP and RESP2]
+    K --> L[EXEC CICS LINK LGSTSQ<br>COMMAREA = ERROR_MSG]
+    L --> M{{EIBCALEN greater than 0}}
+    M -- No --> P([Return from WRITE_ERROR_MESSAGE])
+    M -- Yes --> N{{EIBCALEN less than 91}}
+    N -- Yes --> O1[CA_DATA = first EIBCALEN bytes<br>of COMM_AREA_RAW]
+    N -- No --> O2[CA_DATA = first 90 bytes<br>of COMM_AREA_RAW]
+    O1 --> Q[EXEC CICS LINK LGSTSQ<br>COMMAREA = CA_ERROR_MSG]
+    O2 --> Q
+    Q --> P
+    P --> R[EXEC CICS RETURN]
+    R --> S([End])
+
+    classDef startEnd fill:#d0f0c0,stroke:#7ab648,color:#000
+    classDef process fill:#cce5ff,stroke:#5a9fd4,color:#000
+    classDef decision fill:#fff3cd,stroke:#d4a017,color:#000
+    classDef error fill:#ffd6cc,stroke:#d45a3a,color:#000
+
+    class A,F,S startEnd
+    class B,C,D,G,I,J,K,O1,O2 process
+    class E,M,N decision
+    class H,L,P,Q,R error
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGDPVS01</code> is a CICS PL/I program that deletes a single insurance policy record from a VSAM KSDS file named <strong>KSDSPOLY</strong>. It is a VSAM back-end delete program, the VSAM counterpart to the DB2-based <code>LGDPDB01</code>. It receives a COMMAREA pointer identifying the customer and policy to be removed, constructs a 21-byte composite key, issues the CICS DELETE command, and either returns silently on success or logs a structured error message and sets a return code on failure.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Initialisation and Key Construction</strong></p>
+<p>The program begins by reading <code>EIBCALEN</code> into <code>WS_Commarea_Len</code> to record the inbound COMMAREA length. It then builds the 21-byte composite VSAM KSDS key (<code>WF_Policy_Key</code>) from three components:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Source</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WF_Request_ID</code></td>
+<td>4th character of <code>CA_Request_ID</code></td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td><code>WF_Customer_Num</code></td>
+<td><code>CA_Customer_Num</code> from COMMAREA</td>
+<td>10 bytes</td>
+</tr>
+<tr>
+<td><code>WF_Policy_Num</code></td>
+<td><code>CA_Policy_Num</code> from COMMAREA</td>
+<td>10 bytes</td>
+</tr>
+</tbody>
+</table>
+<p>This key uniquely identifies the policy record within the KSDS file.</p>
+<p><strong>Step 2 — VSAM Delete</strong></p>
+<p><code>EXEC CICS DELETE FILE('KSDSPOLY') RIDFLD(WF_Policy_Key) KEYLENGTH(21) RESP(WS_RESP)</code> attempts to locate and delete the target record. The <code>RESP</code> option captures the primary CICS response code into <code>WS_RESP</code> without causing an implicit ABEND, giving the program full control over error handling.</p>
+<p><strong>Step 3 — Response Check</strong></p>
+<p>The program tests <code>WS_RESP</code> against <code>DFHRESP(NORMAL)</code>:</p>
+<ul>
+<li><strong>Success path</strong> (<code>WS_RESP = DFHRESP(NORMAL)</code>): The program falls through to a plain <code>RETURN</code>, handing control back to the caller with no changes to <code>CA_RETURN_CODE</code> (implying the caller-set success code remains in place).</li>
+<li><strong>Failure path</strong> (<code>WS_RESP ≠ DFHRESP(NORMAL)</code>): The secondary response code is captured from <code>EIBRESP2</code> into <code>WS_RESP2</code>, and <code>CA_RETURN_CODE</code> is set to <code>'81'</code> to signal a delete failure to the calling program. The internal subroutine <code>WRITE_ERROR_MESSAGE</code> is called, followed by <code>EXEC CICS RETURN</code>.</li>
+</ul>
+<p><strong>Step 4 — Error Logging (WRITE_ERROR_MESSAGE subroutine)</strong></p>
+<p>This subroutine constructs and dispatches diagnostic information:</p>
+<ol>
+<li>
+<p><strong>Timestamp acquisition</strong>: <code>EXEC CICS ASKTIME ABSTIME(WS_ABSTIME)</code> retrieves the current absolute time, then <code>EXEC CICS FORMATTIME</code> converts it to a formatted date (<code>MMDDYYYY</code> in <code>WS_DATE</code>) and time (<code>WS_TIME</code>).</p>
+</li>
+<li>
+<p><strong>ERROR_MSG population</strong>: The structured <code>ERROR_MSG</code> record is populated with the date, time, the literal program identifier <code>LGDPVS01</code>, the customer number, the fixed text <code>Delete file KSDSPOLY</code>, the primary RESP code, and the secondary RESP2 code.</p>
+</li>
+<li>
+<p><strong>First LINK to LGSTSQ</strong>: <code>EXEC CICS LINK PROGRAM('LGSTSQ') COMMAREA(ERROR_MSG)</code> dispatches the formatted error record to the error-logging program.</p>
+</li>
+<li>
+<p><strong>Conditional COMMAREA dump</strong>: If <code>EIBCALEN &gt; 0</code>, a raw snapshot of the COMMAREA is also sent to <code>LGSTSQ</code>:</p>
+<ul>
+<li>If <code>EIBCALEN &lt; 91</code>: <code>CA_DATA</code> is set to exactly <code>EIBCALEN</code> bytes from <code>COMM_AREA_RAW</code>.</li>
+<li>Otherwise: <code>CA_DATA</code> is set to the first 90 bytes of <code>COMM_AREA_RAW</code>.
+A second <code>EXEC CICS LINK PROGRAM('LGSTSQ') COMMAREA(CA_ERROR_MSG)</code> sends this raw dump. This two-message strategy ensures both a formatted error and raw COMMAREA bytes are available for diagnosis.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VSAM KSDS file <code>KSDSPOLY</code></td>
+<td><code>EXEC CICS DELETE</code></td>
+<td>Physically deletes the target policy record using the 21-byte composite key</td>
+</tr>
+<tr>
+<td>Error-logging program <code>LGSTSQ</code></td>
+<td><code>EXEC CICS LINK</code> (up to twice)</td>
+<td>Writes the formatted error message to a CICS TS queue; a second call dumps the raw COMMAREA bytes for diagnosis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p>When an insurance policy needs to be deleted from the VSAM-backed store, <code>LGDPVS01</code> is called with details of the customer and policy. It constructs a unique 21-byte lookup key combining a request type indicator, the customer number, and the policy number, then asks CICS to delete the matching record from the <code>KSDSPOLY</code> file. If the deletion succeeds, the program returns quietly to its caller. If it fails, the program marks the response as error code <code>81</code> in the shared communication area, records a timestamped diagnostic message (including both CICS response codes and the raw content of the communication area), sends that diagnostic to a logging program, and then returns to the caller — ensuring the failure is both communicated upstream and captured for operational diagnosis.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<p>This program does not interact with DB2 database tables. All data access is performed against the VSAM KSDS file <strong>KSDSPOLY</strong> via CICS file control commands. No <code>erDiagram</code> applies.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<ul>
+<li>
+<p><strong>Main Procedure Body (LGDPVS01 inline logic)</strong></p>
+<ul>
+<li>Serves as the program entry point and primary execution path for deleting a VSAM KSDS policy record.</li>
+<li>Reads <code>EIBCALEN</code> into <code>WS_Commarea_Len</code> to record the length of the passed communication area.</li>
+<li>Extracts the fourth character of <code>CA_REQUEST_ID</code> and places it into <code>WF_Request_ID</code>, forming the leading byte of the composite KSDS key.</li>
+<li>Copies <code>CA_Policy_Num</code> into <code>WF_Policy_Num</code> and <code>CA_Customer_Num</code> into <code>WF_Customer_Num</code>, completing the 21-byte composite key structure <code>WF_Policy_Key</code> (1-byte request type + 10-byte customer number + 10-byte policy number).</li>
+<li>Issues <code>EXEC CICS DELETE FILE('KSDSPOLY') RIDFLD(WF_Policy_Key) KEYLENGTH(21) RESP(WS_RESP)</code> to remove the identified policy record from the VSAM KSDS file.</li>
+<li>Conditional logic: if <code>WS_RESP</code> is not equal to <code>DFHRESP(NORMAL)</code>, the delete has failed — <code>EIBRESP2</code> is saved into <code>WS_RESP2</code>, <code>CA_RETURN_CODE</code> is set to <code>'81'</code> to signal the error to the caller, the internal <code>WRITE_ERROR_MESSAGE</code> procedure is invoked to log diagnostics, and <code>EXEC CICS RETURN</code> terminates the transaction immediately.</li>
+<li>If the delete succeeds, control falls through to <code>RETURN</code>, ending the program normally with no return code modification.</li>
+</ul>
+</li>
+<li>
+<p><strong>WRITE_ERROR_MESSAGE</strong></p>
+<ul>
+<li>An internal (nested) procedure invoked exclusively when the CICS DELETE command fails; its sole purpose is to construct and write a structured diagnostic error message to the CICS system.</li>
+<li>Calls <code>EXEC CICS ASKTIME ABSTIME(WS_ABSTIME)</code> to capture the current absolute time into <code>WS_ABSTIME</code>.</li>
+<li>Calls <code>EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME) MMDDYYYY(WS_DATE) TIME(WS_TIME)</code> to convert the absolute time into a human-readable date (<code>WS_DATE</code>) and time (<code>WS_TIME</code>) string.</li>
+<li>Populates the <code>ERROR_MSG</code> structure fields: <code>EM_DATE</code> and <code>EM_TIME</code> with the formatted timestamp, <code>EM_CUSNUM</code> with <code>CA_Customer_Num</code>, <code>EM_RESPRC</code> with the primary CICS response code (<code>WS_RESP</code>), and <code>EM_RESP2RC</code> with the secondary response code (<code>WS_RESP2</code>). The structure also contains static literals identifying the program (<code>LGDPVS01</code>) and the failing operation (<code>Delete file KSDSPOLY</code>).</li>
+<li>Issues <code>EXEC CICS LINK PROGRAM('LGSTSQ') COMMAREA(ERROR_MSG) LENGTH(STG(ERROR_MSG))</code> to pass the fully populated error message to the shared error-logging program <code>LGSTSQ</code>.</li>
+<li>Conditional logic for COMMAREA diagnostic dump:
+<ul>
+<li>Checks <code>EIBCALEN &gt; 0</code> to confirm a communication area was actually passed.</li>
+<li>If <code>EIBCALEN &lt; 91</code>, copies exactly <code>EIBCALEN</code> bytes of <code>COMM_AREA_RAW</code> into <code>CA_DATA</code> (the 90-character capture field within <code>CA_ERROR_MSG</code>), then calls <code>EXEC CICS LINK PROGRAM('LGSTSQ') COMMAREA(CA_ERROR_MSG) LENGTH(STG(ERROR_MSG))</code> to log the raw COMMAREA snapshot.</li>
+<li>If <code>EIBCALEN &gt;= 91</code>, copies the first 90 bytes of <code>COMM_AREA_RAW</code> into <code>CA_DATA</code> and similarly links to <code>LGSTSQ</code>, ensuring the log entry is bounded to 90 characters regardless of actual COMMAREA size.</li>
+</ul>
+</li>
+<li>Returns control to the main procedure body after all logging is complete.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-vsam-files" tabindex="-1">6.1 VSAM Files</h3>
+<ul>
+<li><strong>KSDSPOLY</strong> — VSAM KSDS file targeted by <code>EXEC CICS DELETE FILE('KSDSPOLY')</code>. The program uses a 21-byte composite key (<code>WF_Policy_Key</code>, built from <code>WF_Request_ID</code> + <code>WF_Customer_Num</code> + <code>WF_Policy_Num</code>) as the <code>RIDFLD</code> to locate and delete the policy record.</li>
+</ul>
+<h3 id="62-cics-runtime-services" tabindex="-1">6.2 CICS Runtime Services</h3>
+<ul>
+<li><strong>CICS Transaction Server runtime</strong> — The program runs under CICS and relies on the following CICS commands and facilities:
+<ul>
+<li><code>EXEC CICS DELETE</code> — issues the VSAM KSDS record delete against the <code>KSDSPOLY</code> file</li>
+<li><code>EXEC CICS ASKTIME</code> — retrieves the current absolute timestamp (<code>WS_ABSTIME</code>) for error message construction</li>
+<li><code>EXEC CICS FORMATTIME</code> — formats the absolute time into a human-readable date (<code>WS_DATE</code>) and time (<code>WS_TIME</code>) for the error message</li>
+<li><code>EXEC CICS RETURN</code> — returns control to CICS after processing or on error</li>
+<li><code>EXEC CICS LINK</code> — invokes the external error-logging program <code>LGSTSQ</code> (see External Programs below)</li>
+</ul>
+</li>
+<li><strong>CICS Execute Interface Block (EIB)</strong> — Implicitly available CICS control block providing:
+<ul>
+<li><code>EIBCALEN</code> — length of the incoming communication area; used to validate COMMAREA presence and size before logging</li>
+<li><code>EIBRESP2</code> — secondary CICS response code captured after a failed DELETE and included in the error message</li>
+</ul>
+</li>
+<li><strong>DFHRESP(NORMAL)</strong> — CICS-supplied constant used to test whether the <code>EXEC CICS DELETE</code> command completed successfully</li>
+</ul>
+<h3 id="63-external-programs--modules" tabindex="-1">6.3 External Programs / Modules</h3>
+<ul>
+<li><strong>LGSTSQ</strong> — External CICS program invoked via <code>EXEC CICS LINK</code> for error logging. It is called up to twice on a delete failure:
+<ul>
+<li>First call passes <code>ERROR_MSG</code> (structured message with date, time, program ID, policy number, customer number, VSAM file name, and CICS response codes) as the COMMAREA</li>
+<li>Second call passes <code>CA_ERROR_MSG</code> (a snapshot of up to 90 bytes of the raw COMMAREA content) as the COMMAREA for additional diagnostic context</li>
+</ul>
+</li>
+</ul>
+<h3 id="64-include-members--copybooks" tabindex="-1">6.4 Include Members / Copybooks</h3>
+<ul>
+<li><strong>LGCMAREA</strong> (<code>plinc/LGCMAREA.inc</code>) — PL/I include member (expanded inline via <code>%INCLUDE LGCMAREA</code>) that defines the entire <code>COMM_AREA</code> UNION structure. It provides all Communication Area field declarations (<code>CA_REQUEST_ID</code>, <code>CA_RETURN_CODE</code>, <code>CA_CUSTOMER_NUM</code>, <code>CA_POLICY_REQUEST</code>, <code>CA_POLICY_COMMON</code>, <code>COMM_AREA_RAW</code>, etc.) used throughout the program.</li>
+</ul>
+<h3 id="65-input-parameters--communication-area" tabindex="-1">6.5 Input Parameters / Communication Area</h3>
+<ul>
+<li><strong>COMM_AREA</strong> (passed via <code>COMM_AREA_PTR</code>) — The program’s sole input/output interface, received as a pointer parameter. The following fields within it are consumed at runtime:
+<ul>
+<li><code>CA_REQUEST_ID</code> — 6-character request type; 4th character is extracted as the KSDS key prefix (<code>WF_Request_ID</code>)</li>
+<li><code>CA_CUSTOMER_NUM</code> — 10-digit customer identifier; copied into <code>WF_Customer_Num</code> and used as part of the composite KSDS key</li>
+<li><code>CA_POLICY_NUM</code> — 10-digit policy identifier; copied into <code>WF_Policy_Num</code> and used as part of the composite KSDS key</li>
+<li><code>CA_RETURN_CODE</code> — output field set to <code>'81'</code> by the program to signal a delete failure back to the caller</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-input-structure-and-data-format-constraints" tabindex="-1">7.1 Input structure and data format constraints</h3>
+<ul>
+<li>
+<p>The program requires a CICS COMMAREA pointer as its sole entry parameter and treats the storage it references as the <code>COMM_AREA</code> structure.</p>
+<ul>
+<li>Enforced by <code>LGDPVS01: Proc(COMM_AREA_PTR) Options(Main);</code> and <code>DCL 1 COMM_AREA UNION BASED(COMM_AREA_PTR)</code>.</li>
+<li>All business input is read directly from that based structure; there is no alternative input source.</li>
+</ul>
+</li>
+<li>
+<p>The delete key must be derivable from specific COMMAREA fields in fixed positions and lengths.</p>
+<ul>
+<li>Enforced by copying:
+<ul>
+<li><code>WF_Request_ID = SUBSTR(CA_Request_ID,4,1);</code></li>
+<li><code>WF_Policy_Num = CA_Policy_Num;</code></li>
+<li><code>WF_Customer_Num = CA_Customer_Num;</code></li>
+</ul>
+</li>
+<li>This implies:
+<ul>
+<li><code>CA_REQUEST_ID</code> must contain at least 4 characters, because the 4th character is extracted and used as part of the VSAM key.</li>
+<li><code>CA_CUSTOMER_NUM</code> must conform to the declared 10-digit picture.</li>
+<li><code>CA_POLICY_NUM</code> must conform to the declared 10-digit picture.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>The VSAM record key format is fixed at 21 bytes and must be composed in a specific order.</p>
+<ul>
+<li>Enforced by the <code>WF_Policy_Key</code> structure:
+<ul>
+<li><code>WF_Request_ID</code> as 1 byte</li>
+<li><code>WF_Customer_Num</code> as 10 bytes</li>
+<li><code>WF_Policy_Num</code> as 10 bytes</li>
+</ul>
+</li>
+<li>Used by <code>EXEC CICS Delete File('KSDSPOLY') Ridfld(WF_Policy_Key) KeyLength(21)</code>.</li>
+<li>This implies the target KSDS file must be keyed exactly as request-type + customer-number + policy-number.</li>
+</ul>
+</li>
+<li>
+<p>The program assumes policy-delete requests use the policy request layout within the COMMAREA.</p>
+<ul>
+<li>Implied by reading <code>CA_POLICY_NUM</code> from <code>CA_POLICY_REQUEST</code> and combining it with top-level <code>CA_CUSTOMER_NUM</code> and <code>CA_REQUEST_ID</code>.</li>
+<li>If a caller populates a different union variant in <code>CA_REQUEST_SPECIFIC</code>, the delete key may be invalid.</li>
+</ul>
+</li>
+</ul>
+<h3 id="72-validation-and-error-status-constraints" tabindex="-1">7.2 Validation and error-status constraints</h3>
+<ul>
+<li>
+<p>Success or failure of the delete is determined solely by the primary CICS response code.</p>
+<ul>
+<li>Enforced by <code>If (WS_RESP &lt;&gt; DFHRESP(NORMAL)) THEN DO;</code>.</li>
+<li>No other checks are made on content or existence before attempting the delete.</li>
+</ul>
+</li>
+<li>
+<p>A failed delete always returns application return code <code>81</code>.</p>
+<ul>
+<li>Enforced by <code>CA_RETURN_CODE = '81';</code> inside the non-normal response branch.</li>
+<li>The program does not assign a success code locally, so successful completion depends on the caller or prior logic having set an appropriate value.</li>
+</ul>
+</li>
+<li>
+<p>Secondary diagnostic status is captured only when the delete fails.</p>
+<ul>
+<li>Enforced by <code>WS_RESP2 = EIBRESP2;</code> only in the error path.</li>
+<li>This means detailed CICS diagnostics are tied to a failed <code>DELETE</code> result.</li>
+</ul>
+</li>
+</ul>
+<h3 id="73-processing-and-control-flow-constraints" tabindex="-1">7.3 Processing and control-flow constraints</h3>
+<ul>
+<li>
+<p>Key construction must occur before the CICS delete operation.</p>
+<ul>
+<li>Enforced by the sequence:
+<ul>
+<li>assign <code>WF_Request_ID</code></li>
+<li>assign <code>WF_Policy_Num</code></li>
+<li>assign <code>WF_Customer_Num</code></li>
+<li>execute <code>EXEC CICS DELETE</code></li>
+</ul>
+</li>
+<li>The program cannot delete without first building the composite key from the incoming COMMAREA.</li>
+</ul>
+</li>
+<li>
+<p>Error logging occurs only after a failed delete.</p>
+<ul>
+<li>Enforced by the branch that calls <code>WRITE_ERROR_MESSAGE</code> only when <code>WS_RESP</code> is not <code>NORMAL</code>.</li>
+<li>No informational or audit logging is done on successful deletion.</li>
+</ul>
+</li>
+<li>
+<p>After a failed delete, the program returns immediately to the caller.</p>
+<ul>
+<li>Enforced by:
+<ul>
+<li><code>CALL WRITE_ERROR_MESSAGE;</code></li>
+<li><code>EXEC CICS RETURN;</code></li>
+</ul>
+</li>
+<li>No retry, fallback processing, or alternate file access is attempted.</li>
+</ul>
+</li>
+<li>
+<p>On successful deletion, the program exits immediately without additional processing.</p>
+<ul>
+<li>Enforced by the straight-line <code>RETURN;</code> after the failure branch.</li>
+<li>This constrains the module to a single-purpose operation: build key, delete record, optionally log on failure, and exit.</li>
+</ul>
+</li>
+</ul>
+<h3 id="74-resource-and-file-access-constraints" tabindex="-1">7.4 Resource and file-access constraints</h3>
+<ul>
+<li>
+<p>Deletion is restricted to the VSAM file named <code>KSDSPOLY</code>.</p>
+<ul>
+<li>Enforced by <code>EXEC CICS Delete File('KSDSPOLY')</code>.</li>
+<li>The program cannot delete from any other file without code change.</li>
+</ul>
+</li>
+<li>
+<p>The delete operation is key-based only.</p>
+<ul>
+<li>Enforced by use of <code>Ridfld(WF_Policy_Key)</code> and <code>KeyLength(21)</code>.</li>
+<li>There is no browse, sequential scan, generic key, or alternate access path logic.</li>
+</ul>
+</li>
+<li>
+<p>The key length is fixed and non-negotiable at 21 bytes.</p>
+<ul>
+<li>Enforced explicitly by <code>KeyLength(21)</code>.</li>
+<li>Any mismatch between the actual file key definition and this 21-byte composite key would cause delete failure.</li>
+</ul>
+</li>
+</ul>
+<h3 id="75-error-message-content-and-diagnostic-constraints" tabindex="-1">7.5 Error message content and diagnostic constraints</h3>
+<ul>
+<li>
+<p>Error messages always identify the operation as a <code>KSDSPOLY</code> delete failure.</p>
+<ul>
+<li>Enforced by the constant text in <code>ERROR_MSG</code>:
+<ul>
+<li><code>INIT(' Delete file KSDSPOLY')</code></li>
+</ul>
+</li>
+<li>Logged diagnostics are therefore specialized to this file and operation.</li>
+</ul>
+</li>
+<li>
+<p>The logged diagnostic message includes customer number and response codes, but policy number is not populated by the code shown.</p>
+<ul>
+<li><code>EM_CUSNUM = CA_Customer_Num;</code></li>
+<li><code>EM_RespRC = WS_RESP;</code></li>
+<li><code>EM_Resp2RC = WS_RESP2;</code></li>
+<li><code>EM_POLNUM</code> exists in the structure, but no assignment to it appears before the log call.</li>
+<li>This implies a practical constraint: logged policy-number detail may remain blank unless set elsewhere.</li>
+</ul>
+</li>
+<li>
+<p>Timestamp fields in the error log are generated at the time of failure logging.</p>
+<ul>
+<li>Enforced by:
+<ul>
+<li><code>EXEC CICS ASKTIME ABSTIME(WS_ABSTIME);</code></li>
+<li><code>EXEC CICS FORMATTIME ABSTIME(WS_ABSTIME) MMDDYYYY(WS_DATE) TIME(WS_TIME);</code></li>
+</ul>
+</li>
+<li>Date/time in the log reflect logging time, not request creation time.</li>
+</ul>
+</li>
+<li>
+<p>Error logging is performed by linking to program <code>LGSTSQ</code>.</p>
+<ul>
+<li>Enforced by <code>EXEC CICS LINK PROGRAM('LGSTSQ') COMMAREA(ERROR_MSG) ...</code>.</li>
+<li>This creates a dependency that the logging program must be available for diagnostic processing to succeed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="76-commarea-length-and-diagnostic-capture-constraints" tabindex="-1">7.6 COMMAREA length and diagnostic capture constraints</h3>
+<ul>
+<li>
+<p>Raw COMMAREA diagnostic capture is performed only when <code>EIBCALEN &gt; 0</code>.</p>
+<ul>
+<li>Enforced by <code>IF (EIBCALEN &gt; 0) THEN DO;</code>.</li>
+<li>If the COMMAREA length is zero, no raw request snapshot is logged.</li>
+</ul>
+</li>
+<li>
+<p>At most 90 bytes of COMMAREA data are copied into the diagnostic area.</p>
+<ul>
+<li>Enforced by:
+<ul>
+<li><code>IF (EIBCALEN &lt; 91) THEN ... CA_DATA = LEFT(COMM_AREA_RAW,EIBCALEN);</code></li>
+<li><code>ELSE ... CA_DATA = LEFT(COMM_AREA_RAW,90);</code></li>
+</ul>
+</li>
+<li>This limits raw diagnostic payload size regardless of the declared 32,500-byte COMMAREA overlay.</li>
+</ul>
+</li>
+<li>
+<p>The amount of raw COMMAREA logged depends on actual COMMAREA length.</p>
+<ul>
+<li>If <code>EIBCALEN</code> is less than 91, only the actual passed length is copied.</li>
+<li>If <code>EIBCALEN</code> is 91 or greater, exactly 90 bytes are copied.</li>
+<li>This avoids reading beyond the reported COMMAREA length while capping diagnostic volume.</li>
+</ul>
+</li>
+<li>
+<p>The program reads business fields from COMMAREA before checking <code>EIBCALEN</code>.</p>
+<ul>
+<li>Implied by:
+<ul>
+<li><code>WS_Commarea_Len = EIBCALEN;</code></li>
+<li>then immediate assignments from <code>CA_Request_ID</code>, <code>CA_Policy_Num</code>, and <code>CA_Customer_Num</code></li>
+<li>with no prior minimum-length validation</li>
+</ul>
+</li>
+<li>This means correct operation implicitly depends on the caller passing a COMMAREA long enough to contain at least those fields. Unlike the broader project convention, this module does not enforce a minimum COMMAREA length before using it.</li>
+</ul>
+</li>
+</ul>
+<h3 id="77-interface-and-implementation-specific-constraints" tabindex="-1">7.7 Interface and implementation-specific constraints</h3>
+<ul>
+<li>
+<p><code>CA_REQUEST_ID</code> influences the physical key used for deletion through its 4th character only.</p>
+<ul>
+<li>Enforced by <code>SUBSTR(CA_Request_ID,4,1)</code>.</li>
+<li>Other characters in the request ID do not affect the delete key in this program.</li>
+</ul>
+</li>
+<li>
+<p>Customer number and policy number are treated as character key components after assignment into <code>CHAR(10)</code> working fields.</p>
+<ul>
+<li>Enforced by target definitions:
+<ul>
+<li><code>WF_Customer_Num CHAR(10)</code></li>
+<li><code>WF_Policy_Num CHAR(10)</code></li>
+</ul>
+</li>
+<li>Although sourced from numeric picture fields in COMMAREA, they are used as fixed-length character bytes in the VSAM key.</li>
+</ul>
+</li>
+<li>
+<p>The module depends on CICS execution context.</p>
+<ul>
+<li>Enforced by use of CICS facilities:
+<ul>
+<li><code>DELETE</code></li>
+<li><code>ASKTIME</code></li>
+<li><code>FORMATTIME</code></li>
+<li><code>LINK</code></li>
+<li><code>RETURN</code></li>
+<li><code>EIBCALEN</code></li>
+<li><code>EIBRESP2</code></li>
+<li><code>DFHRESP(NORMAL)</code></li>
+</ul>
+</li>
+<li>The program cannot function correctly outside a CICS environment.</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-cics-command-response-checking" tabindex="-1">8.1 CICS Command Response Checking</h3>
+<ul>
+<li><strong>RESP field on EXEC CICS DELETE</strong>: The <code>EXEC CICS DELETE</code> command targeting the VSAM KSDS file <code>KSDSPOLY</code> is issued with a <code>RESP(WS_RESP)</code> option. This suppresses automatic CICS exception handling and instead deposits the primary response code into <code>WS_RESP</code> for explicit, in-line checking after the command completes.
+<ul>
+<li><strong>DFHRESP(NORMAL) comparison</strong>: Immediately after the delete, <code>WS_RESP</code> is compared against <code>DFHRESP(NORMAL)</code>. Any non-normal response (e.g., record not found, I/O error, file unavailable) triggers the error path. This is the sole I/O error gate in the program.</li>
+<li><strong>Secondary response code capture</strong>: Upon detecting a failure, <code>WS_RESP2</code> is populated from the EIB field <code>EIBRESP2</code>, which carries the secondary CICS response code providing more granular diagnostic detail about why the delete failed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="82-return-code-signalling-to-the-caller" tabindex="-1">8.2 Return Code Signalling to the Caller</h3>
+<ul>
+<li><strong>CA_RETURN_CODE set to ‘81’</strong>: When the CICS DELETE fails, the communication area field <code>CA_RETURN_CODE</code> is set to the literal value <code>'81'</code>. This value is returned to the invoking program via the shared communication area, communicating that the delete operation was unsuccessful and allowing the caller to take further action based on that code.</li>
+</ul>
+<h3 id="83-error-logging-and-diagnostic-notification" tabindex="-1">8.3 Error Logging and Diagnostic Notification</h3>
+<ul>
+<li><strong>WRITE_ERROR_MESSAGE internal procedure</strong>: When an error is detected, control is passed to the internal procedure <code>WRITE_ERROR_MESSAGE</code>, which orchestrates all diagnostic and notification steps. This procedure is only invoked on the failure path.
+<ul>
+<li><strong>Timestamp acquisition via EXEC CICS ASKTIME</strong>: The procedure retrieves the current absolute time from CICS into <code>WS_ABSTIME</code>, providing an accurate timestamp for the error record.</li>
+<li><strong>Timestamp formatting via EXEC CICS FORMATTIME</strong>: The absolute time is formatted into human-readable date (<code>WS_DATE</code>, MM/DD/YYYY) and time (<code>WS_TIME</code>, HH:MM:SS) values, which are embedded in the error message structure.</li>
+<li><strong>Structured error message assembly</strong>: The <code>ERROR_MSG</code> structure is populated with the formatted date, time, program identifier (<code>LGDPVS01</code>), policy number (<code>EM_POLNUM</code>), customer number (<code>EM_CUSNUM</code>), a fixed descriptive text identifying the failing operation (<code>Delete file KSDSPOLY</code>), and both the primary (<code>WS_RESP</code>) and secondary (<code>WS_RESP2</code>) CICS response codes.</li>
+<li><strong>Error logging via EXEC CICS LINK to LGSTSQ</strong>: The fully assembled <code>ERROR_MSG</code> structure is passed as a communication area to the external error-logging program <code>LGSTSQ</code> via <code>EXEC CICS LINK</code>. This delegates the actual recording or display of the error message to a dedicated logging utility.</li>
+</ul>
+</li>
+</ul>
+<h3 id="84-communication-area-diagnostic-dump" tabindex="-1">8.4 Communication Area Diagnostic Dump</h3>
+<ul>
+<li><strong>Conditional COMMAREA snapshot logging</strong>: After the primary error message is logged, the procedure checks <code>EIBCALEN</code> (the actual length of the incoming communication area) to determine whether a raw snapshot of the communication area can be captured.
+<ul>
+<li><strong>Guard on EIBCALEN &gt; 0</strong>: A first check ensures the communication area is non-empty before attempting to capture its contents, preventing any attempt to read a zero-length area.</li>
+<li><strong>Length-bounded capture (EIBCALEN &lt; 91)</strong>: If the communication area is shorter than 91 bytes, exactly <code>EIBCALEN</code> bytes are extracted from <code>COMM_AREA_RAW</code> using the <code>LEFT</code> built-in function and placed into <code>CA_DATA</code>.</li>
+<li><strong>Truncation to 90 bytes</strong>: If the communication area is 91 bytes or longer, only the first 90 bytes are captured, matching the fixed size of <code>CA_DATA</code> and preventing overflow.</li>
+<li><strong>Second EXEC CICS LINK to LGSTSQ</strong>: The <code>CA_ERROR_MSG</code> structure (containing the label <code>COMMAREA=</code> and the captured raw bytes in <code>CA_DATA</code>) is sent to <code>LGSTSQ</code> in a second <code>EXEC CICS LINK</code> call, providing raw communication area content alongside the structured error message for full diagnostic traceability.</li>
+</ul>
+</li>
+</ul>
+<h3 id="85-program-termination-after-error" tabindex="-1">8.5 Program Termination After Error</h3>
+<ul>
+<li><strong>EXEC CICS RETURN</strong>: After setting the return code and invoking <code>WRITE_ERROR_MESSAGE</code>, the program issues <code>EXEC CICS RETURN</code> to terminate the CICS task and return control to CICS. This ensures the program does not continue processing after a failed delete and that the error return code in the communication area is available to the caller upon task termination.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1-successful-policy-deletion" tabindex="-1">9.1 Example 1: Successful Policy Deletion</h3>
+<p><strong>Input (COMMAREA fields):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>&quot;DPV001&quot;</code> (4th character = <code>'0'</code>)</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>&quot;0000012345&quot;</code></td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>&quot;0000098765&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Composite VSAM key (<code>WF_POLICY_KEY</code>) built by the program:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>WF_REQUEST_ID   = &#039;0&#039;          (1 byte  — 4th char of CA_REQUEST_ID)
+WF_CUSTOMER_NUM = &#039;0000012345&#039; (10 bytes)
+WF_POLICY_NUM   = &#039;0000098765&#039; (10 bytes)
+Total key       = 21 bytes</code></pre>
+</div>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li><code>EXEC CICS DELETE FILE('KSDSPOLY') RIDFLD(WF_POLICY_KEY) KEYLENGTH(21)</code> completes with <code>DFHRESP(NORMAL)</code>.</li>
+<li><code>CA_RETURN_CODE</code> is <strong>not</strong> set (retains its prior value — no error path is taken).</li>
+<li>Program returns to caller normally via <code>RETURN</code>.</li>
+</ul>
+<p><strong>Explanation:</strong><br>
+The program extracts the 4th character of <code>CA_REQUEST_ID</code> (<code>'0'</code>), copies the customer number and policy number from the COMMAREA into the 21-byte composite key, then issues the CICS DELETE against the <code>KSDSPOLY</code> VSAM KSDS file. Because the record exists and the DELETE succeeds (<code>WS_RESP = DFHRESP(NORMAL)</code>), execution falls through to <code>RETURN</code> with no error processing.</p>
+<hr>
+<h3 id="92-example-2-failed-policy-deletion-record-not-found--other-cics-error" tabindex="-1">9.2 Example 2: Failed Policy Deletion (Record Not Found / Other CICS Error)</h3>
+<p><strong>Input (COMMAREA fields):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>&quot;DPV001&quot;</code> (4th character = <code>'0'</code>)</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>&quot;0000099999&quot;</code></td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>&quot;0000011111&quot;</code> (does not exist in KSDSPOLY)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Composite VSAM key built:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>WF_REQUEST_ID   = &#039;0&#039;
+WF_CUSTOMER_NUM = &#039;0000099999&#039;
+WF_POLICY_NUM   = &#039;0000011111&#039;
+Total key       = 21 bytes</code></pre>
+</div>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li><code>EXEC CICS DELETE</code> returns a non-normal response (e.g., <code>NOTFND</code>), so <code>WS_RESP ≠ DFHRESP(NORMAL)</code>.</li>
+<li><code>CA_RETURN_CODE</code> is set to <strong><code>'81'</code></strong>, signalling a delete failure to the caller.</li>
+<li><code>WRITE_ERROR_MESSAGE</code> is called:
+<ul>
+<li>Current timestamp is obtained via <code>EXEC CICS ASKTIME</code> / <code>EXEC CICS FORMATTIME</code>.</li>
+<li>An <code>ERROR_MSG</code> record is assembled containing the date, time, program name (<code>LGDPVS01</code>), policy number (<code>0000011111</code>), customer number (<code>0000099999</code>), the text <code>Delete file KSDSPOLY</code>, and the primary/secondary CICS response codes.</li>
+<li><code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> is issued to log the error message.</li>
+<li>Up to 90 bytes of the raw COMMAREA are also logged via a second <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> call.</li>
+</ul>
+</li>
+<li>Program returns to caller via <code>EXEC CICS RETURN</code>.</li>
+</ul>
+<p><strong>Explanation:</strong><br>
+When the CICS DELETE fails (e.g., the policy record is absent from the KSDS), <code>WS_RESP</code> holds a non-normal response code. The program sets <code>CA_RETURN_CODE = '81'</code> to communicate the failure back to the invoking program, then calls the internal <code>WRITE_ERROR_MESSAGE</code> procedure. That procedure timestamps the error, populates the <code>ERROR_MSG</code> structure with diagnostic details (program ID, policy/customer numbers, RESP/RESP2 codes), and links to <code>LGSTSQ</code> twice — once with the structured error message and once with a raw dump of the COMMAREA — before returning control to the caller.</p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a>
+<ul>
+<li class="toc-level-3"><a href="#21-procedure-input">2.1 Procedure input</a></li>
+<li class="toc-level-3"><a href="#22-communication-area-inputs">2.2 Communication area inputs</a></li>
+<li class="toc-level-3"><a href="#23-cics-system-provided-inputs">2.3 CICS system-provided inputs</a></li>
+<li class="toc-level-3"><a href="#24-external-data-sources-and-services">2.4 External data sources and services</a></li>
+<li class="toc-level-3"><a href="#25-output-only-field-updated-by-the-program">2.5 Output-only field updated by the program</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a></li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-vsam-files">6.1 VSAM Files</a></li>
+<li class="toc-level-3"><a href="#62-cics-runtime-services">6.2 CICS Runtime Services</a></li>
+<li class="toc-level-3"><a href="#63-external-programs--modules">6.3 External Programs / Modules</a></li>
+<li class="toc-level-3"><a href="#64-include-members--copybooks">6.4 Include Members / Copybooks</a></li>
+<li class="toc-level-3"><a href="#65-input-parameters--communication-area">6.5 Input Parameters / Communication Area</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-input-structure-and-data-format-constraints">7.1 Input structure and data format constraints</a></li>
+<li class="toc-level-3"><a href="#72-validation-and-error-status-constraints">7.2 Validation and error-status constraints</a></li>
+<li class="toc-level-3"><a href="#73-processing-and-control-flow-constraints">7.3 Processing and control-flow constraints</a></li>
+<li class="toc-level-3"><a href="#74-resource-and-file-access-constraints">7.4 Resource and file-access constraints</a></li>
+<li class="toc-level-3"><a href="#75-error-message-content-and-diagnostic-constraints">7.5 Error message content and diagnostic constraints</a></li>
+<li class="toc-level-3"><a href="#76-commarea-length-and-diagnostic-capture-constraints">7.6 COMMAREA length and diagnostic capture constraints</a></li>
+<li class="toc-level-3"><a href="#77-interface-and-implementation-specific-constraints">7.7 Interface and implementation-specific constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-cics-command-response-checking">8.1 CICS Command Response Checking</a></li>
+<li class="toc-level-3"><a href="#82-return-code-signalling-to-the-caller">8.2 Return Code Signalling to the Caller</a></li>
+<li class="toc-level-3"><a href="#83-error-logging-and-diagnostic-notification">8.3 Error Logging and Diagnostic Notification</a></li>
+<li class="toc-level-3"><a href="#84-communication-area-diagnostic-dump">8.4 Communication Area Diagnostic Dump</a></li>
+<li class="toc-level-3"><a href="#85-program-termination-after-error">8.5 Program Termination After Error</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1-successful-policy-deletion">9.1 Example 1: Successful Policy Deletion</a></li>
+<li class="toc-level-3"><a href="#92-example-2-failed-policy-deletion-record-not-found--other-cics-error">9.2 Example 2: Failed Policy Deletion (Record Not Found / Other CICS Error)</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGDPVS01</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

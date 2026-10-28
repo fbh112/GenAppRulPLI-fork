@@ -1,0 +1,1718 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy DB2 Back-End Programs - GenApp Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="policy-db2-programs.html" class="nav-link active" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(4)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGAPDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGAPDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGIPDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGIPDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUPDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUPDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGDPDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGDPDB01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="policy-db2-back-end-programs" tabindex="-1">Policy DB2 Back-End Programs</h1>
+<p>This page documents the DB2 persistence layer for the General Insurance sample application’s policy management system. Four Enterprise PL/I programs form the back-end: <strong>LGAPDB01</strong> handles new policy insertion with business-rule premium calculations; <strong>LGIPDB01</strong> provides multi-variant policy inquiry across five policy-type tables; <strong>LGUPDB01</strong> manages updates with an optimistic-locking timestamp guard; and <strong>LGDPDB01</strong> performs policy deletion with referential integrity cascade. Together these programs implement the full CRUD lifecycle for insurance policies stored in DB2, covering five policy types — Endowment, House, Motor, Commercial, and Claim — across a normalised table schema.</p>
+<hr>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The four DB2 back-end programs operate as a coordinated persistence layer beneath CICS-based orchestrator programs. Each program is invoked via <code>EXEC CICS LINK</code> and communicates exclusively through a structured COMMAREA. They share a common DB2 schema anchored by the <code>POLICY</code> table, with five child tables (<code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code>, <code>CLAIM</code>) holding policy-type-specific detail.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Role</th>
+<th>Request IDs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td>Insert new policy or claim</td>
+<td><code>01AEND</code>, <code>01AHOU</code>, <code>01AMOT</code>, <code>01ACOM</code>, <code>01ACLM</code></td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td>Inquire / retrieve policy</td>
+<td><code>01IEND</code>, <code>01IHOU</code>, <code>01IMOT</code>, <code>01ICOM</code>–<code>05ICOM</code>, <code>01ICLM</code>, <code>02ICLM</code></td>
+</tr>
+<tr>
+<td><code>LGUPDB01</code></td>
+<td>Update existing policy</td>
+<td><code>01UEND</code>, <code>01UHOU</code>, <code>01UMOT</code></td>
+</tr>
+<tr>
+<td><code>LGDPDB01</code></td>
+<td>Delete policy (cascade)</td>
+<td><code>01DEND</code>, <code>01DHOU</code>, <code>01DCOM</code>, <code>01DMOT</code></td>
+</tr>
+</tbody>
+</table>
+<p>All four programs follow the same operational conventions:</p>
+<ul>
+<li><strong>COMMAREA validation</strong> — <code>EIBCALEN</code> is checked on entry; a zero value abends the task with code <code>LGCA</code>.</li>
+<li><strong>Return codes</strong> — <code>CA_RETURN_CODE</code> communicates the outcome: <code>00</code> success, <code>01</code> not found, <code>02</code> timestamp conflict (update only), <code>70</code> referential integrity violation (insert only), <code>90</code> DB2 error, <code>98</code> COMMAREA too small, <code>99</code> unrecognised request.</li>
+<li><strong>Error logging</strong> — All SQL failures write a structured diagnostic message (date, time, program name, customer number, policy number, SQLCODE) to a CICS Transient Data Queue via the shared utility <code>LGSTSQ</code>.</li>
+<li><strong>Dual-store synchronisation</strong> — On success each program links to a VSAM counterpart (<code>LGAPVS01</code>, <code>LGIPVS01</code>, <code>LGUPVS01</code>, <code>LGDPVS01</code>) to keep the VSAM file store consistent with DB2.</li>
+</ul>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The diagram below shows how the four DB2 back-end programs sit within the wider CICS application architecture, together with their DB2 tables, VSAM counterparts, and shared utilities.</p>
+<div class="mermaid">
+graph TD
+    subgraph CICS_Orchestrators [CICS Orchestrator Programs]
+        LGAPOL01[LGAPOL01\nAdd Policy Orchestrator]
+        LGIPOL01[LGIPOL01\nInquire Policy Orchestrator]
+        LGUPOL01[LGUPOL01\nUpdate Policy Orchestrator]
+        LGDPOL01[LGDPOL01\nDelete Policy Orchestrator]
+    end
+
+    subgraph DB2_Backends [DB2 Back-End Programs]
+        LGAPDB01[LGAPDB01\nInsert + Business Rules]
+        LGIPDB01[LGIPDB01\nMulti-variant Inquiry]
+        LGUPDB01[LGUPDB01\nTimestamp-guarded Update]
+        LGDPDB01[LGDPDB01\nCascade Delete]
+    end
+
+    subgraph DB2_Schema [DB2 Tables]
+        POLICY[(POLICY\nCore policy table)]
+        ENDOWMENT[(ENDOWMENT)]
+        HOUSE[(HOUSE)]
+        MOTOR[(MOTOR)]
+        COMMERCIAL[(COMMERCIAL)]
+        CLAIM[(CLAIM)]
+    end
+
+    subgraph VSAM_Backends [VSAM Back-End Programs]
+        LGAPVS01[LGAPVS01]
+        LGIPVS01[LGIPVS01]
+        LGUPVS01[LGUPVS01]
+        LGDPVS01[LGDPVS01]
+    end
+
+    subgraph Utilities [Shared Utilities]
+        LGSTSQ[LGSTSQ\nTDQ Error Logger]
+    end
+
+    LGAPOL01 -- EXEC CICS LINK --> LGAPDB01
+    LGIPOL01 -- EXEC CICS LINK --> LGIPDB01
+    LGUPOL01 -- EXEC CICS LINK --> LGUPDB01
+    LGDPOL01 -- EXEC CICS LINK --> LGDPDB01
+
+    LGAPDB01 -- INSERT/SELECT/UPDATE --> POLICY
+    LGIPDB01 -- SELECT --> POLICY
+    LGUPDB01 -- SELECT FOR UPDATE / UPDATE --> POLICY
+    LGDPDB01 -- DELETE --> POLICY
+
+    POLICY --> ENDOWMENT
+    POLICY --> HOUSE
+    POLICY --> MOTOR
+    POLICY --> COMMERCIAL
+    POLICY --> CLAIM
+
+    LGAPDB01 -- EXEC CICS LINK --> LGAPVS01
+    LGIPDB01 -- EXEC CICS LINK --> LGIPVS01
+    LGUPDB01 -- EXEC CICS LINK --> LGUPVS01
+    LGDPDB01 -- EXEC CICS LINK --> LGDPVS01
+
+    LGAPDB01 -- SQL error --> LGSTSQ
+    LGIPDB01 -- SQL error --> LGSTSQ
+    LGUPDB01 -- SQL error --> LGSTSQ
+    LGDPDB01 -- SQL error --> LGSTSQ
+</div>
+<p>The DB2 schema is centred on the <code>POLICY</code> table, which holds the common policy header (customer number, issue/expiry dates, broker details, payment, commission, and last-changed timestamp). Each of the five child tables stores type-specific detail and references <code>POLICY</code> via a foreign key on <code>POLICYNUMBER</code>. This design means that all DB2 back-end programs need only one parent INSERT/UPDATE/DELETE on <code>POLICY</code>, followed by one child-table operation, to maintain full consistency.</p>
+<hr>
+<h2 id="3-db2-schema-and-table-relationships" tabindex="-1">3. DB2 Schema and Table Relationships</h2>
+<p>The entity-relationship diagram below captures the full normalised schema shared by all four programs.</p>
+<div class="mermaid">
+erDiagram
+    POLICY {
+        int POLICYNUMBER "IDENTITY generated / Primary key"
+        int CUSTOMERNUMBER "FK to CUSTOMER"
+        date ISSUEDATE
+        date EXPIRYDATE
+        string POLICYTYPE "E H M C X"
+        string LASTCHANGED "TIMESTAMP 26 chars"
+        int BROKERID "nullable"
+        string BROKERSREFERENCE "CHAR 10 - nullable"
+        int PAYMENT "nullable"
+        int COMMISSION "SMALLINT"
+    }
+    ENDOWMENT {
+        int POLICYNUMBER "FK to POLICY"
+        string WITHPROFITS "CHAR 1"
+        string EQUITIES "CHAR 1"
+        string MANAGEDFUND "CHAR 1"
+        string FUNDNAME "CHAR 10"
+        int TERM "SMALLINT"
+        int SUMASSURED "INTEGER"
+        string LIFEASSURED "CHAR 31"
+        string PADDINGDATA "VARCHAR 32606 - nullable"
+    }
+    HOUSE {
+        int POLICYNUMBER "FK to POLICY"
+        string PROPERTYTYPE "CHAR 15"
+        int BEDROOMS "SMALLINT"
+        int VALUE "INTEGER"
+        string HOUSENAME "CHAR 20"
+        string HOUSENUMBER "CHAR 4"
+        string POSTCODE "CHAR 8"
+    }
+    MOTOR {
+        int POLICYNUMBER "FK to POLICY"
+        string MAKE "CHAR 15"
+        string MODEL "CHAR 15"
+        int VALUE "INTEGER"
+        string REGNUMBER "CHAR 7"
+        string COLOUR "CHAR 8"
+        int CC "SMALLINT"
+        string YEAROFMANUFACTURE "CHAR 10"
+        int PREMIUM "INTEGER"
+        int ACCIDENTS "INTEGER"
+    }
+    COMMERCIAL {
+        int POLICYNUMBER "FK to POLICY"
+        string REQUESTDATE "TIMESTAMP"
+        date STARTDATE
+        date RENEWALDATE
+        string ADDRESS "CHAR 255"
+        string ZIPCODE "CHAR 8"
+        string LATITUDEN "CHAR 11"
+        string LONGITUDEW "CHAR 11"
+        string CUSTOMER "CHAR 255"
+        string PROPERTYTYPE "CHAR 255"
+        int FIREPERIL "SMALLINT"
+        int FIREPREMIUM "INTEGER"
+        int CRIMEPERIL "SMALLINT"
+        int CRIMEPREMIUM "INTEGER"
+        int FLOODPERIL "SMALLINT"
+        int FLOODPREMIUM "INTEGER"
+        int WEATHERPERIL "SMALLINT"
+        int WEATHERPREMIUM "INTEGER"
+        int STATUS "SMALLINT"
+        string REJECTIONREASON "CHAR 255"
+    }
+    CLAIM {
+        int CLAIMNUMBER "generated"
+        int POLICYNUMBER "FK to POLICY"
+        date CLAIMDATE
+        int PAID "INTEGER"
+        int VALUE "INTEGER"
+        string CAUSE "CHAR 255"
+        string OBSERVATIONS "CHAR 255"
+    }
+
+    POLICY ||--o{ ENDOWMENT : "has"
+    POLICY ||--o{ HOUSE : "has"
+    POLICY ||--o{ MOTOR : "has"
+    POLICY ||--o{ COMMERCIAL : "has"
+    POLICY ||--o{ CLAIM : "has"
+</div>
+<p>The <code>POLICY</code> table’s <code>POLICYNUMBER</code> is an <strong>IDENTITY column</strong> — DB2 generates it automatically on INSERT. Programs retrieve the assigned value immediately after insertion using <code>IDENTITY_VAL_LOCAL()</code>. The <code>LASTCHANGED</code> column is set to <code>CURRENT TIMESTAMP</code> on every INSERT and UPDATE, providing the token used by <code>LGUPDB01</code>’s optimistic-locking guard.</p>
+<hr>
+<h2 id="4-commarea-and-return-code-conventions" tabindex="-1">4. COMMAREA and Return-Code Conventions</h2>
+<p>All four programs share a single COMMAREA layout defined in the <code>LGCMAREA</code> copybook. The header fields common to all request types are:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Direction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code></td>
+<td>In</td>
+<td>Six-character operation code</td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>PIC '99'</code></td>
+<td>Out</td>
+<td>Result code set by the program</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>In</td>
+<td>10-digit customer number</td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>In/Out</td>
+<td>Policy number (output for inserts)</td>
+</tr>
+<tr>
+<td><code>CA_LASTCHANGED</code></td>
+<td><code>CHAR(26)</code></td>
+<td>In/Out</td>
+<td>Timestamp — concurrency token</td>
+</tr>
+</tbody>
+</table>
+<h3 id="41-return-code-summary" tabindex="-1">4.1 Return Code Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Programs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+<td>All</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>Row not found</td>
+<td>LGIPDB01, LGUPDB01</td>
+</tr>
+<tr>
+<td><code>02</code></td>
+<td>Timestamp mismatch — concurrent update</td>
+<td>LGUPDB01</td>
+</tr>
+<tr>
+<td><code>70</code></td>
+<td>DB2 referential integrity violation (SQLCODE -530)</td>
+<td>LGAPDB01</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>Unexpected DB2 / system error</td>
+<td>All</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>COMMAREA too small for requested type</td>
+<td>LGAPDB01, LGIPDB01, LGDPDB01</td>
+</tr>
+<tr>
+<td><code>99</code></td>
+<td>Unrecognised <code>CA_REQUEST_ID</code></td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-lgapdb01--policy-insert-with-business-rules" tabindex="-1">5. LGAPDB01 — Policy Insert with Business Rules</h2>
+<h3 id="51-purpose" tabindex="-1">5.1 Purpose</h3>
+<p><code>LGAPDB01</code> is the DB2 insertion engine for new insurance policies. It accepts a COMMAREA from the orchestrator <code>LGAPOL01</code>, applies a set of business-rule calculations to the premium and broker commission, writes the appropriate DB2 rows, and returns the DB2-generated policy number to the caller.</p>
+<h3 id="52-business-rules-applied-on-insert" tabindex="-1">5.2 Business Rules Applied on Insert</h3>
+<p>Before any DB2 write is performed, <code>LGAPDB01</code> applies the following calculations in sequence:</p>
+<h4 id="521-house-premium-surcharge-postcode-and-value" tabindex="-1">5.2.1 House Premium Surcharge (Postcode and Value)</h4>
+<p>For <code>01AHOU</code> requests, if the postcode falls in the range <code>600000</code>–<code>699999</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Property Value Range</th>
+<th>Surcharge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>£10M – £15M</td>
+<td>+20%</td>
+</tr>
+<tr>
+<td>£15M – £20M</td>
+<td>+40%</td>
+</tr>
+<tr>
+<td>&gt; £20M</td>
+<td>+50%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="522-bundling-discount" tabindex="-1">5.2.2 Bundling Discount</h4>
+<p>If the same customer already holds <strong>more than two</strong> active Motor or House policies (queried via <code>SELECT COUNT</code> on the POLICY table filtered by <code>POLICYTYPE IN ('M','H')</code> and current date between <code>ISSUEDATE</code> and <code>EXPIRYDATE</code>), the premium is reduced by <strong>15%</strong>.</p>
+<h4 id="523-broker-commission-tiers" tabindex="-1">5.2.3 Broker Commission Tiers</h4>
+<p>Commission is calculated from the broker’s current active portfolio size:</p>
+<table>
+<thead>
+<tr>
+<th>Active Policies</th>
+<th>Commission Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4%</td>
+</tr>
+<tr>
+<td>≥ 5</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="524-motor-premium-loading-accident-history" tabindex="-1">5.2.4 Motor Premium Loading (Accident History)</h4>
+<p>For <code>01AMOT</code> requests, <code>CA_M_PREMIUM</code> is multiplied by a tier factor based on <code>CA_M_ACCIDENTS</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Accidents</th>
+<th>Multiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 – 2</td>
+<td>×1.00 (no change)</td>
+</tr>
+<tr>
+<td>3 – 5</td>
+<td>×1.20 (+20%)</td>
+</tr>
+<tr>
+<td>6 – 8</td>
+<td>×1.50 (+50%)</td>
+</tr>
+<tr>
+<td>&gt; 8</td>
+<td>×3.00 (+200%)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="525-commercial-peril-surcharge" tabindex="-1">5.2.5 Commercial Peril Surcharge</h4>
+<p>For <code>01ACOM</code> requests, existing active commercial policies at the same postcode are queried:</p>
+<ul>
+<li>If <code>SUM(FLOODPERIL) &gt; 3</code> → flood premium <strong>+15%</strong></li>
+<li>If <code>SUM(WEATHERPERIL) &gt; 3</code> → weather premium <strong>+15%</strong></li>
+</ul>
+<h4 id="526-broker-commission-halving-on-high-frequency-claims" tabindex="-1">5.2.6 Broker Commission Halving on High-Frequency Claims</h4>
+<p>For <code>01ACLM</code> requests, before inserting the new claim, the program counts existing claims for the same policy in the current calendar year (<code>YEAR(CLAIMDATE) = YEAR(CURRENT DATE)</code>). If the count <strong>exceeds 3</strong>, the parent policy’s commission is halved:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE POLICY
+   SET COMMISSION = (COMMISSION / 2)
+ WHERE POLICYNUMBER = :DB2_C_Policynum_INT</code></pre>
+</div>
+<h3 id="53-insertion-flow" tabindex="-1">5.3 Insertion Flow</h3>
+<p>The sequence diagram below shows the full LGAPDB01 interaction for a new non-claim policy insert.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller as LGAPOL01
+    participant LGAPDB01
+    participant DB2
+    participant LGAPVS01
+    participant LGSTSQ
+
+    Caller->>LGAPDB01: EXEC CICS LINK (COMMAREA)
+    LGAPDB01->>LGAPDB01: Validate COMMAREA / Request ID
+    LGAPDB01->>DB2: SELECT COUNT — Bundling Discount check
+    DB2-->>LGAPDB01: Motor+House policy count
+    LGAPDB01->>DB2: SELECT COUNT — Broker Commission check
+    DB2-->>LGAPDB01: Broker active policy count
+    LGAPDB01->>DB2: INSERT INTO POLICY (DEFAULT policynumber, CURRENT TIMESTAMP)
+    DB2-->>LGAPDB01: SQLCODE + generated POLICYNUMBER via IDENTITY_VAL_LOCAL()
+    LGAPDB01->>DB2: INSERT INTO [ENDOWMENT|HOUSE|MOTOR|COMMERCIAL]
+    DB2-->>LGAPDB01: SQLCODE
+    LGAPDB01->>DB2: SELECT LASTCHANGED FROM POLICY
+    DB2-->>LGAPDB01: New LASTCHANGED timestamp
+    LGAPDB01->>LGAPVS01: EXEC CICS LINK (COMMAREA, 32500 bytes)
+    LGAPVS01-->>LGAPDB01: Return
+    LGAPDB01-->>Caller: RETURN (CA_RETURN_CODE, CA_POLICY_NUM, CA_LASTCHANGED)
+
+    note over LGAPDB01,LGSTSQ: On any SQL error: WRITE_ERROR_MESSAGE → LGSTSQ TDQ,<br/>then EXEC CICS ABEND ABCODE('LGSQ') for sub-procedure errors
+</div>
+<h3 id="54-insert-flow-diagram" tabindex="-1">5.4 Insert Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGAPDB01])
+    B{EIBCALEN = 0}
+    C[Abend LGCA]
+    D[Init — set RC=00\nConvert customer/policy nums]
+    E{Validate CA_REQUEST_ID}
+    F1[Type = E, Endowment]
+    F2[Type = H, House]
+    F3[Type = M, Motor]
+    F4[Type = C, Commercial]
+    F5[Type = X, Claim]
+    F6[RC=99, RETURN]
+    G{EIBCALEN sufficient?}
+    H[RC=98, RETURN]
+    I{Not a Claim?}
+    J[CALL INSERT_POLICY\nApply surcharges + commission]
+    K{Route to type procedure}
+    K1[INSERT_ENDOW]
+    K2[INSERT_HOUSE]
+    K3[INSERT_MOTOR]
+    K4[INSERT_COMMERCIAL]
+    K5[INSERT_CLAIM]
+    L[EXEC CICS LINK LGAPVS01]
+    M([EXEC CICS RETURN])
+
+    A --> B
+    B -- Yes --> C
+    B -- No --> D
+    D --> E
+    E -- 01AEND --> F1
+    E -- 01AHOU --> F2
+    E -- 01AMOT --> F3
+    E -- 01ACOM --> F4
+    E -- 01ACLM --> F5
+    E -- Unknown --> F6
+    F1 & F2 & F3 & F4 & F5 --> G
+    G -- No --> H
+    G -- Yes --> I
+    I -- Yes --> J
+    J --> K
+    I -- No --> K
+    K -- 01AEND --> K1
+    K -- 01AHOU --> K2
+    K -- 01AMOT --> K3
+    K -- 01ACOM --> K4
+    K -- 01ACLM --> K5
+    K1 & K2 & K3 & K4 & K5 --> L
+    L --> M
+</div>
+<h3 id="55-key-sql-statements" tabindex="-1">5.5 Key SQL Statements</h3>
+<p><strong>INSERT INTO POLICY (new policy header):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">INSERT INTO POLICY
+       (CUSTOMERNUMBER, ISSUEDATE, EXPIRYDATE, POLICYTYPE,
+        LASTCHANGED, BROKERID, BROKERSREFERENCE, PAYMENT, COMMISSION)
+VALUES (:DB2_CUSTOMERNUM_INT, :CA_ISSUE_DATE, :CA_EXPIRY_DATE,
+        :DB2_POLICYTYPE, CURRENT TIMESTAMP,
+        :DB2_BROKERID_INT, :CA_BROKERSREF,
+        :DB2_PAYMENT_INT, :WS_COMMISSION)</code></pre>
+</div>
+<p><strong>Retrieve DB2-generated policy number:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SET :DB2_POLICYNUM_INT = IDENTITY_VAL_LOCAL()</code></pre>
+</div>
+<p><strong>Bundling Discount check:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT COUNT(POLICYNUMBER)
+  INTO :DB2_COUNT_INT
+  FROM POLICY
+ WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT
+   AND ISSUEDATE      &lt; CURRENT DATE
+   AND EXPIRYDATE     &gt; CURRENT DATE
+   AND POLICYTYPE    IN (&#039;M&#039;,&#039;H&#039;)</code></pre>
+</div>
+<p><strong>Commercial peril surcharge check:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT SUM(FLOODPERIL)
+  INTO :DB2_FLOOD_SUM
+  FROM COMMERCIAL
+ WHERE ZIPCODE    = :CA_B_Postcode
+   AND (STARTDATE &lt; CURRENT DATE OR RENEWALDATE &gt; CURRENT DATE)</code></pre>
+</div>
+<p><strong>Broker commission halving (claim path):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE POLICY
+   SET COMMISSION = (COMMISSION / 2)
+ WHERE POLICYNUMBER = :DB2_C_Policynum_INT</code></pre>
+</div>
+<h3 id="56-error-handling" tabindex="-1">5.6 Error Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Return Code</th>
+<th>Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No COMMAREA</td>
+<td>—</td>
+<td><code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code></td>
+</tr>
+<tr>
+<td>COMMAREA too small</td>
+<td><code>98</code></td>
+<td><code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>Unrecognised request</td>
+<td><code>99</code></td>
+<td><code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>SQLCODE -530 on POLICY INSERT</td>
+<td><code>70</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + <code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>SQLCODE ≠ 0 on POLICY INSERT</td>
+<td><code>90</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + <code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>SQLCODE ≠ 0 in sub-procedure</td>
+<td><code>90</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + <code>EXEC CICS ABEND ABCODE('LGSQ') NODUMP</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note on abend codes:</strong> <code>LGCA</code> signals a missing COMMAREA — no rollback needed. <code>LGSQ</code> is issued from sub-procedures (after the POLICY row is already inserted) to force a CICS unit-of-work backout, rolling back the partial insert atomically.</p>
+</blockquote>
+<hr>
+<h2 id="6-lgipdb01--multi-variant-policy-inquiry" tabindex="-1">6. LGIPDB01 — Multi-Variant Policy Inquiry</h2>
+<h3 id="61-purpose" tabindex="-1">6.1 Purpose</h3>
+<p><code>LGIPDB01</code> is the read-only DB2 inquiry back-end. Given a customer number, a policy number, and a request-type code, it executes a JOIN between the <code>POLICY</code> table and the appropriate child table, packages the results into the COMMAREA, and returns them to the caller (<code>LGIPOL01</code>). It supports nine distinct inquiry variants dispatched by <code>CA_REQUEST_ID</code>.</p>
+<h3 id="62-supported-request-variants" tabindex="-1">6.2 Supported Request Variants</h3>
+<table>
+<thead>
+<tr>
+<th>Request ID</th>
+<th>Query Pattern</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01IEND</code></td>
+<td>Singleton SELECT — POLICY ⨝ ENDOWMENT</td>
+<td>By customer + policy number</td>
+</tr>
+<tr>
+<td><code>01IHOU</code></td>
+<td>Singleton SELECT — POLICY ⨝ HOUSE</td>
+<td>By customer + policy number</td>
+</tr>
+<tr>
+<td><code>01IMOT</code></td>
+<td>Singleton SELECT — POLICY ⨝ MOTOR</td>
+<td>By customer + policy number</td>
+</tr>
+<tr>
+<td><code>01ICOM</code></td>
+<td>Singleton SELECT — POLICY ⨝ COMMERCIAL</td>
+<td>By customer + policy number</td>
+</tr>
+<tr>
+<td><code>02ICOM</code></td>
+<td>Singleton SELECT — POLICY ⨝ COMMERCIAL</td>
+<td>By policy number only</td>
+</tr>
+<tr>
+<td><code>03ICOM</code></td>
+<td>Cursor — POLICY ⨝ COMMERCIAL</td>
+<td>All commercial policies for a customer (max 20)</td>
+</tr>
+<tr>
+<td><code>05ICOM</code></td>
+<td>Cursor — POLICY ⨝ COMMERCIAL</td>
+<td>By ZIP/postcode</td>
+</tr>
+<tr>
+<td><code>01ICLM</code></td>
+<td>Singleton SELECT — POLICY ⨝ CLAIM</td>
+<td>By claim number</td>
+</tr>
+<tr>
+<td><code>02ICLM</code></td>
+<td>Cursor — POLICY ⨝ CLAIM</td>
+<td>All claims for a customer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-inquiry-flow" tabindex="-1">6.3 Inquiry Flow</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller as LGIPOL01
+    participant LGIPDB01
+    participant DB2
+    participant LGSTSQ
+
+    Caller->>LGIPDB01: EXEC CICS LINK (COMMAREA or ICOM channel container)
+    LGIPDB01->>LGIPDB01: Check ICOM channel container
+    alt Container present
+        LGIPDB01->>LGIPDB01: Set COMM_AREA_PTR from container
+    else COMMAREA path
+        LGIPDB01->>LGIPDB01: Validate EIBCALEN / init RC=00
+    end
+    LGIPDB01->>LGIPDB01: Dispatch on WS_REQUEST_ID
+    alt Singleton SELECT
+        LGIPDB01->>DB2: SELECT POLICY JOIN child-table
+        DB2-->>LGIPDB01: Row data (SQLCODE 0 / 100 / error)
+        LGIPDB01->>LGIPDB01: Check COMMAREA size
+        LGIPDB01->>LGIPDB01: Convert integers, populate COMMAREA, write FINAL marker
+    else Cursor-based (03ICOM / 05ICOM / 02ICLM)
+        LGIPDB01->>DB2: OPEN CURSOR
+        loop Fetch rows
+            LGIPDB01->>DB2: FETCH CURSOR
+            DB2-->>LGIPDB01: Next row
+            LGIPDB01->>LGIPDB01: Populate COMMAREA / container buffer
+        end
+        LGIPDB01->>DB2: CLOSE CURSOR
+        LGIPDB01->>LGIPDB01: PUT CONTAINER ICOM-Data / ICOM-Count (03ICOM only)
+    end
+    note over LGIPDB01,LGSTSQ: On SQL error: WRITE_ERROR_MESSAGE → LGSTSQ TDQ
+    LGIPDB01-->>Caller: EXEC CICS RETURN (CA_RETURN_CODE + policy data)
+</div>
+<h3 id="64-singleton-select-pattern" tabindex="-1">6.4 Singleton SELECT Pattern</h3>
+<p>All single-row procedures follow a consistent four-phase pattern:</p>
+<ol>
+<li><strong>Execute JOIN SELECT</strong> — POLICY ⨝ child-table using customer and/or policy number predicates. Nullable columns are fetched with SQL indicator variables.</li>
+<li><strong>Evaluate SQLCODE</strong> — <code>0</code> = found; <code>100</code> = not found (RC=<code>01</code>); other = DB2 error (RC=<code>90</code>).</li>
+<li><strong>Validate COMMAREA size</strong> — If <code>EIBCALEN &lt; WS_CA_HEADERTRAILER_LEN + WS_FULL_&lt;TYPE&gt;_LEN</code>, return RC=<code>98</code> immediately.</li>
+<li><strong>Populate COMMAREA</strong> — Convert <code>FIXED BIN</code> host variables to display-numeric picture fields; skip NULL-flagged fields; write <code>'FINAL'</code> sentinel at end of data.</li>
+</ol>
+<p><strong>Example — Endowment singleton SELECT:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT P.ISSUEDATE, P.EXPIRYDATE, P.LASTCHANGED,
+       P.BROKERID INDICATOR :IND_BROKERID,
+       P.BROKERSREFERENCE INDICATOR :IND_BROKERSREF,
+       P.PAYMENT INDICATOR :IND_PAYMENT,
+       E.WITHPROFITS, E.EQUITIES, E.MANAGEDFUND, E.FUNDNAME,
+       E.TERM, E.SUMASSURED, E.LIFEASSURED,
+       E.PADDINGDATA INDICATOR :IND_E_PADDINGDATA,
+       LENGTH(E.PADDINGDATA) INDICATOR :IND_E_PADDINGDATAL
+  INTO :DB2_ISSUEDATE, :DB2_EXPIRYDATE, :DB2_LASTCHANGED,
+       :DB2_BROKERID_INT, :DB2_BROKERSREF,
+       :DB2_PAYMENT_INT, ...
+  FROM POLICY P, ENDOWMENT E
+ WHERE P.CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT
+   AND P.POLICYNUMBER   = :DB2_POLICYNUM_INT
+   AND P.POLICYNUMBER   = E.POLICYNUMBER</code></pre>
+</div>
+<h3 id="65-cursor-based-multi-row-retrieval" tabindex="-1">6.5 Cursor-Based Multi-Row Retrieval</h3>
+<p>Three variants use DB2 cursors for multi-row results:</p>
+<table>
+<thead>
+<tr>
+<th>Cursor</th>
+<th>Declaration Filter</th>
+<th>Used By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cust_Cursor</code></td>
+<td><code>POLICY.CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT</code></td>
+<td><code>03ICOM</code></td>
+</tr>
+<tr>
+<td><code>Zip_Cursor</code></td>
+<td><code>COMMERCIAL.ZIPCODE = :CA_B_POSTCODE</code></td>
+<td><code>05ICOM</code></td>
+</tr>
+<tr>
+<td><code>CusClaim_Cursor</code></td>
+<td><code>POLICY.CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT</code></td>
+<td><code>02ICLM</code></td>
+</tr>
+</tbody>
+</table>
+<p>For <code>03ICOM</code>, results are packed into a CICS channel container (<code>ICOM-Data</code> on channel <code>ICOM</code>) at 1,202 bytes per record, with a hard cap of <strong>20 records</strong>. The cap is enforced by setting <code>SQLCODE = 17</code> to break the fetch loop when <code>ICOM_Record_Count &gt; 20</code>. A companion <code>ICOM-Count</code> container carries the record count.</p>
+<h3 id="66-commarea-size-constants" tabindex="-1">6.6 COMMAREA Size Constants</h3>
+<table>
+<thead>
+<tr>
+<th>Policy Type</th>
+<th>Fixed Length Constant</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Endowment</td>
+<td><code>WS_FULL_ENDOW_LEN</code></td>
+<td>124 bytes</td>
+</tr>
+<tr>
+<td>House</td>
+<td><code>WS_FULL_HOUSE_LEN</code></td>
+<td>130 bytes</td>
+</tr>
+<tr>
+<td>Motor</td>
+<td><code>WS_FULL_MOTOR_LEN</code></td>
+<td>137 bytes</td>
+</tr>
+<tr>
+<td>Commercial</td>
+<td><code>WS_FULL_COMM_LEN</code></td>
+<td>1,174 bytes</td>
+</tr>
+<tr>
+<td>Claim</td>
+<td><code>WS_FULL_CLAIM_LEN</code></td>
+<td>618 bytes</td>
+</tr>
+<tr>
+<td>Header/trailer</td>
+<td><code>WS_CA_HEADERTRAILER_LEN</code></td>
+<td>33 bytes</td>
+</tr>
+</tbody>
+</table>
+<p>For Endowment, the variable-length <code>PADDINGDATA</code> VARCHAR column’s actual byte length (<code>DB2_E_PADDING_LEN</code>) is added to the required size when not NULL.</p>
+<h3 id="67-error-return-codes" tabindex="-1">6.7 Error Return Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>No matching row (invalid customer/policy/claim)</td>
+</tr>
+<tr>
+<td><code>88</code></td>
+<td>Cursor CLOSE failure</td>
+</tr>
+<tr>
+<td><code>89</code></td>
+<td>Cursor OPEN failure</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>Unexpected DB2 error</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>COMMAREA too small</td>
+</tr>
+<tr>
+<td><code>99</code></td>
+<td>Unrecognised request ID</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7-lgupdb01--update-with-lost-update-timestamp-guard" tabindex="-1">7. LGUPDB01 — Update with Lost-Update Timestamp Guard</h2>
+<h3 id="71-purpose" tabindex="-1">7.1 Purpose</h3>
+<p><code>LGUPDB01</code> updates an existing policy record. It implements an <strong>optimistic-locking</strong> pattern using the <code>LASTCHANGED</code> timestamp: the caller passes back the timestamp they last read, and the program compares it against the current DB2 value. If they differ, the update is refused with return code <code>02</code> — the caller must re-read the record and retry.</p>
+<h3 id="72-optimistic-locking-mechanism" tabindex="-1">7.2 Optimistic Locking Mechanism</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller as LGUPOL01
+    participant LGUPDB01
+    participant DB2
+    participant LGUPVS01
+
+    Caller->>LGUPDB01: EXEC CICS LINK (COMMAREA with CA_LASTCHANGED)
+    LGUPDB01->>DB2: OPEN POLICY_CURSOR FOR UPDATE WITH HOLD
+    DB2-->>LGUPDB01: Cursor opened (row locked)
+    LGUPDB01->>DB2: FETCH POLICY_CURSOR
+    DB2-->>LGUPDB01: DB2_LASTCHANGED + policy fields
+    LGUPDB01->>LGUPDB01: Compare CA_LASTCHANGED vs DB2_LASTCHANGED
+    alt Timestamps match
+        LGUPDB01->>DB2: UPDATE ENDOWMENT / HOUSE / MOTOR
+        DB2-->>LGUPDB01: SQLCODE
+        LGUPDB01->>DB2: UPDATE POLICY SET LASTCHANGED=CURRENT TIMESTAMP WHERE CURRENT OF CURSOR
+        DB2-->>LGUPDB01: SQLCODE
+        LGUPDB01->>DB2: SELECT LASTCHANGED FROM POLICY
+        DB2-->>LGUPDB01: New timestamp
+        LGUPDB01->>DB2: CLOSE POLICY_CURSOR
+        LGUPDB01->>LGUPVS01: EXEC CICS LINK (COMMAREA, 225 bytes)
+        LGUPDB01-->>Caller: RC=00, updated CA_LASTCHANGED
+    else Timestamps differ
+        LGUPDB01->>DB2: CLOSE POLICY_CURSOR
+        LGUPDB01-->>Caller: RC=02 (concurrent update conflict)
+    end
+</div>
+<h3 id="73-update-processing-flow" tabindex="-1">7.3 Update Processing Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGUPDB01])
+    B{EIBCALEN = 0}
+    C[Abend LGCA]
+    D[Init RC=00\nConvert keys to integers]
+    E[Open POLICY_CURSOR FOR UPDATE]
+    F{SQLCODE after OPEN}
+    G[RC=90, Write error, RETURN]
+    H[FETCH policy row]
+    I{SQLCODE after FETCH}
+    J[RC=01 not found]
+    K[RC=90 DB2 error]
+    L{CA_LASTCHANGED\n= DB2_LASTCHANGED?}
+    M[RC=02\nTimestamp mismatch]
+    N{CA_REQUEST_ID}
+    O[UPDATE_ENDOW_DB2_INFO]
+    P[UPDATE_HOUSE_DB2_INFO]
+    Q[UPDATE_MOTOR_DB2_INFO]
+    R{RC = 00?}
+    S[CLOSE cursor, RETURN]
+    T[UPDATE POLICY\nSET LASTCHANGED = CURRENT TIMESTAMP\nWHERE CURRENT OF CURSOR]
+    U[SELECT LASTCHANGED → CA_LASTCHANGED]
+    V{SQLCODE after UPDATE}
+    W[SYNCPOINT ROLLBACK\nRC=90, Write error]
+    X[CLOSE POLICY_CURSOR]
+    Y[EXEC CICS LINK LGUPVS01]
+    Z([EXEC CICS RETURN])
+
+    A --> B
+    B -- Yes --> C
+    B -- No --> D
+    D --> E
+    E --> F
+    F -- SQLCODE 0 --> H
+    F -- Error --> G
+    H --> I
+    I -- 0 --> L
+    I -- 100 --> J
+    I -- Other --> K
+    J & K --> X
+    L -- Match --> N
+    L -- No Match --> M
+    M --> X
+    N -- 01UEND --> O
+    N -- 01UHOU --> P
+    N -- 01UMOT --> Q
+    O & P & Q --> R
+    R -- No --> S
+    R -- Yes --> T
+    T --> U
+    U --> V
+    V -- 0 --> X
+    V -- Error --> W
+    W --> X
+    X --> Y
+    Y --> Z
+</div>
+<h3 id="74-key-sql-statements" tabindex="-1">7.4 Key SQL Statements</h3>
+<p><strong>Cursor declaration (optimistic lock):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">DECLARE POLICY_CURSOR CURSOR WITH HOLD FOR
+  SELECT ISSUEDATE, EXPIRYDATE, LASTCHANGED,
+         BROKERID, BROKERSREFERENCE
+    FROM POLICY
+   WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT
+     AND POLICYNUMBER   = :DB2_POLICYNUM_INT
+     FOR UPDATE OF ISSUEDATE, EXPIRYDATE, LASTCHANGED,
+                   BROKERID, BROKERSREFERENCE</code></pre>
+</div>
+<p><strong>Positioned UPDATE on POLICY:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE POLICY
+   SET ISSUEDATE       = :CA_ISSUE_DATE,
+       EXPIRYDATE      = :CA_EXPIRY_DATE,
+       LASTCHANGED     = CURRENT TIMESTAMP,
+       BROKERID        = :DB2_BROKERID_INT,
+       BROKERSREFERENCE = :CA_BROKERSREF
+ WHERE CURRENT OF POLICY_CURSOR</code></pre>
+</div>
+<p><strong>Retrieve refreshed timestamp:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">SELECT LASTCHANGED
+  INTO :CA_LASTCHANGED
+  FROM POLICY
+ WHERE POLICYNUMBER = :DB2_POLICYNUM_INT</code></pre>
+</div>
+<h3 id="75-error-handling" tabindex="-1">7.5 Error Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Return Code</th>
+<th>Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No COMMAREA</td>
+<td>—</td>
+<td><code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code></td>
+</tr>
+<tr>
+<td>Cursor OPEN failure / SQLCODE -913</td>
+<td><code>90</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + <code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>Row not found (FETCH SQLCODE 100)</td>
+<td><code>01</code></td>
+<td>Close cursor + <code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>Timestamp mismatch</td>
+<td><code>02</code></td>
+<td>Close cursor + <code>EXEC CICS RETURN</code> (no error logged)</td>
+</tr>
+<tr>
+<td>Sub-table UPDATE failure</td>
+<td><code>01</code> or <code>90</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + close cursor + <code>EXEC CICS RETURN</code></td>
+</tr>
+<tr>
+<td>POLICY UPDATE/SELECT failure</td>
+<td><code>90</code></td>
+<td><code>EXEC CICS SYNCPOINT ROLLBACK</code> + <code>WRITE_ERROR_MESSAGE</code></td>
+</tr>
+<tr>
+<td>Cursor CLOSE SQLCODE -501</td>
+<td><code>00</code></td>
+<td>Treated as success (cursor was never opened)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-lgdpdb01--delete-with-referential-integrity-cascade" tabindex="-1">8. LGDPDB01 — Delete with Referential Integrity Cascade</h2>
+<h3 id="81-purpose" tabindex="-1">8.1 Purpose</h3>
+<p><code>LGDPDB01</code> deletes an insurance policy from the DB2 <code>POLICY</code> table. Rather than issuing individual <code>DELETE</code> statements against each child table, it relies entirely on <strong>DB2 referential integrity cascade rules</strong> — a single <code>DELETE FROM POLICY</code> automatically removes the child row in <code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, or <code>COMMERCIAL</code> as appropriate.</p>
+<h3 id="82-deletion-flow" tabindex="-1">8.2 Deletion Flow</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller as LGDPOL01
+    participant LGDPDB01
+    participant DB2
+    participant LGDPVS01
+    participant LGSTSQ
+
+    Caller->>LGDPDB01: EXEC CICS LINK (COMMAREA)
+    LGDPDB01->>LGDPDB01: Validate EIBCALEN / COMMAREA length / CA_REQUEST_ID
+    LGDPDB01->>LGDPDB01: Convert CA_CUSTOMER_NUM, CA_POLICY_NUM to integers
+    LGDPDB01->>DB2: DELETE FROM POLICY\nWHERE CUSTOMERNUMBER=:x AND POLICYNUMBER=:y
+    note over DB2: FK cascade deletes child row\nin ENDOWMENT/HOUSE/MOTOR/COMMERCIAL
+    DB2-->>LGDPDB01: SQLCODE 0 (success) or error
+    alt SQLCODE = 0
+        LGDPDB01->>LGDPVS01: EXEC CICS LINK (COMMAREA, 32500 bytes)
+        LGDPVS01-->>LGDPDB01: Return
+        LGDPDB01-->>Caller: RC=00
+    else SQLCODE ≠ 0
+        LGDPDB01->>LGSTSQ: WRITE_ERROR_MESSAGE (via EXEC CICS LINK)
+        LGDPDB01-->>Caller: RC=90
+    end
+</div>
+<h3 id="83-request-id-routing" tabindex="-1">8.3 Request ID Routing</h3>
+<p>All four recognised delete codes route to the same <code>DELETE_POLICY_DB2_INFO</code> procedure — the policy type is used only to confirm the request is valid; the cascade handles the child-table deletion.</p>
+<table>
+<thead>
+<tr>
+<th><code>CA_REQUEST_ID</code></th>
+<th>Policy Type Deleted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01DEND</code></td>
+<td>Endowment (POLICY + cascade to ENDOWMENT)</td>
+</tr>
+<tr>
+<td><code>01DHOU</code></td>
+<td>House (POLICY + cascade to HOUSE)</td>
+</tr>
+<tr>
+<td><code>01DCOM</code></td>
+<td>Commercial (POLICY + cascade to COMMERCIAL)</td>
+</tr>
+<tr>
+<td><code>01DMOT</code></td>
+<td>Motor (POLICY + cascade to MOTOR)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="84-key-sql-statement" tabindex="-1">8.4 Key SQL Statement</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">DELETE FROM POLICY
+ WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT
+   AND POLICYNUMBER   = :DB2_POLICYNUM_INT</code></pre>
+</div>
+<blockquote>
+<p>Both <code>SQLCODE = 0</code> (row deleted) and <code>SQLCODE = 100</code> (row already absent) are treated as successful outcomes — the end state is identical. Any other non-zero SQLCODE sets <code>CA_RETURN_CODE = '90'</code> and bypasses the link to <code>LGDPVS01</code>.</p>
+</blockquote>
+<h3 id="85-error-handling" tabindex="-1">8.5 Error Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Return Code</th>
+<th>Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No COMMAREA</td>
+<td>—</td>
+<td><code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code></td>
+</tr>
+<tr>
+<td>COMMAREA &lt; 28 bytes</td>
+<td><code>98</code></td>
+<td><code>EXEC CICS RETURN</code> (no error log)</td>
+</tr>
+<tr>
+<td>Unrecognised request ID</td>
+<td><code>99</code></td>
+<td><code>EXEC CICS RETURN</code> (no error log, no DB2 call)</td>
+</tr>
+<tr>
+<td>SQLCODE ≠ 0 on DELETE</td>
+<td><code>90</code></td>
+<td><code>WRITE_ERROR_MESSAGE</code> + <code>EXEC CICS RETURN</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9-shared-error-logging-pattern-write_error_message" tabindex="-1">9. Shared Error-Logging Pattern (<code>WRITE_ERROR_MESSAGE</code>)</h2>
+<p>All four programs implement an identical <code>WRITE_ERROR_MESSAGE</code> internal procedure. It is called on every SQL error or missing-COMMAREA condition and routes diagnostic output to the CICS Transient Data Queue via the shared utility <code>LGSTSQ</code>.</p>
+<h3 id="91-error-message-construction" tabindex="-1">9.1 Error Message Construction</h3>
+<div class="mermaid">
+graph TD
+    A([SQL Error Detected]) --> B[Capture SQLCODE → EM_SQLRC]
+    B --> C[EXEC CICS ASKTIME → WS_ABSTIME]
+    C --> D[EXEC CICS FORMATTIME → EM_DATE / EM_TIME]
+    D --> E[Populate ERROR_MSG structure\nEM_DATE, EM_TIME, program name,\nEM_CUSNUM, EM_POLNUM, EM_SQLREQ, EM_SQLRC]
+    E --> F[EXEC CICS LINK PROGRAM LGSTSQ\nCOMMAPEA = ERROR_MSG]
+    F --> G{EIBCALEN > 0?}
+    G -- Yes --> H{EIBCALEN < 91?}
+    H -- Yes --> I[LEFT COMM_AREA_RAW, EIBCALEN → CA_DATA]
+    H -- No --> J[LEFT COMM_AREA_RAW, 90 → CA_DATA]
+    I & J --> K[EXEC CICS LINK PROGRAM LGSTSQ\nCOMMARRA = CA_ERROR_MSG\nRaw COMMAREA dump]
+    G -- No --> L([Return])
+    K --> L
+</div>
+<h3 id="92-error-message-fields" tabindex="-1">9.2 Error Message Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EM_DATE</code></td>
+<td>Current date (<code>MMDDYYYY</code>) from <code>EXEC CICS FORMATTIME</code></td>
+</tr>
+<tr>
+<td><code>EM_TIME</code></td>
+<td>Current time from <code>EXEC CICS FORMATTIME</code></td>
+</tr>
+<tr>
+<td><code>EM_PROG</code></td>
+<td>Literal program name (e.g., <code>LGAPDB01</code>)</td>
+</tr>
+<tr>
+<td><code>EM_CUSNUM</code></td>
+<td><code>CA_CUSTOMER_NUM</code> at time of failure</td>
+</tr>
+<tr>
+<td><code>EM_POLNUM</code></td>
+<td><code>CA_POLICY_NUM</code> at time of failure</td>
+</tr>
+<tr>
+<td><code>EM_SQLREQ</code></td>
+<td>Label set before each SQL statement (e.g., <code>' INSERT POLICY'</code>, <code>' DELETE POLICY  '</code>)</td>
+</tr>
+<tr>
+<td><code>EM_SQLRC</code></td>
+<td>DB2 <code>SQLCODE</code> value</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>EM_SQLREQ</code> field is pre-populated immediately before every SQL statement so that the logged message unambiguously identifies which operation failed, even when multiple SQL calls exist in the same procedure.</p>
+<hr>
+<h2 id="10-end-to-end-data-flow-summary" tabindex="-1">10. End-to-End Data Flow Summary</h2>
+<p>The diagram below shows how a complete policy lifecycle — create, read, update, delete — flows through the four DB2 back-end programs.</p>
+<div class="mermaid">
+graph LR
+    subgraph Insert
+        A1[LGAPOL01] --> A2[LGAPDB01]
+        A2 -->|INSERT POLICY + child table| DB[(DB2)]
+        A2 -->|LINK| A3[LGAPVS01]
+    end
+    subgraph Inquire
+        B1[LGIPOL01] --> B2[LGIPDB01]
+        B2 -->|SELECT POLICY JOIN child table| DB
+        B2 -->|LINK| B3[LGIPVS01]
+    end
+    subgraph Update
+        C1[LGUPOL01] --> C2[LGUPDB01]
+        C2 -->|SELECT FOR UPDATE + UPDATE| DB
+        C2 -->|LINK| C3[LGUPVS01]
+    end
+    subgraph Delete
+        D1[LGDPOL01] --> D2[LGDPDB01]
+        D2 -->|DELETE POLICY cascade| DB
+        D2 -->|LINK| D3[LGDPVS01]
+    end
+    DB -->|All errors| TDQ[LGSTSQ TDQ Logger]
+</div>
+<p>Each program is stateless — all context is carried in the COMMAREA. The <code>LASTCHANGED</code> timestamp column on the <code>POLICY</code> table serves as the sole concurrency token, written fresh on every insert and update, and validated by <code>LGUPDB01</code> before any change is committed. DB2 referential integrity enforces child-table consistency on deletion, eliminating the need for application-level cascade logic in <code>LGDPDB01</code>.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="policy-frontend-programs.html" class="card">
+                <span class="card-title">Policy Business Logic Programs</span>
+                <span class="card-description">Covers the business-logic orchestration layer for insurance policy operations: LGAPOL01 (add policy, ODM integration for endowment), LGIPOL01 (inquire policy), LGUPOL01 (update policy), and LGDPOL01 (delete policy), including COMMAREA validation, policy-type routing, return code contracts, and downstream LINK chains to DB2 and VSAM back-ends.</span>
+            </a>
+            <a href="policy-vsam-programs.html" class="card">
+                <span class="card-title">Policy VSAM Back-End Programs</span>
+                <span class="card-description">Covers the VSAM KSDS (KSDSPOLY) access layer for insurance policies: LGAPVS01 (write new 64-byte policy record with composite key), LGIPVS01 (GTEQ browse for policy lookup), LGUPVS01 (read-update / rewrite with abend on failure), and LGDPVS01 (delete by composite key), including key structure, CICS file commands, response-code handling, and abend codes.</span>
+            </a>
+            <a href="crud-matrix.html" class="card">
+                <span class="card-title">CRUD Matrix</span>
+                <span class="card-description">A cross-reference matrix showing which programs perform Create, Read, Update, and Delete operations against each DB2 table and VSAM dataset in the GenApp system.</span>
+            </a>
+            <a href="logging-and-error-handling.html" class="card">
+                <span class="card-title">Logging &amp; Error Handling</span>
+                <span class="card-description">Documents the shared LGSTSQ error-logging utility used across all GenApp programs: how it accepts diagnostic messages via COMMAREA or terminal input, writes entries prefixed with the CICS SYSID to the CSMT transient data queue and to application-specific TSQs (GENAERRS / GENAnnnn), and how calling programs construct timestamped error messages including SQLCODE, RESP codes, and raw COMMAREA snapshots.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-db2-schema-and-table-relationships">3. DB2 Schema and Table Relationships</a></li>
+<li class="toc-level-2"><a href="#4-commarea-and-return-code-conventions">4. COMMAREA and Return-Code Conventions</a>
+<ul>
+<li class="toc-level-3"><a href="#41-return-code-summary">4.1 Return Code Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-lgapdb01--policy-insert-with-business-rules">5. LGAPDB01 — Policy Insert with Business Rules</a>
+<ul>
+<li class="toc-level-3"><a href="#51-purpose">5.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#52-business-rules-applied-on-insert">5.2 Business Rules Applied on Insert</a>
+<ul>
+<li class="toc-level-4"><a href="#521-house-premium-surcharge-postcode-and-value">5.2.1 House Premium Surcharge (Postcode and Value)</a></li>
+<li class="toc-level-4"><a href="#522-bundling-discount">5.2.2 Bundling Discount</a></li>
+<li class="toc-level-4"><a href="#523-broker-commission-tiers">5.2.3 Broker Commission Tiers</a></li>
+<li class="toc-level-4"><a href="#524-motor-premium-loading-accident-history">5.2.4 Motor Premium Loading (Accident History)</a></li>
+<li class="toc-level-4"><a href="#525-commercial-peril-surcharge">5.2.5 Commercial Peril Surcharge</a></li>
+<li class="toc-level-4"><a href="#526-broker-commission-halving-on-high-frequency-claims">5.2.6 Broker Commission Halving on High-Frequency Claims</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#53-insertion-flow">5.3 Insertion Flow</a></li>
+<li class="toc-level-3"><a href="#54-insert-flow-diagram">5.4 Insert Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#55-key-sql-statements">5.5 Key SQL Statements</a></li>
+<li class="toc-level-3"><a href="#56-error-handling">5.6 Error Handling</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-lgipdb01--multi-variant-policy-inquiry">6. LGIPDB01 — Multi-Variant Policy Inquiry</a>
+<ul>
+<li class="toc-level-3"><a href="#61-purpose">6.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#62-supported-request-variants">6.2 Supported Request Variants</a></li>
+<li class="toc-level-3"><a href="#63-inquiry-flow">6.3 Inquiry Flow</a></li>
+<li class="toc-level-3"><a href="#64-singleton-select-pattern">6.4 Singleton SELECT Pattern</a></li>
+<li class="toc-level-3"><a href="#65-cursor-based-multi-row-retrieval">6.5 Cursor-Based Multi-Row Retrieval</a></li>
+<li class="toc-level-3"><a href="#66-commarea-size-constants">6.6 COMMAREA Size Constants</a></li>
+<li class="toc-level-3"><a href="#67-error-return-codes">6.7 Error Return Codes</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-lgupdb01--update-with-lost-update-timestamp-guard">7. LGUPDB01 — Update with Lost-Update Timestamp Guard</a>
+<ul>
+<li class="toc-level-3"><a href="#71-purpose">7.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#72-optimistic-locking-mechanism">7.2 Optimistic Locking Mechanism</a></li>
+<li class="toc-level-3"><a href="#73-update-processing-flow">7.3 Update Processing Flow</a></li>
+<li class="toc-level-3"><a href="#74-key-sql-statements">7.4 Key SQL Statements</a></li>
+<li class="toc-level-3"><a href="#75-error-handling">7.5 Error Handling</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-lgdpdb01--delete-with-referential-integrity-cascade">8. LGDPDB01 — Delete with Referential Integrity Cascade</a>
+<ul>
+<li class="toc-level-3"><a href="#81-purpose">8.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#82-deletion-flow">8.2 Deletion Flow</a></li>
+<li class="toc-level-3"><a href="#83-request-id-routing">8.3 Request ID Routing</a></li>
+<li class="toc-level-3"><a href="#84-key-sql-statement">8.4 Key SQL Statement</a></li>
+<li class="toc-level-3"><a href="#85-error-handling">8.5 Error Handling</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-shared-error-logging-pattern-write_error_message">9. Shared Error-Logging Pattern (WRITE_ERROR_MESSAGE)</a>
+<ul>
+<li class="toc-level-3"><a href="#91-error-message-construction">9.1 Error Message Construction</a></li>
+<li class="toc-level-3"><a href="#92-error-message-fields">9.2 Error Message Fields</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#10-end-to-end-data-flow-summary">10. End-to-End Data Flow Summary</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

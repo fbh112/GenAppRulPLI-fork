@@ -1,0 +1,1053 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGIPVS01</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link active">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p>LGIPVS01 is a CICS PL/I program that performs a generic greater-than-or-equal (GTEQ) key browse against a VSAM KSDS insurance policy file (<code>KSDSPOLY</code>) to locate the first policy record matching or following a supplied partial key. The program supports two invocation modes — it can be called programmatically via <code>EXEC CICS LINK</code> with a COMMAREA carrying a policy type and partial policy number, or it can be invoked directly from a terminal; in either case the input is normalised into a common working area before the file read is issued. After retrieving the record, the program validates that the returned record’s policy type matches the requested type, then packages the result — either a successful policy key (type plus customer number) or an error indicator — and returns it to the caller via the COMMAREA or sends it as a formatted message to the terminal.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<p><strong>CICS Environment / Runtime Assignments</strong></p>
+<ul>
+<li><code>WS_STARTCODE</code> — Populated by <code>EXEC CICS ASSIGN STARTCODE</code>; indicates how the CICS task was initiated. A value starting with <code>'D'</code> signals a LINK/XCTL invocation, driving the program’s invocation-mode branch.</li>
+<li><code>WS_INVOKEPROG</code> — Populated by <code>EXEC CICS ASSIGN INVOKINGPROG</code>; holds the name of the calling program. A non-blank value also signals COMMAREA-driven invocation.</li>
+<li><code>WS_RESP</code> — Populated by the <code>RESP</code> option on each <code>EXEC CICS</code> command (<code>ASSIGN</code>, <code>RECEIVE</code>, <code>READ</code>); carries the numeric CICS response code used to detect success or failure of each API call.</li>
+</ul>
+<p><strong>COMMAREA (EXEC CICS LINK Invocation Path)</strong></p>
+<ul>
+<li><code>DFHCOMMAREA</code> — The CICS communication area passed by a calling program via <code>EXEC CICS LINK</code>; the primary input channel when the program is invoked programmatically.
+<ul>
+<li><code>COMMA_DATA_TEXT</code> — 11-character text label portion of the COMMAREA (e.g. <code>'Policy Key='</code>); concatenated with <code>COMMA_DATA_KEY</code> to seed <code>WS_COMMAREA</code>.</li>
+<li><code>COMMA_DATA_KEY</code> — 21-character policy key portion of the COMMAREA; supplies the policy type and partial numeric key used to drive the VSAM GTEQ read.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Terminal Input (Direct Terminal Invocation Path)</strong></p>
+<ul>
+<li><code>WS_RECV</code> — Populated by <code>EXEC CICS RECEIVE</code>; holds the raw terminal input when the program is started from a terminal rather than via LINK.
+<ul>
+<li><code>WS_RECV_TRANID</code> — First 5 characters of the received data; the transaction ID prefix, stripped from the effective input before key extraction.</li>
+<li><code>WS_RECV_DATA</code> — Remaining 74 characters of the received data; the actual user-typed input used to populate <code>WS_COMMAREA</code> on the terminal path.</li>
+</ul>
+</li>
+<li><code>WS_RECV_LEN</code> — Specifies and receives the length of terminal input from <code>EXEC CICS RECEIVE</code>; adjusted post-receive to reflect the data portion length.</li>
+</ul>
+<p><strong>VSAM File Input (<code>KSDSPOLY</code>)</strong></p>
+<ul>
+<li><code>CA_AREA</code> — 64-byte record area populated by <code>EXEC CICS READ FILE('KSDSPOLY')</code>; holds the matched VSAM KSDS policy record returned by the GENERIC GTEQ read.
+<ul>
+<li><code>CA_POLICY_TYPE</code> — 1-character policy type code from the retrieved record; validated against <code>PART_KEY_TYPE</code> to confirm the correct record class was found.</li>
+<li><code>CA_CUSTOMER_NUM</code> — 10-character customer number from the retrieved record; included in the output key message.</li>
+<li><code>CA_POLICY_NUM</code> — 10-character policy number from the retrieved record; part of the full 64-byte record layout read from the file.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Derived Search Key (Built from Input)</strong></p>
+<ul>
+<li><code>PART_KEY</code> — 11-byte partial VSAM key passed as <code>RIDFLD</code> to <code>EXEC CICS READ FILE</code>; constructed from the normalised <code>WS_COMMAREA</code> content.
+<ul>
+<li><code>PART_KEY_TYPE</code> — 1-character policy type, extracted from position 1 of <code>WS_COMMAREA</code>.</li>
+<li><code>PART_KEY_NUM</code> — 10-digit numeric portion of the partial key, extracted from position 2 onward of <code>WS_COMMAREA</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<h3 id="31-terminal-output-terminal-invoked-path--ws_flag--r" tabindex="-1">3.1 Terminal Output (Terminal-Invoked Path — <code>WS_FLAG = 'R'</code>)</h3>
+<ul>
+<li><strong><code>WRITE_MSG</code> — 80-byte formatted message sent to the terminal via <code>EXEC CICS SEND TEXT</code></strong>
+<ul>
+<li><strong><code>WRITE_MSG_TEXT</code></strong> — 11-character label field; set to <code>'Policy Key='</code> on a successful VSAM read, or <code>'Policy Bad='</code> when the VSAM read fails or the retrieved policy type does not match the requested type</li>
+<li><strong><code>WRITE_MSG_KEY_CH</code></strong> — 21-character policy key field overlaying <code>WRITE_MSG_KEY</code>; on success, populated with the concatenation of <code>CA_POLICY_TYPE</code> and <code>CA_CUSTOMER_NUM</code> from the matched VSAM record; on failure, the embedded numeric subfields <code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> are both set to <code>13</code>
+<ul>
+<li><code>WRITE_MSG_TYPE</code> — 1-character policy type component within the key (union subfield of <code>WRITE_MSG_KEY_CH</code>)</li>
+<li><code>WRITE_MSG_CUSTNUM</code> — 10-digit customer number component within the key</li>
+<li><code>WRITE_MSG_POLNUM</code> — 10-digit policy number component within the key</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="32-commarea-response-link-invoked-path--ws_flag--c" tabindex="-1">3.2 COMMAREA Response (LINK-Invoked Path — <code>WS_FLAG = 'C'</code>)</h3>
+<ul>
+<li><strong><code>DFHCOMMAREA</code> (<code>COMMA_DATA</code>)</strong> — the communication area passed by the calling program is updated in-place before <code>EXEC CICS RETURN</code>, returning results to the caller
+<ul>
+<li><strong><code>COMMA_DATA_TEXT</code></strong> — 11-character label portion updated with <code>WRITE_MSG_TEXT</code>; returns <code>'Policy Key='</code> on success or <code>'Policy Bad='</code> on failure</li>
+<li><strong><code>COMMA_DATA_KEY</code></strong> — 21-character key portion updated with <code>WRITE_MSG_KEY_CH</code>; returns the matched policy type and customer number on success, or the error sentinel value (<code>13</code> in both numeric subfields) on failure</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="33-vsam-file-read-side-effect--input-to-output-construction" tabindex="-1">3.3 VSAM File Read (Side Effect — Input to Output Construction)</h3>
+<ul>
+<li><strong><code>KSDSPOLY</code> VSAM KSDS file</strong> — read via <code>EXEC CICS READ FILE</code> using a GENERIC GTEQ partial key; the record read into <code>CA_AREA</code> drives the content of all output fields above
+<ul>
+<li><code>CA_POLICY_TYPE</code>, <code>CA_CUSTOMER_NUM</code>, and <code>CA_POLICY_NUM</code> are retrieved from the matched record and used to populate the response message or COMMAREA key</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#6bba99,color:#000
+    classDef process fill:#c7ceea,stroke:#7e8ed0,color:#000
+    classDef decision fill:#ffdac1,stroke:#f4a26a,color:#000
+    classDef io fill:#fffacd,stroke:#e6c84e,color:#000
+
+    A([Start LGIPVS01]):::startEnd
+    B[Initialise WS_RECV to spaces]:::process
+    C[EXEC CICS ASSIGN SYSID<br>STARTCODE<br>INVOKINGPROG]:::process
+    D{{STARTCODE starts with D<br>OR INVOKINGPROG is not blank}}:::decision
+    E[Set WS_FLAG = C<br>Populate WS_COMMAREA from<br>COMMA_DATA_TEXT and COMMA_DATA_KEY<br>Set WS_RECV_LEN = 10]:::process
+    F[EXEC CICS RECEIVE into WS_RECV]:::io
+    G[Set WS_FLAG = R<br>Populate WS_COMMAREA from WS_RECV_DATA<br>Adjust WS_RECV_LEN minus 6]:::process
+    H[Clear CA_AREA<br>Extract PART_KEY_TYPE from WS_COMMAREA pos 1<br>Extract PART_KEY_NUM from WS_COMMAREA pos 2]:::process
+    I[EXEC CICS READ FILE KSDSPOLY<br>GENERIC GTEQ with partial PART_KEY<br>into CA_AREA - 64 bytes]:::io
+    J{{CA_POLICY_TYPE mismatches PART_KEY_TYPE<br>OR WS_RESP is not NORMAL}}:::decision
+    K[Set WRITE_MSG_TEXT = Policy Bad<br>Set WRITE_MSG_CUSTNUM = 13<br>Set WRITE_MSG_POLNUM = 13]:::process
+    L[Set WRITE_MSG_KEY_CH =<br>CA_POLICY_TYPE and CA_CUSTOMER_NUM]:::process
+    M{{WS_FLAG = R}}:::decision
+    N[EXEC CICS SEND TEXT<br>WRITE_MSG to terminal<br>80 bytes - ERASE - FREEKB - WAIT]:::io
+    O[Copy WRITE_MSG_TEXT into COMMA_DATA_TEXT<br>Copy WRITE_MSG_KEY_CH into COMMA_DATA_KEY]:::process
+    P[EXEC CICS RETURN]:::process
+    Q([End]):::startEnd
+
+    A --> B
+    B --> C
+    C --> D
+    D -- Yes --> E
+    D -- No --> F
+    F --> G
+    E --> H
+    G --> H
+    H --> I
+    I --> J
+    J -- Yes --> K
+    J -- No --> L
+    K --> M
+    L --> M
+    M -- Yes --> N
+    M -- No --> O
+    N --> P
+    O --> P
+    P --> Q
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGIPVS01</code> is a CICS PL/I program that performs a <strong>VSAM KSDS generic GTEQ (greater-than-or-equal) browse</strong> against the <code>KSDSPOLY</code> file to locate a policy record by a partial key. It supports two invocation modes: <strong>COMMAREA mode</strong> (called via <code>EXEC CICS LINK</code> from another program) and <strong>terminal mode</strong> (invoked directly from a CICS terminal). The result — a found policy key or a “bad” indicator — is returned either via COMMAREA to the calling program, or displayed on the terminal screen.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Initialisation</strong>
+<code>WS_RECV</code> is cleared to spaces, providing a clean receive buffer.</p>
+<p><strong>Step 2 — CICS ASSIGN queries</strong>
+Three consecutive <code>EXEC CICS ASSIGN</code> commands populate:</p>
+<ul>
+<li><code>WS_SYSID</code> — the current system ID (not used directly in branching logic but gathered for context).</li>
+<li><code>WS_STARTCODE</code> — the CICS start code, indicating how the current task was initiated. A first character of <code>'D'</code> signals a LINK/XCTL-initiated invocation.</li>
+<li><code>WS_INVOKEPROG</code> — the name of the program that linked to this one. Non-blank confirms a program-to-program LINK invocation.</li>
+</ul>
+<p><strong>Step 3 — Invocation Mode Decision</strong>
+The program evaluates two conditions:</p>
+<ul>
+<li><code>SUBSTR(WS_STARTCODE,1,1) = 'D'</code> — task was initiated via LINK/XCTL.</li>
+<li><code>WS_INVOKEPROG ^= ' '</code> — a calling program name is present.</li>
+</ul>
+<p>If <strong>either condition is true</strong>, the program takes the <strong>COMMAREA path</strong>:</p>
+<ul>
+<li><code>WS_FLAG</code> is set to <code>'C'</code>.</li>
+<li><code>WS_COMMAREA</code> is loaded from the 11-byte <code>COMMA_DATA_TEXT</code> concatenated with the 21-byte <code>COMMA_DATA_KEY</code> from <code>DFHCOMMAREA</code>.</li>
+<li><code>WS_RECV_LEN</code> is set to 10 (the length of the numeric key portion in the COMMAREA).</li>
+</ul>
+<p>If <strong>neither condition is true</strong>, the program takes the <strong>terminal path</strong>:</p>
+<ul>
+<li><code>EXEC CICS RECEIVE</code> reads up to 80 bytes of terminal input into <code>WS_RECV</code> (which is split into a 5-byte transaction ID prefix <code>WS_RECV_TRANID</code> and 74-byte data <code>WS_RECV_DATA</code>).</li>
+<li><code>WS_FLAG</code> is set to <code>'R'</code>.</li>
+<li><code>WS_COMMAREA</code> is loaded from <code>WS_RECV_DATA</code>.</li>
+<li><code>WS_RECV_LEN</code> is reduced by 6, stripping the transaction ID prefix from the effective data length.</li>
+</ul>
+<p><strong>Step 4 — Partial Key Construction</strong>
+<code>CA_AREA</code> is cleared to spaces. The partial VSAM key is assembled:</p>
+<ul>
+<li><code>PART_KEY_TYPE</code> ← first character of <code>WS_COMMAREA</code> (policy type code).</li>
+<li><code>PART_KEY_NUM</code> ← remaining characters of <code>WS_COMMAREA</code> up to <code>WS_RECV_LEN</code> (the numeric key component).</li>
+</ul>
+<p>Together, <code>PART_KEY</code> forms the 11-byte partial key used for the VSAM search.</p>
+<p><strong>Step 5 — VSAM KSDS Generic GTEQ Read</strong>
+<code>EXEC CICS READ FILE('KSDSPOLY')</code> is issued with:</p>
+<ul>
+<li><code>INTO(CA_AREA)</code> — the 64-byte target record area.</li>
+<li><code>LENGTH(F64)</code> — read length of 64 bytes.</li>
+<li><code>RIDFLD(PART_KEY)</code> — the 11-byte partial key as the record identifier.</li>
+<li><code>KEYLENGTH(F11)</code> — specifies that only the first 11 bytes of the key are provided (partial match).</li>
+<li><code>GENERIC</code> — enables partial-key matching.</li>
+<li><code>GTEQ</code> — positions to the first record whose key is greater than or equal to the supplied partial key.</li>
+<li><code>RESP(WS_RESP)</code> — captures the CICS response code for post-call validation.</li>
+</ul>
+<p><strong>Step 6 — Post-Read Validation</strong>
+Two conditions are checked after the file read:</p>
+<ul>
+<li><code>CA_POLICY_TYPE ^= PART_KEY_TYPE</code> — the retrieved record’s policy type does not match the requested type (the GTEQ may have overshot into a different policy class).</li>
+<li><code>WS_RESP ^= DFHRESP(NORMAL)</code> — the CICS file read did not complete normally (e.g., NOTFND, DISABLED).</li>
+</ul>
+<p>If <strong>either condition is true</strong> (error/no-match path):</p>
+<ul>
+<li><code>WRITE_MSG_TEXT</code> is set to <code>'Policy Bad='</code>.</li>
+<li><code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> are both set to <code>13</code>, acting as sentinel/error values.</li>
+</ul>
+<p>If <strong>both conditions are false</strong> (success path):</p>
+<ul>
+<li><code>WRITE_MSG_KEY_CH</code> is populated with <code>CA_POLICY_TYPE || CA_CUSTOMER_NUM</code> from the found record, building the 21-character output key string.</li>
+</ul>
+<p><strong>Step 7 — Response Dispatch</strong>
+The <code>WS_FLAG</code> value determines how the result is returned:</p>
+<ul>
+<li><strong>Terminal mode (<code>WS_FLAG = 'R'</code>):</strong> <code>EXEC CICS SEND TEXT</code> sends the 80-byte <code>WRITE_MSG</code> structure directly to the terminal with <code>ERASE</code> (clears the screen), <code>FREEKB</code> (unlocks the keyboard), and <code>WAIT</code> (synchronous send).</li>
+<li><strong>COMMAREA mode (<code>WS_FLAG = 'C'</code>):</strong> <code>COMMA_DATA</code> is cleared, then <code>COMMA_DATA_TEXT</code> is set from <code>WRITE_MSG_TEXT</code> and <code>COMMA_DATA_KEY</code> is set from <code>WRITE_MSG_KEY_CH</code>, placing the result back into <code>DFHCOMMAREA</code> for the calling program to inspect.</li>
+</ul>
+<p><strong>Step 8 — Return</strong>
+<code>EXEC CICS RETURN</code> ends the task, returning control to the CICS dispatcher (or back to the calling program in the LINK case).</p>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC CICS ASSIGN SYSID</code></td>
+<td>CICS API</td>
+<td>Retrieves the system identifier of the current region</td>
+</tr>
+<tr>
+<td><code>EXEC CICS ASSIGN STARTCODE</code></td>
+<td>CICS API</td>
+<td>Determines how the current task was initiated</td>
+</tr>
+<tr>
+<td><code>EXEC CICS ASSIGN INVOKINGPROG</code></td>
+<td>CICS API</td>
+<td>Identifies the program that issued the LINK to this program</td>
+</tr>
+<tr>
+<td><code>EXEC CICS RECEIVE</code></td>
+<td>CICS Terminal I/O</td>
+<td>Reads raw terminal input (transaction ID + data) from the operator</td>
+</tr>
+<tr>
+<td><code>EXEC CICS READ FILE('KSDSPOLY')</code></td>
+<td>VSAM KSDS</td>
+<td>Performs a generic GTEQ partial-key browse of the insurance policy file</td>
+</tr>
+<tr>
+<td><code>EXEC CICS SEND TEXT</code></td>
+<td>CICS Terminal I/O</td>
+<td>Returns the policy key result (or error) to the terminal screen</td>
+</tr>
+<tr>
+<td><code>EXEC CICS RETURN</code></td>
+<td>CICS API</td>
+<td>Ends the CICS task and optionally returns to the linking program</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p>This program looks up an insurance policy record in a VSAM file using a partial key (policy type + partial number). It can be called in two ways: directly from a CICS terminal screen, or by another program passing data through a communication area. Either way, it builds a search key, searches the policy file for the nearest matching record (at or after the key provided), and checks that the found record actually belongs to the right policy class. If a valid match is found, it returns the policy type and customer number as the key result. If no valid match is found (or the search fails), it returns an error indicator with sentinel values (<code>13</code>). The result goes back to the calling program via the communication area, or is displayed directly on the terminal screen.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<p><code>LGIPVS01</code> does not interact with any DB2 relational database tables. All data access is performed against the <strong>VSAM KSDS file <code>KSDSPOLY</code></strong> via CICS file control commands. No <code>erDiagram</code> applies for this program.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<p><code>LGIPVS01</code> is a single PL/I procedure (<code>LGIPVS01: Proc … END LGIPVS01</code>) with no named internal procedures or labelled paragraphs. Its logic is structured as a linear sequence of inline code blocks within the main procedure body. Each logical block is described below.</p>
+<ul>
+<li>
+<p><strong>Initialization and CICS Environment Interrogation</strong> (lines 55–64)</p>
+<ul>
+<li>Clears the <code>WS_RECV</code> buffer by assigning a space.</li>
+<li>Issues three <code>EXEC CICS ASSIGN</code> commands in sequence: one for <code>SYSID</code> (populates <code>WS_SYSID</code>), one for <code>STARTCODE</code> (populates <code>WS_STARTCODE</code>), and one for <code>INVOKINGPROG</code> (populates <code>WS_INVOKEPROG</code>).</li>
+<li>All three responses are captured in <code>WS_RESP</code> but not yet evaluated; the values collected here drive the invocation-mode decision in the next block.</li>
+<li>No conditional logic or loops are present; this is purely an environment-probe sequence.</li>
+</ul>
+</li>
+<li>
+<p><strong>Invocation-Mode Decision and COMMAREA Normalisation</strong> (lines 66–78)</p>
+<ul>
+<li>Evaluates the invocation mode using a conditional <code>IF … THEN DO … ELSE DO</code> construct.</li>
+<li><strong>COMMAREA path (WS_FLAG = ‘C’):</strong> Triggered when the first character of <code>WS_STARTCODE</code> is <code>'D'</code> (indicating the task was started by a LINK/XCTL) or <code>WS_INVOKEPROG</code> is non-blank (i.e., another program called this one via <code>EXEC CICS LINK</code>). Sets <code>WS_FLAG</code> to <code>'C'</code>, concatenates <code>COMMA_DATA_TEXT</code> and <code>COMMA_DATA_KEY</code> from <code>DFHCOMMAREA</code> into <code>WS_COMMAREA</code>, and sets <code>WS_RECV_LEN</code> to 10 to reflect the key-only input length.</li>
+<li><strong>Terminal path (WS_FLAG = ‘R’):</strong> When neither condition is met, issues <code>EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN)</code> to read raw terminal input. Sets <code>WS_FLAG</code> to <code>'R'</code>, copies <code>WS_RECV_DATA</code> into <code>WS_COMMAREA</code>, and subtracts 6 from <code>WS_RECV_LEN</code> to strip the 5-character transaction-ID prefix plus the space separator, leaving the effective data length.</li>
+<li>After this block, <code>WS_COMMAREA</code> holds a normalised, mode-independent copy of the input regardless of how the program was invoked.</li>
+</ul>
+</li>
+<li>
+<p><strong>Partial Key Assembly</strong> (lines 80–82)</p>
+<ul>
+<li>Clears <code>CA_AREA</code> to spaces.</li>
+<li>Extracts the first character of <code>WS_COMMAREA</code> into <code>PART_KEY_TYPE</code> (the policy type code).</li>
+<li>Extracts the subsequent <code>WS_RECV_LEN</code> characters into <code>PART_KEY_NUM</code> (the numeric portion of the key), forming the complete 11-byte <code>PART_KEY</code> structure used as the VSAM RIDFLD.</li>
+<li>No conditional logic; this is a straight assignment block that assembles the VSAM search key from the normalised input.</li>
+</ul>
+</li>
+<li>
+<p><strong>VSAM KSDS Generic GTEQ Read</strong> (lines 84–91)</p>
+<ul>
+<li>Issues a single <code>EXEC CICS READ FILE('KSDSPOLY')</code> with <code>INTO(CA_AREA)</code>, <code>LENGTH(F64)</code>, <code>RIDFLD(PART_KEY)</code>, <code>KEYLENGTH(F11)</code>, <code>GENERIC</code>, and <code>GTEQ</code>.</li>
+<li>The <code>GENERIC</code> option instructs CICS to match on the 11-byte partial key prefix rather than the full key; <code>GTEQ</code> causes it to return the first record whose key is greater than or equal to the partial key supplied.</li>
+<li>The 64-byte result is read into <code>CA_AREA</code>, populating <code>CA_POLICY_TYPE</code>, <code>CA_CUSTOMER_NUM</code>, and <code>CA_POLICY_NUM</code>.</li>
+<li>The CICS response code is stored in <code>WS_RESP</code> for evaluation in the next block.</li>
+<li>Interacts with the external VSAM KSDS file <code>KSDSPOLY</code>; this is the sole file I/O operation in the program.</li>
+</ul>
+</li>
+<li>
+<p><strong>Read Result Validation and Output Message Assembly</strong> (lines 93–101)</p>
+<ul>
+<li>Evaluates the VSAM read result using a conditional <code>IF … THEN DO … ELSE</code> construct.</li>
+<li><strong>Error path:</strong> If <code>CA_POLICY_TYPE</code> (the type code in the retrieved record) does not match <code>PART_KEY_TYPE</code> (the requested type) — indicating the GTEQ returned a record of a different policy class — or if <code>WS_RESP</code> is not <code>DFHRESP(NORMAL)</code>, the program treats the lookup as a failure: sets <code>WRITE_MSG_TEXT</code> to <code>'Policy Bad='</code> and fills <code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> with the sentinel value <code>13</code>.</li>
+<li><strong>Success path:</strong> If both conditions are satisfied, assembles a success key by concatenating <code>CA_POLICY_TYPE</code> and <code>CA_CUSTOMER_NUM</code> into <code>WRITE_MSG_KEY_CH</code>, leaving <code>WRITE_MSG_TEXT</code> at its initialised value <code>'Policy Key='</code>.</li>
+<li>No loops; this is a single conditional branch that produces the final <code>WRITE_MSG</code> output structure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Response Dispatch</strong> (lines 103–115)</p>
+<ul>
+<li>Routes the assembled <code>WRITE_MSG</code> back to the caller using a conditional <code>IF WS_FLAG = 'R' THEN DO … ELSE DO</code> construct.</li>
+<li><strong>Terminal path:</strong> Issues <code>EXEC CICS SEND TEXT FROM(WRITE_MSG) TERMINAL WAIT ERASE LENGTH(80) FREEKB</code>, writing the 80-byte message to the terminal screen, erasing the display, waiting for completion, and releasing the keyboard.</li>
+<li><strong>COMMAREA path:</strong> Clears <code>COMMA_DATA</code> to spaces, then writes <code>WRITE_MSG_TEXT</code> back to <code>COMMA_DATA_TEXT</code> and <code>WRITE_MSG_KEY_CH</code> back to <code>COMMA_DATA_KEY</code>, populating the caller’s <code>DFHCOMMAREA</code> with the result so the invoking program can read it on return.</li>
+<li>Interacts with the CICS terminal interface (terminal path) or the calling program’s COMMAREA (COMMAREA path).</li>
+</ul>
+</li>
+<li>
+<p><strong>Program Termination</strong> (line 117)</p>
+<ul>
+<li>Issues <code>EXEC CICS RETURN</code> to hand control back to CICS, ending the task cleanly.</li>
+<li>No conditional logic; this is unconditional and always the final statement executed.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-runtime-environment" tabindex="-1">6.1 CICS Runtime Environment</h3>
+<ul>
+<li><strong>CICS Transaction Server</strong>
+<ul>
+<li>The program runs entirely within a CICS region and relies on the CICS runtime for task management, terminal I/O, file services, and inter-program communication</li>
+<li><code>EXEC CICS ASSIGN SYSID</code> — retrieves the CICS system ID of the executing region; used for environment awareness</li>
+<li><code>EXEC CICS ASSIGN STARTCODE</code> — retrieves the two-character start code indicating how the current task was initiated; a value beginning with <code>'D'</code> signals that the program was invoked via <code>EXEC CICS LINK</code> or <code>XCTL</code>, driving the invocation-mode branch</li>
+<li><code>EXEC CICS ASSIGN INVOKINGPROG</code> — retrieves the name of the calling program when the task was started by <code>EXEC CICS LINK</code>; a non-blank value also triggers the COMMAREA (linked) execution path</li>
+<li><code>EXEC CICS RECEIVE</code> — reads terminal input into <code>WS_RECV</code> when the program is invoked directly from a terminal; the received data provides the policy type and partial key used in the VSAM search</li>
+<li><code>EXEC CICS READ FILE('KSDSPOLY')</code> with <code>GENERIC GTEQ</code> — performs a generic greater-than-or-equal key browse against the <code>KSDSPOLY</code> VSAM KSDS file using the partial key <code>PART_KEY</code>; retrieves the first matching 64-byte policy record into <code>CA_AREA</code></li>
+<li><code>EXEC CICS SEND TEXT</code> with <code>TERMINAL WAIT ERASE FREEKB</code> — writes the 80-byte result message (<code>WRITE_MSG</code>) back to the terminal when running in terminal-invocation mode (<code>WS_FLAG = 'R'</code>)</li>
+<li><code>EXEC CICS RETURN</code> — returns control to CICS at the end of processing, in both terminal and COMMAREA paths</li>
+<li><code>DFHRESP(NORMAL)</code> — CICS-supplied constant compared against <code>WS_RESP</code> to detect successful completion of the <code>READ FILE</code> command</li>
+</ul>
+</li>
+</ul>
+<h3 id="62-vsam-file" tabindex="-1">6.2 VSAM File</h3>
+<ul>
+<li><strong>KSDSPOLY</strong> — VSAM Key-Sequenced Data Set (KSDS) containing insurance policy records
+<ul>
+<li>Accessed via <code>EXEC CICS READ FILE</code> using an 11-byte partial key (<code>PART_KEY</code>) composed of a 1-character policy type (<code>PART_KEY_TYPE</code>) and a 10-digit numeric key (<code>PART_KEY_NUM</code>)</li>
+<li>Read with <code>GENERIC GTEQ</code> to locate the first record whose key is greater than or equal to the supplied partial key</li>
+<li>Each record is 64 bytes; the first 21 bytes map to <code>CA_POLICY_TYPE</code> (1), <code>CA_CUSTOMER_NUM</code> (10), and <code>CA_POLICY_NUM</code> (10)</li>
+<li>Must be defined in the CICS File Control Table (FCT) and backed by a VSAM cluster accessible to the CICS region</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-inter-program-communication" tabindex="-1">6.3 Inter-Program Communication</h3>
+<ul>
+<li><strong>DFHCOMMAREA / <code>COMMA_PTR</code></strong> — communication area passed by a calling program via <code>EXEC CICS LINK</code>
+<ul>
+<li>Structured as <code>COMMA_DATA_TEXT</code> (11 characters, label) and <code>COMMA_DATA_KEY</code> (21 characters, policy key input)</li>
+<li>On entry, used to populate <code>WS_COMMAREA</code> when the program is in COMMAREA mode (<code>WS_FLAG = 'C'</code>)</li>
+<li>On exit, updated with the result label (<code>WRITE_MSG_TEXT</code>) in <code>COMMA_DATA_TEXT</code> and the found policy key (<code>WRITE_MSG_KEY_CH</code>) in <code>COMMA_DATA_KEY</code>, returning results to the caller</li>
+</ul>
+</li>
+<li><strong>Calling/Invoking Program</strong> — any program that invokes <code>LGIPVS01</code> via <code>EXEC CICS LINK</code>; it must supply a correctly formatted 32-byte COMMAREA containing a text label and an 11-character partial policy key</li>
+</ul>
+<h3 id="64-terminal-input" tabindex="-1">6.4 Terminal Input</h3>
+<ul>
+<li><strong>CICS Terminal</strong> — a CICS-attached terminal from which a user may invoke the program directly
+<ul>
+<li>Terminal input is received via <code>EXEC CICS RECEIVE</code> into <code>WS_RECV</code>, which is structured as a 5-character transaction ID prefix (<code>WS_RECV_TRANID</code>) followed by 74 characters of data (<code>WS_RECV_DATA</code>)</li>
+<li>The data portion (<code>WS_RECV_DATA</code>) is used to derive the partial VSAM key; the effective data length is computed by subtracting 6 from the received length to strip the transaction ID prefix</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-invocation-mode-constraints" tabindex="-1">7.1 Invocation-Mode Constraints</h3>
+<ul>
+<li>
+<p><strong>Dual invocation paths are mutually exclusive</strong>: The program must be invoked either via CICS LINK/XCTL (COMMAREA-driven) or from a terminal (RECEIVE path). The determination is made at startup by inspecting <code>WS_STARTCODE</code> (first character equals <code>'D'</code>) or <code>WS_INVOKEPROG</code> (non-blank). These two paths are enforced as an <code>IF/ELSE</code> branch — no mixed mode is possible.</p>
+<ul>
+<li><strong>COMMAREA path (<code>WS_FLAG = 'C'</code>)</strong>: Activated when <code>SUBSTR(WS_STARTCODE,1,1) = 'D'</code> OR <code>WS_INVOKEPROG ^= ' '</code>. The program reads input exclusively from <code>COMMA_DATA_TEXT || COMMA_DATA_KEY</code> (total 32 characters, used to populate the 80-character <code>WS_COMMAREA</code>).</li>
+<li><strong>Terminal path (<code>WS_FLAG = 'R'</code>)</strong>: Activated when neither condition above is true. The program issues <code>EXEC CICS RECEIVE</code> to collect terminal input.</li>
+</ul>
+</li>
+<li>
+<p><strong>COMMAREA structure is fixed</strong>: <code>DFHCOMMAREA</code> must be exactly 90 bytes (11-byte <code>COMMA_DATA_TEXT</code> + 21-byte <code>COMMA_DATA_KEY</code> + 58 padding bytes). Any calling program must provide a COMMAREA of at least this layout; no length check is performed before dereferencing <code>COMMA_PTR</code>.</p>
+</li>
+</ul>
+<hr>
+<h3 id="72-input-data-constraints" tabindex="-1">7.2 Input Data Constraints</h3>
+<ul>
+<li>
+<p><strong>Policy type is a mandatory 1-character field</strong>: <code>PART_KEY_TYPE</code> is always extracted from <code>SUBSTR(WS_COMMAREA, 1, 1)</code>. No explicit blank or validity check is performed before use as the leading byte of the VSAM RIDFLD.</p>
+</li>
+<li>
+<p><strong>Numeric key portion must be a valid picture digit string</strong>: <code>PART_KEY_NUM</code> is declared as <code>PIC '9999999999'</code> (10 digits). The value is extracted from <code>SUBSTR(WS_COMMAREA, 2, WS_RECV_LEN)</code>. If the source characters are non-numeric, a PL/I conversion error will occur at runtime, imposing an implicit constraint that bytes 2–11 of the input must be numeric digits.</p>
+</li>
+<li>
+<p><strong>Effective input length is governed by <code>WS_RECV_LEN</code></strong>:</p>
+<ul>
+<li>On the COMMAREA path, <code>WS_RECV_LEN</code> is hardcoded to <code>10</code> immediately after detecting linked invocation (line 69), restricting the numeric key extraction to exactly 10 characters.</li>
+<li>On the terminal path, <code>WS_RECV_LEN</code> is initialized to <code>80</code>, updated by <code>EXEC CICS RECEIVE</code> to the actual received length, then reduced by <code>6</code> (line 77) to strip the 5-character transaction-ID prefix (<code>WS_RECV_TRANID</code>). The resulting value governs how many bytes are used for <code>PART_KEY_NUM</code>.</li>
+<li>Terminal input must therefore be at least 7 bytes (6 prefix + at least 1 character of key data) or the subtraction may produce a zero or negative length for <code>PART_KEY_NUM</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>WS_COMMAREA</code> is capped at 80 bytes</strong>: Declared as <code>CHAR(80)</code>. Only the first 80 characters of any input source are ever considered; any data beyond that is silently discarded.</p>
+</li>
+</ul>
+<hr>
+<h3 id="73-vsam-file-read-constraints" tabindex="-1">7.3 VSAM File Read Constraints</h3>
+<ul>
+<li>
+<p><strong>File name is hardcoded</strong>: The program exclusively reads the VSAM KSDS file named <code>'KSDSPOLY'</code>. No parameter or variable controls which file is accessed.</p>
+</li>
+<li>
+<p><strong>Read length is fixed at 64 bytes</strong>: The <code>LENGTH(F64)</code> clause on <code>EXEC CICS READ FILE</code> enforces that exactly 64 bytes are read into <code>CA_AREA</code>. The <code>CA_AREA</code> structure is 64 bytes (1 + 10 + 10 + 43), so the record layout must match precisely.</p>
+</li>
+<li>
+<p><strong>Key length is fixed at 11 bytes</strong>: <code>KEYLENGTH(F11)</code> specifies that exactly the first 11 bytes of <code>PART_KEY</code> (1-byte type + 10-digit number) are used as the generic partial key for the GTEQ search.</p>
+</li>
+<li>
+<p><strong>Read mode is GENERIC GTEQ</strong>: The program does not perform an exact key match. It retrieves the first record whose key is greater than or equal to the supplied partial key. This means any record in the file that sorts at or after the partial key may be returned if an exact match does not exist.</p>
+</li>
+<li>
+<p><strong>No retry or multi-record browse</strong>: Only a single <code>READ</code> is issued. If the first GTEQ candidate does not satisfy the policy-type check, the program immediately reports failure with no further browse iteration.</p>
+</li>
+</ul>
+<hr>
+<h3 id="74-post-read-validation-constraints" tabindex="-1">7.4 Post-Read Validation Constraints</h3>
+<ul>
+<li>
+<p><strong>Policy type match is mandatory</strong>: After the VSAM read, the program checks <code>CA_POLICY_TYPE ^= PART_KEY_TYPE</code>. If the retrieved record’s policy type does not match the requested type, the result is treated as a failure regardless of the CICS response code. This enforces that the returned record must belong to the requested policy classification.</p>
+</li>
+<li>
+<p><strong>CICS response must be NORMAL</strong>: <code>WS_RESP ^= DFHRESP(NORMAL)</code> is checked alongside the type match. Any non-normal CICS response (e.g., NOTFND, DISABLED) also constitutes failure. Both conditions are evaluated together in a single <code>OR</code> expression — either one independently triggers the error path.</p>
+</li>
+<li>
+<p><strong>Error sentinel values are fixed</strong>: On failure, <code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> are both set to the literal value <code>13</code> (a hardcoded error indicator). No dynamic error code or condition detail is propagated.</p>
+</li>
+</ul>
+<hr>
+<h3 id="75-output-constraints" tabindex="-1">7.5 Output Constraints</h3>
+<ul>
+<li>
+<p><strong>Output format is fixed at 80 bytes</strong>: The <code>EXEC CICS SEND TEXT</code> on the terminal path specifies <code>LENGTH(80)</code>, so exactly 80 bytes of <code>WRITE_MSG</code> are sent regardless of actual data length.</p>
+</li>
+<li>
+<p><strong>Output text label is limited to 2 values</strong>: <code>WRITE_MSG_TEXT</code> is either <code>'Policy Key='</code> (success) or <code>'Policy Bad='</code> (failure). No other label value is ever written.</p>
+</li>
+<li>
+<p><strong>Output key field is 21 characters</strong>: <code>WRITE_MSG_KEY_CH</code> (and <code>COMMA_DATA_KEY</code>) is exactly 21 characters. On success it holds <code>CA_POLICY_TYPE</code> (1 char) concatenated with <code>CA_CUSTOMER_NUM</code> (10 chars), occupying only 11 of the 21 available characters; the remaining 10 characters are not explicitly set, retaining whatever was previously in the field.</p>
+</li>
+<li>
+<p><strong>COMMAREA response overwrites input fields</strong>: On the COMMAREA path, <code>COMMA_DATA</code> is cleared with <code>' '</code> before writing the result (line 112), then <code>COMMA_DATA_TEXT</code> and <code>COMMA_DATA_KEY</code> are individually updated. The 58-byte padding portion of <code>DFHCOMMAREA</code> is not touched beyond the initial blank-fill.</p>
+</li>
+</ul>
+<hr>
+<h3 id="76-sequencing-constraints" tabindex="-1">7.6 Sequencing Constraints</h3>
+<ul>
+<li>
+<p><strong>CICS ASSIGN calls must precede mode determination</strong>: <code>EXEC CICS ASSIGN STARTCODE</code> and <code>EXEC CICS ASSIGN INVOKINGPROG</code> must execute successfully before the <code>IF</code> branch that sets <code>WS_FLAG</code>. No error handling is applied to these ASSIGN calls; a failure would leave <code>WS_STARTCODE</code> and <code>WS_INVOKEPROG</code> at their initialized blank values, defaulting the program to the terminal (RECEIVE) path.</p>
+</li>
+<li>
+<p><strong><code>CA_AREA</code> must be cleared before the READ</strong>: Line 80 (<code>CA_AREA = ' '</code>) executes unconditionally before the VSAM read. The 64-byte area is always reset, so no residual data from a prior invocation can affect the post-read validation.</p>
+</li>
+<li>
+<p><strong>Partial key must be built before the READ</strong>: <code>PART_KEY_TYPE</code> and <code>PART_KEY_NUM</code> are both populated from <code>WS_COMMAREA</code> before the <code>EXEC CICS READ FILE</code> call. The RIDFLD used in the read is therefore always derived from the current invocation’s input.</p>
+</li>
+<li>
+<p><strong><code>EXEC CICS RETURN</code> terminates processing unconditionally</strong>: The program always ends with <code>EXEC CICS RETURN</code> (line 117) with no intervening error abend or conditional return. Control always returns to CICS after one complete execution path, whether successful or not.</p>
+</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-cics-response-code-checking-resp--dfhresp" tabindex="-1">8.1 CICS Response Code Checking (RESP / DFHRESP)</h3>
+<p>Every <code>EXEC CICS</code> command in the program specifies a <code>RESP(WS_RESP)</code> option. This suppresses the default CICS error-handling mechanism (which would abend the task on any abnormal condition) and instead places the numeric response code into <code>WS_RESP</code> after the command completes. The program then explicitly evaluates <code>WS_RESP</code> against <code>DFHRESP(NORMAL)</code> to determine whether a command succeeded.</p>
+<ul>
+<li><code>EXEC CICS ASSIGN SYSID</code>, <code>EXEC CICS ASSIGN STARTCODE</code>, and <code>EXEC CICS ASSIGN INVOKINGPROG</code> all capture their response codes into <code>WS_RESP</code>, though the program does not individually evaluate each of those values — they serve as a passive safety net preventing CICS abends during the assignment phase.</li>
+<li><code>EXEC CICS RECEIVE INTO(WS_RECV)</code> similarly captures its response into <code>WS_RESP</code> without a subsequent explicit check; its path is only taken when the program is invoked from a terminal.</li>
+<li><code>EXEC CICS READ FILE('KSDSPOLY')</code> captures the file I/O response into <code>WS_RESP</code>, and this value is explicitly evaluated immediately after the read.</li>
+</ul>
+<hr>
+<h3 id="82-vsam-file-read-validation-combined-policy-type-and-response-check" tabindex="-1">8.2 VSAM File Read Validation (Combined Policy-Type and Response Check)</h3>
+<p>After the VSAM KSDS read, the program performs a compound conditional check that acts as the program’s primary error detection gate:</p>
+<ul>
+<li>The check evaluates two conditions simultaneously using a logical OR:
+<ul>
+<li>Whether <code>WS_RESP</code> is anything other than <code>DFHRESP(NORMAL)</code> — meaning the CICS READ FILE command did not complete successfully (e.g., record not found, file unavailable, or other CICS-level error).</li>
+<li>Whether the <code>CA_POLICY_TYPE</code> field returned in the retrieved record does not match <code>PART_KEY_TYPE</code> — meaning the GENERIC GTEQ read returned a record of the wrong policy class, indicating no exact-type match exists at or above the requested partial key.</li>
+</ul>
+</li>
+<li>If either condition is true, the program treats the result as a failure.</li>
+</ul>
+<hr>
+<h3 id="83-error-fallback--default-value-assignment" tabindex="-1">8.3 Error Fallback / Default Value Assignment</h3>
+<p>When the combined validation check detects a failure, a fallback path is taken to populate the output message with sentinel/error values rather than real policy data:</p>
+<ul>
+<li><code>WRITE_MSG_TEXT</code> is overwritten with the literal <code>'Policy Bad='</code> instead of the success label <code>'Policy Key='</code>.</li>
+<li><code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> are both set to the numeric value <code>13</code>, serving as sentinel error indicators in place of real customer and policy numbers.</li>
+<li>This fallback ensures the output structure is always fully populated before being sent to either the terminal or the COMMAREA, preventing partially initialised data from being returned.</li>
+</ul>
+<hr>
+<h3 id="84-user--caller-notification-of-error-result" tabindex="-1">8.4 User / Caller Notification of Error Result</h3>
+<p>The error result propagated by the fallback logic is surfaced to the consumer through two distinct paths depending on the invocation mode:</p>
+<ul>
+<li><strong>Terminal path</strong> (<code>WS_FLAG = 'R'</code>): <code>EXEC CICS SEND TEXT</code> transmits the full <code>WRITE_MSG</code> buffer (which will contain <code>'Policy Bad='</code> and the sentinel key values) to the terminal. The operator therefore sees an explicit textual indication that the policy lookup failed.</li>
+<li><strong>COMMAREA path</strong> (<code>WS_FLAG = 'C'</code>): <code>COMMA_DATA_TEXT</code> is set from <code>WRITE_MSG_TEXT</code> (carrying <code>'Policy Bad='</code>) and <code>COMMA_DATA_KEY</code> is set from <code>WRITE_MSG_KEY_CH</code> (carrying the sentinel values). The calling program receives a clearly marked error indicator in the returned COMMAREA rather than valid policy key data.</li>
+</ul>
+<hr>
+<h3 id="85-invocation-mode-determination-guard-against-incorrect-input-path" tabindex="-1">8.5 Invocation Mode Determination (Guard Against Incorrect Input Path)</h3>
+<p>Before any data processing occurs, the program determines how it was invoked and adjusts data sourcing accordingly:</p>
+<ul>
+<li><code>EXEC CICS ASSIGN STARTCODE</code> and <code>EXEC CICS ASSIGN INVOKINGPROG</code> are used together to detect whether the task was started by a <code>LINK</code> or programmatic invocation (start code beginning with <code>'D'</code>, or a non-blank invoking program name).</li>
+<li>If a COMMAREA-driven invocation is detected, <code>WS_COMMAREA</code> is populated from the COMMAREA fields; otherwise, a terminal <code>EXEC CICS RECEIVE</code> is performed and <code>WS_COMMAREA</code> is populated from the received data.</li>
+<li>This guard ensures the correct data source is used for constructing the VSAM partial key, preventing malformed key construction due to reading from the wrong input channel, which would itself cause a downstream read failure caught by the response check.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1--invoked-via-exec-cics-link-commarea-mode--successful-record-found" tabindex="-1">9.1 Example 1 — Invoked via EXEC CICS LINK (COMMAREA mode) — Successful Record Found</h3>
+<p><strong>Input (DFHCOMMAREA passed by calling program):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COMMA_DATA_TEXT</code></td>
+<td><code>'Policy Key='</code> (11 chars)</td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_KEY</code></td>
+<td><code>'E0000000010'</code> (policy type <code>'E'</code> = Endowment, partial customer number <code>0000000010</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program Logic Path:</strong></p>
+<ol>
+<li><code>EXEC CICS ASSIGN INVOKINGPROG</code> returns a non-blank name (e.g. <code>'LGIPOL01'</code>) → <code>WS_FLAG</code> is set to <code>'C'</code>.</li>
+<li><code>WS_COMMAREA</code> is populated as <code>COMMA_DATA_TEXT || COMMA_DATA_KEY</code> = <code>'Policy Key=E0000000010...'</code>.</li>
+<li><code>PART_KEY_TYPE</code> = <code>'E'</code>, <code>PART_KEY_NUM</code> = <code>0000000010</code> — forming an 11-byte partial VSAM key.</li>
+<li><code>EXEC CICS READ FILE('KSDSPOLY') GENERIC GTEQ</code> finds the first KSDS record whose key is ≥ <code>'E0000000010'</code> and still starts with <code>'E'</code>.</li>
+<li>The retrieved record has <code>CA_POLICY_TYPE = 'E'</code>, <code>CA_CUSTOMER_NUM = '0000000010'</code>, <code>CA_POLICY_NUM = '0000000001'</code>.</li>
+<li><code>CA_POLICY_TYPE</code> matches <code>PART_KEY_TYPE</code>, and <code>WS_RESP = DFHRESP(NORMAL)</code> → success branch executes.</li>
+<li><code>WRITE_MSG_KEY_CH</code> = <code>'E' || '0000000010'</code> = <code>'E0000000010'</code>.</li>
+<li>Because <code>WS_FLAG = 'C'</code>, the result is written back into the COMMAREA: <code>COMMA_DATA_TEXT = 'Policy Key='</code>, <code>COMMA_DATA_KEY = 'E0000000010'</code>.</li>
+</ol>
+<p><strong>Output (DFHCOMMAREA on return):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COMMA_DATA_TEXT</code></td>
+<td><code>'Policy Key='</code></td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_KEY</code></td>
+<td><code>'E0000000010'</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="92-example-2--invoked-from-terminal-receive-mode--policy-type-mismatch--record-not-found" tabindex="-1">9.2 Example 2 — Invoked from Terminal (RECEIVE mode) — Policy Type Mismatch / Record Not Found</h3>
+<p><strong>Input (terminal input buffer after transaction ID):</strong></p>
+<p>The operator enters the transaction followed by data. After <code>EXEC CICS RECEIVE</code>, the 5-character <code>WS_RECV_TRANID</code> holds the transaction ID (e.g. <code>'LGVS '</code>) and <code>WS_RECV_DATA</code> holds <code>'M9999999990...'</code> (type <code>'M'</code> = Motor, customer number <code>9999999990</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_RECV_TRANID</code></td>
+<td><code>'LGVS '</code></td>
+</tr>
+<tr>
+<td><code>WS_RECV_DATA</code></td>
+<td><code>'M9999999990'</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program Logic Path:</strong></p>
+<ol>
+<li><code>WS_INVOKEPROG</code> is blank and <code>WS_STARTCODE</code> does not begin with <code>'D'</code> → terminal path; <code>WS_FLAG = 'R'</code>.</li>
+<li><code>WS_COMMAREA</code> = <code>WS_RECV_DATA</code> = <code>'M9999999990...'</code>; <code>WS_RECV_LEN</code> reduced from 80 to 74, then by 6 → effective length 68, but only the first 11 bytes are significant for the key.</li>
+<li><code>PART_KEY_TYPE = 'M'</code>, <code>PART_KEY_NUM = 9999999990</code>.</li>
+<li><code>EXEC CICS READ FILE('KSDSPOLY') GENERIC GTEQ</code> finds no record with a key ≥ <code>'M9999999990'</code> that still has type <code>'M'</code> (e.g., the returned record has type <code>'X'</code>), or <code>WS_RESP ≠ DFHRESP(NORMAL)</code>.</li>
+<li>Mismatch condition triggers the error branch: <code>WRITE_MSG_TEXT = 'Policy Bad='</code>, <code>WRITE_MSG_CUSTNUM = 13</code>, <code>WRITE_MSG_POLNUM = 13</code>.</li>
+<li>Because <code>WS_FLAG = 'R'</code>, <code>EXEC CICS SEND TEXT</code> writes an 80-character message to the terminal.</li>
+</ol>
+<p><strong>Output (terminal screen):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>Policy Bad=1300000000130000000000000000000000000000000000000000000000000000000000000000000</code></pre>
+</div>
+<p><em>(The text <code>'Policy Bad='</code> followed by the numeric value <code>13</code> occupying both the customer-number and policy-number picture fields, padded to 80 characters.)</em></p>
+<p>The <code>13</code> values in <code>WRITE_MSG_CUSTNUM</code> and <code>WRITE_MSG_POLNUM</code> serve as an error sentinel distinguishable from any valid customer or policy number, signalling to the operator (or calling program) that no matching policy record of the requested type was located in the VSAM KSDS file.</p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a></li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-terminal-output-terminal-invoked-path--ws_flag--r">3.1 Terminal Output (Terminal-Invoked Path — WS_FLAG = &#039;R&#039;)</a></li>
+<li class="toc-level-3"><a href="#32-commarea-response-link-invoked-path--ws_flag--c">3.2 COMMAREA Response (LINK-Invoked Path — WS_FLAG = &#039;C&#039;)</a></li>
+<li class="toc-level-3"><a href="#33-vsam-file-read-side-effect--input-to-output-construction">3.3 VSAM File Read (Side Effect — Input to Output Construction)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-runtime-environment">6.1 CICS Runtime Environment</a></li>
+<li class="toc-level-3"><a href="#62-vsam-file">6.2 VSAM File</a></li>
+<li class="toc-level-3"><a href="#63-inter-program-communication">6.3 Inter-Program Communication</a></li>
+<li class="toc-level-3"><a href="#64-terminal-input">6.4 Terminal Input</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-invocation-mode-constraints">7.1 Invocation-Mode Constraints</a></li>
+<li class="toc-level-3"><a href="#72-input-data-constraints">7.2 Input Data Constraints</a></li>
+<li class="toc-level-3"><a href="#73-vsam-file-read-constraints">7.3 VSAM File Read Constraints</a></li>
+<li class="toc-level-3"><a href="#74-post-read-validation-constraints">7.4 Post-Read Validation Constraints</a></li>
+<li class="toc-level-3"><a href="#75-output-constraints">7.5 Output Constraints</a></li>
+<li class="toc-level-3"><a href="#76-sequencing-constraints">7.6 Sequencing Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-cics-response-code-checking-resp--dfhresp">8.1 CICS Response Code Checking (RESP / DFHRESP)</a></li>
+<li class="toc-level-3"><a href="#82-vsam-file-read-validation-combined-policy-type-and-response-check">8.2 VSAM File Read Validation (Combined Policy-Type and Response Check)</a></li>
+<li class="toc-level-3"><a href="#83-error-fallback--default-value-assignment">8.3 Error Fallback / Default Value Assignment</a></li>
+<li class="toc-level-3"><a href="#84-user--caller-notification-of-error-result">8.4 User / Caller Notification of Error Result</a></li>
+<li class="toc-level-3"><a href="#85-invocation-mode-determination-guard-against-incorrect-input-path">8.5 Invocation Mode Determination (Guard Against Incorrect Input Path)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1--invoked-via-exec-cics-link-commarea-mode--successful-record-found">9.1 Example 1 — Invoked via EXEC CICS LINK (COMMAREA mode) — Successful Record Found</a></li>
+<li class="toc-level-3"><a href="#92-example-2--invoked-from-terminal-receive-mode--policy-type-mismatch--record-not-found">9.2 Example 2 — Invoked from Terminal (RECEIVE mode) — Policy Type Mismatch / Record Not Found</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGIPVS01</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

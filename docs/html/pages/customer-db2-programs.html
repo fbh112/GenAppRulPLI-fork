@@ -1,0 +1,1948 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer DB2 Back-End Programs - GenApp Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="customer-db2-programs.html" class="nav-link active" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(4)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGACDB02.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGACDB02
+            </a></li>
+            <li><a href="../sources/program/pli/LGICDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGICDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGACDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGACDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUCDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUCDB01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="customer-db2-back-end-programs" tabindex="-1">Customer DB2 Back-End Programs</h1>
+<p>This page documents the DB2-layer programs in the customer domain: <code>LGACDB01</code> (add customer), <code>LGACDB02</code> (add customer security), <code>LGICDB01</code> (inquire customer), and <code>LGUCDB01</code> (update customer). Together, these programs implement the DB2-facing portion of customer create, read, and update processing in a CICS/PL/I application. They use a shared COMMAREA contract, interact primarily with the DB2 <code>CUSTOMER</code> and <code>CUSTOMER_SECURE</code> tables, propagate business outcome codes through <code>CA_RETURN_CODE</code>, and rely on common error logging through the <code>LGSTSQ</code> utility.</p>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The customer DB2 back-end layer is a set of CICS-linked Enterprise PL/I programs that encapsulate customer persistence operations:</p>
+<ul>
+<li><code>LGACDB01</code> inserts a new row into the <code>CUSTOMER</code> table and coordinates follow-on work.</li>
+<li><code>LGACDB02</code> inserts a related row into <code>CUSTOMER_SECURE</code>.</li>
+<li><code>LGICDB01</code> retrieves a single customer profile from <code>CUSTOMER</code>.</li>
+<li><code>LGUCDB01</code> updates an existing customer row in <code>CUSTOMER</code>.</li>
+</ul>
+<p>At an application level, these programs share several architectural characteristics:</p>
+<ul>
+<li>They are invoked with a pointer to a caller-supplied <code>COMM_AREA</code>.</li>
+<li>They use CICS EIB fields such as <code>EIBCALEN</code>, <code>EIBTRNID</code>, <code>EIBTRMID</code>, and <code>EIBTASKN</code>.</li>
+<li>They validate COMMAREA presence before processing.</li>
+<li>They use DB2 <code>SQLCODE</code> as the primary technical status indicator after SQL execution.</li>
+<li>They map technical outcomes into business return codes in <code>CA_RETURN_CODE</code>.</li>
+<li>They centralize diagnostics through <code>WRITE_ERROR_MESSAGE</code>, which links to <code>LGSTSQ</code>.</li>
+<li>They participate in a hybrid persistence model in which DB2 is authoritative but some flows also update VSAM peers (<code>LGACVS01</code>, <code>LGUCVS01</code>).</li>
+</ul>
+<p>From a business transaction perspective, the four programs cover the core customer lifecycle supported by the DB2 back end:</p>
+<ul>
+<li><strong>Create customer</strong>: <code>LGACDB01</code></li>
+<li><strong>Create customer security record</strong>: <code>LGACDB02</code></li>
+<li><strong>Read customer</strong>: <code>LGICDB01</code></li>
+<li><strong>Update customer</strong>: <code>LGUCDB01</code></li>
+</ul>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The customer DB2 back-end layer sits behind higher-level customer transaction logic and coordinates among CICS, DB2, shared COMMAREA structures, logging, and selected VSAM companion programs. The architecture is intentionally modular: each DB2 program owns a focused operation and exposes outcome through the same COMMAREA pattern.</p>
+<div class="mermaid">
+graph TD
+    A[Caller / Customer Orchestrator] --> B[Shared COMMAREA]
+    B --> C[LGACDB01 Add Customer]
+    B --> D[LGICDB01 Inquiry Customer]
+    B --> E[LGUCDB01 Update Customer]
+    C --> F[DB2 CUSTOMER]
+    C --> G[LGACDB02 Add Customer Security]
+    G --> H[DB2 CUSTOMER_SECURE]
+    C --> I[LGACVS01 VSAM Add Mirror]
+    E --> J[LGUCVS01 VSAM Update Mirror]
+    D --> F
+    E --> F
+    C --> K[LGSTSQ Error Logging]
+    D --> K
+    E --> K
+    G --> K
+    C --> L[CICS Named Counter Service]
+</div>
+<p>This architecture shows that <code>LGACDB01</code> is the most orchestration-heavy DB2 program. It not only inserts into <code>CUSTOMER</code>, but also:</p>
+<ul>
+<li>obtains a customer number from the CICS Named Counter Service when available,</li>
+<li>links to <code>LGACVS01</code> to mirror the add into VSAM,</li>
+<li>links to <code>LGACDB02</code> to create the security row.</li>
+</ul>
+<p>By contrast:</p>
+<ul>
+<li><code>LGICDB01</code> is a read-only DB2 access module,</li>
+<li><code>LGUCDB01</code> updates DB2 and then mirrors the update to VSAM,</li>
+<li><code>LGACDB02</code> is a focused security-record insert module.</li>
+</ul>
+<h2 id="3-program-inventory-and-responsibilities" tabindex="-1">3. Program Inventory and Responsibilities</h2>
+<h3 id="31-lgacdb01--insert-new-customer" tabindex="-1">3.1 <code>LGACDB01</code> — Insert New Customer</h3>
+<p><code>LGACDB01</code> implements the end-to-end add-customer DB2 transaction. It accepts customer biographical and contact details through the COMMAREA, validates input length, derives a new customer number, inserts the customer row into DB2, returns the assigned customer number to the caller, mirrors the add to VSAM, and provisions the initial security record by linking to <code>LGACDB02</code>.</p>
+<p>Primary responsibilities:</p>
+<ul>
+<li>validate COMMAREA presence and minimum length,</li>
+<li>obtain the next customer number from CICS Named Counter Service,</li>
+<li>fall back to DB2 identity generation when the counter is unavailable,</li>
+<li>insert the <code>CUSTOMER</code> row,</li>
+<li>return <code>CA_CUSTOMER_NUM</code>,</li>
+<li>link to <code>LGACVS01</code>,</li>
+<li>build <code>CDB2AREA</code> and link to <code>LGACDB02</code>,</li>
+<li>log DB2 failures through <code>LGSTSQ</code>.</li>
+</ul>
+<h3 id="32-lgacdb02--insert-customer-security-record" tabindex="-1">3.2 <code>LGACDB02</code> — Insert Customer Security Record</h3>
+<p><code>LGACDB02</code> inserts a row into <code>CUSTOMER_SECURE</code> for a newly created customer. It is designed to receive a request identifier of <code>02ACUS</code> and to persist:</p>
+<ul>
+<li>customer number,</li>
+<li>password,</li>
+<li>state indicator,</li>
+<li>password-change count.</li>
+</ul>
+<p>It is normally driven by <code>LGACDB01</code>, though its interface is generic enough to function as a standalone linked module for that request type.</p>
+<h3 id="33-lgicdb01--retrieve-customer-profile" tabindex="-1">3.3 <code>LGICDB01</code> — Retrieve Customer Profile</h3>
+<p><code>LGICDB01</code> performs a singleton DB2 <code>SELECT</code> against the <code>CUSTOMER</code> table using <code>CA_CUSTOMER_NUM</code> as the lookup key. On success, it populates the customer details directly back into the COMMAREA. It distinguishes among:</p>
+<ul>
+<li>success,</li>
+<li>not found / resource conflict (<code>SQLCODE 100</code> or <code>-913</code>),</li>
+<li>unexpected DB2 failure,</li>
+<li>invalid COMMAREA length.</li>
+</ul>
+<h3 id="34-lgucdb01--update-customer-record" tabindex="-1">3.4 <code>LGUCDB01</code> — Update Customer Record</h3>
+<p><code>LGUCDB01</code> updates an existing customer in the <code>CUSTOMER</code> table using <code>CA_CUSTOMER_NUM</code> as the row selector and replacing all nine maintained customer attributes in one <code>UPDATE</code> statement. After the DB2 update path completes, it links to <code>LGUCVS01</code> to propagate the same update to VSAM.</p>
+<h2 id="4-shared-interface-and-control-model" tabindex="-1">4. Shared Interface and Control Model</h2>
+<h3 id="41-common-invocation-pattern" tabindex="-1">4.1 Common Invocation Pattern</h3>
+<p>All four programs are CICS-linked PL/I modules with a pointer parameter:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">LGACDB01: Proc(COMM_AREA_PTR) Options(Main);
+LGACDB02: Proc(COMM_AREA_PTR) Options(Main);
+LGICDB01: Proc(COMM_AREA_PTR) Options(Main);
+LGUCDB01: Proc(COMM_AREA_PTR) Options(Main);</code></pre>
+</div>
+<p>They all operate on a caller-owned COMMAREA overlaid by a shared structure defined by <code>LGCMAREA.inc</code>.</p>
+<h3 id="42-common-runtime-inputs" tabindex="-1">4.2 Common Runtime Inputs</h3>
+<p>The following CICS runtime fields are used across the documented programs:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td>Validates COMMAREA presence and, where implemented, minimum length</td>
+</tr>
+<tr>
+<td><code>EIBTRNID</code></td>
+<td>Captured into working storage for diagnostics</td>
+</tr>
+<tr>
+<td><code>EIBTRMID</code></td>
+<td>Captured into working storage for diagnostics</td>
+</tr>
+<tr>
+<td><code>EIBTASKN</code></td>
+<td>Captured into working storage for diagnostics</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-common-error-logging-pattern" tabindex="-1">4.3 Common Error Logging Pattern</h3>
+<p>All programs implement or use a <code>WRITE_ERROR_MESSAGE</code> procedure pattern that:</p>
+<ol>
+<li>captures <code>SQLCODE</code>,</li>
+<li>obtains date/time with <code>EXEC CICS ASKTIME</code> and <code>FORMATTIME</code>,</li>
+<li>builds an <code>ERROR_MSG</code> structure,</li>
+<li>links to <code>LGSTSQ</code> to write the main error record,</li>
+<li>optionally writes up to 90 bytes of raw COMMAREA content via <code>CA_ERROR_MSG</code>.</li>
+</ol>
+<p>This gives the customer DB2 layer a consistent operational support model.</p>
+<h2 id="5-end-to-end-data-flow" tabindex="-1">5. End-to-End Data Flow</h2>
+<p>The following diagram shows how the customer create, inquiry, and update flows move through the DB2 back-end layer.</p>
+<div class="mermaid">
+graph TD
+    A[Caller with COMM_AREA] --> B{Requested operation}
+    B -->|Add customer| C[LGACDB01]
+    B -->|Inquiry customer| D[LGICDB01]
+    B -->|Update customer| E[LGUCDB01]
+
+    C --> F[Get customer number]
+    F --> G[Insert into CUSTOMER]
+    G --> H[Return CA_CUSTOMER_NUM]
+    H --> I[LINK LGACVS01]
+    I --> J[LINK LGACDB02]
+    J --> K[Insert into CUSTOMER_SECURE]
+
+    D --> L[SELECT from CUSTOMER]
+    L --> M[Populate customer fields in COMMAREA]
+
+    E --> N[UPDATE CUSTOMER]
+    N --> O[LINK LGUCVS01]
+
+    C --> P[LGSTSQ on error]
+    D --> P
+    E --> P
+    J --> P
+</div>
+<p>This flow highlights two important design patterns:</p>
+<ul>
+<li><strong>Create is multi-step and cross-resource</strong>: DB2 customer row first, then VSAM mirror, then DB2 security row.</li>
+<li><strong>Read and update are narrower</strong>: inquiry is DB2-only, while update is DB2 followed by a VSAM mirror.</li>
+</ul>
+<h2 id="6-database-entities-and-relationships" tabindex="-1">6. Database Entities and Relationships</h2>
+<p>The customer DB2 back-end programs primarily operate on two tables.</p>
+<div class="mermaid">
+graph TD
+    A[CUSTOMER] --> B[CUSTOMER_SECURE]
+    B --> C[Security state]
+    B --> D[Password hash]
+    B --> E[Password change count]
+    A --> F[Identity / customer number]
+    A --> G[Personal data]
+    A --> H[Address data]
+    A --> I[Contact data]
+</div>
+<p>At a logical level:</p>
+<ul>
+<li><code>CUSTOMER</code> stores customer identity and profile data.</li>
+<li><code>CUSTOMER_SECURE</code> stores security credentials and status for the same customer number.</li>
+<li><code>LGACDB01</code> and <code>LGICDB01</code> interact with <code>CUSTOMER</code>.</li>
+<li><code>LGUCDB01</code> updates <code>CUSTOMER</code>.</li>
+<li><code>LGACDB02</code> inserts into <code>CUSTOMER_SECURE</code>.</li>
+</ul>
+<p>A more data-centric view is shown below.</p>
+<div class="mermaid">
+graph TD
+    A[CUSTOMER.CUSTOMERNUMBER] --> B[CUSTOMER_SECURE.customerNumber]
+    A --> C[FIRSTNAME]
+    A --> D[LASTNAME]
+    A --> E[DATEOFBIRTH]
+    A --> F[HOUSENAME]
+    A --> G[HOUSENUMBER]
+    A --> H[POSTCODE]
+    A --> I[PHONEMOBILE]
+    A --> J[PHONEHOME]
+    A --> K[EMAILADDRESS]
+    B --> L[customerPass]
+    B --> M[state_indicator]
+    B --> N[pass_changes]
+</div>
+<h2 id="7-db2-tables-columns-and-program-usage" tabindex="-1">7. DB2 Tables, Columns, and Program Usage</h2>
+<h3 id="71-customer-table" tabindex="-1">7.1 <code>CUSTOMER</code> Table</h3>
+<p>The <code>CUSTOMER</code> table is the main persistence target for customer profile data.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Used by</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMERNUMBER</code></td>
+<td><code>LGACDB01</code>, <code>LGICDB01</code>, <code>LGUCDB01</code></td>
+<td>Primary customer identifier</td>
+</tr>
+<tr>
+<td><code>FIRSTNAME</code></td>
+<td>Add, inquire, update</td>
+<td>First name</td>
+</tr>
+<tr>
+<td><code>LASTNAME</code></td>
+<td>Add, inquire, update</td>
+<td>Last name</td>
+</tr>
+<tr>
+<td><code>DATEOFBIRTH</code></td>
+<td>Add, inquire, update</td>
+<td>Date of birth</td>
+</tr>
+<tr>
+<td><code>HOUSENAME</code></td>
+<td>Add, inquire, update</td>
+<td>House/property name</td>
+</tr>
+<tr>
+<td><code>HOUSENUMBER</code></td>
+<td>Add, inquire, update</td>
+<td>House number</td>
+</tr>
+<tr>
+<td><code>POSTCODE</code></td>
+<td>Add, inquire, update</td>
+<td>Postal code</td>
+</tr>
+<tr>
+<td><code>PHONEMOBILE</code></td>
+<td>Add, inquire, update</td>
+<td>Mobile phone</td>
+</tr>
+<tr>
+<td><code>PHONEHOME</code></td>
+<td>Add, inquire, update</td>
+<td>Home phone</td>
+</tr>
+<tr>
+<td><code>EMAILADDRESS</code></td>
+<td>Add, inquire, update</td>
+<td>Email address</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-customer_secure-table" tabindex="-1">7.2 <code>CUSTOMER_SECURE</code> Table</h3>
+<p>The <code>CUSTOMER_SECURE</code> table is used for customer authentication/security metadata.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Used by</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customerNumber</code></td>
+<td><code>LGACDB02</code></td>
+<td>Foreign-key-like reference to customer</td>
+</tr>
+<tr>
+<td><code>customerPass</code></td>
+<td><code>LGACDB02</code></td>
+<td>Password hash / initial password value</td>
+</tr>
+<tr>
+<td><code>state_indicator</code></td>
+<td><code>LGACDB02</code></td>
+<td>Security/account state</td>
+</tr>
+<tr>
+<td><code>pass_changes</code></td>
+<td><code>LGACDB02</code></td>
+<td>Password change count</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-program-by-program-technical-detail" tabindex="-1">8. Program-by-Program Technical Detail</h2>
+<h3 id="81-lgacdb01--add-customer-db2-back-end" tabindex="-1">8.1 <code>LGACDB01</code> — Add Customer DB2 Back End</h3>
+<h4 id="811-business-function" tabindex="-1">8.1.1 Business Function</h4>
+<p><code>LGACDB01</code> adds a new customer, assigns a system-generated customer number, persists the record in DB2, mirrors it to VSAM, and initializes the corresponding security row.</p>
+<h4 id="812-key-inputs" tabindex="-1">8.1.2 Key Inputs</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code></td>
+<td>Request identifier</td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>CHAR(10)</code></td>
+<td>DB2 host variable for <code>FIRSTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2 host variable for <code>LASTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>CHAR(10)</code></td>
+<td>DB2 host variable for <code>DATEOFBIRTH</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2 host variable for <code>HOUSENAME</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>CHAR(4)</code></td>
+<td>DB2 host variable for <code>HOUSENUMBER</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>CHAR(8)</code></td>
+<td>DB2 host variable for <code>POSTCODE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2 host variable for <code>PHONEMOBILE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2 host variable for <code>PHONEHOME</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>CHAR(100)</code></td>
+<td>DB2 host variable for <code>EMAILADDRESS</code></td>
+</tr>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td>CICS</td>
+<td>Presence and minimum-length validation</td>
+</tr>
+<tr>
+<td><code>GENACUSTNUM</code> / <code>GENA</code></td>
+<td>CICS Named Counter</td>
+<td>Preferred customer-number source</td>
+</tr>
+<tr>
+<td><code>IDENTITY_VAL_LOCAL()</code></td>
+<td>DB2</td>
+<td>Fallback generated customer number source</td>
+</tr>
+</tbody>
+</table>
+<h4 id="813-main-sql-targets" tabindex="-1">8.1.3 Main SQL Targets</h4>
+<ul>
+<li><code>INSERT INTO CUSTOMER</code></li>
+<li><code>SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code> when named counter fallback is used</li>
+</ul>
+<h4 id="814-key-host-variables-and-working-variables" tabindex="-1">8.1.4 Key Host Variables and Working Variables</h4>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+<td>Numeric customer number used in DB2 insert and returned to caller</td>
+</tr>
+<tr>
+<td><code>LASTCUSTNUM</code></td>
+<td>Value returned by CICS named counter</td>
+</tr>
+<tr>
+<td><code>LGAC_NCS</code></td>
+<td>Flag indicating whether named counter service is available</td>
+</tr>
+<tr>
+<td><code>WS_RESP</code></td>
+<td>CICS response code from <code>GET COUNTER</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td>Returned customer number in COMMAREA</td>
+</tr>
+</tbody>
+</table>
+<h4 id="815-return-codes" tabindex="-1">8.1.5 Return Codes</h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>COMMAREA shorter than 90 bytes</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>DB2 insert failure</td>
+</tr>
+</tbody>
+</table>
+<h4 id="816-processing-sequence" tabindex="-1">8.1.6 Processing Sequence</h4>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller
+    participant LGACDB01
+    participant NCS as CICS Named Counter
+    participant DB2 as DB2 CUSTOMER
+    participant VSAM as LGACVS01
+    participant SEC as LGACDB02
+
+    Caller->>LGACDB01: LINK with COMM_AREA
+    LGACDB01->>LGACDB01: Validate EIBCALEN
+    LGACDB01->>NCS: GET COUNTER GENACUSTNUM
+    NCS-->>LGACDB01: Customer number or failure
+    LGACDB01->>DB2: INSERT CUSTOMER
+    DB2-->>LGACDB01: SQLCODE
+    LGACDB01->>VSAM: LINK LGACVS01
+    LGACDB01->>SEC: LINK LGACDB02
+    SEC-->>LGACDB01: Security insert result
+    LGACDB01-->>Caller: Return code and customer number
+</div>
+<p>This sequence is important because customer creation is not just a single insert. It is a coordinated transaction path spanning customer ID generation, DB2 insert, VSAM mirror, and security provisioning.</p>
+<h4 id="817-representative-code-example" tabindex="-1">8.1.7 Representative Code Example</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    INSERT INTO CUSTOMER
+      (CUSTOMERNUMBER, FIRSTNAME, LASTNAME, DATEOFBIRTH,
+       HOUSENAME, HOUSENUMBER, POSTCODE, PHONEMOBILE,
+       PHONEHOME, EMAILADDRESS)
+    VALUES
+      (:DB2_CUSTOMERNUM_INT, :CA_FIRST_NAME, :CA_LAST_NAME, :CA_DOB,
+       :CA_HOUSE_NAME, :CA_HOUSE_NUM, :CA_POSTCODE, :CA_PHONE_MOBILE,
+       :CA_PHONE_HOME, :CA_EMAIL_ADDRESS);</code></pre>
+</div>
+<p>Fallback path:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    INSERT INTO CUSTOMER
+      (CUSTOMERNUMBER, FIRSTNAME, LASTNAME, DATEOFBIRTH,
+       HOUSENAME, HOUSENUMBER, POSTCODE, PHONEMOBILE,
+       PHONEHOME, EMAILADDRESS)
+    VALUES
+      (DEFAULT, :CA_FIRST_NAME, :CA_LAST_NAME, :CA_DOB,
+       :CA_HOUSE_NAME, :CA_HOUSE_NUM, :CA_POSTCODE, :CA_PHONE_MOBILE,
+       :CA_PHONE_HOME, :CA_EMAIL_ADDRESS);</code></pre>
+</div>
+<h4 id="818-notable-design-detail" tabindex="-1">8.1.8 Notable Design Detail</h4>
+<p>If the CICS Named Counter Service is unavailable, the program does not fail immediately. Instead, it allows DB2 to generate the customer number through the identity column and then recovers that value with <code>IDENTITY_VAL_LOCAL()</code>. This makes the add-customer path resilient to named-counter outages.</p>
+<hr>
+<h3 id="82-lgacdb02--add-customer-security-db2-back-end" tabindex="-1">8.2 <code>LGACDB02</code> — Add Customer Security DB2 Back End</h3>
+<h4 id="821-business-function" tabindex="-1">8.2.1 Business Function</h4>
+<p><code>LGACDB02</code> inserts the initial security profile for a customer into <code>CUSTOMER_SECURE</code>.</p>
+<h4 id="822-key-inputs" tabindex="-1">8.2.2 Key Inputs</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code></td>
+<td>Must be <code>02ACUS</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>Customer number to secure</td>
+</tr>
+<tr>
+<td><code>CA_CUSTSECR_PASS</code></td>
+<td><code>CHAR(32)</code></td>
+<td>Password hash/value</td>
+</tr>
+<tr>
+<td><code>CA_CUSTSECR_COUNT</code></td>
+<td><code>CHAR(4)</code></td>
+<td>Password-change count</td>
+</tr>
+<tr>
+<td><code>CA_CUSTSECR_STATE</code></td>
+<td><code>CHAR(1)</code></td>
+<td>Security/account state</td>
+</tr>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td>CICS</td>
+<td>COMMAREA presence validation</td>
+</tr>
+<tr>
+<td><code>SQLCODE</code></td>
+<td>DB2</td>
+<td>Insert result evaluation</td>
+</tr>
+</tbody>
+</table>
+<h4 id="823-main-sql-target" tabindex="-1">8.2.3 Main SQL Target</h4>
+<ul>
+<li><code>INSERT INTO CUSTOMER_SECURE</code></li>
+</ul>
+<h4 id="824-key-host-variables" tabindex="-1">8.2.4 Key Host Variables</h4>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+<td>Integer form of <code>CA_CUSTOMER_NUM</code></td>
+</tr>
+<tr>
+<td><code>DB2_CUSTOMERCNT_INT</code></td>
+<td>Integer form of <code>CA_CUSTSECR_COUNT</code></td>
+</tr>
+<tr>
+<td><code>EM_SQLREQ</code></td>
+<td>Error label set to <code>INSERT SECURITY</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="825-return-codes" tabindex="-1">8.2.5 Return Codes</h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>DB2 insert failure</td>
+</tr>
+<tr>
+<td><code>99</code></td>
+<td>Unrecognized request ID</td>
+</tr>
+</tbody>
+</table>
+<h4 id="826-processing-sequence" tabindex="-1">8.2.6 Processing Sequence</h4>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller
+    participant LGACDB02
+    participant DB2 as DB2 CUSTOMER_SECURE
+    participant LOG as LGSTSQ
+
+    Caller->>LGACDB02: LINK with COMMAREA
+    LGACDB02->>LGACDB02: Validate EIBCALEN and request ID
+    LGACDB02->>DB2: INSERT CUSTOMER_SECURE
+    DB2-->>LGACDB02: SQLCODE
+    alt SQL error
+        LGACDB02->>LOG: LINK ERROR_MSG / CA_ERROR_MSG
+    end
+    LGACDB02-->>Caller: Return CA_RETURN_CODE
+</div>
+<h4 id="827-representative-code-example" tabindex="-1">8.2.7 Representative Code Example</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    INSERT INTO CUSTOMER_SECURE
+      (customerNumber, customerPass, state_indicator, pass_changes)
+    VALUES
+      (:DB2_CUSTOMERNUM_INT, :CA_CUSTSECR_PASS,
+       :CA_CUSTSECR_STATE, :DB2_CUSTOMERCNT_INT);</code></pre>
+</div>
+<h4 id="828-notable-design-detail" tabindex="-1">8.2.8 Notable Design Detail</h4>
+<p><code>LGACDB02</code> is tightly bound to request ID <code>02ACUS</code>. Any other <code>CA_REQUEST_ID</code> results in return code <code>99</code> and an immediate return without DB2 access.</p>
+<hr>
+<h3 id="83-lgicdb01--customer-inquiry-db2-back-end" tabindex="-1">8.3 <code>LGICDB01</code> — Customer Inquiry DB2 Back End</h3>
+<h4 id="831-business-function" tabindex="-1">8.3.1 Business Function</h4>
+<p><code>LGICDB01</code> looks up a customer profile by customer number and maps DB2 column values directly back into the COMMAREA.</p>
+<h4 id="832-key-inputs" tabindex="-1">8.3.2 Key Inputs</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>Lookup key</td>
+</tr>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td>CICS</td>
+<td>Presence and minimum-length validation</td>
+</tr>
+<tr>
+<td><code>SQLCODE</code></td>
+<td>DB2</td>
+<td>Drives return-code mapping</td>
+</tr>
+</tbody>
+</table>
+<h4 id="833-main-sql-target" tabindex="-1">8.3.3 Main SQL Target</h4>
+<ul>
+<li>Singleton <code>SELECT</code> from <code>CUSTOMER</code></li>
+</ul>
+<h4 id="834-returned-customer-fields" tabindex="-1">8.3.4 Returned Customer Fields</h4>
+<table>
+<thead>
+<tr>
+<th>COMMAREA Field</th>
+<th>DB2 Column</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>FIRSTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>LASTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>DATEOFBIRTH</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>HOUSENAME</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>HOUSENUMBER</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>POSTCODE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>PHONEMOBILE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>PHONEHOME</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>EMAILADDRESS</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="835-return-codes" tabindex="-1">8.3.5 Return Codes</h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Customer retrieved successfully</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td>COMMAREA shorter than 90 bytes</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>Customer not found or DB2 deadlock/timeout (<code>100</code> or <code>-913</code>)</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>Unexpected DB2 error</td>
+</tr>
+</tbody>
+</table>
+<h4 id="836-processing-sequence" tabindex="-1">8.3.6 Processing Sequence</h4>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller
+    participant LGICDB01
+    participant DB2 as DB2 CUSTOMER
+    participant LOG as LGSTSQ
+
+    Caller->>LGICDB01: LINK with customer number
+    LGICDB01->>LGICDB01: Validate EIBCALEN
+    LGICDB01->>DB2: SELECT customer row
+    DB2-->>LGICDB01: SQLCODE and columns
+    alt SQLCODE 0
+        LGICDB01->>LGICDB01: Populate COMMAREA fields
+    else SQLCODE 100 or -913
+        LGICDB01->>LGICDB01: Set CA_RETURN_CODE = 01
+    else Other SQLCODE
+        LGICDB01->>LOG: LINK ERROR_MSG / CA_ERROR_MSG
+    end
+    LGICDB01-->>Caller: Return populated COMMAREA
+</div>
+<h4 id="837-representative-code-example" tabindex="-1">8.3.7 Representative Code Example</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    SELECT FIRSTNAME, LASTNAME, DATEOFBIRTH, HOUSENAME,
+           HOUSENUMBER, POSTCODE, PHONEMOBILE, PHONEHOME,
+           EMAILADDRESS
+      INTO :CA_FIRST_NAME, :CA_LAST_NAME, :CA_DOB, :CA_HOUSE_NAME,
+           :CA_HOUSE_NUM, :CA_POSTCODE, :CA_PHONE_MOBILE,
+           :CA_PHONE_HOME, :CA_EMAIL_ADDRESS
+      FROM CUSTOMER
+     WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT;</code></pre>
+</div>
+<h4 id="838-notable-design-detail" tabindex="-1">8.3.8 Notable Design Detail</h4>
+<p><code>LGICDB01</code> maps both <code>SQLCODE 100</code> and <code>SQLCODE -913</code> to <code>CA_RETURN_CODE = '01'</code>. That means callers cannot distinguish “customer not found” from “resource unavailable/deadlock” using only the business return code.</p>
+<hr>
+<h3 id="84-lgucdb01--update-customer-db2-back-end" tabindex="-1">8.4 <code>LGUCDB01</code> — Update Customer DB2 Back End</h3>
+<h4 id="841-business-function" tabindex="-1">8.4.1 Business Function</h4>
+<p><code>LGUCDB01</code> updates a customer profile in DB2 and then propagates the same change to VSAM through <code>LGUCVS01</code>.</p>
+<h4 id="842-key-inputs" tabindex="-1">8.4.2 Key Inputs</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>Row selector</td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>CHAR(10)</code></td>
+<td>Updated <code>FIRSTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Updated <code>LASTNAME</code></td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>CHAR(10)</code></td>
+<td>Updated <code>DATEOFBIRTH</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Updated <code>HOUSENAME</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>CHAR(4)</code></td>
+<td>Updated <code>HOUSENUMBER</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>CHAR(8)</code></td>
+<td>Updated <code>POSTCODE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Updated <code>PHONEMOBILE</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Updated <code>PHONEHOME</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>CHAR(100)</code></td>
+<td>Updated <code>EMAILADDRESS</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="843-main-sql-target" tabindex="-1">8.4.3 Main SQL Target</h4>
+<ul>
+<li><code>UPDATE CUSTOMER ... WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT</code></li>
+</ul>
+<h4 id="844-key-host-variables" tabindex="-1">8.4.4 Key Host Variables</h4>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+<td>Converted numeric customer ID</td>
+</tr>
+<tr>
+<td><code>EM_SQLREQ</code></td>
+<td>Error label set to <code>UPDATE CUST</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="845-return-codes" tabindex="-1">8.4.5 Return Codes</h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>No matching customer row (<code>SQLCODE 100</code>)</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td>Unexpected DB2 error</td>
+</tr>
+</tbody>
+</table>
+<h4 id="846-processing-sequence" tabindex="-1">8.4.6 Processing Sequence</h4>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller
+    participant LGUCDB01
+    participant DB2 as DB2 CUSTOMER
+    participant VSAM as LGUCVS01
+    participant LOG as LGSTSQ
+
+    Caller->>LGUCDB01: LINK with updated customer data
+    LGUCDB01->>LGUCDB01: Validate COMMAREA presence
+    LGUCDB01->>DB2: UPDATE CUSTOMER
+    DB2-->>LGUCDB01: SQLCODE
+    alt Unexpected DB2 error
+        LGUCDB01->>LOG: LINK ERROR_MSG / CA_ERROR_MSG
+    end
+    LGUCDB01->>VSAM: LINK LGUCVS01
+    LGUCDB01-->>Caller: Return CA_RETURN_CODE
+</div>
+<h4 id="847-representative-code-example" tabindex="-1">8.4.7 Representative Code Example</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    UPDATE CUSTOMER
+       SET FIRSTNAME    = :CA_FIRST_NAME,
+           LASTNAME     = :CA_LAST_NAME,
+           DATEOFBIRTH  = :CA_DOB,
+           HOUSENAME    = :CA_HOUSE_NAME,
+           HOUSENUMBER  = :CA_HOUSE_NUM,
+           POSTCODE     = :CA_POSTCODE,
+           PHONEMOBILE  = :CA_PHONE_MOBILE,
+           PHONEHOME    = :CA_PHONE_HOME,
+           EMAILADDRESS = :CA_EMAIL_ADDRESS
+     WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT;</code></pre>
+</div>
+<h4 id="848-notable-design-detail" tabindex="-1">8.4.8 Notable Design Detail</h4>
+<p>A significant behavioral detail is that <code>LGUCDB01</code> links to <code>LGUCVS01</code> after returning from the DB2 update procedure without a conditional guard. As documented, the VSAM mirror call still occurs even when <code>CA_RETURN_CODE</code> has been set to <code>'01'</code> or <code>'90'</code>.</p>
+<h2 id="9-host-variables-and-commarea-mapping" tabindex="-1">9. Host Variables and COMMAREA Mapping</h2>
+<h3 id="91-common-customer-profile-fields" tabindex="-1">9.1 Common Customer Profile Fields</h3>
+<p>The same logical customer fields appear repeatedly across add, inquire, and update flows.</p>
+<table>
+<thead>
+<tr>
+<th>COMMAREA Field</th>
+<th>Length / Type</th>
+<th>DB2 Column</th>
+<th>Used In</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td><code>CUSTOMERNUMBER</code> / <code>customerNumber</code></td>
+<td>Add return, inquiry input, update input, security input</td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>CHAR(10)</code></td>
+<td><code>FIRSTNAME</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td><code>LASTNAME</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>CHAR(10)</code></td>
+<td><code>DATEOFBIRTH</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td><code>HOUSENAME</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>CHAR(4)</code></td>
+<td><code>HOUSENUMBER</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>CHAR(8)</code></td>
+<td><code>POSTCODE</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>CHAR(20)</code></td>
+<td><code>PHONEMOBILE</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>CHAR(20)</code></td>
+<td><code>PHONEHOME</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>CHAR(100)</code></td>
+<td><code>EMAILADDRESS</code></td>
+<td>Add, inquiry, update</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-security-fields" tabindex="-1">9.2 Security Fields</h3>
+<table>
+<thead>
+<tr>
+<th>COMMAREA Field</th>
+<th>Length / Type</th>
+<th>DB2 Column</th>
+<th>Used In</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_CUSTSECR_PASS</code></td>
+<td><code>CHAR(32)</code></td>
+<td><code>customerPass</code></td>
+<td>Security add</td>
+</tr>
+<tr>
+<td><code>CA_CUSTSECR_STATE</code></td>
+<td><code>CHAR(1)</code></td>
+<td><code>state_indicator</code></td>
+<td>Security add</td>
+</tr>
+<tr>
+<td><code>CA_CUSTSECR_COUNT</code></td>
+<td><code>CHAR(4)</code></td>
+<td><code>pass_changes</code></td>
+<td>Security add</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-numeric-conversion-fields" tabindex="-1">9.3 Numeric Conversion Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Source Field</th>
+<th>Host Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td>generated value</td>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+</tr>
+<tr>
+<td><code>LGACDB02</code></td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+</tr>
+<tr>
+<td><code>LGACDB02</code></td>
+<td><code>CA_CUSTSECR_COUNT</code></td>
+<td><code>DB2_CUSTOMERCNT_INT</code></td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>DB2_CUSTOMERNUMBER_INT</code></td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>DB2_CUSTOMERNUM_INT</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-return-code-contract-across-programs" tabindex="-1">10. Return Code Contract Across Programs</h2>
+<h3 id="101-unified-view" tabindex="-1">10.1 Unified View</h3>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th><code>00</code></th>
+<th><code>01</code></th>
+<th><code>90</code></th>
+<th><code>98</code></th>
+<th><code>99</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td>Success</td>
+<td>—</td>
+<td>DB2 insert failure</td>
+<td>COMMAREA too short</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>LGACDB02</code></td>
+<td>Success</td>
+<td>—</td>
+<td>—</td>
+<td>DB2 insert failure</td>
+<td>Unrecognized request</td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td>Success</td>
+<td>Not found / <code>-913</code></td>
+<td>Unexpected DB2 error</td>
+<td>COMMAREA too short</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td>Success</td>
+<td>Customer not found</td>
+<td>Unexpected DB2 error</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-interpretation-notes" tabindex="-1">10.2 Interpretation Notes</h3>
+<ul>
+<li><code>98</code> does <strong>not</strong> mean the same thing in every module:
+<ul>
+<li>in <code>LGACDB01</code> and <code>LGICDB01</code>, it means COMMAREA length failure;</li>
+<li>in <code>LGACDB02</code>, it means DB2 insert failure.</li>
+</ul>
+</li>
+<li><code>01</code> also differs by module context:
+<ul>
+<li>in <code>LGICDB01</code>, it means not found <strong>or</strong> deadlock/timeout;</li>
+<li>in <code>LGUCDB01</code>, it means update target row not found.</li>
+</ul>
+</li>
+<li><code>99</code> appears only in <code>LGACDB02</code> for invalid request dispatch.</li>
+</ul>
+<h2 id="11-error-handling-and-diagnostics" tabindex="-1">11. Error Handling and Diagnostics</h2>
+<h3 id="111-common-error-categories" tabindex="-1">11.1 Common Error Categories</h3>
+<p>Across the customer DB2 back-end programs, the major error categories are:</p>
+<ul>
+<li>missing COMMAREA (<code>EIBCALEN = 0</code>) → <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code></li>
+<li>insufficient COMMAREA length → business return code, immediate return</li>
+<li>DB2 SQL error → return code plus <code>LGSTSQ</code> logging</li>
+<li>invalid request ID (security add only) → return code <code>99</code></li>
+</ul>
+<h3 id="112-error-logging-flow" tabindex="-1">11.2 Error Logging Flow</h3>
+<div class="mermaid">
+graph TD
+    A[Program detects error] --> B[Set CA_RETURN_CODE if applicable]
+    B --> C[Capture SQLCODE into EM_SQLRC]
+    C --> D[EXEC CICS ASKTIME]
+    D --> E[EXEC CICS FORMATTIME]
+    E --> F[Populate ERROR_MSG]
+    F --> G[LINK LGSTSQ]
+    G --> H{EIBCALEN > 0}
+    H -->|Yes| I[Copy up to 90 bytes of COMM_AREA_RAW]
+    I --> J[LINK LGSTSQ with CA_ERROR_MSG]
+    H -->|No| K[Return or ABEND]
+    J --> K
+</div>
+<p>This common diagnostic flow matters operationally because it gives support staff both:</p>
+<ul>
+<li>a structured event record with timestamp, program name, SQL request label, and SQLCODE,</li>
+<li>a raw input snapshot to help reconstruct what request failed.</li>
+</ul>
+<h3 id="113-abend-behavior" tabindex="-1">11.3 ABEND Behavior</h3>
+<p>The add, security-add, inquiry, and update programs all share the same fatal entry guard:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS ABEND ABCODE(&#039;LGCA&#039;) NODUMP</code></pre>
+</div>
+<p>This occurs when no COMMAREA is passed (<code>EIBCALEN = 0</code>). It is a hard failure path rather than a business return.</p>
+<h3 id="114-sql-labels-used-in-diagnostics" tabindex="-1">11.4 SQL Labels Used in Diagnostics</h3>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Diagnostic SQL Label</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td><code>INSERT CUSTOMER</code></td>
+</tr>
+<tr>
+<td><code>LGACDB02</code></td>
+<td><code>INSERT SECURITY</code></td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td><code>SELECT CUSTOMER</code></td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td><code>UPDATE CUST</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-operational-constraints-and-behavioral-notes" tabindex="-1">12. Operational Constraints and Behavioral Notes</h2>
+<h3 id="121-commarea-constraints" tabindex="-1">12.1 COMMAREA Constraints</h3>
+<ul>
+<li><code>LGACDB01</code> and <code>LGICDB01</code> require a minimum COMMAREA length of <strong>90 bytes</strong>.</li>
+<li>All programs assume a maximum raw COMMAREA size of <strong>32,500 bytes</strong>.</li>
+<li>Logged COMMAREA diagnostic data is capped at <strong>90 bytes</strong>.</li>
+</ul>
+<h3 id="122-data-constraints" tabindex="-1">12.2 Data Constraints</h3>
+<ul>
+<li><code>CA_CUSTOMER_NUM</code> is treated as a 10-digit picture field.</li>
+<li><code>CA_CUSTSECR_PASS</code> is limited to 32 characters.</li>
+<li><code>CA_CUSTSECR_COUNT</code> must be convertible to an integer in <code>LGACDB02</code>.</li>
+<li>Customer profile fields are fixed-length and may be padded or truncated based on host-variable definitions.</li>
+</ul>
+<h3 id="123-sequencing-constraints" tabindex="-1">12.3 Sequencing Constraints</h3>
+<ul>
+<li>In create flow, customer number generation precedes insert.</li>
+<li>In create flow, DB2 customer insert precedes VSAM mirror and security insert.</li>
+<li>In update flow, DB2 update precedes VSAM mirror.</li>
+<li>In inquiry flow, COMMAREA validation always precedes DB2 access.</li>
+</ul>
+<h3 id="124-consistency-model" tabindex="-1">12.4 Consistency Model</h3>
+<p>The application uses a <strong>dual-write pattern</strong> in create and update scenarios:</p>
+<ul>
+<li>DB2 is updated,</li>
+<li>then a VSAM companion module is linked.</li>
+</ul>
+<p>This means consistency across DB2 and VSAM is maintained procedurally rather than through a single storage engine.</p>
+<h2 id="13-cross-program-behavioral-summary" tabindex="-1">13. Cross-Program Behavioral Summary</h2>
+<h3 id="131-create-read-update-coverage" tabindex="-1">13.1 Create, Read, Update Coverage</h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Program</th>
+<th>DB2 Table</th>
+<th>Secondary Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create customer</td>
+<td><code>LGACDB01</code></td>
+<td><code>CUSTOMER</code></td>
+<td><code>LGACVS01</code>, <code>LGACDB02</code></td>
+</tr>
+<tr>
+<td>Create security</td>
+<td><code>LGACDB02</code></td>
+<td><code>CUSTOMER_SECURE</code></td>
+<td>Logging on error</td>
+</tr>
+<tr>
+<td>Read customer</td>
+<td><code>LGICDB01</code></td>
+<td><code>CUSTOMER</code></td>
+<td>Logging on unexpected DB2 error</td>
+</tr>
+<tr>
+<td>Update customer</td>
+<td><code>LGUCDB01</code></td>
+<td><code>CUSTOMER</code></td>
+<td><code>LGUCVS01</code>, logging on DB2 error</td>
+</tr>
+</tbody>
+</table>
+<h3 id="132-architectural-characterization" tabindex="-1">13.2 Architectural Characterization</h3>
+<ul>
+<li><code>LGACDB01</code> is a <strong>transaction coordinator</strong> for add-customer.</li>
+<li><code>LGACDB02</code> is a <strong>specialized security persistence module</strong>.</li>
+<li><code>LGICDB01</code> is a <strong>read-only query module</strong>.</li>
+<li><code>LGUCDB01</code> is an <strong>update-plus-mirror module</strong>.</li>
+</ul>
+<h2 id="14-code-examples" tabindex="-1">14. Code Examples</h2>
+<h3 id="141-cics-named-counter-retrieval-in-add-flow" tabindex="-1">14.1 CICS Named Counter Retrieval in Add Flow</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS GET COUNTER(GENACOUNT)
+          POOL(GENAPOOL)
+          VALUE(LASTCUSTNUM)
+          RESP(WS_RESP);</code></pre>
+</div>
+<h3 id="142-db2-identity-recovery-in-add-flow" tabindex="-1">14.2 DB2 Identity Recovery in Add Flow</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL();</code></pre>
+</div>
+<h3 id="143-customer-inquiry-select" tabindex="-1">14.3 Customer Inquiry SELECT</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    SELECT FIRSTNAME, LASTNAME, DATEOFBIRTH, HOUSENAME,
+           HOUSENUMBER, POSTCODE, PHONEMOBILE, PHONEHOME,
+           EMAILADDRESS
+      INTO :CA_FIRST_NAME, :CA_LAST_NAME, :CA_DOB, :CA_HOUSE_NAME,
+           :CA_HOUSE_NUM, :CA_POSTCODE, :CA_PHONE_MOBILE,
+           :CA_PHONE_HOME, :CA_EMAIL_ADDRESS
+      FROM CUSTOMER
+     WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT;</code></pre>
+</div>
+<h3 id="144-customer-update-sql" tabindex="-1">14.4 Customer Update SQL</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL
+    UPDATE CUSTOMER
+       SET FIRSTNAME    = :CA_FIRST_NAME,
+           LASTNAME     = :CA_LAST_NAME,
+           DATEOFBIRTH  = :CA_DOB,
+           HOUSENAME    = :CA_HOUSE_NAME,
+           HOUSENUMBER  = :CA_HOUSE_NUM,
+           POSTCODE     = :CA_POSTCODE,
+           PHONEMOBILE  = :CA_PHONE_MOBILE,
+           PHONEHOME    = :CA_PHONE_HOME,
+           EMAILADDRESS = :CA_EMAIL_ADDRESS
+     WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT;</code></pre>
+</div>
+<h3 id="145-error-logging-link" tabindex="-1">14.5 Error Logging Link</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS LINK PROGRAM(&#039;LGSTSQ&#039;)
+     COMMAREA(ERROR_MSG)
+     LENGTH(STG(ERROR_MSG));</code></pre>
+</div>
+<h2 id="15-summary" tabindex="-1">15. Summary</h2>
+<p>The customer DB2 back-end programs form a cohesive persistence layer for customer lifecycle processing in a CICS/DB2 application. <code>LGACDB01</code> and <code>LGACDB02</code> implement customer creation and security provisioning, <code>LGICDB01</code> handles profile retrieval, and <code>LGUCDB01</code> applies profile updates. Across all four modules, the design is characterized by:</p>
+<ul>
+<li>shared COMMAREA-based interfaces,</li>
+<li>DB2 host-variable binding from fixed-format customer fields,</li>
+<li>consistent use of CICS runtime metadata for diagnostics,</li>
+<li>business return-code signaling through <code>CA_RETURN_CODE</code>,</li>
+<li>centralized operational logging through <code>LGSTSQ</code>,</li>
+<li>selective coordination with VSAM mirror programs.</li>
+</ul>
+<p>Taken together, these programs represent the application-level DB2 back-end contract for the customer domain.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-frontend-programs.html" class="card">
+                <span class="card-title">Customer Business Logic Programs</span>
+                <span class="card-description">Covers the business-logic layer programs for customer operations: LGACUS01 (add customer, policy offer, transfer, delete), LGICUS01 (customer inquiry with MQ routing), and LGUCUS01 (customer update), including their COMMAREA contracts, validation rules, and downstream LINK chains.</span>
+            </a>
+            <a href="customer-vsam-programs.html" class="card">
+                <span class="card-title">Customer VSAM Back-End Programs</span>
+                <span class="card-description">Covers the VSAM KSDS (KSDSCUST) access layer for the customer domain: LGACVS01 (write new customer record), LGICVS01 (random customer number selection via GTEQ browse), and LGUCVS01 (update existing customer record), including key construction, ENQ/DEQ serialization, and abend behaviour on failure.</span>
+            </a>
+            <a href="logging-and-error-handling.html" class="card">
+                <span class="card-title">Logging &amp; Error Handling</span>
+                <span class="card-description">Documents the shared LGSTSQ error-logging utility used across all GenApp programs: how it accepts diagnostic messages via COMMAREA or terminal input, writes entries prefixed with the CICS SYSID to the CSMT transient data queue and to application-specific TSQs (GENAERRS / GENAnnnn), and how calling programs construct timestamped error messages including SQLCODE, RESP codes, and raw COMMAREA snapshots.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-program-inventory-and-responsibilities">3. Program Inventory and Responsibilities</a>
+<ul>
+<li class="toc-level-3"><a href="#31-lgacdb01--insert-new-customer">3.1 LGACDB01 — Insert New Customer</a></li>
+<li class="toc-level-3"><a href="#32-lgacdb02--insert-customer-security-record">3.2 LGACDB02 — Insert Customer Security Record</a></li>
+<li class="toc-level-3"><a href="#33-lgicdb01--retrieve-customer-profile">3.3 LGICDB01 — Retrieve Customer Profile</a></li>
+<li class="toc-level-3"><a href="#34-lgucdb01--update-customer-record">3.4 LGUCDB01 — Update Customer Record</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-shared-interface-and-control-model">4. Shared Interface and Control Model</a>
+<ul>
+<li class="toc-level-3"><a href="#41-common-invocation-pattern">4.1 Common Invocation Pattern</a></li>
+<li class="toc-level-3"><a href="#42-common-runtime-inputs">4.2 Common Runtime Inputs</a></li>
+<li class="toc-level-3"><a href="#43-common-error-logging-pattern">4.3 Common Error Logging Pattern</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-end-to-end-data-flow">5. End-to-End Data Flow</a></li>
+<li class="toc-level-2"><a href="#6-database-entities-and-relationships">6. Database Entities and Relationships</a></li>
+<li class="toc-level-2"><a href="#7-db2-tables-columns-and-program-usage">7. DB2 Tables, Columns, and Program Usage</a>
+<ul>
+<li class="toc-level-3"><a href="#71-customer-table">7.1 CUSTOMER Table</a></li>
+<li class="toc-level-3"><a href="#72-customer_secure-table">7.2 CUSTOMER_SECURE Table</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-program-by-program-technical-detail">8. Program-by-Program Technical Detail</a>
+<ul>
+<li class="toc-level-3"><a href="#81-lgacdb01--add-customer-db2-back-end">8.1 LGACDB01 — Add Customer DB2 Back End</a>
+<ul>
+<li class="toc-level-4"><a href="#811-business-function">8.1.1 Business Function</a></li>
+<li class="toc-level-4"><a href="#812-key-inputs">8.1.2 Key Inputs</a></li>
+<li class="toc-level-4"><a href="#813-main-sql-targets">8.1.3 Main SQL Targets</a></li>
+<li class="toc-level-4"><a href="#814-key-host-variables-and-working-variables">8.1.4 Key Host Variables and Working Variables</a></li>
+<li class="toc-level-4"><a href="#815-return-codes">8.1.5 Return Codes</a></li>
+<li class="toc-level-4"><a href="#816-processing-sequence">8.1.6 Processing Sequence</a></li>
+<li class="toc-level-4"><a href="#817-representative-code-example">8.1.7 Representative Code Example</a></li>
+<li class="toc-level-4"><a href="#818-notable-design-detail">8.1.8 Notable Design Detail</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#82-lgacdb02--add-customer-security-db2-back-end">8.2 LGACDB02 — Add Customer Security DB2 Back End</a>
+<ul>
+<li class="toc-level-4"><a href="#821-business-function">8.2.1 Business Function</a></li>
+<li class="toc-level-4"><a href="#822-key-inputs">8.2.2 Key Inputs</a></li>
+<li class="toc-level-4"><a href="#823-main-sql-target">8.2.3 Main SQL Target</a></li>
+<li class="toc-level-4"><a href="#824-key-host-variables">8.2.4 Key Host Variables</a></li>
+<li class="toc-level-4"><a href="#825-return-codes">8.2.5 Return Codes</a></li>
+<li class="toc-level-4"><a href="#826-processing-sequence">8.2.6 Processing Sequence</a></li>
+<li class="toc-level-4"><a href="#827-representative-code-example">8.2.7 Representative Code Example</a></li>
+<li class="toc-level-4"><a href="#828-notable-design-detail">8.2.8 Notable Design Detail</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#83-lgicdb01--customer-inquiry-db2-back-end">8.3 LGICDB01 — Customer Inquiry DB2 Back End</a>
+<ul>
+<li class="toc-level-4"><a href="#831-business-function">8.3.1 Business Function</a></li>
+<li class="toc-level-4"><a href="#832-key-inputs">8.3.2 Key Inputs</a></li>
+<li class="toc-level-4"><a href="#833-main-sql-target">8.3.3 Main SQL Target</a></li>
+<li class="toc-level-4"><a href="#834-returned-customer-fields">8.3.4 Returned Customer Fields</a></li>
+<li class="toc-level-4"><a href="#835-return-codes">8.3.5 Return Codes</a></li>
+<li class="toc-level-4"><a href="#836-processing-sequence">8.3.6 Processing Sequence</a></li>
+<li class="toc-level-4"><a href="#837-representative-code-example">8.3.7 Representative Code Example</a></li>
+<li class="toc-level-4"><a href="#838-notable-design-detail">8.3.8 Notable Design Detail</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#84-lgucdb01--update-customer-db2-back-end">8.4 LGUCDB01 — Update Customer DB2 Back End</a>
+<ul>
+<li class="toc-level-4"><a href="#841-business-function">8.4.1 Business Function</a></li>
+<li class="toc-level-4"><a href="#842-key-inputs">8.4.2 Key Inputs</a></li>
+<li class="toc-level-4"><a href="#843-main-sql-target">8.4.3 Main SQL Target</a></li>
+<li class="toc-level-4"><a href="#844-key-host-variables">8.4.4 Key Host Variables</a></li>
+<li class="toc-level-4"><a href="#845-return-codes">8.4.5 Return Codes</a></li>
+<li class="toc-level-4"><a href="#846-processing-sequence">8.4.6 Processing Sequence</a></li>
+<li class="toc-level-4"><a href="#847-representative-code-example">8.4.7 Representative Code Example</a></li>
+<li class="toc-level-4"><a href="#848-notable-design-detail">8.4.8 Notable Design Detail</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-host-variables-and-commarea-mapping">9. Host Variables and COMMAREA Mapping</a>
+<ul>
+<li class="toc-level-3"><a href="#91-common-customer-profile-fields">9.1 Common Customer Profile Fields</a></li>
+<li class="toc-level-3"><a href="#92-security-fields">9.2 Security Fields</a></li>
+<li class="toc-level-3"><a href="#93-numeric-conversion-fields">9.3 Numeric Conversion Fields</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#10-return-code-contract-across-programs">10. Return Code Contract Across Programs</a>
+<ul>
+<li class="toc-level-3"><a href="#101-unified-view">10.1 Unified View</a></li>
+<li class="toc-level-3"><a href="#102-interpretation-notes">10.2 Interpretation Notes</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#11-error-handling-and-diagnostics">11. Error Handling and Diagnostics</a>
+<ul>
+<li class="toc-level-3"><a href="#111-common-error-categories">11.1 Common Error Categories</a></li>
+<li class="toc-level-3"><a href="#112-error-logging-flow">11.2 Error Logging Flow</a></li>
+<li class="toc-level-3"><a href="#113-abend-behavior">11.3 ABEND Behavior</a></li>
+<li class="toc-level-3"><a href="#114-sql-labels-used-in-diagnostics">11.4 SQL Labels Used in Diagnostics</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#12-operational-constraints-and-behavioral-notes">12. Operational Constraints and Behavioral Notes</a>
+<ul>
+<li class="toc-level-3"><a href="#121-commarea-constraints">12.1 COMMAREA Constraints</a></li>
+<li class="toc-level-3"><a href="#122-data-constraints">12.2 Data Constraints</a></li>
+<li class="toc-level-3"><a href="#123-sequencing-constraints">12.3 Sequencing Constraints</a></li>
+<li class="toc-level-3"><a href="#124-consistency-model">12.4 Consistency Model</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#13-cross-program-behavioral-summary">13. Cross-Program Behavioral Summary</a>
+<ul>
+<li class="toc-level-3"><a href="#131-create-read-update-coverage">13.1 Create, Read, Update Coverage</a></li>
+<li class="toc-level-3"><a href="#132-architectural-characterization">13.2 Architectural Characterization</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#14-code-examples">14. Code Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#141-cics-named-counter-retrieval-in-add-flow">14.1 CICS Named Counter Retrieval in Add Flow</a></li>
+<li class="toc-level-3"><a href="#142-db2-identity-recovery-in-add-flow">14.2 DB2 Identity Recovery in Add Flow</a></li>
+<li class="toc-level-3"><a href="#143-customer-inquiry-select">14.3 Customer Inquiry SELECT</a></li>
+<li class="toc-level-3"><a href="#144-customer-update-sql">14.4 Customer Update SQL</a></li>
+<li class="toc-level-3"><a href="#145-error-logging-link">14.5 Error Logging Link</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#15-summary">15. Summary</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

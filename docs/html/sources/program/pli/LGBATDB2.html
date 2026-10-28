@@ -1,0 +1,1014 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGBATDB2</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link active">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p><code>LGBATDB2</code> is a batch (non-CICS) PL/I test driver program that retrieves a specific customer’s details from a DB2 database and produces a formatted customer report line. It queries the <code>CUSTOMER</code> table for the record with customer number 1, populating a shared communication area with personal details such as name, date of birth, address, phone, and email. It then delegates report formatting to the external subroutine <code>LGBATCHF</code>, passing the customer number and communication area pointer, and displays the resulting 80-character report line to standard output.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<p><strong>DB2 Database (CUSTOMER table)</strong></p>
+<ul>
+<li><code>DB2_CUSTOMERNUMBER_INT</code> — Hard-coded integer value (<code>1</code>) used as the <code>WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT</code> predicate in the <code>SELECT</code> against the DB2 <code>CUSTOMER</code> table; drives which customer record is fetched</li>
+<li>Fields populated via <code>SELECT INTO</code> from the <code>CUSTOMER</code> table:
+<ul>
+<li><code>CA_FIRST_NAME</code> — Customer’s first name retrieved from the <code>FIRSTNAME</code> column</li>
+<li><code>CA_LAST_NAME</code> — Customer’s last name retrieved from the <code>LASTNAME</code> column</li>
+<li><code>CA_DOB</code> — Customer’s date of birth retrieved from the <code>DATEOFBIRTH</code> column</li>
+<li><code>CA_POSTCODE</code> — Customer’s postcode retrieved from the <code>POSTCODE</code> column</li>
+<li><code>CA_PHONE_MOBILE</code> — Customer’s mobile phone number retrieved from the <code>PHONEMOBILE</code> column</li>
+<li><code>CA_EMAIL_ADDRESS</code> — Customer’s email address retrieved from the <code>EMAILADDRESS</code> column</li>
+</ul>
+</li>
+</ul>
+<p><strong>External Subroutine (<code>LGBATCHF</code>)</strong></p>
+<ul>
+<li><code>CUSTRPT_LINE</code> — 80-byte character buffer passed by reference to <code>LGBATCHF</code>; on return it contains the formatted customer report line produced by the subroutine, which the program then displays</li>
+<li><code>CUSTIN_CUSTNUMBER</code> — 10-digit picture variable derived from <code>DB2_CUSTOMERNUMBER_INT</code> and passed as the customer number argument to <code>LGBATCHF</code>, identifying which customer to report on</li>
+<li><code>COMM_AREA_PTR</code> — Pointer to <code>BATCH_COMM_AREA</code> passed to <code>LGBATCHF</code>; the subroutine reads customer fields (populated from DB2) through this pointer, using the overlaid <code>COMM_AREA</code> structure to access <code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_POSTCODE</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_EMAIL_ADDRESS</code>, <code>CA_NUM_POLICIES</code>, <code>CA_PAYMENT</code>, <code>CA_ISSUE_DATE</code>, and <code>CA_EXPIRY_DATE</code></li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<h3 id="31-console-output" tabindex="-1">3.1 Console output</h3>
+<ul>
+<li>
+<p><code>DISPLAY('LGBATDB2 SQLCode : ' || SQLCODE)</code></p>
+<ul>
+<li>Prints the DB2 SQL return code at program startup.</li>
+<li>Role:
+<ul>
+<li>Exposes the current SQL execution status for diagnostics.</li>
+<li>Provides an observable batch log message.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>DISPLAY('LGBATDB2 SQLState: ' || SQLSTATE)</code></p>
+<ul>
+<li>Prints the DB2 SQLSTATE at program startup.</li>
+<li>Role:
+<ul>
+<li>Exposes DB2 status in standard SQLSTATE form.</li>
+<li>Provides an observable batch log message.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>DISPLAY(CUSTRPT_LINE)</code></p>
+<ul>
+<li>Prints the formatted customer report line returned from subroutine <code>LGBATCHF</code>.</li>
+<li>Role:
+<ul>
+<li>This is the program’s main business output.</li>
+<li>Presents the selected customer’s report data to the batch job output stream.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="32-database-read-derived-output-content" tabindex="-1">3.2 Database-read-derived output content</h3>
+<ul>
+<li>Customer data fetched from DB2 <code>CUSTOMER</code> table
+<ul>
+<li>Variables populated by the <code>SELECT ... INTO</code> and used as output-driving data:
+<ul>
+<li><code>CA_FIRST_NAME</code></li>
+<li><code>CA_LAST_NAME</code></li>
+<li><code>CA_DOB</code></li>
+<li><code>CA_POSTCODE</code></li>
+<li><code>CA_PHONE_MOBILE</code></li>
+<li><code>CA_EMAIL_ADDRESS</code></li>
+<li><code>CA_HOUSE_NAME</code></li>
+<li><code>CA_HOUSE_NUM</code></li>
+<li><code>CA_PHONE_HOME</code></li>
+</ul>
+</li>
+<li>Role:
+<ul>
+<li>These fields are the retrieved customer attributes for customer number <code>1</code>.</li>
+<li>They populate the communication area passed to <code>LGBATCHF</code>.</li>
+<li>They indirectly determine the contents of the printed report line.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="33-subprogram-call-output" tabindex="-1">3.3 Subprogram-call output</h3>
+<ul>
+<li><code>CUSTRPT_LINE</code>
+<ul>
+<li>Filled by <code>CALL LGBATCHF(CUSTIN_CUSTNUMBER, COMM_AREA_PTR, CUSTRPT_LINE)</code>.</li>
+<li>Role:
+<ul>
+<li>Receives the formatted 80-byte report output for the customer.</li>
+<li>Serves as the immediate source for the final printed customer report.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="34-interfaceoutput-driving-input-values" tabindex="-1">3.4 Interface/output-driving input values</h3>
+<ul>
+<li>
+<p>Customer identification values</p>
+<ul>
+<li><code>DB2_CUSTOMERNUMBER_INT</code>
+<ul>
+<li>Set to <code>1</code> and used in the DB2 <code>WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT</code>.</li>
+<li>Role:
+<ul>
+<li>Determines which customer record is retrieved from DB2.</li>
+<li>Therefore determines all downstream observable output content.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>CUSTIN_CUSTNUMBER</code>
+<ul>
+<li>Derived from <code>DB2_CUSTOMERNUMBER_INT</code> and passed to <code>LGBATCHF</code>.</li>
+<li>Role:
+<ul>
+<li>Identifies the customer to the reporting subroutine in display format.</li>
+<li>Contributes to how the report line is built.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Communication area passed to <code>LGBATCHF</code></p>
+<ul>
+<li><code>BATCH_COMM_AREA</code> / <code>COMM_AREA_PTR</code>
+<ul>
+<li>Holds the customer data structure populated from DB2 and passed by pointer.</li>
+<li>Role:
+<ul>
+<li>Carries the fetched customer details into <code>LGBATCHF</code>.</li>
+<li>Indirectly drives the report line content.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="35-other-observable-side-effects" tabindex="-1">3.5 Other observable side effects</h3>
+<ul>
+<li>
+<p>DB2 <code>SELECT</code> against <code>CUSTOMER</code></p>
+<ul>
+<li>Reads one customer row for customer number <code>1</code>.</li>
+<li>Role:
+<ul>
+<li>Produces the business data used by the report.</li>
+<li>Observable as a database access side effect, though it does not update the database.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>No file writes, database updates, or API outputs</p>
+<ul>
+<li>The program does not write to files, update DB2 tables, or invoke external APIs for output.</li>
+<li>Observable outputs are limited to:
+<ul>
+<li>DB2 status messages</li>
+<li>the displayed customer report line</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#4caf91,color:#000
+    classDef process fill:#c7ceea,stroke:#7b8cde,color:#000
+    classDef decision fill:#ffdac1,stroke:#ffaa7f,color:#000
+    classDef db fill:#fff1ba,stroke:#f0c040,color:#000
+    classDef sub fill:#e2f0cb,stroke:#92c05a,color:#000
+
+    A([Start - LGBATDB2 Main]):::startEnd
+    B[Set COMM_AREA_PTR to<br>address of BATCH_COMM_AREA]:::process
+    C[Dynamic FETCH of<br>LGBATCHF subroutine]:::process
+    D[Display initial SQLCODE<br>and SQLSTATE]:::process
+    E[Set DB2_CUSTOMERNUMBER_INT = 1]:::process
+    F[Call PROCESS_RECORD]:::process
+    G([Return]):::startEnd
+
+    H[Call GET_CUSTOMER_INFO]:::sub
+    I[Convert integer customer number<br>to PIC format - CUSTIN_CUSTNUMBER]:::process
+    J[Call LGBATCHF with customer number<br>COMM_AREA_PTR and report line]:::sub
+    K[Display CUSTRPT_LINE report line]:::process
+
+    L[EXEC SQL SELECT INTO<br>COMM_AREA customer fields<br>FROM CUSTOMER<br>WHERE CUSTOMERNUMBER = 1]:::db
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+
+    F --> H
+    H --> I
+    I --> J
+    J --> K
+
+    H --> L
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGBATDB2</code> is a non-CICS batch DB2 test driver program. Its sole purpose is to retrieve the record for customer number <strong>1</strong> from the DB2 <code>CUSTOMER</code> table, pass the retrieved data to the <code>LGBATCHF</code> subroutine to format a report line, and then display that report line to standard output. It exercises the DB2-to-batch-report pipeline without any CICS infrastructure.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Program Initialization</strong>
+The program entry point <code>LGBATDB2: Proc Options(Main)</code> begins execution. A 32,500-byte working character area (<code>BATCH_COMM_AREA</code>) is declared as physical storage. The <code>COMM_AREA_PTR</code> pointer is immediately set to the address of <code>BATCH_COMM_AREA</code>, causing the <code>COMM_AREA</code> <code>BASED</code> structure (the full COMMAREA layout including customer and policy fields) to overlay that storage. This is the standard GenApp COMMAREA pattern adapted for batch use.</p>
+<p><strong>Step 2 — Dynamic Load of LGBATCHF</strong>
+A <code>FETCH LGBATCHF</code> statement dynamically loads the <code>LGBATCHF</code> subroutine into memory. <code>LGBATCHF</code> is declared as an <code>ENTRY</code> accepting a 10-digit PIC customer number, a pointer to the COMMAREA, and an 80-byte character report line output buffer.</p>
+<p><strong>Step 3 — Initial Diagnostics Display</strong>
+The current values of <code>SQLCODE</code> and <code>SQLSTATE</code> from the SQLCA are displayed. At this point no SQL has been executed, so this serves as an initial baseline diagnostic to confirm the DB2 environment is properly connected and the SQLCA has been initialized.</p>
+<p><strong>Step 4 — Set Target Customer Number</strong>
+<code>DB2_CUSTOMERNUMBER_INT</code> is set to <code>1</code>. This hard-coded integer is the DB2 host variable that will be used in the <code>WHERE</code> clause of the SQL query — meaning this program always processes customer number 1.</p>
+<p><strong>Step 5 — Call PROCESS_RECORD</strong>
+The <code>PROCESS_RECORD</code> internal procedure is called. It orchestrates three sub-steps:</p>
+<ul>
+<li>
+<p><strong>5a — GET_CUSTOMER_INFO:</strong> Executes a DB2 <code>SELECT INTO</code> statement, fetching nine columns (<code>FIRSTNAME</code>, <code>LASTNAME</code>, <code>DATEOFBIRTH</code>, <code>HOUSENAME</code>, <code>HOUSENUMBER</code>, <code>POSTCODE</code>, <code>PHONEMOBILE</code>, <code>PHONEHOME</code>, <code>EMAILADDRESS</code>) from the <code>CUSTOMER</code> table where <code>CUSTOMERNUMBER = 1</code>. The results are placed directly into the COMMAREA host variable fields (<code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_HOUSE_NAME</code>, <code>CA_HOUSE_NUM</code>, <code>CA_POSTCODE</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_PHONE_HOME</code>, <code>CA_EMAIL_ADDRESS</code>).</p>
+</li>
+<li>
+<p><strong>5b — Convert Customer Number Format:</strong> <code>DB2_CUSTOMERNUMBER_INT</code> (a <code>FIXED BIN(31)</code> integer) is converted to <code>CUSTIN_CUSTNUMBER</code> (a <code>PIC '9999999999'</code> display-format variable). This conversion is necessary because <code>LGBATCHF</code> expects the customer number as a PIC numeric, not a binary integer.</p>
+</li>
+<li>
+<p><strong>5c — Call LGBATCHF:</strong> The dynamically loaded <code>LGBATCHF</code> subroutine is called with the PIC customer number, the COMMAREA pointer (now populated with DB2 data), and an 80-byte output buffer <code>CUSTRPT_LINE</code>. <code>LGBATCHF</code> is responsible for formatting the customer data into a printable report line.</p>
+</li>
+</ul>
+<p><strong>Step 6 — Display Report Line</strong>
+The 80-byte <code>CUSTRPT_LINE</code> returned by <code>LGBATCHF</code> is displayed to standard output (SYSOUT).</p>
+<p><strong>Step 7 — Return</strong>
+The program issues an explicit <code>RETURN</code> statement and terminates cleanly.</p>
+<hr>
+<h4 id="423-error-handling" tabindex="-1">4.2.3 Error Handling</h4>
+<p>This program has <strong>no explicit SQL error handling</strong>. There is no check of <code>SQLCODE</code> after the <code>SELECT INTO</code>. If the customer is not found (<code>SQLCODE = +100</code>) or a DB2 error occurs (negative <code>SQLCODE</code>), the program will continue with unpopulated or stale COMMAREA fields and pass them to <code>LGBATCHF</code> without signaling an error. The initial <code>DISPLAY</code> of <code>SQLCODE</code>/<code>SQLSTATE</code> is diagnostic only and does not gate further processing.</p>
+<hr>
+<h4 id="424-external-interactions" tabindex="-1">4.2.4 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMER</code> DB2 table</td>
+<td>SQL <code>SELECT INTO</code></td>
+<td>Retrieves nine customer demographic fields for customer number 1</td>
+</tr>
+<tr>
+<td><code>LGBATCHF</code> subroutine</td>
+<td>Dynamic <code>FETCH</code> + <code>CALL</code></td>
+<td>Formats the retrieved customer data into an 80-byte report line</td>
+</tr>
+<tr>
+<td>Standard output (<code>DISPLAY</code>)</td>
+<td>Console/SYSOUT</td>
+<td>Outputs SQLCA diagnostics and the final report line</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="425-plain-language-summary" tabindex="-1">4.2.5 Plain Language Summary</h4>
+<p>This program is a simple batch test tool. It connects to DB2, looks up the first customer in the system (customer number 1), reads their personal details (name, address, phone, email, date of birth), and hands that information to a formatting helper called <code>LGBATCHF</code>. That helper builds a neat 80-character report line, which the program then prints. The program always runs against the same fixed customer (number 1) and is designed for testing and verification purposes rather than production batch processing.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<div class="mermaid">
+erDiagram
+    CUSTOMER {
+        int CUSTOMERNUMBER "Primary key - WHERE clause predicate"
+        string FIRSTNAME "length 10 - maps to CA_FIRST_NAME"
+        string LASTNAME "length 20 - maps to CA_LAST_NAME"
+        date DATEOFBIRTH "length 10 - maps to CA_DOB"
+        string HOUSENAME "length 20 - maps to CA_HOUSE_NAME"
+        string HOUSENUMBER "length 4 - maps to CA_HOUSE_NUM"
+        string POSTCODE "length 8 - maps to CA_POSTCODE"
+        string PHONEMOBILE "length 20 - maps to CA_PHONE_MOBILE"
+        string PHONEHOME "length 20 - maps to CA_PHONE_HOME"
+        string EMAILADDRESS "length 100 - maps to CA_EMAIL_ADDRESS"
+    }
+</div>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<p><strong>LGBATDB2 (Main Procedure)</strong></p>
+<ul>
+<li>This is the program’s entry point, declared with <code>Options(Main)</code>, making it the executable starting point for the batch run.</li>
+<li>Establishes the communication area pointer by assigning <code>COMM_AREA_PTR</code> to the address of <code>BATCH_COMM_AREA</code> via <code>ADDR()</code>, causing the <code>COMM_AREA</code> <code>BASED</code> structure to overlay that 32,500-byte character buffer. This enables all downstream field references through <code>COMM_AREA</code> to operate directly against <code>BATCH_COMM_AREA</code> storage.</li>
+<li>Dynamically loads the external subroutine <code>LGBATCHF</code> using the <code>FETCH</code> statement, making it available for subsequent calls without static linking at compile time.</li>
+<li>Displays initial DB2 diagnostic values (<code>SQLCODE</code> and <code>SQLSTATE</code>) to confirm the state of the SQL environment at program startup.</li>
+<li>Sets the integer host variable <code>DB2_CUSTOMERNUMBER_INT</code> to <code>1</code>, targeting customer record number 1 for processing.</li>
+<li>Invokes the internal procedure <code>PROCESS_RECORD</code> to drive the main processing logic.</li>
+<li>Issues a <code>RETURN</code> to terminate the program after processing is complete.</li>
+<li>No looping is present; the program processes exactly one customer per execution.</li>
+</ul>
+<p><strong>PROCESS_RECORD</strong></p>
+<ul>
+<li>An internal procedure that orchestrates the full processing sequence for a single customer record.</li>
+<li>Calls <code>GET_CUSTOMER_INFO</code> to retrieve the customer’s details from DB2 into the <code>COMM_AREA</code> structure fields.</li>
+<li>After the DB2 retrieval, converts the integer customer number <code>DB2_CUSTOMERNUMBER_INT</code> into the picture-format variable <code>CUSTIN_CUSTNUMBER</code> using a direct assignment, making it compatible with the <code>LGBATCHF</code> subroutine’s expected parameter type.</li>
+<li>Calls the dynamically fetched external subroutine <code>LGBATCHF</code>, passing three arguments:
+<ul>
+<li><code>CUSTIN_CUSTNUMBER</code> — the 10-digit picture customer number</li>
+<li><code>COMM_AREA_PTR</code> — a pointer to the communication area containing the retrieved customer data</li>
+<li><code>CUSTRPT_LINE</code> — an 80-byte character buffer to receive the formatted report line</li>
+</ul>
+</li>
+<li>Displays the populated <code>CUSTRPT_LINE</code> to standard output using <code>DISPLAY</code>, producing the batch customer report output.</li>
+<li>Control flow is linear; there are no conditionals or loops within this procedure.</li>
+</ul>
+<p><strong>GET_CUSTOMER_INFO</strong></p>
+<ul>
+<li>An internal procedure responsible for retrieving a single customer’s details from the DB2 <code>CUSTOMER</code> table.</li>
+<li>Executes a single <code>EXEC SQL SELECT INTO</code> statement that fetches nine columns — <code>FIRSTNAME</code>, <code>LASTNAME</code>, <code>DATEOFBIRTH</code>, <code>HOUSENAME</code>, <code>HOUSENUMBER</code>, <code>POSTCODE</code>, <code>PHONEMOBILE</code>, <code>PHONEHOME</code>, and <code>EMAILADDRESS</code> — directly into the corresponding <code>COMM_AREA</code> host variables:
+<ul>
+<li><code>:CA_FIRST_NAME</code>, <code>:CA_LAST_NAME</code>, <code>:CA_DOB</code>, <code>:CA_HOUSE_NAME</code>, <code>:CA_HOUSE_NUM</code>, <code>:CA_POSTCODE</code>, <code>:CA_PHONE_MOBILE</code>, <code>:CA_PHONE_HOME</code>, <code>:CA_EMAIL_ADDRESS</code></li>
+</ul>
+</li>
+<li>The <code>WHERE</code> clause filters the result to the single row where <code>CUSTOMERNUMBER</code> equals the integer host variable <code>:DB2_CUSTOMERNUMBER_INT</code>, which is set to <code>1</code> in the main procedure.</li>
+<li>Because the <code>COMM_AREA</code> structure is <code>BASED</code> on <code>COMM_AREA_PTR</code> (which points to <code>BATCH_COMM_AREA</code>), the fetched values are written directly into the shared communication area buffer, making them immediately available to the calling procedure and subsequently to <code>LGBATCHF</code>.</li>
+<li>No explicit SQL error handling (e.g., <code>WHENEVER</code> clauses or <code>SQLCODE</code> checks) is present within this procedure; error diagnosis relies on the <code>SQLCODE</code>/<code>SQLSTATE</code> display performed at program startup in the main procedure body.</li>
+<li>Control flow is unconditional; the procedure performs exactly one DB2 read per invocation.</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-db2-database" tabindex="-1">6.1 DB2 Database</h3>
+<ul>
+<li>
+<p><strong>CUSTOMER table</strong> — The primary data source for the program. A <code>SELECT INTO</code> statement retrieves the following columns for a given customer number:</p>
+<ul>
+<li><code>FIRSTNAME</code> → mapped to <code>CA_FIRST_NAME</code></li>
+<li><code>LASTNAME</code> → mapped to <code>CA_LAST_NAME</code></li>
+<li><code>DATEOFBIRTH</code> → mapped to <code>CA_DOB</code></li>
+<li><code>HOUSENAME</code> → mapped to <code>CA_HOUSE_NAME</code></li>
+<li><code>HOUSENUMBER</code> → mapped to <code>CA_HOUSE_NUM</code></li>
+<li><code>POSTCODE</code> → mapped to <code>CA_POSTCODE</code></li>
+<li><code>PHONEMOBILE</code> → mapped to <code>CA_PHONE_MOBILE</code></li>
+<li><code>PHONEHOME</code> → mapped to <code>CA_PHONE_HOME</code></li>
+<li><code>EMAILADDRESS</code> → mapped to <code>CA_EMAIL_ADDRESS</code></li>
+<li>The <code>WHERE</code> predicate is <code>CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT</code> (hardcoded to <code>1</code> at runtime)</li>
+</ul>
+</li>
+<li>
+<p><strong>SQLCA (SQL Communication Area)</strong> — Included via <code>EXEC SQL INCLUDE SQLCA</code>. Provides the standard DB2 feedback fields <code>SQLCODE</code> and <code>SQLSTATE</code>, which are checked and displayed after DB2 operations to report execution status.</p>
+</li>
+</ul>
+<h3 id="62-external-programs--subroutines" tabindex="-1">6.2 External Programs / Subroutines</h3>
+<ul>
+<li><strong>LGBATCHF</strong> — An external subroutine declared as <code>ENTRY(PIC '9999999999', PTR, CHAR(80))</code> and dynamically loaded via <code>FETCH LGBATCHF</code>. It is called with three arguments:
+<ul>
+<li><code>CUSTIN_CUSTNUMBER</code> — the customer number in display (picture) format</li>
+<li><code>COMM_AREA_PTR</code> — a pointer to the communication area holding the customer data retrieved from DB2</li>
+<li><code>CUSTRPT_LINE</code> — an 80-byte character buffer that receives the formatted customer report line produced by the subroutine</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-include-members--copybooks" tabindex="-1">6.3 Include Members / Copybooks</h3>
+<ul>
+<li><strong>LGCMAREA</strong> (include member <code>LGCMAREA.inc</code>) — Defines the <code>COMM_AREA</code> structure (<code>BASED</code> on <code>COMM_AREA_PTR</code>) that overlays <code>BATCH_COMM_AREA</code>. It contains the full communication area layout covering:
+<ul>
+<li>Customer request fields (<code>CA_REQUEST_ID</code>, <code>CA_CUSTOMER_NUM</code>, <code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_POSTCODE</code>, <code>CA_NUM_POLICIES</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_EMAIL_ADDRESS</code>, etc.)</li>
+<li>Policy request fields common across all policy types (<code>CA_ISSUE_DATE</code>, <code>CA_EXPIRY_DATE</code>, <code>CA_PAYMENT</code>, etc.)</li>
+<li>Policy-type-specific unions: endowment (<code>CA_ENDOWMENT</code>), house (<code>CA_HOUSE</code>), motor (<code>CA_MOTOR</code>), commercial (<code>CA_COMMERCIAL</code>), and claim (<code>CA_CLAIM</code>)</li>
+<li>Customer security request fields (<code>CA_CUSTSECR_REQUEST</code>)</li>
+</ul>
+</li>
+</ul>
+<h3 id="64-internal-data--hardcoded-input" tabindex="-1">6.4 Internal Data / Hardcoded Input</h3>
+<ul>
+<li><strong>Customer number = 1</strong> — The value <code>DB2_CUSTOMERNUMBER_INT = 1</code> is hardcoded in the mainline logic. There is no external input file or parameter; the program always processes the single customer with <code>CUSTOMERNUMBER = 1</code>.</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-data-validation-constraints" tabindex="-1">7.1 Data Validation Constraints</h3>
+<p><strong>Customer Number</strong></p>
+<ul>
+<li><code>DB2_CUSTOMERNUMBER_INT</code> is declared as <code>FIXED BIN(31)</code>, constraining the customer number to a signed 31-bit integer value range (0 to 2,147,483,647); it is hard-coded to <code>1</code> at runtime, meaning only customer number 1 is ever processed in this program</li>
+<li><code>CUSTIN_CUSTNUMBER</code> is declared as <code>PIC '9999999999'</code> (10-digit numeric picture), restricting the display form of the customer number to exactly 10 decimal digits (0000000001 to 9999999999); non-numeric characters are structurally disallowed by the picture clause</li>
+<li>The conversion from <code>DB2_CUSTOMERNUMBER_INT</code> (integer) to <code>CUSTIN_CUSTNUMBER</code> (picture numeric) at line 171 enforces that the integer value must be representable as a 10-digit unsigned decimal; values exceeding 9,999,999,999 would cause a conversion error</li>
+</ul>
+<p><strong>Communication Area (COMMAREA) Structure</strong></p>
+<ul>
+<li><code>BATCH_COMM_AREA</code> is fixed at exactly 32,500 bytes (<code>CHAR(32500)</code>); the overlaid <code>COMM_AREA</code> structure must fit entirely within this 32,500-byte boundary — any field reference beyond this limit is structurally invalid</li>
+<li><code>CA_REQUEST_ID</code> is limited to 6 characters; request type codes must conform to this fixed-width format</li>
+<li><code>CA_RETURN_CODE</code> is declared <code>PIC '99'</code>, restricting it to exactly 2 decimal digits (values 00–99); only specific codes such as <code>00</code> (success), <code>98</code> (bad COMMAREA), and <code>99</code> (DB2/system error) are meaningful per application convention</li>
+<li><code>CA_CUSTOMER_NUM</code> is <code>PIC '9999999999'</code>, constraining the COMMAREA customer number to exactly 10 decimal digits; non-numeric content cannot be represented</li>
+<li><code>CA_NUM_POLICIES</code> is <code>PIC '999'</code>, restricting the policy count to a maximum of 999 policies per customer</li>
+</ul>
+<p><strong>Customer Report Line</strong></p>
+<ul>
+<li><code>CUSTRPT_LINE</code> is fixed at exactly 80 characters (<code>CHAR(80)</code>); the formatted output line produced by <code>LGBATCHF</code> must fit within 80 characters — content exceeding this width is truncated or not accommodated by the receiving field</li>
+</ul>
+<p><strong>DB2 Host Variable Field Lengths</strong></p>
+<ul>
+<li><code>CA_FIRST_NAME</code> is 10 bytes; any <code>FIRSTNAME</code> value from the <code>CUSTOMER</code> table exceeding 10 characters will be truncated on retrieval</li>
+<li><code>CA_LAST_NAME</code> is 20 bytes; <code>LASTNAME</code> values beyond 20 characters will be truncated</li>
+<li><code>CA_DOB</code> is 10 bytes; <code>DATEOFBIRTH</code> must fit within 10 characters (matching a date format such as <code>YYYY-MM-DD</code>)</li>
+<li><code>CA_HOUSE_NAME</code> is 20 bytes; <code>HOUSENAME</code> values beyond 20 characters will be truncated</li>
+<li><code>CA_HOUSE_NUM</code> is 4 bytes; <code>HOUSENUMBER</code> values beyond 4 characters will be truncated</li>
+<li><code>CA_POSTCODE</code> is 8 bytes; <code>POSTCODE</code> values must fit within 8 characters</li>
+<li><code>CA_PHONE_MOBILE</code> is 20 bytes; <code>PHONEMOBILE</code> values beyond 20 characters will be truncated</li>
+<li><code>CA_PHONE_HOME</code> is 20 bytes; <code>PHONEHOME</code> values beyond 20 characters will be truncated</li>
+<li><code>CA_EMAIL_ADDRESS</code> is 100 bytes; <code>EMAILADDRESS</code> values beyond 100 characters will be truncated</li>
+</ul>
+<hr>
+<h3 id="72-sequencing-and-execution-order-constraints" tabindex="-1">7.2 Sequencing and Execution Order Constraints</h3>
+<ul>
+<li><code>COMM_AREA_PTR</code> must be assigned to the address of <code>BATCH_COMM_AREA</code> (line 155) before any reference to <code>COMM_AREA</code> based-structure fields; accessing <code>COMM_AREA</code> fields prior to this pointer assignment yields undefined/invalid data because the structure is <code>BASED(COMM_AREA_PTR)</code></li>
+<li><code>LGBATCHF</code> must be loaded via <code>FETCH</code> (line 156) before <code>CALL LGBATCHF(...)</code> is invoked inside <code>PROCESS_RECORD</code>; invoking the <code>CALL</code> without a prior successful <code>FETCH</code> would result in an unresolved entry reference and program failure</li>
+<li><code>GET_CUSTOMER_INFO</code> must be called before <code>CUSTIN_CUSTNUMBER</code> is converted and passed to <code>LGBATCHF</code>; the COMMAREA fields (<code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, etc.) are only populated after the DB2 <code>SELECT INTO</code> completes — calling <code>LGBATCHF</code> before the DB2 retrieval would pass uninitialised customer data</li>
+<li><code>PROCESS_RECORD</code> must be called after <code>DB2_CUSTOMERNUMBER_INT</code> is set to <code>1</code> (line 161–162); the <code>WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT</code> predicate depends on this initialisation</li>
+</ul>
+<hr>
+<h3 id="73-resource-and-scope-constraints" tabindex="-1">7.3 Resource and Scope Constraints</h3>
+<ul>
+<li>The program is a non-CICS batch program (<code>Options(Main)</code> with no COMMAREA parameter); it cannot be invoked as a CICS transaction and has no access to CICS services such as <code>EXEC CICS LINK</code>, <code>EXEC CICS RETURN</code>, or CICS TS queues</li>
+<li>Only a single customer record is ever processed per execution — <code>DB2_CUSTOMERNUMBER_INT</code> is hard-coded to <code>1</code> and there is no loop, cursor, or iteration mechanism; the program is structurally limited to one DB2 row and one report line per run</li>
+<li>The <code>COMM_AREA</code> union overlays <code>BATCH_COMM_AREA</code>; only one of the union alternatives (<code>CA_CUSTOMER_REQUEST</code>, <code>CA_POLICY_REQUEST</code>, <code>CA_CUSTSECR_REQUEST</code>) can hold valid data at any time — simultaneous use of multiple union branches for different data types is mutually exclusive and would corrupt the overlapping storage</li>
+<li>The <code>CA_POLICY_DATA</code> field within <code>CA_CUSTOMER_REQUEST</code> occupies 32,267 bytes; combined with the preceding customer fields it must not exceed the 32,482-byte <code>CA_REQUEST_INITIALISER</code> boundary, which in turn must fit within the 32,500-byte <code>BATCH_COMM_AREA</code></li>
+</ul>
+<hr>
+<h3 id="74-db2-query-constraints" tabindex="-1">7.4 DB2 Query Constraints</h3>
+<ul>
+<li>The <code>SELECT INTO</code> statement at <code>GET_CUSTOMER_INFO</code> retrieves exactly one row; DB2 enforces this implicitly — if the <code>CUSTOMER</code> table contains no row with <code>CUSTOMERNUMBER = 1</code>, DB2 sets <code>SQLCODE = +100</code> (not found) and the host variable fields remain unpopulated; the program does not check <code>SQLCODE</code> after the query and therefore proceeds to call <code>LGBATCHF</code> with uninitialised COMMAREA data in this condition</li>
+<li>The <code>WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUMBER_INT</code> predicate uses the integer host variable directly; the <code>CUSTOMER</code> table’s <code>CUSTOMERNUMBER</code> column must be of a compatible integer type for the predicate to resolve correctly — a type mismatch would cause a DB2 bind or runtime error</li>
+<li>The <code>SELECT INTO</code> retrieves exactly the 9 columns listed; no other columns from the <code>CUSTOMER</code> table (e.g., policy counts, status flags) are fetched into the COMMAREA, meaning those fields remain at their default/initialised values</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-db2-sql-error-visibility-via-sqlca" tabindex="-1">8.1 DB2 SQL Error Visibility via SQLCA</h3>
+<ul>
+<li>
+<p><strong>SQLCA inclusion</strong> — The program includes the SQL Communication Area (SQLCA) via <code>EXEC SQL INCLUDE SQLCA</code>, which causes DB2 to automatically populate the <code>SQLCODE</code> and <code>SQLSTATE</code> fields after every SQL statement executes. These fields reflect whether the preceding SQL operation succeeded, encountered a warning, or failed.</p>
+</li>
+<li>
+<p><strong>Post-initialization display of SQLCA fields</strong> — Immediately after the program starts (before any business logic executes), it displays both <code>SQLCODE</code> and <code>SQLSTATE</code> to the system output using <code>DISPLAY</code> statements. This provides a diagnostic snapshot of the DB2 connection state at program startup. A <code>SQLCODE</code> of zero indicates success; a positive value indicates a warning; a negative value indicates a DB2 error. <code>SQLSTATE</code> provides a standard five-character code with similar semantics.</p>
+</li>
+<li>
+<p><strong>Absence of SQL error branching logic</strong> — The program does <strong>not</strong> inspect <code>SQLCODE</code> or <code>SQLSTATE</code> after the <code>EXEC SQL SELECT INTO</code> statement inside the <code>GET_CUSTOMER_INFO</code> procedure. There is no conditional branch, error message, or early termination triggered by a non-zero <code>SQLCODE</code>. If the <code>SELECT</code> fails (e.g., the customer row is not found, resulting in <code>SQLCODE +100</code>), or encounters a DB2 error (negative <code>SQLCODE</code>), execution continues silently into the report-formatting call without any corrective action or notification.</p>
+</li>
+</ul>
+<h3 id="82-diagnostic-output" tabindex="-1">8.2 Diagnostic Output</h3>
+<ul>
+<li>
+<p><strong>Startup SQLCA display</strong> — As noted above, <code>SQLCODE</code> and <code>SQLSTATE</code> are written to the program’s output stream at startup using <code>DISPLAY</code>. This is a passive diagnostic mechanism; it does not gate program flow or trigger any response to error conditions. Its purpose is to assist in post-execution analysis if problems arise.</p>
+</li>
+<li>
+<p><strong>Report line display</strong> — After calling the <code>LGBATCHF</code> subroutine, the formatted customer report line stored in <code>CUSTRPT_LINE</code> is written to output via <code>DISPLAY</code>. While this is not an error handler in itself, any failure upstream (such as a DB2 <code>SELECT</code> that returned no rows) would result in an empty or uninitialized report line being displayed without any accompanying error indication.</p>
+</li>
+</ul>
+<h3 id="83-structural-absence-of-error-handling" tabindex="-1">8.3 Structural Absence of Error Handling</h3>
+<ul>
+<li>
+<p><strong>No explicit return code checks</strong> — <code>CA_RETURN_CODE</code> is declared within the <code>COMM_AREA</code> structure (as part of the included LGCMAREA copybook), but the program never checks it after calling <code>LGBATCHF</code>. If the subroutine sets a non-zero return code to signal failure, the batch driver ignores it.</p>
+</li>
+<li>
+<p><strong>No exception or condition handlers</strong> — The program declares no <code>ON</code> condition handlers (e.g., for <code>ERROR</code>, <code>CONVERSION</code>, or <code>ZERODIVIDE</code> conditions). Any PL/I runtime exception raised during execution would propagate to the default system handler, typically causing an abnormal termination with a dump rather than a controlled recovery.</p>
+</li>
+<li>
+<p><strong>No file I/O error handling</strong> — The program performs no direct file operations; all data access is through DB2. There are therefore no file status checks, <code>AT END</code> conditions, or I/O error branches present.</p>
+</li>
+<li>
+<p><strong>No retry or fallback logic</strong> — There is no retry mechanism for the DB2 query, no default value population in the event of a failed <code>SELECT</code>, and no alternate execution path if <code>LGBATCHF</code> is unavailable or returns an unexpected result.</p>
+</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1--successful-customer-lookup-and-report-line-display" tabindex="-1">9.1 Example 1 — Successful Customer Lookup and Report Line Display</h3>
+<p><strong>Input (DB2 CUSTOMER table — row with <code>CUSTOMERNUMBER = 1</code>):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMERNUMBER</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>FIRSTNAME</code></td>
+<td><code>John</code></td>
+</tr>
+<tr>
+<td><code>LASTNAME</code></td>
+<td><code>Smith</code></td>
+</tr>
+<tr>
+<td><code>DATEOFBIRTH</code></td>
+<td><code>1975-06-15</code></td>
+</tr>
+<tr>
+<td><code>HOUSENAME</code></td>
+<td><code>Maple House</code></td>
+</tr>
+<tr>
+<td><code>HOUSENUMBER</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>POSTCODE</code></td>
+<td><code>SW1A 1AA</code></td>
+</tr>
+<tr>
+<td><code>PHONEMOBILE</code></td>
+<td><code>07700900000</code></td>
+</tr>
+<tr>
+<td><code>PHONEHOME</code></td>
+<td><code>02071234567</code></td>
+</tr>
+<tr>
+<td><code>EMAILADDRESS</code></td>
+<td><code>john.smith@example.com</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program execution flow:</strong></p>
+<ol>
+<li><code>DB2_CUSTOMERNUMBER_INT</code> is hard-coded to <code>1</code>.</li>
+<li><code>GET_CUSTOMER_INFO</code> issues the <code>SELECT INTO</code> against <code>CUSTOMER WHERE CUSTOMERNUMBER = 1</code>, populating the <code>COMM_AREA</code> fields (<code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_POSTCODE</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_EMAIL_ADDRESS</code>, etc.).</li>
+<li><code>CUSTIN_CUSTNUMBER</code> is assigned the integer value <code>1</code> converted to its 10-digit picture format (<code>0000000001</code>).</li>
+<li><code>LGBATCHF</code> is called with <code>CUSTIN_CUSTNUMBER</code>, <code>COMM_AREA_PTR</code>, and the 80-byte <code>CUSTRPT_LINE</code> output buffer.</li>
+</ol>
+<p><strong>Expected output (written to SYSPRINT/console via <code>DISPLAY</code>):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>LGBATDB2 SQLCode : 0
+LGBATDB2 SQLState: 00000
+John      Smith               1975-06-15  SW1A 1AA  john.smith@example.com</code></pre>
+</div>
+<p><em>(The exact format of the last line is determined by <code>LGBATCHF</code>, but it contains the customer details retrieved from DB2, formatted into 80 characters.)</em></p>
+<hr>
+<h3 id="92-example-2--customer-number-not-found-in-db2" tabindex="-1">9.2 Example 2 — Customer Number Not Found in DB2</h3>
+<p><strong>Input:</strong> The <code>CUSTOMER</code> table contains no row with <code>CUSTOMERNUMBER = 1</code> (table is empty or the row has been deleted).</p>
+<p><strong>Program execution flow:</strong></p>
+<ol>
+<li><code>DB2_CUSTOMERNUMBER_INT</code> is set to <code>1</code>.</li>
+<li><code>GET_CUSTOMER_INFO</code> executes the <code>SELECT INTO</code>; DB2 finds no matching row and sets <code>SQLCODE = +100</code> (row not found) and <code>SQLSTATE = '02000'</code>.</li>
+<li>The program does <strong>not</strong> check <code>SQLCODE</code> before continuing — it proceeds to convert <code>DB2_CUSTOMERNUMBER_INT</code> to <code>CUSTIN_CUSTNUMBER</code> and calls <code>LGBATCHF</code> with uninitialised / blank <code>COMM_AREA</code> customer fields.</li>
+</ol>
+<p><strong>Expected output:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>LGBATDB2 SQLCode : 100
+LGBATDB2 SQLState: 02000</code></pre>
+</div>
+<p><em>(The <code>DISPLAY</code> of <code>SQLCODE</code>/<code>SQLSTATE</code> reflects the not-found condition. The <code>CUSTRPT_LINE</code> output from <code>LGBATCHF</code> will contain spaces or default values because the <code>COMM_AREA</code> customer fields were never populated by DB2.)</em></p>
+<p>This example highlights a key behavioral characteristic of the program: there is <strong>no error-handling guard</strong> after <code>GET_CUSTOMER_INFO</code>, so <code>LGBATCHF</code> is always called regardless of whether the DB2 <code>SELECT</code> succeeded.</p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a></li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-console-output">3.1 Console output</a></li>
+<li class="toc-level-3"><a href="#32-database-read-derived-output-content">3.2 Database-read-derived output content</a></li>
+<li class="toc-level-3"><a href="#33-subprogram-call-output">3.3 Subprogram-call output</a></li>
+<li class="toc-level-3"><a href="#34-interfaceoutput-driving-input-values">3.4 Interface/output-driving input values</a></li>
+<li class="toc-level-3"><a href="#35-other-observable-side-effects">3.5 Other observable side effects</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-error-handling">4.2.3 Error Handling</a></li>
+<li class="toc-level-4"><a href="#424-external-interactions">4.2.4 External Interactions</a></li>
+<li class="toc-level-4"><a href="#425-plain-language-summary">4.2.5 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-db2-database">6.1 DB2 Database</a></li>
+<li class="toc-level-3"><a href="#62-external-programs--subroutines">6.2 External Programs / Subroutines</a></li>
+<li class="toc-level-3"><a href="#63-include-members--copybooks">6.3 Include Members / Copybooks</a></li>
+<li class="toc-level-3"><a href="#64-internal-data--hardcoded-input">6.4 Internal Data / Hardcoded Input</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-data-validation-constraints">7.1 Data Validation Constraints</a></li>
+<li class="toc-level-3"><a href="#72-sequencing-and-execution-order-constraints">7.2 Sequencing and Execution Order Constraints</a></li>
+<li class="toc-level-3"><a href="#73-resource-and-scope-constraints">7.3 Resource and Scope Constraints</a></li>
+<li class="toc-level-3"><a href="#74-db2-query-constraints">7.4 DB2 Query Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-db2-sql-error-visibility-via-sqlca">8.1 DB2 SQL Error Visibility via SQLCA</a></li>
+<li class="toc-level-3"><a href="#82-diagnostic-output">8.2 Diagnostic Output</a></li>
+<li class="toc-level-3"><a href="#83-structural-absence-of-error-handling">8.3 Structural Absence of Error Handling</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1--successful-customer-lookup-and-report-line-display">9.1 Example 1 — Successful Customer Lookup and Report Line Display</a></li>
+<li class="toc-level-3"><a href="#92-example-2--customer-number-not-found-in-db2">9.2 Example 2 — Customer Number Not Found in DB2</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGBATDB2</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer VSAM Back-End Programs - GenApp Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="customer-vsam-programs.html" class="nav-link active" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(3)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGACVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGACVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGICVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGICVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUCVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUCVS01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="customer-vsam-back-end-programs" tabindex="-1">Customer VSAM Back-End Programs</h1>
+<p>The Customer VSAM Back-End Programs form the persistence layer for the customer domain in the General Insurance Application (GenApp). These three PL/I programs — <strong>LGACVS01</strong>, <strong>LGICVS01</strong>, and <strong>LGUCVS01</strong> — are CICS-hosted components that interact exclusively with the VSAM Key-Sequenced Data Set (KSDS) file <code>KSDSCUST</code>. Together they cover the full lifecycle of a customer record at the VSAM level: creating a new record, randomly selecting an existing customer number, and updating an existing record. All three programs share a common error-handling pattern: structured diagnostic logging via the <code>LGSTSQ</code> utility program, ENQ/DEQ-based serialization where required, and controlled CICS ABEND on failure.</p>
+<hr>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The three VSAM back-end programs each address a distinct operation against the <code>KSDSCUST</code> KSDS file:</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Operation</th>
+<th>ABEND Code(s)</th>
+<th>Return Code on Failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LGACVS01</strong></td>
+<td>Add (write) a new customer record</td>
+<td><code>LGV0</code></td>
+<td><code>80</code></td>
+</tr>
+<tr>
+<td><strong>LGICVS01</strong></td>
+<td>Randomly select a valid customer number via GTEQ browse</td>
+<td><em>(none — no abend on VSAM failure)</em></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>LGUCVS01</strong></td>
+<td>Update (read-for-update + rewrite) an existing customer record</td>
+<td><code>LGV1</code> (read), <code>LGV2</code> (rewrite)</td>
+<td><code>81</code> (read), <code>82</code> (rewrite)</td>
+</tr>
+</tbody>
+</table>
+<p>All three programs:</p>
+<ul>
+<li>Are written in <strong>Enterprise PL/I for z/OS</strong> and run under <strong>CICS</strong>.</li>
+<li>Reference the shared COMMAREA copybook <strong><code>LGCMAREA</code></strong> for the communication area layout.</li>
+<li>Use <code>CA_CUSTOMER_NUM</code> (a 10-digit numeric PIC field) as the VSAM KSDS record key.</li>
+<li>Delegate error message persistence to the logging utility <strong><code>LGSTSQ</code></strong> via <code>EXEC CICS LINK</code>.</li>
+<li>Return operation outcomes to the caller through <code>CA_RETURN_CODE</code> in the shared COMMAREA.</li>
+</ul>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The VSAM back-end programs sit at the bottom of a two-tier CICS application stack. Front-end orchestrators (e.g., <code>LGACUS01</code>, <code>LGUCUS01</code>, <code>LGICUS01</code>) receive requests from terminals or external callers, then delegate to the back-end programs via <code>EXEC CICS LINK</code>. The back-end programs perform the actual VSAM I/O and return results through the shared COMMAREA.</p>
+<div class="mermaid">
+graph TD
+    subgraph Callers["Calling / Orchestrating Programs"]
+        C1[LGACUS01<br/>Add Customer Orchestrator]
+        C2[LGICUS01<br/>Inquire Customer Orchestrator]
+        C3[LGUCUS01<br/>Update Customer Orchestrator]
+        C4[LGACDB01<br/>DB2 Add Customer Back-End]
+    end
+
+    subgraph VSAMBackEnd["Customer VSAM Back-End Programs"]
+        V1[LGACVS01<br/>Write New Customer Record]
+        V2[LGICVS01<br/>Random Customer Number Selection]
+        V3[LGUCVS01<br/>Update Existing Customer Record]
+    end
+
+    subgraph Storage["Data Stores"]
+        K[(KSDSCUST<br/>VSAM KSDS)]
+        TS[GENACNTL<br/>CICS TS Queue]
+    end
+
+    subgraph Logging["Error Logging"]
+        L[LGSTSQ<br/>TS Queue Logger]
+        TL[CICS Temporary<br/>Storage Queue]
+    end
+
+    C1 -- EXEC CICS LINK --> V1
+    C4 -- EXEC CICS LINK --> V1
+    C2 -- EXEC CICS LINK --> V2
+    C3 -- EXEC CICS LINK --> V3
+
+    V1 -- EXEC CICS WRITE --> K
+    V2 -- EXEC CICS READ GTEQ --> K
+    V2 -- ENQ/READQ/WRITEQ/DEQ --> TS
+    V3 -- EXEC CICS READ UPDATE --> K
+    V3 -- EXEC CICS REWRITE --> K
+
+    V1 -- EXEC CICS LINK on error --> L
+    V2 -- No LINK on error --> L
+    V3 -- EXEC CICS LINK on error --> L
+
+    L --> TL
+</div>
+<p>The diagram above illustrates the following architectural points:</p>
+<ul>
+<li><strong>LGACVS01</strong> is called both by the customer orchestrator and by the DB2 back-end (<code>LGACDB01</code>), making it the VSAM mirror write for every new customer also stored in DB2.</li>
+<li><strong>LGICVS01</strong> is unique in that it also accesses a CICS Temporary Storage Queue (<code>GENACNTL</code>) to manage the customer number range used for random selection.</li>
+<li><strong>LGUCVS01</strong> performs a two-phase VSAM operation: a read-for-update followed by a rewrite, with distinct abend codes for each failure phase.</li>
+<li>All error log output is routed through <code>LGSTSQ</code>, which writes to a shared CICS TS queue.</li>
+</ul>
+<hr>
+<h2 id="3-shared-commarea-layout" tabindex="-1">3. Shared COMMAREA Layout</h2>
+<p>All three programs share the COMMAREA structure defined in the PL/I include member <strong><code>LGCMAREA</code></strong>. The calling program passes this area via <code>EXEC CICS LINK</code>, and the back-end programs overlay a based structure on the received pointer.</p>
+<h3 id="31-key-commarea-fields" tabindex="-1">3.1 Key COMMAREA Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code></td>
+<td>Operation code identifying the request type</td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>PIC '99'</code></td>
+<td>Two-digit outcome code; set by the back-end on failure</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>10-digit customer identifier; serves as the VSAM KSDS key</td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>CHAR(10)</code></td>
+<td>Customer first name</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Customer last name</td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>CHAR(10)</code></td>
+<td>Customer date of birth</td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>CHAR(8)</code></td>
+<td>Customer postcode</td>
+</tr>
+<tr>
+<td><code>CA_NUM_POLICIES</code></td>
+<td><code>PIC '999'</code></td>
+<td>Count of policies linked to this customer</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Mobile phone number</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>Home phone number</td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>CHAR(100)</code></td>
+<td>Email address</td>
+</tr>
+<tr>
+<td><code>CA_POLICY_DATA</code></td>
+<td><code>CHAR(32267)</code></td>
+<td>Raw policy data block appended to the customer record</td>
+</tr>
+<tr>
+<td><code>COMM_AREA_RAW</code></td>
+<td><code>CHAR(32500)</code></td>
+<td>Unstructured view of the full COMMAREA; used in error diagnostics</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-vsam-key-construction" tabindex="-1">3.2 VSAM Key Construction</h3>
+<p>The VSAM KSDS key is always <code>CA_CUSTOMER_NUM</code> — a 10-digit numeric picture field. All three programs use <code>KEYLENGTH(10)</code> when issuing CICS file commands. The key uniquely identifies a customer record in <code>KSDSCUST</code>.</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>RIDFLD(CA_CUSTOMER_NUM)  KEYLENGTH(10)</code></pre>
+</div>
+<hr>
+<h2 id="4-lgacvs01--add-new-customer-record" tabindex="-1">4. LGACVS01 — Add New Customer Record</h2>
+<h3 id="41-purpose" tabindex="-1">4.1 Purpose</h3>
+<p><code>LGACVS01</code> adds a new customer record to the VSAM KSDS file <code>KSDSCUST</code>. It receives the fully populated customer COMMAREA from its caller, writes the entire COMMAREA as a new keyed record using <code>CA_CUSTOMER_NUM</code> as the key, and either returns normally on success or signals failure via <code>CA_RETURN_CODE = '80'</code> and issues CICS ABEND <code>LGV0</code>.</p>
+<h3 id="42-processing-flow" tabindex="-1">4.2 Processing Flow</h3>
+<p>The program follows a linear, single-path flow: initialize, write, check, and either return or error-handle.</p>
+<div class="mermaid">
+graph TD
+    A([Start LGACVS01]) --> B[Capture COMMAREA length\nWS_Commarea_Len = EIBCALEN]
+    B --> C[EXEC CICS WRITE FILE KSDSCUST\nKey = CA_CUSTOMER_NUM\nLength = WS_Commarea_Len]
+    C --> D{{WS_RESP = DFHRESP NORMAL}}
+    D -- Yes --> E([Return to caller — Success])
+    D -- No --> F[Capture WS_RESP2 = EIBRESP2\nSet CA_RETURN_CODE = 80]
+    F --> G[Call WRITE_ERROR_MESSAGE]
+    G --> G1[EXEC CICS ASKTIME / FORMATTIME]
+    G1 --> G2[Populate ERROR_MSG\ndate · time · CNUM · RESP · RESP2]
+    G2 --> G3[EXEC CICS LINK LGSTSQ\nWrite error message to TS queue]
+    G3 --> G4{{EIBCALEN > 0}}
+    G4 -- No --> G7[Return from WRITE_ERROR_MESSAGE]
+    G4 -- Yes --> G5{{EIBCALEN < 91}}
+    G5 -- Yes --> G6A[CA_Data = first EIBCALEN chars\nof COMM_AREA_RAW]
+    G5 -- No --> G6B[CA_Data = first 90 chars\nof COMM_AREA_RAW]
+    G6A --> G6C[EXEC CICS LINK LGSTSQ\nWrite COMMAREA dump to TS queue]
+    G6B --> G6C
+    G6C --> G7
+    G7 --> H[EXEC CICS ABEND ABCODE LGV0 NODUMP]
+    H --> I[EXEC CICS RETURN]
+    I --> J([End])
+
+    classDef startEnd fill:#d5e8d4,stroke:#82b366,color:#000
+    classDef process fill:#dae8fc,stroke:#6c8ebf,color:#000
+    classDef decision fill:#fff2cc,stroke:#d6b656,color:#000
+    classDef error fill:#f8cecc,stroke:#b85450,color:#000
+    class A,E,J startEnd
+    class B,C,G1,G2,G3,G6A,G6B,G6C,G7,I process
+    class D,G4,G5 decision
+    class F,G,H error
+</div>
+<p>The diagram above shows the single happy-path (left branch after the response check) and the full error path, which includes timestamp acquisition, structured error message assembly, two <code>LGSTSQ</code> link calls, and a controlled ABEND before returning.</p>
+<h3 id="43-vsam-write-command" tabindex="-1">4.3 VSAM Write Command</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS WRITE FILE(&#039;KSDSCUST&#039;)
+     FROM    (CA_Customer_Num)
+     LENGTH  (WS_Commarea_Len)
+     RIDFLD  (CA_Customer_Num)
+     KEYLENGTH(10)
+     RESP    (WS_RESP);</code></pre>
+</div>
+<ul>
+<li><code>FROM(CA_Customer_Num)</code> — the data written starts at the <code>CA_CUSTOMER_NUM</code> field within the COMMAREA, anchoring the full customer record layout.</li>
+<li><code>LENGTH(WS_Commarea_Len)</code> — dynamic byte count derived from <code>EIBCALEN</code>, ensuring exactly the received bytes are stored.</li>
+<li><code>RIDFLD(CA_Customer_Num)</code> — establishes the KSDS primary key for the new record.</li>
+<li><code>KEYLENGTH(10)</code> — explicit 10-byte key declaration.</li>
+</ul>
+<h3 id="44-error-handling" tabindex="-1">4.4 Error Handling</h3>
+<p>On a non-NORMAL CICS response:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Capture <code>EIBRESP2</code> into <code>WS_RESP2</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Set <code>CA_RETURN_CODE = '80'</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Call <code>WRITE_ERROR_MESSAGE</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Link to <code>LGSTSQ</code> with <code>ERROR_MSG</code> (timestamp + customer number + response codes)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conditionally link to <code>LGSTSQ</code> with <code>CA_ERROR_MSG</code> (up to 90 bytes of raw COMMAREA)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Issue <code>EXEC CICS ABEND ABCODE('LGV0') NODUMP</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Issue <code>EXEC CICS RETURN</code> as a defensive safety net</td>
+</tr>
+</tbody>
+</table>
+<h3 id="45-example-successful-add" tabindex="-1">4.5 Example: Successful Add</h3>
+<p><strong>Input COMMAREA:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>ACUST0</code></td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>0000000042</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>JOHN</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>SMITH</code></td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>1980-03-15</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>SW1A 2AA</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Outcome:</strong> A new record keyed <code>0000000042</code> is written to <code>KSDSCUST</code>. <code>CA_RETURN_CODE</code> remains <code>00</code>. No messages are written to the log queue.</p>
+<h3 id="46-example-failed-add--duplicate-key" tabindex="-1">4.6 Example: Failed Add — Duplicate Key</h3>
+<p><strong>Scenario:</strong> A record with key <code>0000000042</code> already exists.</p>
+<p><strong>Outcome:</strong></p>
+<ul>
+<li><code>CA_RETURN_CODE</code> = <code>80</code></li>
+<li>Two messages written to the CICS TS queue via <code>LGSTSQ</code>:
+<ul>
+<li><code>MM/DD/YYYY HH:MM:SS  LGACVS01 CNUM=0000000042 Write file KSDSCUST RESP=&lt;n&gt; RESP2=&lt;n&gt;</code></li>
+<li><code>COMMAREA=ACUST000000000000042JOHN      SMITH…</code> (first 90 bytes of inbound COMMAREA)</li>
+</ul>
+</li>
+<li>Task abends with code <code>LGV0</code>.</li>
+</ul>
+<hr>
+<h2 id="5-lgicvs01--random-customer-number-selection" tabindex="-1">5. LGICVS01 — Random Customer Number Selection</h2>
+<h3 id="51-purpose" tabindex="-1">5.1 Purpose</h3>
+<p><code>LGICVS01</code> randomly selects a valid customer number from <code>KSDSCUST</code>. It manages a customer number range in a CICS Temporary Storage queue (<code>GENACNTL</code>), protected by ENQ/DEQ serialization, generates a pseudo-random number within that range seeded by the CICS task number (<code>EIBTASKN</code>), and then performs a <code>GTEQ</code> read against <code>KSDSCUST</code> to resolve the nearest actual customer key. Results are returned via COMMAREA (when linked) or displayed on a 3270 terminal (when invoked interactively).</p>
+<h3 id="52-invocation-modes" tabindex="-1">5.2 Invocation Modes</h3>
+<p>The program detects its invocation context on startup using two CICS ASSIGN values:</p>
+<table>
+<thead>
+<tr>
+<th>ASSIGN Field</th>
+<th>Meaning</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STARTCODE</code> starts with <code>'D'</code></td>
+<td>Transaction-started invocation</td>
+<td><code>WS_FLAG = 'C'</code> → use COMMAREA</td>
+</tr>
+<tr>
+<td><code>INVOKINGPROG</code> not blank</td>
+<td>Called via <code>EXEC CICS LINK</code></td>
+<td><code>WS_FLAG = 'C'</code> → use COMMAREA</td>
+</tr>
+<tr>
+<td>Neither condition true</td>
+<td>Interactive terminal invocation</td>
+<td><code>WS_FLAG = 'R'</code> → <code>EXEC CICS RECEIVE</code> / <code>SEND TEXT</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-processing-flow" tabindex="-1">5.3 Processing Flow</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#4caf82,color:#000
+    classDef process fill:#c7ceea,stroke:#6c72cb,color:#000
+    classDef decision fill:#ffdac1,stroke:#ff9966,color:#000
+    classDef io fill:#fff1ba,stroke:#f0c040,color:#000
+    classDef tsq fill:#e2f0cb,stroke:#78b159,color:#000
+
+    A([Start LGICVS01]):::startEnd
+    B[ASSIGN SYSID / STARTCODE / INVOKINGPROG]:::io
+    C{{STARTCODE starts with D\nOR INVOKINGPROG not blank}}:::decision
+    D[WS_FLAG = C\nCopy COMMAREA header]:::process
+    E[EXEC CICS RECEIVE from terminal\nWS_FLAG = R]:::io
+    F[Initialize WS_CUST_LOW = WS_CUST_HIGH = 1000001\nAll TS flags = Y]:::process
+    G[EXEC CICS ENQ RESOURCE GENACNTL]:::process
+    H[READQ TS QUEUE GENACNTL Item 1]:::io
+    I{{RESP = NORMAL\nQueue exists}}:::decision
+    J[Clear WS_FLAG_TSQE\nLoop READQ TS NEXT for LOW and HIGH records]:::process
+    Q{{WS_FLAG_TSQE Y}}:::decision
+    R[WRITEQ TS Eyecatcher record]:::tsq
+    S{{WS_FLAG_TSQL Y}}:::decision
+    T[WRITEQ TS LOW CUSTOMER record]:::tsq
+    U{{WS_FLAG_TSQH Y}}:::decision
+    V[WRITEQ TS HIGH CUSTOMER record]:::tsq
+    W[EXEC CICS DEQ RESOURCE GENACNTL]:::process
+    X[Generate random number\nFLOOR RANDOM EIBTASKN × range + LOW]:::process
+    Y[READ FILE KSDSCUST GTEQ\nRIDFLD = random number]:::io
+    Z{{RESP = NORMAL}}:::decision
+    AA[WRITE_MSG_HIGH = CA_CUSTOMER_NUM\nfrom VSAM record]:::process
+    AB{{WS_FLAG = C}}:::decision
+    AC[Return via COMMAREA\nCOMMA_DATA_HIGH = customer num]:::io
+    AD[EXEC CICS SEND TEXT to terminal]:::io
+    AE([EXEC CICS RETURN — End]):::startEnd
+
+    A --> B --> C
+    C -- Yes --> D
+    C -- No --> E
+    D --> F
+    E --> F
+    F --> G --> H --> I
+    I -- Yes --> J
+    I -- No --> Q
+    J --> Q
+    Q -- Yes --> R --> S
+    Q -- No --> S
+    S -- Yes --> T --> U
+    S -- No --> U
+    U -- Yes --> V --> W
+    U -- No --> W
+    W --> X --> Y --> Z
+    Z -- Yes --> AA --> AB
+    Z -- No --> AB
+    AB -- Yes --> AC --> AE
+    AB -- No --> AD --> AE
+</div>
+<p>The flow shows the two invocation mode branches at the top, the ENQ-protected TS queue read-then-write cycle in the middle, the random number generation and GTEQ VSAM browse, and the final COMMAREA/terminal dispatch at the bottom.</p>
+<h3 id="54-enqdeq-serialization" tabindex="-1">5.4 ENQ/DEQ Serialization</h3>
+<p>Access to the <code>GENACNTL</code> TS queue is serialized using CICS ENQ/DEQ:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS ENQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));
+/* ... all READQ TS and WRITEQ TS operations ... */
+EXEC CICS DEQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));</code></pre>
+</div>
+<p>This prevents race conditions where multiple concurrent tasks could simultaneously find the control records absent and write duplicate entries to <code>GENACNTL</code>.</p>
+<h3 id="55-genacntl-ts-queue-structure" tabindex="-1">5.5 GENACNTL TS Queue Structure</h3>
+<p>The <code>GENACNTL</code> queue holds three record types, each written with <code>NOSUSPEND</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Record Type</th>
+<th>Content</th>
+<th>Size</th>
+<th>Flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eyecatcher</td>
+<td><code>**** GENAPP CNTL</code></td>
+<td>20 bytes</td>
+<td><code>WS_FLAG_TSQE</code></td>
+</tr>
+<tr>
+<td>LOW CUSTOMER</td>
+<td><code>LOW CUSTOMER=</code> + 10-digit low value</td>
+<td>23 bytes</td>
+<td><code>WS_FLAG_TSQL</code></td>
+</tr>
+<tr>
+<td>HIGH CUSTOMER</td>
+<td><code>HIGH CUSTOMER=</code> + 10-digit high value</td>
+<td>24 bytes</td>
+<td><code>WS_FLAG_TSQH</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each flag starts as <code>'Y'</code> (assumed absent). A flag is cleared to <code>' '</code> only when the corresponding record is successfully read from the queue. If a record is absent after the read loop, the corresponding <code>WRITEQ TS</code> call creates it with the default value <code>1000001</code>.</p>
+<h3 id="56-random-number-generation" tabindex="-1">5.6 Random Number Generation</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">WS_RANDOM_NUMBER = FLOOR(
+    RANDOM(EIBTASKN) * FLOAT(WS_CUST_HIGH - WS_CUST_LOW) + WS_CUST_LOW
+);</code></pre>
+</div>
+<ul>
+<li><strong>Seed:</strong> <code>EIBTASKN</code> — the CICS task number, providing per-task variation.</li>
+<li><strong>Range:</strong> <code>[WS_CUST_LOW, WS_CUST_HIGH)</code>.</li>
+<li><strong>Result:</strong> an integer customer number used as the GTEQ VSAM key.</li>
+</ul>
+<h3 id="57-gteq-vsam-read" tabindex="-1">5.7 GTEQ VSAM Read</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS READ FILE(&#039;KSDSCUST&#039;)
+     INTO      (CA_AREA)
+     LENGTH    (F82)
+     RIDFLD    (WRITE_MSG_HIGH)
+     KEYLENGTH (F10)
+     GTEQ
+     RESP      (WS_RESP);</code></pre>
+</div>
+<p>The <code>GTEQ</code> option ensures that even if the exact random number does not exist as a VSAM key, the nearest real customer record at or above that number is returned. If no record exists at or above the generated number, <code>WRITE_MSG_HIGH</code> retains the raw random value and the program proceeds without error.</p>
+<h3 id="58-example-first-time-invocation-via-cics-link" tabindex="-1">5.8 Example: First-Time Invocation via CICS LINK</h3>
+<p><strong>Scenario:</strong> <code>GENACNTL</code> queue does not exist. <code>KSDSCUST</code> has a record at key <code>0001000050</code>. <code>EIBTASKN = 1234</code>.</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>WS_FLAG = 'C'</code> (LINK invocation).</li>
+<li>All three TS queue flags remain <code>'Y'</code> — queue absent.</li>
+<li>Three <code>WRITEQ TS</code> calls create <code>GENACNTL</code> with defaults (<code>LOW=1000001</code>, <code>HIGH=1000001</code>).</li>
+<li>Random number collapses to <code>1000001</code> (zero-width range).</li>
+<li>GTEQ read finds key <code>0001000050</code>.</li>
+<li>COMMAREA returned: <code>COMMA_DATA_HIGH = 0001000050</code>.</li>
+</ol>
+<hr>
+<h2 id="6-lgucvs01--update-existing-customer-record" tabindex="-1">6. LGUCVS01 — Update Existing Customer Record</h2>
+<h3 id="61-purpose" tabindex="-1">6.1 Purpose</h3>
+<p><code>LGUCVS01</code> updates an existing customer record in <code>KSDSCUST</code>. It issues a read-for-update (acquiring an exclusive CICS lock on the record), then rewrites the record with the new customer data carried in the COMMAREA. Distinct return codes (<code>81</code> for read failure, <code>82</code> for rewrite failure) and distinct ABEND codes (<code>LGV1</code> / <code>LGV2</code>) allow precise identification of which phase failed.</p>
+<h3 id="62-processing-flow" tabindex="-1">6.2 Processing Flow</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#4a9e7f,color:#000
+    classDef process fill:#c7ceea,stroke:#5a67a0,color:#000
+    classDef decision fill:#ffdac1,stroke:#c47a3a,color:#000
+    classDef error fill:#ffb7b2,stroke:#c0504d,color:#000
+    classDef sub fill:#e2f0cb,stroke:#6a994e,color:#000
+
+    A([Start LGUCVS01]):::startEnd
+    B[Capture EIBCALEN into\nWS_Commarea_Len and WS_Commarea_LenF]:::process
+    C[EXEC CICS READ FILE KSDSCUST\nInto WS_Customer_Area\nKey = CA_CUSTOMER_NUM\nUPDATE lock acquired]:::process
+    D{{READ RESP\n= NORMAL}}:::decision
+    E[Set CA_RETURN_CODE = 81\nCapture EIBRESP2]:::error
+    F[Call WRITE_ERROR_MESSAGE]:::sub
+    G[EXEC CICS ABEND ABCODE LGV1 NODUMP\nEXEC CICS RETURN]:::error
+    H[EXEC CICS REWRITE FILE KSDSCUST\nFrom CA_CUSTOMER_NUM area\nLength = WS_Commarea_LenF]:::process
+    I{{REWRITE RESP\n= NORMAL}}:::decision
+    J[Set CA_RETURN_CODE = 82\nCapture EIBRESP2]:::error
+    K[Call WRITE_ERROR_MESSAGE]:::sub
+    L[EXEC CICS ABEND ABCODE LGV2 NODUMP\nEXEC CICS RETURN]:::error
+    M([Return to caller — Success]):::startEnd
+
+    A --> B --> C --> D
+    D -- Yes --> H
+    D -- No --> E --> F --> G
+    H --> I
+    I -- Yes --> M
+    I -- No --> J --> K --> L
+</div>
+<p>The two-phase structure is clearly visible: a failed READ terminates with <code>LGV1</code> / RC <code>81</code>; a successful READ followed by a failed REWRITE terminates with <code>LGV2</code> / RC <code>82</code>. Only when both phases succeed does the program reach the normal return.</p>
+<h3 id="63-read-file-with-update-lock" tabindex="-1">6.3 READ FILE with UPDATE Lock</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS READ FILE(&#039;KSDSCUST&#039;)
+     INTO      (WS_Customer_Area)
+     LENGTH    (WS_Commarea_Len)
+     RIDFLD    (CA_Customer_Num)
+     KEYLENGTH (10)
+     UPDATE
+     RESP      (WS_RESP);</code></pre>
+</div>
+<p>The <code>UPDATE</code> option places an exclusive enqueue lock on the record. No other CICS task can update or delete this record until the same task issues a <code>REWRITE</code>, <code>DELETE</code>, or <code>UNLOCK</code> against it.</p>
+<h3 id="64-rewrite-file" tabindex="-1">6.4 REWRITE FILE</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS REWRITE FILE(&#039;KSDSCUST&#039;)
+     FROM   (CA_Customer_Num)
+     LENGTH (WS_Commarea_LenF)
+     RESP   (WS_RESP);</code></pre>
+</div>
+<p><code>FROM(CA_Customer_Num)</code> writes the updated customer data sourced from the COMMAREA starting at the <code>CA_CUSTOMER_NUM</code> field — the full updated record layout as defined by <code>LGCMAREA</code>. The record length is driven by <code>WS_Commarea_LenF</code>, which is initialized from <code>EIBCALEN</code>.</p>
+<h3 id="65-error-handling-and-abend-codes" tabindex="-1">6.5 Error Handling and ABEND Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Return Code</th>
+<th>ABEND Code</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>READ UPDATE</td>
+<td><code>81</code></td>
+<td><code>LGV1</code></td>
+<td><code>WS_RESP ≠ DFHRESP(NORMAL)</code> after READ</td>
+</tr>
+<tr>
+<td>REWRITE</td>
+<td><code>82</code></td>
+<td><code>LGV2</code></td>
+<td><code>WS_RESP ≠ DFHRESP(NORMAL)</code> after REWRITE</td>
+</tr>
+</tbody>
+</table>
+<p>Both error paths invoke the shared <code>WRITE_ERROR_MESSAGE</code> sub-procedure before issuing the ABEND:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">WS_RESP2 = EIBRESP2;
+CA_RETURN_CODE = &#039;81&#039;;   /* or &#039;82&#039; for rewrite */
+CALL WRITE_ERROR_MESSAGE;
+EXEC CICS ABEND ABCODE(&#039;LGV1&#039;) NODUMP;  /* or LGV2 */
+EXEC CICS RETURN;</code></pre>
+</div>
+<h3 id="66-vsam-record-layout-ksdscust" tabindex="-1">6.6 VSAM Record Layout (KSDSCUST)</h3>
+<div class="mermaid">
+erDiagram
+    KSDSCUST {
+        string CA_CUSTOMER_NUM "10 digits — KSDS primary key"
+        string CA_FIRST_NAME "length 10"
+        string CA_LAST_NAME "length 20"
+        string CA_DOB "length 10"
+        string CA_HOUSE_NAME "length 20"
+        string CA_HOUSE_NUM "length 4"
+        string CA_POSTCODE "length 8"
+        string CA_NUM_POLICIES "PIC 999"
+        string CA_PHONE_MOBILE "length 20"
+        string CA_PHONE_HOME "length 20"
+        string CA_EMAIL_ADDRESS "length 100"
+        string CA_POLICY_DATA "length 32267"
+    }
+</div>
+<h3 id="67-examples" tabindex="-1">6.7 Examples</h3>
+<p><strong>Example 1 — Successful Update:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>0000000042</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>jane.smith@example.com</code></td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code> (in)</td>
+<td><code>00</code></td>
+</tr>
+</tbody>
+</table>
+<p>READ UPDATE succeeds → REWRITE succeeds → <code>CA_RETURN_CODE</code> remains <code>00</code> → normal RETURN.</p>
+<p><strong>Example 2 — Read Failure (Record Not Found):</strong></p>
+<p>Customer <code>0000009999</code> does not exist. READ UPDATE returns non-NORMAL <code>RESP</code>. <code>CA_RETURN_CODE</code> set to <code>81</code>. Error logged to <code>LGSTSQ</code>. Task abends <code>LGV1</code>.</p>
+<p><strong>Example 3 — Rewrite Failure:</strong></p>
+<p>Customer <code>0000000007</code> found and locked. REWRITE returns non-NORMAL <code>RESP</code> (e.g., file disabled). <code>CA_RETURN_CODE</code> set to <code>82</code>. Error logged to <code>LGSTSQ</code>. Task abends <code>LGV2</code>.</p>
+<hr>
+<h2 id="7-shared-error-handling-pattern" tabindex="-1">7. Shared Error Handling Pattern</h2>
+<p>All three programs share a consistent error handling sub-procedure (<code>WRITE_ERROR_MESSAGE</code>) that is invoked whenever a CICS file or queue operation fails. The pattern is identical across LGACVS01 and LGUCVS01 (LGICVS01 has no abend path for VSAM failures).</p>
+<h3 id="71-write_error_message-sequence" tabindex="-1">7.1 WRITE_ERROR_MESSAGE Sequence</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant P as Back-End Program
+    participant CICS as CICS Runtime
+    participant LGSTSQ as LGSTSQ Logger
+    participant TSQ as CICS TS Queue
+
+    P->>CICS: EXEC CICS ASKTIME ABSTIME(WS_ABSTIME)
+    CICS-->>P: Absolute time value
+    P->>CICS: EXEC CICS FORMATTIME ABSTIME → WS_DATE / WS_TIME
+    CICS-->>P: Formatted date and time
+    P->>P: Populate ERROR_MSG\n(program ID · CNUM · RESP · RESP2 · date · time)
+    P->>LGSTSQ: EXEC CICS LINK COMMAREA(ERROR_MSG)
+    LGSTSQ->>TSQ: Write structured error message
+    LGSTSQ-->>P: Return
+    alt EIBCALEN > 0
+        P->>P: Extract up to 90 bytes of COMM_AREA_RAW\ninto CA_Data
+        P->>LGSTSQ: EXEC CICS LINK COMMAREA(CA_ERROR_MSG)
+        LGSTSQ->>TSQ: Write COMMAREA dump
+        LGSTSQ-->>P: Return
+    end
+    P->>CICS: EXEC CICS ABEND ABCODE(...) NODUMP
+    P->>CICS: EXEC CICS RETURN
+</div>
+<p>This sequence ensures that:</p>
+<ol>
+<li>A human-readable timestamp is always included in the error record.</li>
+<li>Both the primary CICS response code (<code>RESP</code>) and the supplementary code (<code>RESP2</code>) are captured.</li>
+<li>Up to 90 bytes of the inbound COMMAREA are logged as a diagnostic snapshot.</li>
+<li>Error logging always completes <strong>before</strong> the ABEND is issued.</li>
+<li><code>NODUMP</code> suppresses system dump generation, keeping abend overhead low.</li>
+</ol>
+<h3 id="72-error_msg-structure" tabindex="-1">7.2 ERROR_MSG Structure</h3>
+<p>The <code>ERROR_MSG</code> structure passed to <code>LGSTSQ</code> includes static literal labels embedded as <code>INIT</code> values, producing a self-describing log line:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>MM/DD/YYYY HH:MM:SS  LGACVS01 CNUM=0000000042 Write file KSDSCUST RESP= 16 RESP2= 8</code></pre>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EM_DATE</code></td>
+<td><code>EXEC CICS FORMATTIME</code> → <code>WS_DATE</code></td>
+</tr>
+<tr>
+<td><code>EM_TIME</code></td>
+<td><code>EXEC CICS FORMATTIME</code> → <code>WS_TIME</code></td>
+</tr>
+<tr>
+<td><code>EM_CUSNUM</code></td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+</tr>
+<tr>
+<td><code>EM_RESPRC</code></td>
+<td><code>WS_RESP</code> (primary CICS response code)</td>
+</tr>
+<tr>
+<td><code>EM_RESP2RC</code></td>
+<td><code>WS_RESP2</code> (from <code>EIBRESP2</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-commarea-diagnostic-dump-logic" tabindex="-1">7.3 COMMAREA Diagnostic Dump Logic</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF EIBCALEN &gt; 0 THEN DO;
+    IF EIBCALEN &lt; 91 THEN
+        CA_Data = LEFT(COMM_AREA_RAW, EIBCALEN);
+    ELSE
+        CA_Data = LEFT(COMM_AREA_RAW, 90);
+    EXEC CICS LINK PROGRAM(&#039;LGSTSQ&#039;)
+         COMMAREA(CA_ERROR_MSG)
+         LENGTH(STG(CA_ERROR_MSG));
+END;</code></pre>
+</div>
+<p>The <code>LEFT</code> built-in function extracts a bounded, printable excerpt of the COMMAREA regardless of its actual size, capping the logged content at 90 characters (<code>CA_Data CHAR(90)</code>) to prevent buffer overflow.</p>
+<hr>
+<h2 id="8-enqdeq-serialization-lgicvs01" tabindex="-1">8. ENQ/DEQ Serialization (LGICVS01)</h2>
+<p>LGICVS01 is the only program in this group that uses CICS ENQ/DEQ serialization. The lock resource is the TS queue name <code>GENACNTL</code> itself:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS ENQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));
+/* Read GENACNTL, conditionally write missing records */
+EXEC CICS DEQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));</code></pre>
+</div>
+<h3 id="81-why-serialization-is-needed" tabindex="-1">8.1 Why Serialization Is Needed</h3>
+<p>The <code>GENACNTL</code> TS queue stores the customer number range boundaries shared across all tasks that invoke <code>LGICVS01</code>. Without serialization, two tasks could simultaneously:</p>
+<ol>
+<li>Both read the queue and find a record absent (<code>WS_FLAG = 'Y'</code>).</li>
+<li>Both issue <code>WRITEQ TS</code> for the same record type — creating duplicate control entries.</li>
+</ol>
+<p>ENQ/DEQ ensures only one task at a time reads and conditionally initializes the queue.</p>
+<h3 id="82-serialization-scope" tabindex="-1">8.2 Serialization Scope</h3>
+<p>The ENQ/DEQ bracket covers <strong>only</strong> the TS queue operations. The VSAM <code>READ FILE GTEQ</code> and all output operations (COMMAREA population or <code>SEND TEXT</code>) occur <strong>outside</strong> the lock, minimizing contention.</p>
+<hr>
+<h2 id="9-abend-behaviour-summary" tabindex="-1">9. Abend Behaviour Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Condition</th>
+<th>Return Code</th>
+<th>ABEND Code</th>
+<th>Dump</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LGACVS01</td>
+<td>VSAM WRITE fails</td>
+<td><code>80</code></td>
+<td><code>LGV0</code></td>
+<td><code>NODUMP</code></td>
+</tr>
+<tr>
+<td>LGUCVS01</td>
+<td>VSAM READ UPDATE fails</td>
+<td><code>81</code></td>
+<td><code>LGV1</code></td>
+<td><code>NODUMP</code></td>
+</tr>
+<tr>
+<td>LGUCVS01</td>
+<td>VSAM REWRITE fails</td>
+<td><code>82</code></td>
+<td><code>LGV2</code></td>
+<td><code>NODUMP</code></td>
+</tr>
+<tr>
+<td>LGICVS01</td>
+<td>VSAM READ GTEQ fails</td>
+<td>N/A</td>
+<td><em>(none)</em></td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p>All abends use <code>NODUMP</code> to suppress system dump generation, relying solely on the <code>LGSTSQ</code> TS queue entries for post-failure diagnosis. The four-character abend codes (<code>LGV0</code>–<code>LGV2</code>) are distinct and appear in CICS system logs and monitoring, allowing operations staff to pinpoint the failing program and operation at a glance.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-db2-programs.html" class="card">
+                <span class="card-title">Customer DB2 Back-End Programs</span>
+                <span class="card-description">Details the DB2-layer programs for the customer domain: LGACDB01 (insert new customer), LGACDB02 (insert customer security record), LGICDB01 (retrieve customer profile), and LGUCDB01 (update customer record), including SQL table targets, host variables, return codes, and error handling.</span>
+            </a>
+            <a href="customer-frontend-programs.html" class="card">
+                <span class="card-title">Customer Business Logic Programs</span>
+                <span class="card-description">Covers the business-logic layer programs for customer operations: LGACUS01 (add customer, policy offer, transfer, delete), LGICUS01 (customer inquiry with MQ routing), and LGUCUS01 (customer update), including their COMMAREA contracts, validation rules, and downstream LINK chains.</span>
+            </a>
+            <a href="logging-and-error-handling.html" class="card">
+                <span class="card-title">Logging &amp; Error Handling</span>
+                <span class="card-description">Documents the shared LGSTSQ error-logging utility used across all GenApp programs: how it accepts diagnostic messages via COMMAREA or terminal input, writes entries prefixed with the CICS SYSID to the CSMT transient data queue and to application-specific TSQs (GENAERRS / GENAnnnn), and how calling programs construct timestamped error messages including SQLCODE, RESP codes, and raw COMMAREA snapshots.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-shared-commarea-layout">3. Shared COMMAREA Layout</a>
+<ul>
+<li class="toc-level-3"><a href="#31-key-commarea-fields">3.1 Key COMMAREA Fields</a></li>
+<li class="toc-level-3"><a href="#32-vsam-key-construction">3.2 VSAM Key Construction</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-lgacvs01--add-new-customer-record">4. LGACVS01 — Add New Customer Record</a>
+<ul>
+<li class="toc-level-3"><a href="#41-purpose">4.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#42-processing-flow">4.2 Processing Flow</a></li>
+<li class="toc-level-3"><a href="#43-vsam-write-command">4.3 VSAM Write Command</a></li>
+<li class="toc-level-3"><a href="#44-error-handling">4.4 Error Handling</a></li>
+<li class="toc-level-3"><a href="#45-example-successful-add">4.5 Example: Successful Add</a></li>
+<li class="toc-level-3"><a href="#46-example-failed-add--duplicate-key">4.6 Example: Failed Add — Duplicate Key</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-lgicvs01--random-customer-number-selection">5. LGICVS01 — Random Customer Number Selection</a>
+<ul>
+<li class="toc-level-3"><a href="#51-purpose">5.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#52-invocation-modes">5.2 Invocation Modes</a></li>
+<li class="toc-level-3"><a href="#53-processing-flow">5.3 Processing Flow</a></li>
+<li class="toc-level-3"><a href="#54-enqdeq-serialization">5.4 ENQ/DEQ Serialization</a></li>
+<li class="toc-level-3"><a href="#55-genacntl-ts-queue-structure">5.5 GENACNTL TS Queue Structure</a></li>
+<li class="toc-level-3"><a href="#56-random-number-generation">5.6 Random Number Generation</a></li>
+<li class="toc-level-3"><a href="#57-gteq-vsam-read">5.7 GTEQ VSAM Read</a></li>
+<li class="toc-level-3"><a href="#58-example-first-time-invocation-via-cics-link">5.8 Example: First-Time Invocation via CICS LINK</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-lgucvs01--update-existing-customer-record">6. LGUCVS01 — Update Existing Customer Record</a>
+<ul>
+<li class="toc-level-3"><a href="#61-purpose">6.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#62-processing-flow">6.2 Processing Flow</a></li>
+<li class="toc-level-3"><a href="#63-read-file-with-update-lock">6.3 READ FILE with UPDATE Lock</a></li>
+<li class="toc-level-3"><a href="#64-rewrite-file">6.4 REWRITE FILE</a></li>
+<li class="toc-level-3"><a href="#65-error-handling-and-abend-codes">6.5 Error Handling and ABEND Codes</a></li>
+<li class="toc-level-3"><a href="#66-vsam-record-layout-ksdscust">6.6 VSAM Record Layout (KSDSCUST)</a></li>
+<li class="toc-level-3"><a href="#67-examples">6.7 Examples</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-shared-error-handling-pattern">7. Shared Error Handling Pattern</a>
+<ul>
+<li class="toc-level-3"><a href="#71-write_error_message-sequence">7.1 WRITE_ERROR_MESSAGE Sequence</a></li>
+<li class="toc-level-3"><a href="#72-error_msg-structure">7.2 ERROR_MSG Structure</a></li>
+<li class="toc-level-3"><a href="#73-commarea-diagnostic-dump-logic">7.3 COMMAREA Diagnostic Dump Logic</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-enqdeq-serialization-lgicvs01">8. ENQ/DEQ Serialization (LGICVS01)</a>
+<ul>
+<li class="toc-level-3"><a href="#81-why-serialization-is-needed">8.1 Why Serialization Is Needed</a></li>
+<li class="toc-level-3"><a href="#82-serialization-scope">8.2 Serialization Scope</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-abend-behaviour-summary">9. Abend Behaviour Summary</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

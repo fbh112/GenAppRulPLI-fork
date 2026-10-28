@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGBATCHF</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link active">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p><code>LGBATCHF</code> is a PL/I batch subroutine that formats a single customer report line for use by the calling program <code>LGBATCH</code>. It accepts a customer number, a pointer to the <code>LGCMAREA</code> communication area containing full customer and policy data, and an 80-character output line variable. Using the communication area, it extracts the customer’s first and last name by trimming each field at the first blank character, then constructs a human-readable summary string in the form <code>&quot;Customer &lt;number&gt; is &lt;first&gt; &lt;last&gt;&quot;</code> and writes it into the output line, which the caller uses to produce the batch report.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<p><strong>Procedure Parameters</strong></p>
+<ul>
+<li><code>CUSTNUMBER</code> — A 10-digit numeric picture variable (<code>PIC '9999999999'</code>) passed by reference as the first procedure parameter. Supplies the customer’s unique identifier, which is embedded directly into the formatted report line string.</li>
+<li><code>COMM_PTR</code> — A pointer variable passed by reference as the second procedure parameter. Holds the address of the <code>LGCMAREA</code> communication area (<code>COMM_AREA</code>) structure. All customer and policy data fields are accessed through this pointer via PL/I based storage (<code>COMM_AREA_PTR = COMM_PTR</code>).</li>
+<li><code>LS_LINE</code> — An 80-character variable (<code>CHAR(80)</code>) passed by reference as the third procedure parameter. Serves as the output carrier: the subroutine writes the fully formatted customer report line into this variable for the caller (<code>LGBATCH</code>) to consume.</li>
+</ul>
+<p><strong>Communication Area Fields (accessed via <code>COMM_PTR</code> → <code>COMM_AREA</code>)</strong></p>
+<p>These fields are overlaid onto the communication area through the <code>BASED</code> structure resolved from <code>COMM_PTR</code>. They represent data passed in from the calling batch program.</p>
+<ul>
+<li><code>CA_REQUEST_ID</code> — A 6-character field encoding the type of business operation requested (e.g., <code>'01IMOT'</code>). Controls which branch of business logic is executed across the broader GenApp call chain.</li>
+<li><code>CA_RETURN_CODE</code> — A 2-digit numeric picture field (<code>PIC '99'</code>) conveying the outcome status of the requested operation; <code>'00'</code> = success, <code>'99'</code> = system error.</li>
+<li><code>CA_CUSTOMER_NUM</code> — A 10-digit numeric picture field (<code>PIC '9999999999'</code>) identifying the customer within the communication area, complementing the <code>CUSTNUMBER</code> parameter.</li>
+<li>Customer demographic fields (within <code>CA_CUSTOMER_REQUEST</code>):
+<ul>
+<li><code>CA_FIRST_NAME</code> — A 10-character field holding the customer’s first name. The subroutine extracts the token up to the first blank space for inclusion in the report line.</li>
+<li><code>CA_LAST_NAME</code> — A 20-character field holding the customer’s last name. The subroutine similarly extracts the token up to the first blank space for the report line.</li>
+<li><code>CA_DOB</code> — A 10-character field storing the customer’s date of birth; available in the communication area for identity and eligibility purposes.</li>
+<li><code>CA_POSTCODE</code> — An 8-character field storing the customer’s postal code; available for address identification.</li>
+<li><code>CA_NUM_POLICIES</code> — A 3-digit numeric picture field (<code>PIC '999'</code>) indicating the total number of insurance policies associated with the customer.</li>
+</ul>
+</li>
+<li>Policy identification and financial fields (within <code>CA_POLICY_REQUEST</code> / <code>CA_POLICY_COMMON</code>):
+<ul>
+<li><code>CA_POLICY_NUM</code> — A 10-digit numeric picture field (<code>PIC '9999999999'</code>) uniquely identifying a specific insurance policy.</li>
+<li><code>CA_BROKERID</code> — A 10-digit numeric picture field (<code>PIC '9999999999'</code>) identifying the broker associated with a policy.</li>
+<li><code>CA_PAYMENT</code> — A 6-digit numeric picture field (<code>PIC '999999'</code>) representing the payment amount associated with an insurance policy.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<ul>
+<li>
+<p><strong><code>LS_LINE</code> — Formatted Report Line (output parameter, passed by reference)</strong></p>
+<ul>
+<li>An 80-character string returned to the caller (<code>LGBATCH</code>) via the by-reference parameter interface</li>
+<li>Built by concatenating the literal <code>'Customer '</code>, the 10-digit customer number (<code>CUSTNUMBER</code>), the literal <code>' is '</code>, and the trimmed first and last name tokens extracted from <code>CA_FIRST_NAME</code> and <code>CA_LAST_NAME</code></li>
+<li>Serves as the single primary output of the subroutine; the caller uses this line to write the customer report</li>
+</ul>
+</li>
+<li>
+<p><strong><code>DISPLAY</code> statement — Diagnostic Console Output</strong></p>
+<ul>
+<li>Emits the message <code>'LGBATCHF WAS HERE... '</code> followed by the content of <code>LS_LINE</code> to the system operator console (SYSOUT / job log)</li>
+<li>Acts as a trace/diagnostic side effect confirming the subroutine was invoked and showing the formatted line that was produced</li>
+<li>Not returned to the caller; purely an observable side effect at execution time</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#5a9e7f,color:#000
+    classDef process fill:#c7ceea,stroke:#6272a4,color:#000
+    classDef decision fill:#ffdac1,stroke:#e09060,color:#000
+    classDef output fill:#fffacd,stroke:#c8b400,color:#000
+
+    A([Start - LGBATCF called]):::startEnd
+    B[Receive CUSTNUMBER<br>COMM_PTR<br>LS_LINE]:::process
+    C[Set COMM_AREA_PTR = COMM_PTR<br>Map COMM_AREA structure onto pointer]:::process
+    D[Find first blank in CA_FIRST_NAME<br>POS = INDEX of space]:::process
+    E{{POS = 0}}:::decision
+    F[FIRST_TOKEN = full CA_FIRST_NAME]:::process
+    G{{POS = 1}}:::decision
+    H[FIRST_TOKEN = empty string]:::process
+    I[FIRST_TOKEN = SUBSTR of CA_FIRST_NAME<br>chars 1 to POS-1]:::process
+    J[Find first blank in CA_LAST_NAME<br>POS = INDEX of space]:::process
+    K{{POS = 0}}:::decision
+    L[LAST_TOKEN = full CA_LAST_NAME]:::process
+    M{{POS = 1}}:::decision
+    N[LAST_TOKEN = empty string]:::process
+    O[LAST_TOKEN = SUBSTR of CA_LAST_NAME<br>chars 1 to POS-1]:::process
+    P[Compose LS_LINE<br>Customer CUSTNUMBER is FIRST_TOKEN LAST_TOKEN]:::output
+    Q[DISPLAY diagnostic trace line to SYSOUT]:::process
+    R([Return to caller - LGBATCH]):::startEnd
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -- Yes --> F
+    E -- No --> G
+    G -- Yes --> H
+    G -- No --> I
+    F --> J
+    H --> J
+    I --> J
+    J --> K
+    K -- Yes --> L
+    K -- No --> M
+    M -- Yes --> N
+    M -- No --> O
+    L --> P
+    N --> P
+    O --> P
+    P --> Q
+    Q --> R
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGBATCF</code> (source member <code>LGBATCHF</code>) is a <strong>batch subroutine</strong> of the GenApp insurance application. It has a single, focused responsibility: given a customer number and a pointer to the shared COMMAREA structure, it extracts the customer’s first and last name, trims each to its first word (text before the first blank space), and assembles one 80-character report line of the form:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>Customer 0000000042 is John Smith</code></pre>
+</div>
+<p>The formatted line is returned to the caller (<code>LGBATCH</code>) via the <code>LS_LINE</code> output parameter. A diagnostic <code>DISPLAY</code> statement also writes the completed line to SYSOUT for trace purposes.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Entry and parameter receipt</strong>
+The procedure <code>LGBATCF</code> is declared as a non-CICS subroutine (<code>Proc(CUSTNUMBER, COMM_PTR, LS_LINE)</code>) called statically from <code>LGBATCH</code>. Three parameters are received by reference:</p>
+<ul>
+<li><code>CUSTNUMBER</code> — a 10-digit picture variable holding the customer number.</li>
+<li><code>COMM_PTR</code> — a pointer to the <code>LGCMAREA</code> COMMAREA structure in the caller’s storage.</li>
+<li><code>LS_LINE</code> — an 80-character output variable to be filled before return.</li>
+</ul>
+<p><strong>Step 2 — COMMAREA pointer initialisation</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>COMM_AREA_PTR = COMM_PTR;</code></pre>
+</div>
+<p>The local <code>COMM_AREA_PTR</code> is loaded from the passed <code>COMM_PTR</code>. The <code>COMM_AREA</code> based structure (included from <code>LGCMAREA.inc</code>) is then accessible via this pointer, exposing all COMMAREA fields such as <code>CA_FIRST_NAME</code> (10 chars) and <code>CA_LAST_NAME</code> (20 chars).</p>
+<p><strong>Step 3 — Extract first-name token</strong>
+<code>POS = INDEX(CA_FIRST_NAME, ' ')</code> locates the position of the first blank in the 10-character first-name field. Three branches apply:</p>
+<ul>
+<li><strong>POS = 0</strong> (no blank found): the entire <code>CA_FIRST_NAME</code> value is used as <code>FIRST_TOKEN</code>.</li>
+<li><strong>POS = 1</strong> (blank is the very first character — name is empty): <code>FIRST_TOKEN</code> is set to an empty varying string <code>''</code>.</li>
+<li><strong>POS &gt; 1</strong> (blank found after at least one character): <code>FIRST_TOKEN = SUBSTR(CA_FIRST_NAME, 1, POS-1)</code> extracts only the leading word.</li>
+</ul>
+<p>This logic mirrors the COBOL idiom <code>STRING field DELIMITED BY SPACE</code>, keeping only the significant text before any trailing blanks.</p>
+<p><strong>Step 4 — Extract last-name token</strong>
+Identical three-way logic is applied to <code>CA_LAST_NAME</code> (20 chars) to produce <code>LAST_TOKEN</code>. The same rules govern whether the full field, an empty string, or the leading word is selected.</p>
+<p><strong>Step 5 — Compose the output line</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">LS_LINE = &#039;Customer &#039; || CUSTNUMBER || &#039; is &#039; ||
+          FIRST_TOKEN || &#039; &#039; || LAST_TOKEN;</code></pre>
+</div>
+<p>String concatenation (<code>||</code>) builds a single descriptive sentence. <code>CUSTNUMBER</code> (PIC 9(10)) is automatically converted to its character representation. The result is stored in the 80-character <code>LS_LINE</code> variable, which is passed back to <code>LGBATCH</code> by reference.</p>
+<p><strong>Step 6 — Diagnostic display</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">DISPLAY(&#039;LGBATCHF WAS HERE... &#039; || LS_LINE);</code></pre>
+</div>
+<p>This DISPLAY statement writes the formatted line prefixed with a trace literal to the batch job’s SYSOUT stream, providing a simple execution trace without requiring any additional log file.</p>
+<p><strong>Step 7 — Return</strong>
+<code>RETURN</code> transfers control back to <code>LGBATCH</code>. No error codes are set because this subroutine performs no I/O or DB2 operations; it is a pure data-formatting utility.</p>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Caller</strong></td>
+<td><code>LGBATCH</code> — the main batch program that calls <code>LGBATCF</code> via a static <code>CALL</code> statement, passing the customer number, COMMAREA pointer, and the output line variable.</td>
+</tr>
+<tr>
+<td><strong>COMMAREA data</strong></td>
+<td>The <code>LGCMAREA</code> structure (included via <code>%INCLUDE LGCMAREA</code>) provides customer name fields (<code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>). This data is assumed to have been populated by the caller prior to the call.</td>
+</tr>
+<tr>
+<td><strong>SYSOUT</strong></td>
+<td>The <code>DISPLAY</code> statement writes a trace message to the batch job log (DD SYSOUT).</td>
+</tr>
+</tbody>
+</table>
+<p>There are <strong>no DB2 SQL statements, no CICS commands, no file I/O, and no MQ calls</strong> in this subroutine.</p>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p>When <code>LGBATCH</code> wants to print a line about a customer in a report, it calls <code>LGBATCHF</code> as a helper. The helper is handed the customer’s number and access to the customer’s details (name fields). It takes the first word of the first name and the first word of the last name — ignoring any trailing blanks — and glues them together with the customer number into a sentence like <em>“Customer 0000000042 is John Smith”</em>. That sentence is written back into the report line variable for <code>LGBATCH</code> to use. A brief trace message is also printed to the job log so operators can confirm the routine executed.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<p>This subroutine performs <strong>no direct database access</strong>. It operates exclusively on data already present in the COMMAREA passed by its caller (<code>LGBATCH</code>). No <code>erDiagram</code> is applicable.</p>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<p><strong>LGBATCF (Main Procedure Body)</strong></p>
+<ul>
+<li>
+<p>This is the sole procedure in the subroutine. It is entered via the <code>LGBATCF: Proc(CUSTNUMBER, COMM_PTR, LS_LINE)</code> statement and exits via <code>RETURN</code>, making the entire program body a single logical unit with no internal sub-procedures or nested blocks.</p>
+</li>
+<li>
+<p><strong>Parameter setup and communication area binding:</strong></p>
+<ul>
+<li>On entry, <code>COMM_AREA_PTR</code> is set to the value of the passed-in <code>COMM_PTR</code> pointer, anchoring all subsequent references to the <code>COMM_AREA</code> based structure onto the caller’s communication area block.</li>
+<li>This makes fields such as <code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, and other <code>COMM_AREA</code> members directly addressable without further dereferencing.</li>
+</ul>
+</li>
+<li>
+<p><strong>First-name token extraction:</strong></p>
+<ul>
+<li><code>POS</code> is loaded with the result of <code>INDEX(CA_FIRST_NAME,' ')</code>, which locates the position of the first blank character within the 10-character <code>CA_FIRST_NAME</code> field.</li>
+<li>Conditional logic branches on three cases:
+<ul>
+<li>If <code>POS = 0</code> (no blank found), the entire <code>CA_FIRST_NAME</code> value is used as <code>FIRST_TOKEN</code>.</li>
+<li>If <code>POS = 1</code> (field begins with a blank), <code>FIRST_TOKEN</code> is set to an empty string, effectively treating the name as absent.</li>
+<li>Otherwise, <code>FIRST_TOKEN</code> is assigned the substring from position 1 up to (but not including) the first blank, i.e., <code>SUBSTR(CA_FIRST_NAME, 1, POS-1)</code>.</li>
+</ul>
+</li>
+<li>This logic precisely replicates the COBOL <code>STRING ... DELIMITED BY SPACE</code> behaviour, as noted in the inline comment.</li>
+</ul>
+</li>
+<li>
+<p><strong>Last-name token extraction:</strong></p>
+<ul>
+<li>The identical three-way conditional logic is repeated for <code>CA_LAST_NAME</code> using the same <code>POS</code> working variable.</li>
+<li>The result is stored in the 20-character varying <code>LAST_TOKEN</code>.</li>
+<li>Same blank-delimiting rules apply: no blank → full field; leading blank → empty; otherwise → substring up to first blank.</li>
+</ul>
+</li>
+<li>
+<p><strong>Report line construction:</strong></p>
+<ul>
+<li><code>LS_LINE</code> is assembled by concatenating the literal <code>'Customer '</code>, the 10-digit <code>CUSTNUMBER</code> picture variable, the literal <code>' is '</code>, <code>FIRST_TOKEN</code>, a single space <code>' '</code>, and <code>LAST_TOKEN</code>.</li>
+<li>The resulting 80-character output string is passed back to the caller through the by-reference <code>LS_LINE</code> parameter.</li>
+</ul>
+</li>
+<li>
+<p><strong>Diagnostic display:</strong></p>
+<ul>
+<li>A <code>DISPLAY</code> statement outputs the string <code>'LGBATCHF WAS HERE... '</code> concatenated with the just-built <code>LS_LINE</code> to the system console or job log, serving as a trace/debug message confirming execution of the subroutine.</li>
+</ul>
+</li>
+<li>
+<p><strong>No external system interactions</strong> (no EXEC CICS, no EXEC SQL, no file I/O, no IMS or MQ calls) are present; all data access is purely through the in-memory based structure pointed to by <code>COMM_PTR</code>.</p>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-input-parameters" tabindex="-1">6.1 Input Parameters</h3>
+<ul>
+<li><strong>CUSTNUMBER</strong> — A 10-digit numeric picture (<code>PIC '9999999999'</code>) passed by reference from the calling program <code>LGBATCH</code>; provides the customer number used to compose the output report line.</li>
+<li><strong>COMM_PTR</strong> — A pointer passed by reference from <code>LGBATCH</code>; holds the address of the <code>LGCMAREA</code> communication area (<code>COMM_AREA</code>) through which all customer and policy data fields are accessed via based storage.</li>
+<li><strong>LS_LINE</strong> — An 80-character output variable passed by reference; receives the fully formatted customer report line built by this subroutine and returned to the caller.</li>
+</ul>
+<h3 id="62-communication-area-structure-lgcmarea-copybook" tabindex="-1">6.2 Communication Area Structure (<code>LGCMAREA</code> Copybook)</h3>
+<ul>
+<li><strong>LGCMAREA</strong> (<code>%INCLUDE LGCMAREA</code>) — PL/I include member (<code>plinc/LGCMAREA.inc</code>) defining the <code>COMM_AREA</code> based structure; expanded inline at compile time.
+<ul>
+<li><strong>CA_REQUEST_ID</strong> — 6-character field identifying the type of business request (e.g., inquiry, add, update, delete).</li>
+<li><strong>CA_RETURN_CODE</strong> — 2-digit numeric picture field conveying operation outcome status back to the caller.</li>
+<li><strong>CA_CUSTOMER_NUM</strong> — 10-digit numeric picture field carrying the customer identifier within the communication area.</li>
+<li><strong>CA_CUSTOMER_REQUEST</strong> structure fields:
+<ul>
+<li><strong>CA_FIRST_NAME</strong> — 10-character field storing the customer’s first name; used to extract the first name token for the report line.</li>
+<li><strong>CA_LAST_NAME</strong> — 20-character field storing the customer’s last name; used to extract the last name token for the report line.</li>
+<li><strong>CA_DOB</strong> — 10-character field storing the customer’s date of birth.</li>
+<li><strong>CA_POSTCODE</strong> — 8-character field storing the customer’s postal code.</li>
+<li><strong>CA_NUM_POLICIES</strong> — 3-digit numeric picture field indicating the total number of policies associated with the customer.</li>
+</ul>
+</li>
+<li><strong>CA_POLICY_REQUEST</strong> structure fields:
+<ul>
+<li><strong>CA_POLICY_NUM</strong> — 10-digit numeric picture field uniquely identifying a specific insurance policy.</li>
+<li><strong>CA_POLICY_COMMON</strong> sub-structure fields:
+<ul>
+<li><strong>CA_BROKERID</strong> — 10-digit numeric picture field storing the broker identifier associated with the policy.</li>
+<li><strong>CA_PAYMENT</strong> — 6-digit numeric picture field representing the payment amount for the policy.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-calling-program" tabindex="-1">6.3 Calling Program</h3>
+<ul>
+<li><strong>LGBATCH</strong> — The parent batch program that invokes <code>LGBATCF</code> as a subroutine, supplying all three parameters (<code>CUSTNUMBER</code>, <code>COMM_PTR</code>, <code>LS_LINE</code>) and consuming the formatted output line.</li>
+</ul>
+<h3 id="64-internal-working-variables" tabindex="-1">6.4 Internal Working Variables</h3>
+<ul>
+<li><strong>POS</strong> — A <code>FIXED BIN(15)</code> working variable used internally to locate the first blank character within <code>CA_FIRST_NAME</code> and <code>CA_LAST_NAME</code> for name token extraction; no external dependency.</li>
+<li><strong>FIRST_TOKEN</strong> / <strong>LAST_TOKEN</strong> — <code>CHAR VAR</code> working variables used internally to stage the extracted name tokens before concatenation into <code>LS_LINE</code>; no external dependency.</li>
+</ul>
+<h3 id="65-runtime-services" tabindex="-1">6.5 Runtime Services</h3>
+<ul>
+<li><strong><code>DISPLAY</code></strong> — PL/I built-in runtime service used to write a diagnostic trace message (<code>'LGBATCHF WAS HERE... ' || LS_LINE</code>) to standard output or the system log at runtime.</li>
+<li><strong><code>INDEX</code></strong> / <strong><code>SUBSTR</code></strong> — PL/I built-in string functions used internally for name-token parsing; resolved by the Enterprise PL/I runtime library.</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-input--parameter-constraints" tabindex="-1">7.1 Input / Parameter Constraints</h3>
+<ul>
+<li>
+<p><strong><code>CUSTNUMBER</code> must be a 10-digit numeric picture value (<code>PIC '9999999999'</code>)</strong></p>
+<ul>
+<li>Declared as <code>PIC '9999999999'</code>; only digits 0–9 are valid in each position. Non-numeric content cannot be stored in a PIC variable and would cause a data exception at runtime.</li>
+<li>Used directly in string concatenation to build the output report line; no additional validation is performed inside the subroutine itself — the caller (<code>LGBATCH</code>) is responsible for supplying a valid value.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>COMM_PTR</code> must be a valid, non-null pointer to a fully populated <code>LGCMAREA</code> communication area</strong></p>
+<ul>
+<li>Declared as <code>PTR</code> and immediately assigned to <code>COMM_AREA_PTR</code> (line 155). The subroutine performs no null-pointer check or length guard.</li>
+<li>If <code>COMM_PTR</code> is null or points to storage shorter than the <code>COMM_AREA</code> structure (up to 32,500 bytes), access to any member such as <code>CA_FIRST_NAME</code> or <code>CA_LAST_NAME</code> will cause a protection exception or produce garbage data.</li>
+<li>The constraint is implicitly enforced by the calling program (<code>LGBATCH</code>), which must have previously populated the communication area before issuing the static <code>CALL</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>LS_LINE</code> must be an 80-character character variable passed by reference</strong></p>
+<ul>
+<li>Declared as <code>CHAR(80)</code> (line 29). The concatenated result is assigned unconditionally to <code>LS_LINE</code> (line 174–175). If the caller passes a shorter area the assignment will be truncated or cause storage overlay; the subroutine imposes no defensive check.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="72-data-format-and-content-constraints" tabindex="-1">7.2 Data Format and Content Constraints</h3>
+<ul>
+<li>
+<p><strong><code>CA_FIRST_NAME</code> is constrained to 10 characters (<code>CHAR(10)</code>)</strong></p>
+<ul>
+<li>The field is fixed at 10 characters; any first name longer than 10 characters is silently truncated at storage time by the calling program. The subroutine treats the full 10-character field as the source for name extraction.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>CA_LAST_NAME</code> is constrained to 20 characters (<code>CHAR(20)</code>)</strong></p>
+<ul>
+<li>Same truncation constraint applies; the subroutine works with at most 20 characters for the last name.</li>
+</ul>
+</li>
+<li>
+<p><strong>Name token extraction uses the first blank character as a delimiter</strong></p>
+<ul>
+<li><code>INDEX(CA_FIRST_NAME,' ')</code> and <code>INDEX(CA_LAST_NAME,' ')</code> locate the first space in each name field (lines 158, 166).</li>
+<li>If no blank is found (<code>POS = 0</code>), the entire field content is used as the token — the full 10 or 20 characters including any trailing padding.</li>
+<li>If the first character is a blank (<code>POS = 1</code>), the token is set to an empty string (<code>''</code>), effectively treating the name as absent.</li>
+<li>If a blank is found at position &gt; 1, only the substring up to (but not including) that blank is used (<code>SUBSTR(field, 1, POS-1)</code>).</li>
+<li>This means names containing embedded spaces lose everything from the first space onward; the subroutine enforces a single-token (no-space) constraint on the usable part of each name field.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>CA_FIRST_NAME</code> and <code>CA_LAST_NAME</code> must not begin with a space if the name is to appear in the report line</strong></p>
+<ul>
+<li>A leading space causes <code>FIRST_TOKEN</code> or <code>LAST_TOKEN</code> to be assigned <code>''</code>, resulting in the corresponding name portion being absent from the formatted line. No error is raised; the output simply omits the name.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="73-output-constraints" tabindex="-1">7.3 Output Constraints</h3>
+<ul>
+<li>
+<p><strong><code>LS_LINE</code> is always exactly 80 characters</strong></p>
+<ul>
+<li>The assignment <code>LS_LINE = 'Customer ' || CUSTNUMBER || ' is ' || FIRST_TOKEN || ' ' || LAST_TOKEN</code> writes the entire concatenated string into a <code>CHAR(80)</code> fixed-length variable. Enterprise PL/I pads with blanks on the right or truncates on the left if the composed string is shorter or longer than 80 characters respectively.</li>
+<li>The fixed prefix <code>'Customer '</code> (9 chars) plus the 10-digit <code>CUSTNUMBER</code> plus <code>' is '</code> (4 chars) accounts for 23 characters before the name tokens. With a maximum <code>FIRST_TOKEN</code> of 10 chars, one separator space, and a maximum <code>LAST_TOKEN</code> of 20 chars, the maximum composed length is 54 characters — well within the 80-character limit, so truncation of name data cannot occur.</li>
+<li>The output line is unconditionally written; there is no conditional suppression even if both name tokens are empty.</li>
+</ul>
+</li>
+<li>
+<p><strong>A <code>DISPLAY</code> statement emits a diagnostic trace to SYSOUT unconditionally</strong></p>
+<ul>
+<li>Line 177 always executes <code>DISPLAY('LGBATCHF WAS HERE... ' || LS_LINE)</code>. There is no flag or condition to suppress this trace output, making it a mandatory side-effect of every invocation.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="74-sequencing-and-control-flow-constraints" tabindex="-1">7.4 Sequencing and Control-Flow Constraints</h3>
+<ul>
+<li>
+<p><strong><code>COMM_AREA_PTR</code> must be set before any <code>COMM_AREA</code> member is accessed</strong></p>
+<ul>
+<li>The based structure <code>COMM_AREA</code> is accessed only via <code>COMM_AREA_PTR</code>. The assignment <code>COMM_AREA_PTR = COMM_PTR</code> (line 155) must precede the <code>INDEX</code> calls on lines 158 and 166. This ordering is hard-coded in the source and cannot be reordered.</li>
+</ul>
+</li>
+<li>
+<p><strong>First-name extraction must complete before last-name extraction begins</strong></p>
+<ul>
+<li><code>POS</code> is a single shared <code>FIXED BIN(15)</code> work variable reused for both name fields (lines 158 and 166). The first-name logic reads and acts on <code>POS</code> (lines 158–164) before <code>POS</code> is overwritten for the last-name logic (lines 166–172). Reordering these two blocks would corrupt one of the name tokens.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>LS_LINE</code> must be constructed before <code>DISPLAY</code> is called</strong></p>
+<ul>
+<li>The <code>DISPLAY</code> statement (line 177) references <code>LS_LINE</code> directly; <code>LS_LINE</code> must be fully assigned (line 174–175) before line 177 executes. This ordering is enforced by the sequential structure of the code.</li>
+</ul>
+</li>
+<li>
+<p><strong>The subroutine must be invoked via static <code>CALL</code> (not CICS LINK)</strong></p>
+<ul>
+<li>The procedure is declared without <code>OPTIONS(MAIN)</code> and without any CICS scaffolding, confirming it is a linkage-convention subroutine. It has no <code>EXEC CICS</code> statements and no COMMAREA length guard; calling it via CICS LINK would bypass normal parameter passing and produce undefined behavior.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="75-structural--storage-constraints" tabindex="-1">7.5 Structural / Storage Constraints</h3>
+<ul>
+<li>
+<p><strong><code>COMM_AREA</code> union is 32,500 bytes; the pointer-based storage must cover at least this length</strong></p>
+<ul>
+<li><code>COMM_AREA_RAW CHAR(32500)</code> defines the total extent of the based structure. Any storage area shorter than 32,500 bytes that is addressed via <code>COMM_PTR</code> exposes the program to out-of-bounds access when the deeper union members are referenced by other callers of the same copybook.</li>
+<li>For this subroutine specifically, only <code>CA_FIRST_NAME</code> (offset 18, 10 bytes) and <code>CA_LAST_NAME</code> (offset 28, 20 bytes) within <code>CA_CUSTOMER_REQUEST</code> are accessed, so the caller must supply at least ~48 bytes of valid storage for safe operation.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>POS</code> is <code>FIXED BIN(15)</code>, limiting the maximum addressable position to 32,767</strong></p>
+<ul>
+<li>In practice the largest field searched (<code>CA_LAST_NAME</code>) is only 20 characters, so overflow is impossible. The constraint is implicitly satisfied by the field-size declarations.</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<p>LGBATCHF.pli is a lean batch subroutine with minimal dedicated error handling. The following mechanisms are present:</p>
+<h3 id="81-implicit-boundary-condition-handling-explicit-if-checks-on-string-position" tabindex="-1">8.1 Implicit Boundary-Condition Handling (Explicit IF Checks on String Position)</h3>
+<ul>
+<li>
+<p><strong>First-name blank-position check:</strong> After locating the first blank character in <code>CA_FIRST_NAME</code> via <code>INDEX</code>, the result stored in <code>POS</code> is tested for two edge cases before a substring is extracted:</p>
+<ul>
+<li>If <code>POS</code> equals zero (no blank found at all), the entire <code>CA_FIRST_NAME</code> value is used as-is as the first token, preventing an invalid substring operation on a blank-free string.</li>
+<li>If <code>POS</code> equals one (the very first character is a blank, meaning the field is effectively empty or leading-blank), the first token is set to an empty string, avoiding extraction of a zero-length or meaningless substring.</li>
+<li>Only when <code>POS</code> is greater than one is a substring actually extracted, ensuring the <code>SUBSTR</code> call always receives a valid positive length argument.</li>
+</ul>
+</li>
+<li>
+<p><strong>Last-name blank-position check:</strong> The identical three-way conditional logic is applied to <code>CA_LAST_NAME</code> using the same <code>POS</code> variable:</p>
+<ul>
+<li>Zero position → entire field value used as the last token.</li>
+<li>Position one → last token set to empty string.</li>
+<li>Position greater than one → substring up to the character before the blank is extracted.</li>
+<li>This guards against the same invalid-length <code>SUBSTR</code> edge cases for the surname field.</li>
+</ul>
+</li>
+</ul>
+<h3 id="82-absence-of-explicit-error-reporting-or-recovery-mechanisms" tabindex="-1">8.2 Absence of Explicit Error Reporting or Recovery Mechanisms</h3>
+<ul>
+<li>There are no return-code checks or output status indicators; the subroutine does not set or inspect <code>CA_RETURN_CODE</code> and does not signal failure back to the caller (<code>LGBATCH</code>).</li>
+<li>There is no CICS or PL/I condition handling (no <code>ON ERROR</code>, <code>ON CONVERSION</code>, <code>ON STRINGRANGE</code>, or similar <code>ON</code>-unit declarations) to intercept runtime exceptions.</li>
+<li>There is no early <code>RETURN</code> or fallback path for anomalous input data beyond the blank-position guards described above.</li>
+<li>No user-facing or system-facing error messages are written; the single <code>DISPLAY</code> statement is a diagnostic trace line (echoing the formatted output line to the system console/log) rather than an error notification, and it fires unconditionally regardless of whether the input data was valid or not.</li>
+<li>There is no file or I/O error handling because the subroutine performs no file operations itself; all I/O resides in the calling program.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1--standard-first-and-last-name-no-embedded-blanks" tabindex="-1">9.1 Example 1 — Standard First and Last Name (No Embedded Blanks)</h3>
+<p><strong>Input:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTNUMBER</code></td>
+<td><code>0000000042</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>'John      '</code> (10 chars, blank-padded)</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>'Smith               '</code> (20 chars, blank-padded)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Output (<code>LS_LINE</code>):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>Customer 0000000042 is John Smith</code></pre>
+</div>
+<p><em>(Remaining characters of the 80-char field are spaces.)</em></p>
+<p><strong>Explanation:</strong>
+<code>INDEX(CA_FIRST_NAME,' ')</code> finds the first blank at position 5, so <code>FIRST_TOKEN</code> is set to <code>SUBSTR('John      ',1,4)</code> → <code>'John'</code>. Likewise, <code>INDEX(CA_LAST_NAME,' ')</code> finds the first blank at position 6, yielding <code>LAST_TOKEN = 'Smith'</code>. The subroutine then concatenates the literal <code>'Customer '</code>, the 10-digit customer number, <code>' is '</code>, <code>FIRST_TOKEN</code>, <code>' '</code>, and <code>LAST_TOKEN</code> into <code>LS_LINE</code>.</p>
+<hr>
+<h3 id="92-example-2--name-stored-without-a-trailing-blank-fills-the-entire-field" tabindex="-1">9.2 Example 2 — Name Stored Without a Trailing Blank (Fills the Entire Field)</h3>
+<p><strong>Input:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTNUMBER</code></td>
+<td><code>0000001234</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>'Jacqueline'</code> (exactly 10 chars, no blank at all)</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>'Vandenberghe'</code> (truncated to 20 chars, no blank present)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Output (<code>LS_LINE</code>):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>Customer 0000001234 is Jacqueline Vandenberghe</code></pre>
+</div>
+<p><strong>Explanation:</strong>
+<code>INDEX</code> returns <code>0</code> for both fields because no blank character exists. Both <code>POS = 0</code> branches fire, so <code>FIRST_TOKEN = CA_FIRST_NAME</code> (full 10-char value) and <code>LAST_TOKEN = CA_LAST_NAME</code> (full 20-char value). The concatenation proceeds as in Example 1.</p>
+<hr>
+<h3 id="93-example-3--first-name-field-starts-with-a-blank-empty-token" tabindex="-1">9.3 Example 3 — First Name Field Starts With a Blank (Empty Token)</h3>
+<p><strong>Input:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTNUMBER</code></td>
+<td><code>0000009999</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>' J        '</code> (first character is a blank)</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>'Doe                 '</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Output (<code>LS_LINE</code>):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>Customer 0000009999 is  Doe</code></pre>
+</div>
+<p><em>(Note the double space between <code>'is'</code> and <code>'Doe'</code> because <code>FIRST_TOKEN</code> is empty.)</em></p>
+<p><strong>Explanation:</strong>
+<code>INDEX(CA_FIRST_NAME,' ')</code> returns <code>1</code> because the very first character is a blank. The <code>POS = 1</code> branch sets <code>FIRST_TOKEN = ''</code> (empty varying string). <code>CA_LAST_NAME</code> starts with <code>'D'</code> so <code>LAST_TOKEN = 'Doe'</code> normally. The final concatenation produces <code>'Customer 0000009999 is  Doe'</code> — the extra space comes from the literal <code>' '</code> separator between <code>FIRST_TOKEN</code> and <code>LAST_TOKEN</code>.</p>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a></li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a></li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-input-parameters">6.1 Input Parameters</a></li>
+<li class="toc-level-3"><a href="#62-communication-area-structure-lgcmarea-copybook">6.2 Communication Area Structure (LGCMAREA Copybook)</a></li>
+<li class="toc-level-3"><a href="#63-calling-program">6.3 Calling Program</a></li>
+<li class="toc-level-3"><a href="#64-internal-working-variables">6.4 Internal Working Variables</a></li>
+<li class="toc-level-3"><a href="#65-runtime-services">6.5 Runtime Services</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-input--parameter-constraints">7.1 Input / Parameter Constraints</a></li>
+<li class="toc-level-3"><a href="#72-data-format-and-content-constraints">7.2 Data Format and Content Constraints</a></li>
+<li class="toc-level-3"><a href="#73-output-constraints">7.3 Output Constraints</a></li>
+<li class="toc-level-3"><a href="#74-sequencing-and-control-flow-constraints">7.4 Sequencing and Control-Flow Constraints</a></li>
+<li class="toc-level-3"><a href="#75-structural--storage-constraints">7.5 Structural / Storage Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-implicit-boundary-condition-handling-explicit-if-checks-on-string-position">8.1 Implicit Boundary-Condition Handling (Explicit IF Checks on String Position)</a></li>
+<li class="toc-level-3"><a href="#82-absence-of-explicit-error-reporting-or-recovery-mechanisms">8.2 Absence of Explicit Error Reporting or Recovery Mechanisms</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1--standard-first-and-last-name-no-embedded-blanks">9.1 Example 1 — Standard First and Last Name (No Embedded Blanks)</a></li>
+<li class="toc-level-3"><a href="#92-example-2--name-stored-without-a-trailing-blank-fills-the-entire-field">9.2 Example 2 — Name Stored Without a Trailing Blank (Fills the Entire Field)</a></li>
+<li class="toc-level-3"><a href="#93-example-3--first-name-field-starts-with-a-blank-empty-token">9.3 Example 3 — First Name Field Starts With a Blank (Empty Token)</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGBATCHF</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

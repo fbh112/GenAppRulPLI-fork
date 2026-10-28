@@ -103,3 +103,37 @@ Menu (LGTESTP1-4 / LGTESTC1)
 ## Scanned Database
 
 Program metadata is stored in `.bobz/local-settings.json` (`databaseLocation` field). Use `execute_sql_query` for cross-program analysis (call chains, SQL table access, dependencies).
+
+- **Database path**: `/Users/tingwu/Library/Application Support/IBM Bob/User/workspaceStorage/7bc8556a20a7f43f7939e63ed44f592e/IBM.bob-z-extension/.tmi/WCA4ZTMIOutput/ScannerOutput.db`
+- **Programs scanned**: 35 PL/I source files from `pli/`
+
+## Workspace Type
+IBM Z
+
+
+## Documentation
+
+All generated documentation (program explanations, data dictionaries, architecture diagrams, business rules, wiki pages, etc.) must be saved under the `docs/` folder at the workspace root.
+
+| Documentation type | Output path |
+|--------------------|-------------|
+| Program explanations | `docs/programs/` |
+| Data dictionary | `docs/data-dictionary/` |
+| Architecture / diagrams | `docs/architecture/` |
+| Business rules | `docs/business-rules/` |
+| Wiki / application docs | `docs/wiki/` |
+
+Create subdirectories as needed. Do not save generated documentation directly in the workspace root or alongside source files.
+
+### Architecture Analysis Documents
+
+The following architecture analysis files have been generated and are stored under `docs/architecture/`:
+
+| File | Description |
+|------|-------------|
+| [`docs/architecture/domain-map.md`](docs/architecture/domain-map.md) | High-level domain map of the application. Identifies the 6 functional domains (Presentation, Customer Management, Policy Management, Business Rules, Batch Reporting, Operations & Infrastructure), their programs, data stores, and inter-domain dependencies. Includes a Mermaid domain diagram. |
+| [`docs/architecture/customer-domain-analysis.md`](docs/architecture/customer-domain-analysis.md) | Deep-dive analysis of the Customer Management domain. Covers the three-tier component structure (orchestrators → DB2 backends → VSAM backends), sequence diagrams for Add/Inquire/Update flows, shared resources, inbound/outbound dependencies, return code catalogue, and key risk findings. |
+| [`docs/architecture/customer-domain-migration-analysis.md`](docs/architecture/customer-domain-migration-analysis.md) | Migration effort analysis for moving the Customer Management domain off the mainframe. Identifies 10 migration items, ranks risks from CRITICAL to LOW, covers shared modules (LGCMAREA.inc, LGSTSQ), shared data (CUSTOMER table, VSAM KSDSCUST), cross-domain coupling (LGACUS01→POLICY), CICS/DB2 construct migration mappings, and a recommended 8-step migration sequence. |
+| [`docs/business-rules/customer-domain-business-rules.md`](docs/business-rules/customer-domain-business-rules.md) | 16 business rules and key behaviours the migration team must preserve for the Customer Management domain. Covers customer identity and lifecycle (BR-01–BR-04), data model and field rules (BR-05–BR-06), request routing and dormant operations (BR-07–BR-08), COMMAREA validation (BR-09–BR-10), error handling semantics (BR-11–BR-14), ordering and concurrency rules (BR-15–BR-16), and a return code to HTTP status mapping appendix. |
+|      |             |
+|      |             |

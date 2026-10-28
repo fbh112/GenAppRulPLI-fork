@@ -1,0 +1,1164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGACDB01</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="../../../pages/domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="../../../pages/crud-matrix.html" class="nav-link" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="../../../pages/customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="../../../pages/customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="../../../pages/customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="../../../pages/customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="../../../pages/policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="../../../pages/policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="../../../pages/logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="../../../pages/batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link active">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p>This program adds a new customer to the insurance application’s customer domain by accepting customer details from a CICS commarea, validating that the request contains the required data, creating and storing a new customer record in the DB2 CUSTOMER table, assigning the newly created customer number back to the caller, and then triggering related follow-on processing to keep other customer resources in sync, including a linked VSAM-side update and creation of the customer’s initial security record. Its purpose is to complete the end-to-end “add customer” business transaction and return a status code that tells the caller whether the operation succeeded or failed.</p>
+<h2 id="2-inputs" tabindex="-1">2. Inputs</h2>
+<h3 id="21-cics-communication-area-commarea--passed-in-via-comm_area_ptr" tabindex="-1">2.1 CICS Communication Area (COMMAREA) — passed in via <code>COMM_AREA_PTR</code></h3>
+<p>The program entry point is <code>LGACDB01: Proc(COMM_AREA_PTR) Options(Main)</code>. The entire COMMAREA is the primary external input, overlaid by the <code>COMM_AREA</code> based structure. The following fields within it are consumed as inputs:</p>
+<ul>
+<li><strong><code>CA_REQUEST_ID</code></strong> (<code>CHAR(6)</code>) — Identifies the operation type being requested. Passed in by the caller to direct processing (not modified by this program).</li>
+<li><strong><code>CA_FIRST_NAME</code></strong> (<code>CHAR(10)</code>) — Customer’s first name; used directly as a DB2 host variable to populate the <code>FIRSTNAME</code> column of the <code>CUSTOMER</code> table.</li>
+<li><strong><code>CA_LAST_NAME</code></strong> (<code>CHAR(20)</code>) — Customer’s last name/surname; used as a DB2 host variable to populate the <code>LASTNAME</code> column.</li>
+<li><strong><code>CA_DOB</code></strong> (<code>CHAR(10)</code>) — Customer’s date of birth; used as a DB2 host variable to populate the <code>DATEOFBIRTH</code> column.</li>
+<li><strong><code>CA_HOUSE_NAME</code></strong> (<code>CHAR(20)</code>) — Customer’s house/property name; used as a DB2 host variable to populate the <code>HOUSENAME</code> column.</li>
+<li><strong><code>CA_HOUSE_NUM</code></strong> (<code>CHAR(4)</code>) — Customer’s house number; used as a DB2 host variable to populate the <code>HOUSENUMBER</code> column.</li>
+<li><strong><code>CA_POSTCODE</code></strong> (<code>CHAR(8)</code>) — Customer’s postal code; used as a DB2 host variable to populate the <code>POSTCODE</code> column.</li>
+<li><strong><code>CA_PHONE_MOBILE</code></strong> (<code>CHAR(20)</code>) — Customer’s mobile phone number; used as a DB2 host variable to populate the <code>PHONEMOBILE</code> column.</li>
+<li><strong><code>CA_PHONE_HOME</code></strong> (<code>CHAR(20)</code>) — Customer’s home phone number; used as a DB2 host variable to populate the <code>PHONEHOME</code> column.</li>
+<li><strong><code>CA_EMAIL_ADDRESS</code></strong> (<code>CHAR(100)</code>) — Customer’s email address; used as a DB2 host variable to populate the <code>EMAILADDRESS</code> column.</li>
+</ul>
+<h3 id="22-cics-runtime-fields-eib--execute-interface-block" tabindex="-1">2.2 CICS Runtime Fields (EIB — Execute Interface Block)</h3>
+<p>These are read-only fields provided by the CICS runtime at program invocation:</p>
+<ul>
+<li><strong><code>EIBCALEN</code></strong> — Length of the inbound COMMAREA. Used to validate that the COMMAREA is large enough (minimum 90 bytes: 18-byte header + 72-byte customer section); if zero, the program abends (<code>LGCA</code>); if less than required, <code>CA_RETURN_CODE</code> is set to <code>'98'</code> and the program returns immediately.</li>
+<li><strong><code>EIBTRNID</code></strong> — CICS transaction identifier for the current invocation; stored in <code>WS_TRANSID</code> for diagnostic/logging purposes.</li>
+<li><strong><code>EIBTRMID</code></strong> — CICS terminal identifier; stored in <code>WS_TERMID</code> for diagnostic/logging purposes.</li>
+<li><strong><code>EIBTASKN</code></strong> — CICS task number; stored in <code>WS_TASKNUM</code> for diagnostic/logging purposes.</li>
+</ul>
+<h3 id="23-cics-named-counter-service" tabindex="-1">2.3 CICS Named Counter Service</h3>
+<ul>
+<li><strong><code>GENACUSTNUM</code></strong> (counter name, pool <code>GENA</code>) — The CICS named counter from which the next available customer number is retrieved via <code>EXEC CICS GET COUNTER</code>. Its value is received into <code>LASTCUSTNUM</code> and then fed into the DB2 INSERT as the explicit <code>CUSTOMERNUMBER</code>. If the counter service is unavailable (<code>WS_RESP ≠ NORMAL</code>), the DB2 <code>IDENTITY</code> column default is used instead.</li>
+</ul>
+<h3 id="24-db2-database-customer-table" tabindex="-1">2.4 DB2 Database (<code>CUSTOMER</code> table)</h3>
+<ul>
+<li><strong><code>IDENTITY_VAL_LOCAL()</code></strong> — When the named counter service is unavailable, DB2 assigns the customer number automatically via an identity column, and the program retrieves it back using <code>SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code>. This makes the DB2 identity generator an implicit external input that determines the new customer number.</li>
+</ul>
+<h3 id="25-linked-subprogram-response-lgacdb02--customer-security-add" tabindex="-1">2.5 Linked Subprogram Response (<code>LGACDB02</code> — Customer Security Add)</h3>
+<ul>
+<li><strong><code>D2_RETURN_CODE</code></strong> (within <code>CDB2AREA</code>) — The return code written back into the <code>CDB2AREA</code> commarea by the <code>LGACDB02</code> subprogram after it is invoked via <code>EXEC CICS LINK</code>. Although not explicitly tested after the LINK in the current code, it is a value originating from outside this program’s logic.</li>
+</ul>
+<h2 id="3-outputs" tabindex="-1">3. Outputs</h2>
+<p><strong>Communication Area (COMMAREA) — returned to the caller via <code>EXEC CICS RETURN</code></strong></p>
+<ul>
+<li><code>CA_RETURN_CODE</code> — Two-digit outcome code written back to the caller in <code>COMM_AREA</code>; set to <code>'00'</code> on success, <code>'98'</code> when the incoming COMMAREA is shorter than the required 90 bytes, and <code>'90'</code> when the DB2 INSERT into the CUSTOMER table fails</li>
+<li><code>CA_CUSTOMER_NUM</code> — Ten-digit customer number written into <code>COMM_AREA</code> after a successful INSERT; sourced from the CICS named counter (<code>LASTCUSTNUM</code>) when the counter service is available, or from DB2’s <code>IDENTITY_VAL_LOCAL()</code> when it is not</li>
+</ul>
+<p><strong>DB2 Database — written by <code>EXEC SQL INSERT INTO CUSTOMER</code></strong></p>
+<ul>
+<li><code>CUSTOMER</code> table row — A new customer record inserted into the DB2 CUSTOMER table; the columns populated are:
+<ul>
+<li><code>CUSTOMERNUMBER</code> — from <code>DB2_CUSTOMERNUM_INT</code> (named counter value) or <code>DEFAULT</code> (DB2 identity column)</li>
+<li><code>FIRSTNAME</code> — from <code>CA_FIRST_NAME</code></li>
+<li><code>LASTNAME</code> — from <code>CA_LAST_NAME</code></li>
+<li><code>DATEOFBIRTH</code> — from <code>CA_DOB</code></li>
+<li><code>HOUSENAME</code> / <code>HOUSENUMBER</code> — from <code>CA_HOUSE_NAME</code> / <code>CA_HOUSE_NUM</code></li>
+<li><code>POSTCODE</code> — from <code>CA_POSTCODE</code></li>
+<li><code>PHONEMOBILE</code> / <code>PHONEHOME</code> — from <code>CA_PHONE_MOBILE</code> / <code>CA_PHONE_HOME</code></li>
+<li><code>EMAILADDRESS</code> — from <code>CA_EMAIL_ADDRESS</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Downstream CICS LINK calls — side-effect outputs passed to linked programs</strong></p>
+<ul>
+<li>LGACVS01 call — <code>COMM_AREA</code> (225 bytes) is passed via <code>EXEC CICS LINK PROGRAM(LGACVS01)</code>; the program writes the new customer to VSAM as a parallel store alongside the DB2 INSERT</li>
+<li>LGACDB02 call — <code>CDB2AREA</code> commarea passed via <code>EXEC CICS LINK PROGRAM(LGACDB02)</code> to add the customer security record; the fields written into this commarea are:
+<ul>
+<li><code>D2_CUSTOMER_NUM</code> — newly assigned customer number, sourced from <code>DB2_CUSTOMERNUM_INT</code></li>
+<li><code>D2_REQUEST_ID</code> — hardcoded to <code>'02ACUS'</code> to identify the Add Customer Security operation</li>
+<li><code>D2_CUSTSECR_PASS</code> — hardcoded initial password hash passed to the security subprogram</li>
+<li><code>D2_CUSTSECR_COUNT</code> — hardcoded to <code>'0000'</code> (no prior logins)</li>
+<li><code>D2_CUSTSECR_STATE</code> — set to <code>'N'</code> to mark the security record as new</li>
+</ul>
+</li>
+</ul>
+<p><strong>Error / diagnostic output — written to a CICS Transient Data Queue (TDQ) via <code>LGSTSQ</code></strong></p>
+<ul>
+<li><code>ERROR_MSG</code> — Structured error message containing date, time, program identifier (<code>LGACDB01</code>), SQL request label (<code>EM_SQLREQ</code>), and the DB2 <code>SQLCODE</code> at the time of failure; written by <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> on any DB2 error or missing COMMAREA condition</li>
+<li><code>CA_ERROR_MSG</code> — Up to 90 bytes of the raw incoming COMMAREA captured at error time and forwarded to <code>LGSTSQ</code> as a second diagnostic write, giving the operator visibility of the data that caused the failure</li>
+</ul>
+<p><strong>CICS ABEND — issued when no COMMAREA is present</strong></p>
+<ul>
+<li><code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code> — raised when <code>EIBCALEN = 0</code>; this is a terminal side-effect that abnormally terminates the transaction and produces a CICS abend record with code <code>LGCA</code></li>
+</ul>
+<h2 id="4-processing-logic" tabindex="-1">4. Processing Logic</h2>
+<h3 id="41-mermaid-flow-diagram" tabindex="-1">4.1 Mermaid Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#6db98a,color:#000
+    classDef process fill:#c7ceea,stroke:#7a85c1,color:#000
+    classDef decision fill:#ffdac1,stroke:#e8a87c,color:#000
+    classDef error fill:#ffb7b2,stroke:#e06c75,color:#000
+    classDef io fill:#e2f0cb,stroke:#8dc26f,color:#000
+
+    A([Start - LGACDB01 invoked]):::startEnd
+    B[Capture EIBTRNID, EIBTRMID,<br>EIBTASKN into WS_HEADER<br>Initialize DB2 host variables]:::process
+    C{{EIBCALEN = 0}}:::decision
+    D[Write error message<br>EXEC CICS ABEND ABCODE-LGCA NODUMP]:::error
+    E[Set CA_RETURN_CODE = 00<br>Save EIBCALEN]:::process
+    F[Compute WS_REQUIRED_CA_LEN<br>= 18 header + 72 customer = 90]:::process
+    G{{EIBCALEN < 90}}:::decision
+    H[Set CA_RETURN_CODE = 98<br>EXEC CICS RETURN]:::error
+    I[Call OBTAIN_CUSTOMER_NUMBER]:::process
+    J[EXEC CICS GET COUNTER GENACUSTNUM<br>POOL GENA VALUE LASTCUSTNUM]:::io
+    K{{WS_RESP = DFHRESP-NORMAL}}:::decision
+    L[LGAC_NCS = NO<br>DB2_CUSTOMERNUM_INT = 0]:::process
+    M[DB2_CUSTOMERNUM_INT = LASTCUSTNUM]:::process
+    N[Call INSERT_CUSTOMER]:::process
+    O{{LGAC_NCS = ON}}:::decision
+    P[INSERT INTO CUSTOMER<br>with explicit CUSTOMERNUMBER<br>from named counter]:::io
+    Q{{SQLCODE not 0 - NCS path}}:::decision
+    R[INSERT INTO CUSTOMER<br>with DEFAULT CUSTOMERNUMBER<br>DB2 IDENTITY column]:::io
+    S{{SQLCODE not 0 - DEFAULT path}}:::decision
+    T[Set CA_RETURN_CODE = 90<br>Write error<br>EXEC CICS RETURN]:::error
+    U[SET DB2_CUSTOMERNUM_INT<br>= IDENTITY_VAL_LOCAL]:::io
+    V[CA_CUSTOMER_NUM = DB2_CUSTOMERNUM_INT]:::process
+    W[EXEC CICS LINK LGACVS01<br>COMMAREA length 225<br>Add customer to VSAM]:::io
+    X[Populate CDB2AREA<br>D2_CUSTOMER_NUM, D2_REQUEST_ID=02ACUS<br>D2_CUSTSECR_STATE=N]:::process
+    Y[EXEC CICS LINK LGACDB02<br>Add customer security record]:::io
+    Z{{CA_RETURN_CODE not 00}}:::decision
+    AA[EXEC CICS RETURN - error exit]:::error
+    AB([EXEC CICS RETURN - normal exit]):::startEnd
+
+    A --> B
+    B --> C
+    C -- Yes --> D
+    C -- No --> E
+    E --> F
+    F --> G
+    G -- Yes --> H
+    G -- No --> I
+    I --> J
+    J --> K
+    K -- No --> L
+    K -- Yes --> M
+    L --> N
+    M --> N
+    N --> O
+    O -- Yes --> P
+    P --> Q
+    Q -- Yes --> T
+    Q -- No --> V
+    O -- No --> R
+    R --> S
+    S -- Yes --> T
+    S -- No --> U
+    U --> V
+    V --> W
+    W --> X
+    X --> Y
+    Y --> Z
+    Z -- Yes --> AA
+    Z -- No --> AB
+</div>
+<hr>
+<h3 id="42-processing-logic-description" tabindex="-1">4.2 Processing Logic Description</h3>
+<h4 id="421-high-level-summary" tabindex="-1">4.2.1 High-level Summary</h4>
+<p><code>LGACDB01</code> is a CICS-linked PL/I program that adds a new customer record to the DB2 <code>CUSTOMER</code> table. It obtains a unique customer number via the CICS Named Counter Service, inserts the full customer record into DB2, mirrors the record into a VSAM datastore by calling <code>LGACVS01</code>, and then provisions an initial customer security record by calling <code>LGACDB02</code>. It returns a structured result code to its caller through the COMMAREA.</p>
+<hr>
+<h4 id="422-execution-flow" tabindex="-1">4.2.2 Execution Flow</h4>
+<p><strong>Step 1 — Initialization</strong>
+The program is invoked via <code>EXEC CICS LINK</code> with a pointer to the caller’s COMMAREA (<code>COMM_AREA_PTR</code>). On entry, it captures the CICS EIB fields <code>EIBTRNID</code>, <code>EIBTRMID</code>, and <code>EIBTASKN</code> into the working-storage header for diagnostics, and zeroes out the DB2 host variable structure.</p>
+<p><strong>Step 2 — COMMAREA Presence Check</strong>
+If <code>EIBCALEN = 0</code> (no COMMAREA at all), the program writes a diagnostic error message to the CICS TS error queue (via <code>LGSTSQ</code>) and issues <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code>, terminating the task immediately.</p>
+<p><strong>Step 3 — COMMAREA Length Validation</strong>
+<code>CA_RETURN_CODE</code> is initialized to <code>'00'</code>. The program computes the minimum required COMMAREA length as <code>WS_CA_HEADER_LEN (18) + WS_CUSTOMER_LEN (72) = 90 bytes</code>. If <code>EIBCALEN &lt; 90</code>, it sets <code>CA_RETURN_CODE = '98'</code> and returns to the caller — no DB2 work is performed.</p>
+<p><strong>Step 4 — Obtain Customer Number (<code>OBTAIN_CUSTOMER_NUMBER</code>)</strong>
+The program issues <code>EXEC CICS GET COUNTER(GENACUSTNUM) POOL(GENA) VALUE(LASTCUSTNUM)</code> to retrieve the next sequential customer number from the CICS Named Counter Service.</p>
+<ul>
+<li>If the call succeeds (<code>WS_RESP = DFHRESP(NORMAL)</code>), <code>DB2_CUSTOMERNUM_INT</code> is set from <code>LASTCUSTNUM</code> and the flag <code>LGAC_NCS</code> remains <code>'ON'</code>.</li>
+<li>If the call fails, <code>LGAC_NCS</code> is set to <code>'NO'</code> and <code>DB2_CUSTOMERNUM_INT</code> is set to <code>0</code>, signalling the fallback path.</li>
+</ul>
+<p><strong>Step 5 — Insert Customer Row (<code>INSERT_CUSTOMER</code>)</strong></p>
+<p><em>Named Counter path (<code>LGAC_NCS = 'ON'</code>):</em>
+An <code>INSERT INTO CUSTOMER</code> statement is executed with all ten columns explicitly supplied, including <code>CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT</code> from the named counter. If <code>SQLCODE ≠ 0</code>, <code>CA_RETURN_CODE</code> is set to <code>'90'</code>, an error message is written, and the program returns immediately.</p>
+<p><em>Fallback path (<code>LGAC_NCS = 'NO'</code>):</em>
+The same <code>INSERT</code> is issued but with <code>DEFAULT</code> for <code>CUSTOMERNUMBER</code>, allowing the DB2 IDENTITY column to generate the value automatically. On <code>SQLCODE ≠ 0</code>, the same <code>'90'</code> error path is taken. On success, <code>EXEC SQL SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code> recovers the DB2-generated customer number.</p>
+<p>In both paths, after a successful INSERT, <code>CA_CUSTOMER_NUM</code> is set from <code>DB2_CUSTOMERNUM_INT</code> and returned to the caller in the COMMAREA.</p>
+<p><strong>Step 6 — VSAM Mirror (<code>LGACVS01</code>)</strong>
+<code>EXEC CICS LINK PROGRAM(LGACVS01)</code> is called with the original COMMAREA (length 225). This writes a corresponding customer record to the VSAM keyed datastore, keeping the two datastores in sync.</p>
+<p><strong>Step 7 — Customer Security Record (<code>LGACDB02</code>)</strong>
+The program populates the <code>CDB2AREA</code> structure:</p>
+<ul>
+<li><code>D2_CUSTOMER_NUM</code> ← <code>DB2_CUSTOMERNUM_INT</code> (the newly assigned number)</li>
+<li><code>D2_REQUEST_ID</code> = <code>'02ACUS'</code> (Add Customer Security)</li>
+<li><code>D2_CUSTSECR_PASS</code> = a fixed initial hashed password</li>
+<li><code>D2_CUSTSECR_COUNT</code> = <code>'0000'</code></li>
+<li><code>D2_CUSTSECR_STATE</code> = <code>'N'</code> (new)</li>
+</ul>
+<p><code>EXEC CICS LINK PROGRAM(LGACDB02)</code> is then called to insert the security row into the <code>CUSTOMER_SECURE</code> table.</p>
+<p><strong>Step 8 — Final Return Code Check</strong>
+If <code>CA_RETURN_CODE ≠ '00'</code> after the security call, the program exits via <code>EXEC CICS RETURN</code> immediately (propagating the error). Otherwise a final <code>EXEC CICS RETURN</code> returns control normally to the caller.</p>
+<p><strong>Error Handling — <code>WRITE_ERROR_MESSAGE</code></strong>
+Called on any DB2 failure. It:</p>
+<ol>
+<li>Saves the current <code>SQLCODE</code> into the error message structure.</li>
+<li>Calls <code>EXEC CICS ASKTIME</code> / <code>EXEC CICS FORMATTIME</code> to get the current date and time.</li>
+<li>Links to <code>LGSTSQ</code> to write the formatted error message to the CICS TD error queue.</li>
+<li>Writes up to 90 bytes of the raw COMMAREA content to the same queue for additional context.</li>
+</ol>
+<hr>
+<h4 id="423-external-interactions" tabindex="-1">4.2.3 External Interactions</h4>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Call</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICS Named Counter Service</td>
+<td><code>EXEC CICS GET COUNTER GENACUSTNUM POOL GENA</code></td>
+<td>Allocate the next unique customer number</td>
+</tr>
+<tr>
+<td>DB2 <code>CUSTOMER</code> table</td>
+<td><code>EXEC SQL INSERT INTO CUSTOMER</code></td>
+<td>Persist the new customer’s personal details</td>
+</tr>
+<tr>
+<td>DB2 <code>IDENTITY_VAL_LOCAL()</code></td>
+<td><code>EXEC SQL SET ... = IDENTITY_VAL_LOCAL()</code></td>
+<td>Retrieve the DB2-generated identity value when the NCS is unavailable</td>
+</tr>
+<tr>
+<td>CICS program <code>LGACVS01</code></td>
+<td><code>EXEC CICS LINK</code></td>
+<td>Mirror the new customer record to the VSAM datastore</td>
+</tr>
+<tr>
+<td>CICS program <code>LGACDB02</code></td>
+<td><code>EXEC CICS LINK</code></td>
+<td>Create the initial customer security (password/state) record in DB2</td>
+</tr>
+<tr>
+<td>CICS program <code>LGSTSQ</code></td>
+<td><code>EXEC CICS LINK</code></td>
+<td>Write error messages to the CICS transient data queue</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="424-plain-language-summary" tabindex="-1">4.2.4 Plain Language Summary</h4>
+<p>When a new customer needs to be registered in the system, <code>LGACDB01</code> is called with the customer’s details (name, date of birth, address, phone, email). It first checks that the request is well-formed. It then fetches a unique customer ID number from a CICS counter service. Using that ID, it saves the customer record to the DB2 database. It also saves a copy to a secondary VSAM file to keep both datastores consistent. Finally, it creates an initial security record for the new customer — with a default password and a “new” status — in a separate security table. If anything goes wrong at any point, an error code is returned to the calling program and a diagnostic message is logged.</p>
+<hr>
+<h3 id="43-database-tables" tabindex="-1">4.3 Database Tables</h3>
+<div class="mermaid">
+erDiagram
+    CUSTOMER {
+        int CUSTOMERNUMBER "identity or from NCS"
+        string FIRSTNAME "CHAR 10"
+        string LASTNAME "CHAR 20"
+        string DATEOFBIRTH "CHAR 10"
+        string HOUSENAME "CHAR 20"
+        string HOUSENUMBER "CHAR 4"
+        string POSTCODE "CHAR 8"
+        string PHONEMOBILE "CHAR 20"
+        string PHONEHOME "CHAR 20"
+        string EMAILADDRESS "CHAR 100"
+    }
+    CUSTOMER_SECURE {
+        int CUSTOMERNUMBER "FK to CUSTOMER"
+        string PASSWORD "CHAR 32"
+        string COUNT "CHAR 4"
+        string STATE "CHAR 1 - N=new"
+        string SECR_DATA "CHAR 32445"
+    }
+    CUSTOMER ||--|| CUSTOMER_SECURE : "secured by"
+</div>
+<h2 id="5-paragraphs" tabindex="-1">5. Paragraphs</h2>
+<ul>
+<li>
+<p><strong>Main Procedure (LGACDB01 inline body)</strong></p>
+<ul>
+<li>Serves as the program’s entry point and top-level control flow driver. It is executed first when CICS transfers control to the program via <code>EXEC CICS LINK</code>.</li>
+<li>Initializes working-storage diagnostic fields (<code>WS_TRANSID</code>, <code>WS_TERMID</code>, <code>WS_TASKNUM</code>) from the CICS Execute Interface Block fields <code>EIBTRNID</code>, <code>EIBTRMID</code>, and <code>EIBTASKN</code>, and resets the DB2 output integer area to zero.</li>
+<li>Validates the incoming communication area:
+<ul>
+<li>If <code>EIBCALEN</code> (the length of the passed COMMAREA) is zero, it populates an error message text, calls <code>WRITE_ERROR_MESSAGE</code>, and issues <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code> to terminate abnormally without producing a dump.</li>
+<li>Sets <code>CA_RETURN_CODE</code> to <code>'00'</code> (success) and saves the COMMAREA pointer and length for later use.</li>
+<li>Computes the minimum required COMMAREA length by summing <code>WS_CA_HEADER_LEN</code> (18 bytes) and <code>WS_CUSTOMER_LEN</code> (72 bytes) into <code>WS_REQUIRED_CA_LEN</code>. If <code>EIBCALEN</code> is less than this sum, sets <code>CA_RETURN_CODE</code> to <code>'98'</code> and issues <code>EXEC CICS RETURN</code> immediately.</li>
+</ul>
+</li>
+<li>Orchestrates the main customer-add workflow by calling the two internal procedures in sequence:
+<ul>
+<li><code>CALL OBTAIN_CUSTOMER_NUMBER</code> — retrieves the next customer number.</li>
+<li><code>CALL INSERT_CUSTOMER</code> — inserts the new customer row into DB2.</li>
+</ul>
+</li>
+<li>After the DB2 insert, issues <code>EXEC CICS LINK PROGRAM(LGACVS01)</code> passing the full COMMAREA (225 bytes) to replicate the customer record into the VSAM data store.</li>
+<li>Prepares the <code>CDB2AREA</code> structure for the customer security sub-program:
+<ul>
+<li>Sets <code>D2_CUSTOMER_NUM</code> from <code>DB2_CUSTOMERNUM_INT</code> (the assigned customer number).</li>
+<li>Sets <code>D2_REQUEST_ID</code> to <code>'02ACUS'</code> (Add Customer Security).</li>
+<li>Supplies a fixed initial password, count of <code>'0000'</code>, and state flag <code>'N'</code> (new).</li>
+</ul>
+</li>
+<li>Issues <code>EXEC CICS LINK PROGRAM(LGACDB02)</code> passing <code>CDB2AREA</code> to add the customer security record.</li>
+<li>Checks <code>CA_RETURN_CODE</code>; if non-<code>'00'</code>, returns immediately via <code>EXEC CICS RETURN</code>.</li>
+<li>Returns control to the caller with a final <code>EXEC CICS RETURN</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>OBTAIN_CUSTOMER_NUMBER</strong></p>
+<ul>
+<li>Retrieves the next available customer number from the CICS Named Counter Service using the counter name <code>GENACUSTNUM</code> and pool <code>GENA</code>.</li>
+<li>Issues <code>EXEC CICS GET COUNTER(GENACOUNT) POOL(GENAPOOL) VALUE(LASTCUSTNUM) RESP(WS_RESP)</code> to atomically fetch and increment the counter. The resulting value is stored in <code>LASTCUSTNUM</code>.</li>
+<li>Conditional logic branches on the CICS response code <code>WS_RESP</code>:
+<ul>
+<li>If the response is not <code>DFHRESP(NORMAL)</code> (i.e., the Named Counter Service is unavailable or failed), sets <code>LGAC_NCS</code> to <code>'NO'</code> and <code>DB2_CUSTOMERNUM_INT</code> to <code>0</code>, signalling downstream logic to fall back to the DB2 IDENTITY column default.</li>
+<li>If the response is normal, copies <code>LASTCUSTNUM</code> into <code>DB2_CUSTOMERNUM_INT</code> for use as the explicit customer number in the forthcoming DB2 INSERT.</li>
+</ul>
+</li>
+<li>No external file I/O or direct DB2 interaction; the only external dependency is the CICS Named Counter Service.</li>
+</ul>
+</li>
+<li>
+<p><strong>INSERT_CUSTOMER</strong></p>
+<ul>
+<li>Performs the DB2 INSERT of the new customer record into the <code>CUSTOMER</code> table, using one of two strategies depending on the availability of the Named Counter Service (governed by <code>LGAC_NCS</code>).</li>
+<li>Sets <code>EM_SQLREQ</code> to <code>' INSERT CUSTOMER'</code> for inclusion in any subsequent error message.</li>
+<li><strong>Named Counter available (<code>LGAC_NCS = 'ON'</code>):</strong>
+<ul>
+<li>Executes an <code>EXEC SQL INSERT INTO CUSTOMER</code> statement supplying all ten columns explicitly, with <code>DB2_CUSTOMERNUM_INT</code> as the <code>CUSTOMERNUMBER</code> host variable and the remaining columns bound from COMMAREA fields (<code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_HOUSE_NAME</code>, <code>CA_HOUSE_NUM</code>, <code>CA_POSTCODE</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_PHONE_HOME</code>, <code>CA_EMAIL_ADDRESS</code>).</li>
+<li>After the INSERT, checks <code>SQLCODE</code>; if non-zero, sets <code>CA_RETURN_CODE</code> to <code>'90'</code>, calls <code>WRITE_ERROR_MESSAGE</code>, and issues <code>EXEC CICS RETURN</code>.</li>
+</ul>
+</li>
+<li><strong>Named Counter unavailable (<code>LGAC_NCS ≠ 'ON'</code>):</strong>
+<ul>
+<li>Executes a second form of the <code>EXEC SQL INSERT INTO CUSTOMER</code> statement where <code>CUSTOMERNUMBER</code> is supplied as <code>DEFAULT</code>, allowing the DB2 IDENTITY column to generate the value automatically.</li>
+<li>After the INSERT, checks <code>SQLCODE</code>; on failure, applies the same <code>'90'</code> / <code>WRITE_ERROR_MESSAGE</code> / <code>EXEC CICS RETURN</code> pattern.</li>
+<li>On success, issues <code>EXEC SQL SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code> to retrieve the DB2-generated customer number back into <code>DB2_CUSTOMERNUM_INT</code>, so it can be returned to the caller.</li>
+</ul>
+</li>
+<li>In both successful paths, assigns <code>CA_CUSTOMER_NUM = DB2_CUSTOMERNUM_INT</code> to expose the newly assigned customer number back through the COMMAREA.</li>
+</ul>
+</li>
+<li>
+<p><strong>WRITE_ERROR_MESSAGE</strong></p>
+<ul>
+<li>A diagnostic utility procedure responsible for formatting and writing error information to a CICS Transient Data Queue (TDQ) via the shared logging program <code>LGSTSQ</code>.</li>
+<li>Captures the current DB2 <code>SQLCODE</code> value into <code>EM_SQLRC</code> within the <code>ERROR_MSG</code> structure.</li>
+<li>Obtains the current clock time using <code>EXEC CICS ASKTIME ABSTIME(WS_ABSTIME)</code>, then formats it into a human-readable date (<code>WS_DATE</code> in MMDDYYYY format) and time (<code>WS_TIME</code>) via <code>EXEC CICS FORMATTIME</code>.</li>
+<li>Populates <code>EM_DATE</code> and <code>EM_TIME</code> in the error message structure, then issues <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> passing the <code>ERROR_MSG</code> structure to write the primary error record.</li>
+<li>Conditional logic writes a secondary TDQ record containing up to 90 bytes of the raw COMMAREA (<code>COMM_AREA_RAW</code>) when <code>EIBCALEN &gt; 0</code>:
+<ul>
+<li>If <code>EIBCALEN &lt; 91</code>, copies exactly <code>EIBCALEN</code> bytes of the COMMAREA into <code>CA_DATA</code> using the <code>LEFT</code> built-in function.</li>
+<li>Otherwise, copies the first 90 bytes.</li>
+<li>In either case, issues a second <code>EXEC CICS LINK PROGRAM('LGSTSQ')</code> passing <code>CA_ERROR_MSG</code> to log the COMMAREA snapshot.</li>
+</ul>
+</li>
+<li>Does not alter any return codes or COMMAREA fields; its sole side effect is writing diagnostic records.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-runtime-environment" tabindex="-1">6.1 CICS Runtime Environment</h3>
+<ul>
+<li><strong>EIBCALEN</strong> — CICS Execution Interface Block field providing the length of the incoming COMMAREA; used to validate that the COMMAREA is present (abend <code>LGCA</code> if zero) and that it meets the minimum required length (18 + 72 = 90 bytes)</li>
+<li><strong>EIBTRNID, EIBTRMID, EIBTASKN</strong> — EIB fields supplying the current transaction ID, terminal ID, and task number; stored into <code>WS_TRANSID</code>, <code>WS_TERMID</code>, and <code>WS_TASKNUM</code> for diagnostic/logging purposes</li>
+<li><strong>DFHRESP(NORMAL)</strong> — CICS special response-code constant used to check whether the named counter GET succeeded</li>
+</ul>
+<h3 id="62-cics-services-used" tabindex="-1">6.2 CICS Services Used</h3>
+<ul>
+<li><strong>EXEC CICS GET COUNTER</strong> — Named counter service; retrieves the next value from counter <code>GENACUSTNUM</code> in pool <code>GENA</code> to obtain the next customer number; result stored in <code>LASTCUSTNUM</code></li>
+<li><strong>EXEC CICS ABEND ABCODE(‘LGCA’) NODUMP</strong> — Issued when EIBCALEN is zero (no COMMAREA received); terminates the task with a named abend code</li>
+<li><strong>EXEC CICS RETURN</strong> — Returns control to the CICS caller at multiple points: after COMMAREA length failure (return code <code>'98'</code>), after DB2 INSERT failure (return code <code>'90'</code>), and on normal completion</li>
+<li><strong>EXEC CICS LINK PROGRAM(LGACVS01)</strong> — Synchronous call to the VSAM customer-add backend; passes the full COMMAREA (225 bytes); executed after the DB2 INSERT succeeds</li>
+<li><strong>EXEC CICS LINK PROGRAM(LGACDB02)</strong> — Synchronous call to the customer-security-add subprogram; passes <code>CDB2AREA</code> (32,500 bytes) containing the new customer number, request ID <code>'02ACUS'</code>, password, count, and state <code>'N'</code></li>
+<li><strong>EXEC CICS LINK PROGRAM(‘LGSTSQ’)</strong> — Synchronous call to the shared logging/queue-write utility; called (up to three times) from <code>WRITE_ERROR_MESSAGE</code> to write the formatted error message and a COMMAREA dump to the CICS transient data queue</li>
+<li><strong>EXEC CICS ASKTIME / FORMATTIME</strong> — Used within <code>WRITE_ERROR_MESSAGE</code> to obtain the current absolute time and format it into <code>WS_DATE</code> (MMDDYYYY) and <code>WS_TIME</code></li>
+</ul>
+<h3 id="63-db2-database" tabindex="-1">6.3 DB2 Database</h3>
+<ul>
+<li><strong>CUSTOMER table</strong> — The primary data target; a row is inserted via <code>EXEC SQL INSERT INTO CUSTOMER</code> with columns <code>CUSTOMERNUMBER</code>, <code>FIRSTNAME</code>, <code>LASTNAME</code>, <code>DATEOFBIRTH</code>, <code>HOUSENAME</code>, <code>HOUSENUMBER</code>, <code>POSTCODE</code>, <code>PHONEMOBILE</code>, <code>PHONEHOME</code>, <code>EMAILADDRESS</code>
+<ul>
+<li>When the named counter is available (<code>LGAC_NCS = 'ON'</code>), the explicit customer number from <code>DB2_CUSTOMERNUM_INT</code> is supplied</li>
+<li>When the named counter is unavailable, <code>DEFAULT</code> is used for <code>CUSTOMERNUMBER</code> and <code>IDENTITY_VAL_LOCAL()</code> is called afterward to retrieve the DB2-generated identity value</li>
+</ul>
+</li>
+<li><strong>SQLCA</strong> — DB2 SQL Communications Area; included via <code>EXEC SQL INCLUDE SQLCA</code>; <code>SQLCODE</code> is checked after every INSERT and written to the error message on failure</li>
+<li><strong>EXEC SQL SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</strong> — DB2 scalar function used to retrieve the identity column value assigned by the last INSERT when the named counter path is not taken</li>
+</ul>
+<h3 id="64-external-programs--subprograms" tabindex="-1">6.4 External Programs / Subprograms</h3>
+<ul>
+<li><strong>LGACVS01</strong> — CICS-linked VSAM customer-add program; receives the full COMMAREA; called unconditionally after the DB2 INSERT path completes</li>
+<li><strong>LGACDB02</strong> — CICS-linked customer-security-add subprogram; receives <code>CDB2AREA</code> containing the new customer number (<code>D2_CUSTOMER_NUM</code>), request ID (<code>D2_REQUEST_ID = '02ACUS'</code>), password, count (<code>'0000'</code>), and initial security state (<code>D2_CUSTSECR_STATE = 'N'</code>)</li>
+<li><strong>LGSTSQ</strong> — Shared CICS logging utility program; receives error message structures via <code>EXEC CICS LINK</code>; writes diagnostic information to a transient data queue</li>
+</ul>
+<h3 id="65-cics-named-counter-resource" tabindex="-1">6.5 CICS Named Counter Resource</h3>
+<ul>
+<li><strong>GENACUSTNUM</strong> (counter name, in pool <strong>GENA</strong>) — CICS named counter that maintains the sequence of customer numbers; the program requests the next value via <code>EXEC CICS GET COUNTER</code>; if the counter service is unavailable the program falls back to the DB2 IDENTITY column</li>
+</ul>
+<h3 id="66-copybook--include-file" tabindex="-1">6.6 Copybook / Include File</h3>
+<ul>
+<li><strong>LGCMAREA.inc</strong> (<code>plinc/LGCMAREA.inc</code>) — PL/I include file defining the full <code>COMM_AREA</code> structure (<code>BASED(COMM_AREA_PTR)</code>); included at compile time; provides all <code>CA_*</code> fields (header, customer request, policy request, security request) used throughout the program</li>
+</ul>
+<h3 id="67-input-commarea-caller-supplied" tabindex="-1">6.7 Input COMMAREA (Caller-Supplied)</h3>
+<ul>
+<li><strong>COMM_AREA</strong> — Passed by reference via <code>COMM_AREA_PTR</code>; must be at least 90 bytes (18-byte header + 72-byte customer section); supplies the following fields consumed by the program:
+<ul>
+<li><code>CA_REQUEST_ID</code> — identifies the operation type</li>
+<li><code>CA_FIRST_NAME</code>, <code>CA_LAST_NAME</code>, <code>CA_DOB</code>, <code>CA_HOUSE_NAME</code>, <code>CA_HOUSE_NUM</code>, <code>CA_POSTCODE</code>, <code>CA_PHONE_MOBILE</code>, <code>CA_PHONE_HOME</code>, <code>CA_EMAIL_ADDRESS</code> — customer data used as DB2 host variables in the INSERT statement</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-communication-area-commarea-validation-constraints" tabindex="-1">7.1 Communication Area (COMMAREA) Validation Constraints</h3>
+<ul>
+<li><strong>Mandatory COMMAREA presence</strong>: <code>EIBCALEN</code> is checked at program entry; if it equals <code>0</code> (no COMMAREA passed), the program immediately issues <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code> and does not proceed — normal processing is entirely blocked without a COMMAREA.</li>
+<li><strong>Minimum COMMAREA length</strong>: <code>WS_REQUIRED_CA_LEN</code> is computed as the sum of <code>WS_CA_HEADER_LEN</code> (18 bytes) + <code>WS_CUSTOMER_LEN</code> (72 bytes) = <strong>90 bytes minimum</strong>. If <code>EIBCALEN</code> is less than this threshold, <code>CA_RETURN_CODE</code> is set to <code>'98'</code> and the program returns immediately to the caller without performing any DB2 or CICS operations.</li>
+<li><strong>COMMAREA structure layout</strong>: The COMMAREA union <code>COMM_AREA</code> is declared with a maximum raw size of <code>CHAR(32500)</code>, imposing an upper bound on the data that can be addressed; any data beyond 32,500 bytes is not accessible.</li>
+<li><strong>Fixed-length customer fields</strong>: The incoming COMMAREA fields have strict maximum lengths enforced by their <code>CHAR</code> declarations:
+<ul>
+<li><code>CA_FIRST_NAME</code> — exactly 10 characters</li>
+<li><code>CA_LAST_NAME</code> — exactly 20 characters</li>
+<li><code>CA_DOB</code> — exactly 10 characters</li>
+<li><code>CA_HOUSE_NAME</code> — exactly 20 characters</li>
+<li><code>CA_HOUSE_NUM</code> — exactly 4 characters</li>
+<li><code>CA_POSTCODE</code> — exactly 8 characters</li>
+<li><code>CA_PHONE_MOBILE</code> — exactly 20 characters</li>
+<li><code>CA_PHONE_HOME</code> — exactly 20 characters</li>
+<li><code>CA_EMAIL_ADDRESS</code> — exactly 100 characters</li>
+</ul>
+</li>
+</ul>
+<h3 id="72-db2-insert-and-customer-number-constraints" tabindex="-1">7.2 DB2 Insert and Customer Number Constraints</h3>
+<ul>
+<li><strong>Successful DB2 INSERT required before proceeding</strong>: The <code>INSERT_CUSTOMER</code> procedure checks <code>SQLCODE</code> immediately after each <code>INSERT INTO CUSTOMER</code> statement. A non-zero <code>SQLCODE</code> sets <code>CA_RETURN_CODE</code> to <code>'90'</code>, writes an error message, and issues <code>EXEC CICS RETURN</code> — no further processing (VSAM logging, customer security add) occurs if the INSERT fails.</li>
+<li><strong>Customer number must be numeric and 10 digits</strong>: <code>CA_CUSTOMER_NUM</code> is declared as <code>PIC '9999999999'</code>, constraining it to exactly 10 decimal digits. The same constraint applies to <code>D2_CUSTOMER_NUM</code> in the downstream <code>CDB2AREA</code>.</li>
+<li><strong>Customer number sourced from named counter or DB2 IDENTITY, not caller-supplied</strong>: The customer number is never taken from the inbound COMMAREA for the INSERT; it is always obtained either from the CICS named counter (<code>LASTCUSTNUM</code>) or from the DB2 <code>IDENTITY_VAL_LOCAL()</code> function, preventing the caller from dictating or manipulating the assigned customer number.</li>
+<li><strong>DB2 IDENTITY_VAL_LOCAL() used only in fallback path</strong>: When <code>LGAC_NCS = 'NO'</code> (named counter unavailable), the INSERT uses <code>DEFAULT</code> for <code>CUSTOMERNUMBER</code> and then retrieves the assigned value via <code>SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code>. This second SQL call only executes after a successful INSERT in the fallback branch.</li>
+<li><strong>Return code initialised to success before any operation</strong>: <code>CA_RETURN_CODE</code> is set to <code>'00'</code> immediately after COMMAREA length validation passes, ensuring any subsequent failure codes (<code>'90'</code>, <code>'98'</code>) reflect actual runtime errors rather than uninitialised values.</li>
+</ul>
+<h3 id="73-named-counter-service-ncs-availability-constraint" tabindex="-1">7.3 Named Counter Service (NCS) Availability Constraint</h3>
+<ul>
+<li><strong>Named counter availability governs INSERT branch selection</strong>: <code>LGAC_NCS</code> is initialised to <code>'ON'</code>. The <code>OBTAIN_CUSTOMER_NUMBER</code> procedure issues <code>EXEC CICS GET COUNTER('GENACUSTNUM') POOL('GENA')</code>. If the response (<code>WS_RESP</code>) is not <code>DFHRESP(NORMAL)</code>, <code>LGAC_NCS</code> is set to <code>'NO'</code> and <code>DB2_CUSTOMERNUM_INT</code> is reset to <code>0</code>, triggering the <code>DEFAULT</code> IDENTITY path in <code>INSERT_CUSTOMER</code>. The named counter path and the DB2 IDENTITY path are mutually exclusive.</li>
+<li><strong>Named counter name and pool are hardcoded</strong>: The counter name <code>'GENACUSTNUM'</code> (stored in <code>GENACOUNT</code>) and pool <code>'GENA'</code> (stored in <code>GENAPOOL</code>) are fixed at compile time; the program cannot use an alternative counter without a code change.</li>
+<li><strong>Customer number passed to downstream programs must match DB2 value</strong>: After INSERT, <code>D2_CUSTOMER_NUM</code> is set directly from <code>DB2_CUSTOMERNUM_INT</code>, ensuring the value forwarded to <code>LGACDB02</code> is always the actual database-assigned customer number, not any intermediate or caller-supplied value.</li>
+</ul>
+<h3 id="74-sequencing-and-ordering-constraints" tabindex="-1">7.4 Sequencing and Ordering Constraints</h3>
+<ul>
+<li><strong>Customer number must be obtained before INSERT</strong>: <code>OBTAIN_CUSTOMER_NUMBER</code> is always called before <code>INSERT_CUSTOMER</code>; the value of <code>LGAC_NCS</code> and <code>DB2_CUSTOMERNUM_INT</code> set by the former controls which INSERT branch executes.</li>
+<li><strong>VSAM logging (<code>LGACVS01</code>) must be called before customer security add (<code>LGACDB02</code>)</strong>: The <code>EXEC CICS LINK PROGRAM(LGACVS01)</code> call occurs immediately after <code>INSERT_CUSTOMER</code> and before the <code>LGACDB02</code> LINK. There is no conditional guard on the VSAM call; it always executes if the DB2 INSERT succeeded.</li>
+<li><strong>Customer security add (<code>LGACDB02</code>) called only after successful DB2 INSERT</strong>: Because <code>INSERT_CUSTOMER</code> issues <code>EXEC CICS RETURN</code> on INSERT failure, the <code>LGACDB02</code> LINK is never reached if the customer row was not created.</li>
+<li><strong>Final <code>CA_RETURN_CODE</code> check before ultimate return</strong>: After <code>LGACDB02</code> completes, the program checks <code>CA_RETURN_CODE &lt;&gt; '00'</code>; if true it returns immediately, suppressing any additional post-processing.</li>
+</ul>
+<h3 id="75-downstream-subprogram-interface-constraints" tabindex="-1">7.5 Downstream Subprogram Interface Constraints</h3>
+<ul>
+<li><strong><code>LGACDB02</code> COMMAREA must be exactly 32,500 bytes</strong>: The <code>EXEC CICS LINK PROGRAM(LGACDB02)</code> passes <code>CDB2AREA</code> with <code>LENGTH(32500)</code>, fixing the interface size regardless of actual data.</li>
+<li><strong><code>LGACVS01</code> COMMAREA fixed at 225 bytes</strong>: The LINK to <code>LGACVS01</code> specifies <code>LENGTH(225)</code>, limiting the data communicated to the VSAM module to that fixed length.</li>
+<li><strong><code>D2_REQUEST_ID</code> hardcoded to <code>'02ACUS'</code></strong>: The request type passed to <code>LGACDB02</code> is always <code>'02ACUS'</code> (Add Customer Security), preventing the caller from changing the operation type.</li>
+<li><strong><code>D2_CUSTSECR_STATE</code> hardcoded to <code>'N'</code></strong>: The initial customer security state is always set to <code>'N'</code> (new), enforcing that every newly added customer begins in the “new” security state.</li>
+<li><strong><code>D2_CUSTSECR_PASS</code> hardcoded to a fixed hash string</strong>: The initial customer security password (<code>'5732fec825535eeafb8fac50fee3a8aa'</code>) is a hardcoded literal, meaning all newly created customers share the same initial credential value.</li>
+<li><strong><code>D2_CUSTSECR_COUNT</code> hardcoded to <code>'0000'</code></strong>: The security count is always initialised to zero for new customers.</li>
+</ul>
+<h3 id="76-error-logging-constraints" tabindex="-1">7.6 Error Logging Constraints</h3>
+<ul>
+<li><strong>Error message logging limited to 90 bytes of COMMAREA</strong>: In <code>WRITE_ERROR_MESSAGE</code>, if <code>EIBCALEN</code> is between 1 and 90, only <code>EIBCALEN</code> bytes are copied; if <code>EIBCALEN</code> exceeds 90, exactly 90 bytes are written to the TDQ via <code>LGSTSQ</code>. Data beyond 90 bytes is never logged.</li>
+<li><strong>Error logging requires a non-zero COMMAREA</strong>: The COMMAREA dump within <code>WRITE_ERROR_MESSAGE</code> is conditional on <code>EIBCALEN &gt; 0</code>; no COMMAREA data is logged if the program was entered without one (though in that case the ABEND path would have already been taken).</li>
+<li><strong>Error messages always include SQLCODE</strong>: <code>EM_SQLRC</code> is set from <code>SQLCODE</code> before any timestamp or message text is written, ensuring DB2 diagnostic information is always captured in the error record.</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<h3 id="81-input-validation--communication-area-commarea-checks" tabindex="-1">8.1 Input Validation — Communication Area (COMMAREA) Checks</h3>
+<ul>
+<li>
+<p><strong>Zero-length COMMAREA detection:</strong> At program entry, the CICS-provided field <code>EIBCALEN</code> is tested. If it equals zero, the program concludes that no COMMAREA was passed at all. This triggers an immediate call to the internal error-logging procedure, followed by <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code>, which terminates the transaction with a known abend code without producing a system dump.</p>
+</li>
+<li>
+<p><strong>Insufficient COMMAREA length check:</strong> The minimum required COMMAREA length is computed by summing the header length constant (18 bytes) and the customer data length constant (72 bytes) into <code>WS_REQUIRED_CA_LEN</code>. This computed value is compared against <code>EIBCALEN</code>. If the actual length is shorter than required, <code>CA_RETURN_CODE</code> is set to <code>'98'</code> and <code>EXEC CICS RETURN</code> is issued immediately, returning control to the caller with an error indicator rather than aborting.</p>
+</li>
+</ul>
+<hr>
+<h3 id="82-cics-named-counter-service-failure-handling" tabindex="-1">8.2 CICS Named Counter Service Failure Handling</h3>
+<ul>
+<li>
+<p><strong>RESP-based outcome check on GET COUNTER:</strong> After issuing <code>EXEC CICS GET COUNTER</code> to retrieve the next customer number from the named counter pool, the CICS response code is captured in <code>WS_RESP</code>. The value is compared against <code>DFHRESP(NORMAL)</code>. If the response is anything other than normal (indicating the named counter service is unavailable or failed), the flag <code>LGAC_NCS</code> is set to <code>'NO'</code> and <code>DB2_CUSTOMERNUM_INT</code> is reset to zero.</p>
+</li>
+<li>
+<p><strong>Fallback to DB2 IDENTITY column:</strong> When <code>LGAC_NCS</code> is <code>'NO'</code>, the <code>INSERT_CUSTOMER</code> procedure takes an alternate path that omits the explicit customer number from the DB2 <code>INSERT</code> statement, instead supplying <code>DEFAULT</code> for the <code>CUSTOMERNUMBER</code> column. This causes DB2 to generate the customer number automatically via its IDENTITY column mechanism. After the insert, <code>IDENTITY_VAL_LOCAL()</code> is called via an <code>EXEC SQL SET</code> statement to retrieve the DB2-assigned value back into <code>DB2_CUSTOMERNUM_INT</code>. This constitutes a full fallback path ensuring customer insertion can still proceed even when the CICS named counter is unavailable.</p>
+</li>
+</ul>
+<hr>
+<h3 id="83-db2-error-handling" tabindex="-1">8.3 DB2 Error Handling</h3>
+<ul>
+<li>
+<p><strong>SQLCODE check after explicit-number INSERT:</strong> When <code>LGAC_NCS</code> is <code>'ON'</code>, the INSERT statement uses the counter-derived customer number. Immediately after the <code>EXEC SQL INSERT</code>, <code>SQLCODE</code> is tested. If it is non-zero (indicating any DB2 error), <code>CA_RETURN_CODE</code> is set to <code>'90'</code>, the <code>WRITE_ERROR_MESSAGE</code> procedure is called to log the failure, and <code>EXEC CICS RETURN</code> is issued to return control to the caller with the error code.</p>
+</li>
+<li>
+<p><strong>SQLCODE check after IDENTITY-based INSERT:</strong> The same SQLCODE check and response logic is applied symmetrically in the alternate <code>ELSE</code> branch that uses the <code>DEFAULT</code> value for the customer number. A non-zero SQLCODE results in the same <code>'90'</code> return code, error logging, and immediate return.</p>
+</li>
+</ul>
+<hr>
+<h3 id="84-return-code-propagation-and-caller-notification" tabindex="-1">8.4 Return Code Propagation and Caller Notification</h3>
+<ul>
+<li>
+<p><strong>CA_RETURN_CODE as the primary error signal:</strong> All error outcomes are communicated back to the calling program through <code>CA_RETURN_CODE</code> in the COMMAREA:</p>
+<ul>
+<li><code>'00'</code> — initialized at entry, indicating success</li>
+<li><code>'98'</code> — insufficient COMMAREA length</li>
+<li><code>'90'</code> — DB2 INSERT failure</li>
+</ul>
+</li>
+<li>
+<p><strong>Post-LGACDB02 return code check:</strong> After linking to the customer security subprogram <code>LGACDB02</code> via <code>EXEC CICS LINK</code>, <code>CA_RETURN_CODE</code> is tested. If it is not <code>'00'</code>, <code>EXEC CICS RETURN</code> is issued immediately, preventing further processing and propagating the error state back to the original caller.</p>
+</li>
+</ul>
+<hr>
+<h3 id="85-error-logging-via-write_error_message-procedure" tabindex="-1">8.5 Error Logging via WRITE_ERROR_MESSAGE Procedure</h3>
+<ul>
+<li>
+<p><strong>Structured error message construction:</strong> The <code>WRITE_ERROR_MESSAGE</code> procedure assembles a formatted error message in the <code>ERROR_MSG</code> structure. The current SQLCODE is saved into <code>EM_SQLRC</code> for inclusion in the message. The current date and time are obtained via <code>EXEC CICS ASKTIME</code> and <code>EXEC CICS FORMATTIME</code>, stamping the message with a precise timestamp.</p>
+</li>
+<li>
+<p><strong>Writing to a transient data queue via LGSTSQ:</strong> The formatted error message is written to a CICS Transient Data Queue (TDQ) by linking to the shared logging program <code>LGSTSQ</code> with the <code>ERROR_MSG</code> structure as its COMMAREA. This provides a persistent, queryable audit trail of errors without aborting the transaction mid-stream.</p>
+</li>
+<li>
+<p><strong>COMMAREA content logging:</strong> A second call to <code>LGSTSQ</code> writes up to 90 bytes of the raw COMMAREA content (stored in <code>CA_ERROR_MSG</code>) to the same TDQ. If <code>EIBCALEN</code> is greater than zero but less than 91, only the actual available bytes are written; otherwise the first 90 bytes are used. This provides contextual diagnostic data alongside the error message to assist in post-failure analysis.</p>
+</li>
+<li>
+<p><strong>Eyecatcher for dump identification:</strong> The <code>WS_EYECATCHER</code> field within <code>WS_HEADER</code> is initialized to the literal <code>'LGACDB01------WS'</code>. This field acts as a visual marker in any memory dump, allowing IBM tools to quickly locate the program’s working storage even without a structured dump.</p>
+</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-example-1-successful-new-customer-add-named-counter-service-available" tabindex="-1">9.1 Example 1: Successful New Customer Add (Named Counter Service Available)</h3>
+<p><strong>Input COMMAREA fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>'01ACUS'</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>'John      '</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>'Smith               '</code></td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>'1985-06-15'</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>'Maple House         '</code></td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>'12  '</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>'SW1A 1AA'</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>'07700900123         '</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>'02079460123         '</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>'john.smith@example.com'</code> (padded to 100 chars)</td>
+</tr>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td><code>≥ 90</code> (18 header + 72 customer fields)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>EIBCALEN</code> is non-zero → no abend. <code>CA_RETURN_CODE</code> is initialised to <code>'00'</code>.</li>
+<li><code>WS_REQUIRED_CA_LEN</code> is computed as 18 + 72 = 90; <code>EIBCALEN ≥ 90</code> → length check passes.</li>
+<li><code>OBTAIN_CUSTOMER_NUMBER</code> calls the CICS named counter <code>GENACUSTNUM</code> in pool <code>GENA</code>. Assume the counter returns <code>1000042</code> → <code>LASTCUSTNUM = 1000042</code>, <code>DB2_CUSTOMERNUM_INT = 1000042</code>, <code>LGAC_NCS</code> stays <code>'ON'</code>.</li>
+<li><code>INSERT_CUSTOMER</code> executes the explicit-number <code>INSERT INTO CUSTOMER</code> with <code>CUSTOMERNUMBER = 1000042</code> and all supplied name/address fields. <code>SQLCODE = 0</code> → success. <code>CA_CUSTOMER_NUM</code> is set to <code>1000042</code>.</li>
+<li><code>EXEC CICS LINK LGACVS01</code> writes a VSAM record for the new customer.</li>
+<li><code>CDB2AREA</code> is populated (<code>D2_CUSTOMER_NUM = 1000042</code>, <code>D2_REQUEST_ID = '02ACUS'</code>, <code>D2_CUSTSECR_STATE = 'N'</code>) and <code>EXEC CICS LINK LGACDB02</code> inserts the customer security record.</li>
+</ol>
+<p><strong>Output COMMAREA fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>'00'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>'1000042   '</code> (10-digit picture)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="92-example-2-commarea-too-short--length-validation-failure" tabindex="-1">9.2 Example 2: COMMAREA Too Short — Length Validation Failure</h3>
+<p><strong>Input:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td><code>50</code> (less than the required 90 bytes)</td>
+</tr>
+<tr>
+<td>All customer fields</td>
+<td>(irrelevant — never accessed)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>EIBCALEN</code> is non-zero → no abend.</li>
+<li><code>WS_REQUIRED_CA_LEN</code> is computed as 18 + 72 = 90; <code>50 &lt; 90</code> → length check fails.</li>
+<li><code>CA_RETURN_CODE</code> is set to <code>'98'</code> and <code>EXEC CICS RETURN</code> is issued immediately. No DB2 INSERT, no counter call, no VSAM or security sub-program call occurs.</li>
+</ol>
+<p><strong>Output COMMAREA fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>'98'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><em>(unchanged / undefined)</em></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="93-example-3-named-counter-unavailable--db2-identity-column-used" tabindex="-1">9.3 Example 3: Named Counter Unavailable — DB2 IDENTITY Column Used</h3>
+<p><strong>Input:</strong> Same valid customer data as Example 1, but the CICS named counter service is unavailable (responds with a non-NORMAL response code).</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li>Length check passes (EIBCALEN ≥ 90).</li>
+<li><code>OBTAIN_CUSTOMER_NUMBER</code>: the <code>EXEC CICS GET COUNTER</code> call returns a non-NORMAL <code>WS_RESP</code>. <code>LGAC_NCS</code> is set to <code>'NO'</code>; <code>DB2_CUSTOMERNUM_INT</code> is set to <code>0</code>.</li>
+<li><code>INSERT_CUSTOMER</code>: because <code>LGAC_NCS = 'NO'</code>, the alternative <code>INSERT INTO CUSTOMER … VALUES (DEFAULT, …)</code> is executed, letting DB2 assign the customer number via its <code>IDENTITY</code> column.</li>
+<li>After the INSERT, <code>EXEC SQL SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL()</code> retrieves the DB2-generated number (e.g., <code>1000043</code>). <code>CA_CUSTOMER_NUM</code> is set to <code>1000043</code>.</li>
+<li>Processing then continues identically to Example 1 (VSAM link, security record add).</li>
+</ol>
+<p><strong>Output COMMAREA fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>'00'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>'1000043   '</code> (DB2-assigned number)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="94-example-4-db2-insert-failure" tabindex="-1">9.4 Example 4: DB2 INSERT Failure</h3>
+<p><strong>Input:</strong> Valid customer data, named counter succeeds and returns <code>1000044</code>, but the DB2 INSERT fails (e.g., duplicate key), returning a non-zero <code>SQLCODE</code>.</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li>Length check passes; <code>OBTAIN_CUSTOMER_NUMBER</code> sets <code>DB2_CUSTOMERNUM_INT = 1000044</code>, <code>LGAC_NCS = 'ON'</code>.</li>
+<li><code>INSERT_CUSTOMER</code> executes the INSERT. <code>SQLCODE ≠ 0</code> → <code>CA_RETURN_CODE</code> is set to <code>'90'</code>, <code>WRITE_ERROR_MESSAGE</code> logs an error entry (date, time, program name, SQLCODE) to the CICS TD queue via <code>LGSTSQ</code>, and <code>EXEC CICS RETURN</code> is issued.</li>
+<li>Neither the VSAM link nor the security sub-program (<code>LGACDB02</code>) is called.</li>
+</ol>
+<p><strong>Output COMMAREA fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>'90'</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><em>(unchanged / unset)</em></td>
+</tr>
+</tbody>
+</table>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-inputs">2. Inputs</a>
+<ul>
+<li class="toc-level-3"><a href="#21-cics-communication-area-commarea--passed-in-via-comm_area_ptr">2.1 CICS Communication Area (COMMAREA) — passed in via COMM_AREA_PTR</a></li>
+<li class="toc-level-3"><a href="#22-cics-runtime-fields-eib--execute-interface-block">2.2 CICS Runtime Fields (EIB — Execute Interface Block)</a></li>
+<li class="toc-level-3"><a href="#23-cics-named-counter-service">2.3 CICS Named Counter Service</a></li>
+<li class="toc-level-3"><a href="#24-db2-database-customer-table">2.4 DB2 Database (CUSTOMER table)</a></li>
+<li class="toc-level-3"><a href="#25-linked-subprogram-response-lgacdb02--customer-security-add">2.5 Linked Subprogram Response (LGACDB02 — Customer Security Add)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-outputs">3. Outputs</a></li>
+<li class="toc-level-2"><a href="#4-processing-logic">4. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#41-mermaid-flow-diagram">4.1 Mermaid Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#42-processing-logic-description">4.2 Processing Logic Description</a>
+<ul>
+<li class="toc-level-4"><a href="#421-high-level-summary">4.2.1 High-level Summary</a></li>
+<li class="toc-level-4"><a href="#422-execution-flow">4.2.2 Execution Flow</a></li>
+<li class="toc-level-4"><a href="#423-external-interactions">4.2.3 External Interactions</a></li>
+<li class="toc-level-4"><a href="#424-plain-language-summary">4.2.4 Plain Language Summary</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-database-tables">4.3 Database Tables</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-paragraphs">5. Paragraphs</a></li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-runtime-environment">6.1 CICS Runtime Environment</a></li>
+<li class="toc-level-3"><a href="#62-cics-services-used">6.2 CICS Services Used</a></li>
+<li class="toc-level-3"><a href="#63-db2-database">6.3 DB2 Database</a></li>
+<li class="toc-level-3"><a href="#64-external-programs--subprograms">6.4 External Programs / Subprograms</a></li>
+<li class="toc-level-3"><a href="#65-cics-named-counter-resource">6.5 CICS Named Counter Resource</a></li>
+<li class="toc-level-3"><a href="#66-copybook--include-file">6.6 Copybook / Include File</a></li>
+<li class="toc-level-3"><a href="#67-input-commarea-caller-supplied">6.7 Input COMMAREA (Caller-Supplied)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-communication-area-commarea-validation-constraints">7.1 Communication Area (COMMAREA) Validation Constraints</a></li>
+<li class="toc-level-3"><a href="#72-db2-insert-and-customer-number-constraints">7.2 DB2 Insert and Customer Number Constraints</a></li>
+<li class="toc-level-3"><a href="#73-named-counter-service-ncs-availability-constraint">7.3 Named Counter Service (NCS) Availability Constraint</a></li>
+<li class="toc-level-3"><a href="#74-sequencing-and-ordering-constraints">7.4 Sequencing and Ordering Constraints</a></li>
+<li class="toc-level-3"><a href="#75-downstream-subprogram-interface-constraints">7.5 Downstream Subprogram Interface Constraints</a></li>
+<li class="toc-level-3"><a href="#76-error-logging-constraints">7.6 Error Logging Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#81-input-validation--communication-area-commarea-checks">8.1 Input Validation — Communication Area (COMMAREA) Checks</a></li>
+<li class="toc-level-3"><a href="#82-cics-named-counter-service-failure-handling">8.2 CICS Named Counter Service Failure Handling</a></li>
+<li class="toc-level-3"><a href="#83-db2-error-handling">8.3 DB2 Error Handling</a></li>
+<li class="toc-level-3"><a href="#84-return-code-propagation-and-caller-notification">8.4 Return Code Propagation and Caller Notification</a></li>
+<li class="toc-level-3"><a href="#85-error-logging-via-write_error_message-procedure">8.5 Error Logging via WRITE_ERROR_MESSAGE Procedure</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-example-1-successful-new-customer-add-named-counter-service-available">9.1 Example 1: Successful New Customer Add (Named Counter Service Available)</a></li>
+<li class="toc-level-3"><a href="#92-example-2-commarea-too-short--length-validation-failure">9.2 Example 2: COMMAREA Too Short — Length Validation Failure</a></li>
+<li class="toc-level-3"><a href="#93-example-3-named-counter-unavailable--db2-identity-column-used">9.3 Example 3: Named Counter Unavailable — DB2 IDENTITY Column Used</a></li>
+<li class="toc-level-3"><a href="#94-example-4-db2-insert-failure">9.4 Example 4: DB2 INSERT Failure</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGACDB01</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

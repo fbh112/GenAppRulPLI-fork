@@ -1,0 +1,1478 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Matrix - GenApp Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="domain-map.html" class="nav-link" data-page-id="domain-map">Domain Map</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="genapp-architecture.html" class="nav-link" data-page-id="genapp-architecture">System Architecture</a>
+                <a href="crud-matrix.html" class="nav-link active" data-page-id="crud-matrix">CRUD Matrix</a>
+                <a href="customer-domain-analysis.html" class="nav-link" data-page-id="customer-domain-analysis">Customer Domain Analysis</a>
+                <a href="customer-domain-migration.html" class="nav-link" data-page-id="customer-domain-migration">Customer Domain Migration Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Program Inventory</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="program-inventory-overview.html" class="nav-link" data-page-id="program-inventory-overview">Program Inventory</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-frontend-programs.html" class="nav-link" data-page-id="customer-frontend-programs">Customer Business Logic Programs</a>
+                <a href="customer-db2-programs.html" class="nav-link" data-page-id="customer-db2-programs">Customer DB2 Back-End Programs</a>
+                <a href="customer-vsam-programs.html" class="nav-link" data-page-id="customer-vsam-programs">Customer VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-frontend-programs.html" class="nav-link" data-page-id="policy-frontend-programs">Policy Business Logic Programs</a>
+                <a href="policy-terminal-handlers.html" class="nav-link" data-page-id="policy-terminal-handlers">Policy Terminal Menu Handlers</a>
+                <a href="policy-db2-programs.html" class="nav-link" data-page-id="policy-db2-programs">Policy DB2 Back-End Programs</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM Back-End Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="statistics-and-monitoring.html" class="nav-link" data-page-id="statistics-and-monitoring">Statistics &amp; Monitoring</a>
+                <a href="logging-and-error-handling.html" class="nav-link" data-page-id="logging-and-error-handling">Logging &amp; Error Handling</a>
+                <a href="batch-programs.html" class="nav-link" data-page-id="batch-programs">Batch Programs</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup &amp; Initialisation</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        
+                        <h1 id="crud-matrix" tabindex="-1">CRUD Matrix</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The GenApp system is a general insurance application running on z/OS that manages customers, policies, and claims across multiple insurance product lines — Motor, Endowment, House, and Commercial. All persistent data resides in the <strong><code>GENASA1</code></strong> Db2 database, which contains eight core tables.</p>
+<p>This document provides a comprehensive cross-reference matrix showing which programs perform <strong>Create (INSERT)</strong>, <strong>Read (SELECT/FETCH)</strong>, <strong>Update (UPDATE)</strong>, and <strong>Delete (DELETE)</strong> operations against each Db2 table. It covers all online CICS-driven programs as well as offline batch programs, enabling impact analysis, migration planning, and governance for any data layer change.</p>
+<p><strong>Legend:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>C</strong></td>
+<td>INSERT — creates a new row</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>SELECT / FETCH — reads one or more rows</td>
+</tr>
+<tr>
+<td><strong>U</strong></td>
+<td>UPDATE — modifies an existing row</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td>DELETE — removes a row</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The GenApp application is structured in a clean three-tier layered architecture, supplemented by batch processing programs that operate outside the CICS transaction environment.</p>
+<div class="mermaid">
+graph TD
+    A["🖥️ Presentation Layer\nBMS Menu Programs\nLGTESTC1 / LGTESTPx"]
+    B["⚙️ Business Orchestration Layer\nLGACUS01 / LGAPOLxx / LGIPOLxx\nLGDPOLxx / LGUPOLxx"]
+    C["🗄️ DB2 Backend Layer\nLGACDB01 / LGACDB02\nLGAPDB01 / LGIPDB01\nLGDPDB01 / LGUPDB01\nLGICDB01 / LGUCDB01"]
+    D[("Db2 Database — GENASA1\nCUSTOMER · CUSTOMER_SECURE\nPOLICY · ENDOWMENT · HOUSE\nMOTOR · COMMERCIAL · CLAIM")]
+    E["📦 Batch Programs\nLGBATCH / LGBATDB2\nLGMOTOUT"]
+
+    A -->|"CICS LINK"| B
+    B -->|"CICS LINK"| C
+    C -->|"EXEC SQL"| D
+    B -->|"Direct EXEC SQL"| D
+    E -->|"EXEC SQL — Read Only"| D
+
+    style A fill:#37474f,color:#ffffff,stroke:#263238
+    style B fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style C fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style D fill:#4a148c,color:#ffffff,stroke:#38006b
+    style E fill:#b71c1c,color:#ffffff,stroke:#7f0000
+</div>
+<p>The diagram above illustrates how requests flow top-down from user-facing BMS menus through orchestration programs, into dedicated DB2 backend modules, and finally into the Db2 tables. Batch programs interact with the database directly, bypassing the CICS stack entirely.</p>
+<p><strong>Architectural Layer Colour Key:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟫 Dark grey <code>#37474f</code></td>
+<td>Presentation (BMS Menu)</td>
+</tr>
+<tr>
+<td>🟩 Forest green <code>#1b5e20</code></td>
+<td>Business Orchestration</td>
+</tr>
+<tr>
+<td>🟦 Steel blue <code>#1565c0</code></td>
+<td>DB2 Backend</td>
+</tr>
+<tr>
+<td>🟥 Crimson <code>#b71c1c</code></td>
+<td>Batch (non-CICS)</td>
+</tr>
+<tr>
+<td>🟪 Deep purple <code>#4a148c</code></td>
+<td>Db2 Table</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-program--table-crud-matrix" tabindex="-1">3. Program × Table CRUD Matrix</h2>
+<p>The table below summarises every CRUD operation performed by each program against each Db2 table in the <code>GENASA1</code> database. A cell containing multiple letters (e.g. <strong>CRU</strong>) indicates that the program performs all listed operations against that table.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Layer</th>
+<th style="text-align:center">CUSTOMER</th>
+<th style="text-align:center">CUSTOMER_SECURE</th>
+<th style="text-align:center">POLICY</th>
+<th style="text-align:center">ENDOWMENT</th>
+<th style="text-align:center">HOUSE</th>
+<th style="text-align:center">MOTOR</th>
+<th style="text-align:center">COMMERCIAL</th>
+<th style="text-align:center">CLAIM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LGACDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGACDB02</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGICDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGUCDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"><strong>U</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGAPDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>CRU</strong></td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"><strong>CR</strong></td>
+<td style="text-align:center"><strong>CR</strong></td>
+</tr>
+<tr>
+<td><strong>LGIPDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"><strong>R</strong></td>
+</tr>
+<tr>
+<td><strong>LGDPDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>D</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGUPDB01</strong></td>
+<td>DB2 Backend</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>U</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGACUS01</strong></td>
+<td>Orchestration</td>
+<td style="text-align:center"><strong>C</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>CRD</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGBATCH</strong></td>
+<td>Batch</td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGBATDB2</strong></td>
+<td>Batch</td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td><strong>LGMOTOUT</strong></td>
+<td>Batch</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>R</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-table-by-table-dependency-diagrams-and-operations-detail" tabindex="-1">4. Table-by-Table Dependency Diagrams and Operations Detail</h2>
+<p>Each section below covers one Db2 table. The flowchart shows the full call chain from the BMS menu down to the table, and the operations table details the exact SQL performed by each program.</p>
+<hr>
+<h3 id="41-customer" tabindex="-1">4.1 CUSTOMER</h3>
+<p>The <code>CUSTOMER</code> table is the most widely accessed table in GenApp — it is touched by <strong>6 programs</strong> across 3 architectural layers, plus 2 additional batch programs. It holds the core customer demographic record that must exist before any policy can be created.</p>
+<div class="mermaid">
+flowchart LR
+    %% Presentation
+    LGTESTC1["LGTESTC1\nMenu"]
+
+    %% Orchestration
+    LGACUS01["LGACUS01\nOrchestration"]
+    LGICUS01["LGICUS01\nOrchestration"]
+    LGUCUS01["LGUCUS01\nOrchestration"]
+
+    %% DB2 Backends
+    LGACDB01["LGACDB01\nDB2 Backend"]
+    LGICDB01["LGICDB01\nDB2 Backend"]
+    LGUCDB01["LGUCDB01\nDB2 Backend"]
+
+    %% Batch
+    LGBATCH["LGBATCH\nBatch"]
+    LGBATDB2["LGBATDB2\nBatch"]
+
+    %% Table
+    TBL[("CUSTOMER")]
+
+    %% Call chain — online
+    LGTESTC1 -->|"CICS LINK"| LGACUS01
+    LGTESTC1 -->|"CICS LINK"| LGICUS01
+    LGTESTC1 -->|"CICS LINK"| LGUCUS01
+
+    LGACUS01 -->|"CICS LINK"| LGACDB01
+    LGICUS01 -->|"CICS LINK"| LGICDB01
+    LGUCUS01 -->|"CICS LINK"| LGUCDB01
+
+    LGACDB01 -->|"C — INSERT"| TBL
+    LGICDB01 -->|"R — SELECT"| TBL
+    LGUCDB01 -->|"U — UPDATE"| TBL
+
+    %% Direct SQL from orchestrator (bypasses backend)
+    LGACUS01 -->|"C — INSERT\n(direct SQL)"| TBL
+
+    %% Batch — no call chain
+    LGBATCH  -->|"R — SELECT"| TBL
+    LGBATDB2 -->|"R — SELECT"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTC1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGACUS01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGICUS01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGUCUS01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGACDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGICDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGUCDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGBATCH  fill:#b71c1c,color:#ffffff,stroke:#7f0000
+    style LGBATDB2 fill:#b71c1c,color:#ffffff,stroke:#7f0000
+</div>
+<p>Note that <code>LGACUS01</code> (orchestration) issues a <strong>direct INSERT</strong> against <code>CUSTOMER</code> without routing through <code>LGACDB01</code> — this is the combined add-customer-and-policy fast path. Any schema change to <code>CUSTOMER</code> must therefore be applied to both <code>LGACDB01</code> <strong>and</strong> <code>LGACUS01</code>.</p>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Inserts new customer row</td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT by customer number</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td>Updates customer details</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Direct INSERT (combined customer+policy orchestrator)</td>
+</tr>
+<tr>
+<td><code>LGBATCH</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Batch customer report — SELECTs each row driven by CUSTIN</td>
+</tr>
+<tr>
+<td><code>LGBATDB2</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>DB2 test driver — SELECTs customer 1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGACDB01</code> (Insert new customer):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    INSERT INTO CUSTOMER
+           (CUSTOMERNUM, FIRSTNAME, LASTNAME, DATEOFBIRTH,
+            HOUSENAME,   HOUSENUMBER, POSTCODE, PHONE)
+    VALUES (:WS-CUSTOMERNUM, :WS-FIRSTNAME, :WS-LASTNAME,
+            :WS-DATEOFBIRTH, :WS-HOUSENAME, :WS-HOUSENUMBER,
+            :WS-POSTCODE, :WS-PHONE)
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="42-customer_secure" tabindex="-1">4.2 CUSTOMER_SECURE</h3>
+<p>The <code>CUSTOMER_SECURE</code> table stores the security credentials (password hash and state indicator) for each customer. It is written once by <strong>3 programs</strong> across 3 layers and is never read back within the GenApp core transaction flow — it is consumed exclusively by the authentication subsystem.</p>
+<div class="mermaid">
+flowchart LR
+    %% Presentation
+    LGTESTC1["LGTESTC1\nMenu"]
+
+    %% Orchestration
+    LGACUS01["LGACUS01\nOrchestration"]
+
+    %% DB2 Backend
+    LGACDB02["LGACDB02\nDB2 Backend"]
+
+    %% Table
+    TBL[("CUSTOMER_SECURE")]
+
+    LGTESTC1 -->|"CICS LINK"| LGACUS01
+    LGACUS01 -->|"CICS LINK"| LGACDB02
+    LGACDB02 -->|"C — INSERT"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTC1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGACUS01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGACDB02 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB02</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Inserts password hash and state indicator for new customer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGACDB02</code> (Insert security record):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    INSERT INTO CUSTOMER_SECURE
+           (CUSTOMERNUM, PASSWORD, STATEINDICATOR)
+    VALUES (:WS-CUSTOMERNUM, :WS-PASSWORD, :WS-STATEINDICATOR)
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="43-policy" tabindex="-1">4.3 POLICY</h3>
+<p>The <code>POLICY</code> table is the central entity of the GenApp data model. <strong>10 programs</strong> across 3 layers touch this table, covering all four CRUD operations. Every product-type record (ENDOWMENT, HOUSE, MOTOR, COMMERCIAL, CLAIM) has a foreign key dependency on <code>POLICY</code>.</p>
+<div class="mermaid">
+flowchart LR
+    %% Presentation
+    LGTESTC1["LGTESTC1\nMenu"]
+    LGTESTP1["LGTESTP1\nMenu — Motor"]
+    LGTESTP2["LGTESTP2\nMenu — Endowment"]
+    LGTESTP3["LGTESTP3\nMenu — House"]
+    LGTESTP4["LGTESTP4\nMenu — Commercial"]
+
+    %% Orchestration
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGDPOL01["LGDPOL01\nOrchestration"]
+    LGUPOL01["LGUPOL01\nOrchestration"]
+    LGACUS01["LGACUS01\nOrchestration"]
+
+    %% DB2 Backends
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    LGDPDB01["LGDPDB01\nDB2 Backend"]
+    LGUPDB01["LGUPDB01\nDB2 Backend"]
+
+    %% Table
+    TBL[("POLICY")]
+
+    LGTESTP1 -->|"CICS LINK"| LGAPOL01
+    LGTESTP1 -->|"CICS LINK"| LGIPOL01
+    LGTESTP1 -->|"CICS LINK"| LGDPOL01
+    LGTESTP1 -->|"CICS LINK"| LGUPOL01
+    LGTESTP2 -->|"CICS LINK"| LGAPOL01
+    LGTESTP2 -->|"CICS LINK"| LGIPOL01
+    LGTESTP2 -->|"CICS LINK"| LGDPOL01
+    LGTESTP2 -->|"CICS LINK"| LGUPOL01
+    LGTESTP3 -->|"CICS LINK"| LGAPOL01
+    LGTESTP3 -->|"CICS LINK"| LGIPOL01
+    LGTESTP3 -->|"CICS LINK"| LGDPOL01
+    LGTESTP3 -->|"CICS LINK"| LGUPOL01
+    LGTESTP4 -->|"CICS LINK"| LGAPOL01
+    LGTESTP4 -->|"CICS LINK"| LGIPOL01
+    LGTESTP4 -->|"CICS LINK"| LGDPOL01
+    LGTESTP4 -->|"CICS LINK"| LGUPOL01
+    LGTESTC1 -->|"CICS LINK"| LGACUS01
+
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGDPOL01 -->|"CICS LINK"| LGDPDB01
+    LGUPOL01 -->|"CICS LINK"| LGUPDB01
+
+    LGAPDB01 -->|"C — INSERT\nR — SELECT\nU — UPDATE"| TBL
+    LGIPDB01 -->|"R — SELECT / FETCH"| TBL
+    LGDPDB01 -->|"D — DELETE"| TBL
+    LGUPDB01 -->|"U — UPDATE"| TBL
+
+    LGACUS01 -->|"C/R/D\n(direct SQL)"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTC1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP2 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP3 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP4 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGDPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGUPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGACUS01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGDPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGUPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td>INSERT on add; SELECT to verify; UPDATE on claim processing</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT + cursor FETCH for policy list</td>
+</tr>
+<tr>
+<td><code>LGDPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td>DELETE — cascades to all child policy-type tables</td>
+</tr>
+<tr>
+<td><code>LGUPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td>Updates policy header fields</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td>INSERTs linked policy, SELECTs it back, DELETEs on rollback path</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGDPDB01</code> (Delete policy with cascade):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    DELETE FROM POLICY
+    WHERE POLICYNUM = :WS-POLICYNUM
+      AND CUSTOMERNUM = :WS-CUSTOMERNUM
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="44-endowment" tabindex="-1">4.4 ENDOWMENT</h3>
+<p>The <code>ENDOWMENT</code> table holds product-specific fields for endowment insurance policies. It is accessed by <strong>7 programs</strong> across 3 layers. There are no UPDATE or DELETE statements issued directly against this table — deletions cascade automatically from the <code>POLICY</code> parent row via a foreign key constraint.</p>
+<div class="mermaid">
+flowchart LR
+    LGTESTP2["LGTESTP2\nMenu — Endowment"]
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    TBL[("ENDOWMENT")]
+
+    LGTESTP2 -->|"CICS LINK"| LGAPOL01
+    LGTESTP2 -->|"CICS LINK"| LGIPOL01
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGAPDB01 -->|"C — INSERT"| TBL
+    LGIPDB01 -->|"R — SELECT"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTP2 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#0d47a1
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Inserts endowment-specific details after POLICY row</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT for endowment fields</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGAPDB01</code> (Insert endowment record):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    INSERT INTO ENDOWMENT
+           (POLICYNUM, CUSTOMERNUM, WITHPROFITS, EQUITIES,
+            MANAGEDFUND, FUNDNAME, TERM, SUMASSURED,
+            LIFEASSURED, PADDINGDATA)
+    VALUES (:WS-POLICYNUM, :WS-CUSTOMERNUM, :WS-WITHPROFITS,
+            :WS-EQUITIES, :WS-MANAGEDFUND, :WS-FUNDNAME,
+            :WS-TERM, :WS-SUMASSURED, :WS-LIFEASSURED,
+            :WS-PADDINGDATA)
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="45-house" tabindex="-1">4.5 HOUSE</h3>
+<p>The <code>HOUSE</code> table stores product-specific fields for house/property insurance policies. Like <code>ENDOWMENT</code>, it is accessed by <strong>7 programs</strong> across 3 layers, with no direct UPDATE or DELETE — deletions are handled by cascade from <code>POLICY</code>.</p>
+<div class="mermaid">
+flowchart LR
+    LGTESTP3["LGTESTP3\nMenu — House"]
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    TBL[("HOUSE")]
+
+    LGTESTP3 -->|"CICS LINK"| LGAPOL01
+    LGTESTP3 -->|"CICS LINK"| LGIPOL01
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGAPDB01 -->|"C — INSERT"| TBL
+    LGIPDB01 -->|"R — SELECT"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTP3 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#0d47a1
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Inserts house-specific details after POLICY row</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT for house fields</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGAPDB01</code> (Insert house record):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    INSERT INTO HOUSE
+           (POLICYNUM, CUSTOMERNUM, PROPERTYTYPE, BEDROOMS,
+            BATHROOMS, KITCHENS, VALUE, HOUSENAME,
+            HOUSENUMBER, POSTCODE)
+    VALUES (:WS-POLICYNUM, :WS-CUSTOMERNUM, :WS-PROPERTYTYPE,
+            :WS-BEDROOMS, :WS-BATHROOMS, :WS-KITCHENS,
+            :WS-VALUE, :WS-HOUSENAME, :WS-HOUSENUMBER,
+            :WS-POSTCODE)
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="46-motor" tabindex="-1">4.6 MOTOR</h3>
+<p>The <code>MOTOR</code> table stores product-specific fields for motor vehicle insurance policies. It is accessed by <strong>8 programs</strong> across 3 layers, including one batch program (<code>LGMOTOUT</code>) that performs a full-table cursor scan for export purposes.</p>
+<div class="mermaid">
+flowchart LR
+    LGTESTP1["LGTESTP1\nMenu — Motor"]
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    LGMOTOUT["LGMOTOUT\nBatch"]
+    TBL[("MOTOR")]
+
+    LGTESTP1 -->|"CICS LINK"| LGAPOL01
+    LGTESTP1 -->|"CICS LINK"| LGIPOL01
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGAPDB01 -->|"C — INSERT"| TBL
+    LGIPDB01 -->|"R — SELECT"| TBL
+    LGMOTOUT -->|"R — cursor FETCH"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTP1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#0d47a1
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGMOTOUT fill:#b71c1c,color:#ffffff,stroke:#7f0000
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Inserts motor-specific details after POLICY row</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT for motor fields</td>
+</tr>
+<tr>
+<td><code>LGMOTOUT</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Batch export — cursor over all MOTOR rows → MOTOROUT file</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGMOTOUT</code> (Batch cursor fetch):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    DECLARE MOTOROUT CURSOR FOR
+        SELECT POLICYNUM, CUSTOMERNUM, MAKE, MODEL,
+               VALUE, REGNUMBER, COLOUR, CC,
+               YEAROFMANUFACTURE, PREMIUM
+        FROM   MOTOR
+        ORDER BY POLICYNUM
+END-EXEC
+
+EXEC SQL FETCH MOTOROUT
+    INTO :WS-POLICYNUM, :WS-CUSTOMERNUM, :WS-MAKE,
+         :WS-MODEL,     :WS-VALUE,        :WS-REGNUMBER,
+         :WS-COLOUR,    :WS-CC,           :WS-YEAROFMANUFACTURE,
+         :WS-PREMIUM
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="47-commercial" tabindex="-1">4.7 COMMERCIAL</h3>
+<p>The <code>COMMERCIAL</code> table holds product-specific fields for commercial insurance policies. It is accessed by <strong>8 programs</strong> across 3 layers. Notably, <code>LGAPDB01</code> performs both an INSERT and a subsequent SELECT — the SELECT is used to verify the write and retrieve any database-generated key values.</p>
+<div class="mermaid">
+flowchart LR
+    LGTESTP4["LGTESTP4\nMenu — Commercial"]
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    TBL[("COMMERCIAL")]
+
+    LGTESTP4 -->|"CICS LINK"| LGAPOL01
+    LGTESTP4 -->|"CICS LINK"| LGIPOL01
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGAPDB01 -->|"C — INSERT\nR — SELECT"| TBL
+    LGIPDB01 -->|"R — SELECT / FETCH"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTP4 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#0d47a1
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>INSERT; SELECT back to verify / retrieve generated key</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT + cursor FETCH</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGIPDB01</code> (Cursor fetch for multiple commercial policies):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    DECLARE COMCUR CURSOR FOR
+        SELECT POLICYNUM, CUSTOMERNUM, TYPEOFBUSINESS,
+               NUMBEROFDIRECTORS, NUMBEROFEMPLOYEES,
+               BUSINESSADDR1, BUSINESSADDR2, BUSINESSADDR3,
+               PREMIUM
+        FROM   COMMERCIAL
+        WHERE  CUSTOMERNUM = :WS-CUSTOMERNUM
+END-EXEC</code></pre>
+</div>
+<hr>
+<h3 id="48-claim" tabindex="-1">4.8 CLAIM</h3>
+<p>The <code>CLAIM</code> table records insurance claims raised against any policy type. It is accessed by <strong>8 programs</strong> across 3 layers. Like <code>COMMERCIAL</code>, <code>LGAPDB01</code> performs an INSERT followed by a SELECT to retrieve the database-assigned claim number.</p>
+<div class="mermaid">
+flowchart LR
+    LGTESTP1["LGTESTP1\nMenu — Motor"]
+    LGTESTP2["LGTESTP2\nMenu — Endowment"]
+    LGTESTP3["LGTESTP3\nMenu — House"]
+    LGTESTP4["LGTESTP4\nMenu — Commercial"]
+    LGAPOL01["LGAPOL01\nOrchestration"]
+    LGIPOL01["LGIPOL01\nOrchestration"]
+    LGAPDB01["LGAPDB01\nDB2 Backend"]
+    LGIPDB01["LGIPDB01\nDB2 Backend"]
+    TBL[("CLAIM")]
+
+    LGTESTP1 -->|"CICS LINK"| LGAPOL01
+    LGTESTP2 -->|"CICS LINK"| LGAPOL01
+    LGTESTP3 -->|"CICS LINK"| LGAPOL01
+    LGTESTP4 -->|"CICS LINK"| LGAPOL01
+    LGTESTP1 -->|"CICS LINK"| LGIPOL01
+    LGTESTP2 -->|"CICS LINK"| LGIPOL01
+    LGTESTP3 -->|"CICS LINK"| LGIPOL01
+    LGTESTP4 -->|"CICS LINK"| LGIPOL01
+    LGAPOL01 -->|"CICS LINK"| LGAPDB01
+    LGIPOL01 -->|"CICS LINK"| LGIPDB01
+    LGAPDB01 -->|"C — INSERT\nR — SELECT"| TBL
+    LGIPDB01 -->|"R — SELECT / FETCH"| TBL
+
+    style TBL      fill:#4a148c,color:#ffffff,stroke:#38006b
+    style LGTESTP1 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP2 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP3 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGTESTP4 fill:#37474f,color:#ffffff,stroke:#263238
+    style LGAPOL01 fill:#1b5e20,color:#ffffff,stroke:#145a32
+    style LGIPOL01 fill:#1b5e20,color:#ffffff,stroke:#0d47a1
+    style LGAPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+    style LGIPDB01 fill:#1565c0,color:#ffffff,stroke:#0d47a1
+</div>
+<p><strong>Operations Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th style="text-align:center">C</th>
+<th style="text-align:center">R</th>
+<th style="text-align:center">U</th>
+<th style="text-align:center">D</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPDB01</code></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>INSERT; SELECT back to verify / retrieve generated claim number</td>
+</tr>
+<tr>
+<td><code>LGIPDB01</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td>Point SELECT + cursor FETCH</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Representative SQL — <code>LGAPDB01</code> (Insert and retrieve claim):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">EXEC SQL
+    INSERT INTO CLAIM
+           (POLICYNUM, CUSTOMERNUM, CLAIMDATE, CLAIMDESC)
+    VALUES (:WS-POLICYNUM, :WS-CUSTOMERNUM,
+            :WS-CLAIMDATE, :WS-CLAIMDESC)
+END-EXEC
+
+EXEC SQL
+    SELECT CLAIMNUM
+    INTO   :WS-CLAIMNUM
+    FROM   CLAIM
+    WHERE  POLICYNUM   = :WS-POLICYNUM
+      AND  CUSTOMERNUM = :WS-CUSTOMERNUM
+      AND  CLAIMDATE   = :WS-CLAIMDATE
+END-EXEC</code></pre>
+</div>
+<hr>
+<h2 id="5-key-observations" tabindex="-1">5. Key Observations</h2>
+<p>The following architectural patterns and risk areas emerge from the full CRUD analysis:</p>
+<h3 id="51-high-impact-programs" tabindex="-1">5.1 High-Impact Programs</h3>
+<ul>
+<li>
+<p><strong><code>LGAPDB01</code></strong> is the most data-intensive program in the system. It is the sole <strong>Create</strong> path for all six policy-related tables (<code>POLICY</code>, <code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code>, <code>CLAIM</code>) and additionally performs READ and UPDATE operations against <code>POLICY</code>. Any change to the policy creation logic or the schema of any child table requires modification of this single program.</p>
+</li>
+<li>
+<p><strong><code>LGIPDB01</code></strong> is the sole <strong>Read</strong> path for all policy-type detail tables. It uses cursors for <code>CLAIM</code> and <code>COMMERCIAL</code> to handle multiple rows per policy. It is the universal inquiry backend and must be updated for any schema extension to a policy-type table.</p>
+</li>
+<li>
+<p><strong><code>LGACUS01</code></strong> (orchestration layer) contains its <strong>own embedded SQL</strong> against both <code>CUSTOMER</code> and <code>POLICY</code>, bypassing the dedicated DB2 backend programs for the combined add-customer-and-policy use case. This dual-path design means schema changes to <code>CUSTOMER</code> or <code>POLICY</code> must be applied to <code>LGACUS01</code> in addition to the dedicated backend programs.</p>
+</li>
+</ul>
+<h3 id="52-cascade-only-deletion-pattern" tabindex="-1">5.2 Cascade-Only Deletion Pattern</h3>
+<p>No program issues a direct DELETE against the policy-type detail tables (<code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code>, <code>CLAIM</code>). All deletions of child rows are handled entirely by the <strong><code>ON DELETE CASCADE</code></strong> foreign key constraint triggered when <code>LGDPDB01</code> deletes a <code>POLICY</code> parent row. This is an important constraint to preserve during any migration or schema refactoring.</p>
+<h3 id="53-write-once-security-table" tabindex="-1">5.3 Write-Once Security Table</h3>
+<p>The <code>CUSTOMER_SECURE</code> table is written exactly once per customer (<code>LGACDB02</code>) and is never read by any program in the GenApp core transaction flow. It exists purely for authentication purposes outside the main GenApp transaction set.</p>
+<h3 id="54-read-only-batch-programs" tabindex="-1">5.4 Read-Only Batch Programs</h3>
+<p>All batch programs (<code>LGBATCH</code>, <code>LGBATDB2</code>, <code>LGMOTOUT</code>) are strictly <strong>read-only</strong> against Db2. They perform no inserts, updates, or deletes, making them lower-risk candidates for independent migration or replacement.</p>
+<h3 id="55-policy-deletion-sequence" tabindex="-1">5.5 Policy Deletion Sequence</h3>
+<p>The following sequence diagram illustrates the full flow when a policy is deleted, showing how the cascade works:</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as User (BMS Menu)
+    participant Orch as LGDPOL01 (Orchestration)
+    participant BE as LGDPDB01 (DB2 Backend)
+    participant DB as Db2 — GENASA1
+
+    User->>Orch: CICS LINK (delete policy request)
+    Orch->>BE: CICS LINK (COMMAREA with policy key)
+    BE->>DB: EXEC SQL DELETE FROM POLICY WHERE POLICYNUM=:key
+    DB-->>DB: ON DELETE CASCADE → removes child rows in\nENDOWMENT / HOUSE / MOTOR /\nCOMMERCIAL / CLAIM
+    DB-->>BE: SQLCODE 0 (success)
+    BE-->>Orch: Return COMMAREA (result code)
+    Orch-->>User: Return response to BMS screen
+</div>
+<p>This cascade behaviour means that <code>LGDPDB01</code> is effectively the <strong>Delete path for seven tables</strong> — <code>POLICY</code> directly and all five product-type tables implicitly.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="genapp-architecture.html" class="card">
+                <span class="card-title">System Architecture</span>
+                <span class="card-description">Detailed architectural description of GenApp: CICS transaction flow, layered program design (front-end handlers → business logic → DB2/VSAM back-ends), use of CICS LINK, communication areas, named counters, temporary storage queues, and IBM ODM integration.</span>
+            </a>
+            <a href="policy-db2-programs.html" class="card">
+                <span class="card-title">Policy DB2 Back-End Programs</span>
+                <span class="card-description">Details the DB2 persistence layer for insurance policies: LGAPDB01 (insert with premium surcharge, bundling discount, broker commission, and peril surcharge rules), LGIPDB01 (multi-variant policy inquiry across five policy-type tables), LGUPDB01 (update with lost-update timestamp guard), and LGDPDB01 (delete with referential integrity cascade), including SQL table joins, host variables, and error-code conventions.</span>
+            </a>
+            <a href="customer-db2-programs.html" class="card">
+                <span class="card-title">Customer DB2 Back-End Programs</span>
+                <span class="card-description">Details the DB2-layer programs for the customer domain: LGACDB01 (insert new customer), LGACDB02 (insert customer security record), LGICDB01 (retrieve customer profile), and LGUCDB01 (update customer record), including SQL table targets, host variables, return codes, and error handling.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-program--table-crud-matrix">3. Program × Table CRUD Matrix</a></li>
+<li class="toc-level-2"><a href="#4-table-by-table-dependency-diagrams-and-operations-detail">4. Table-by-Table Dependency Diagrams and Operations Detail</a>
+<ul>
+<li class="toc-level-3"><a href="#41-customer">4.1 CUSTOMER</a></li>
+<li class="toc-level-3"><a href="#42-customer_secure">4.2 CUSTOMER_SECURE</a></li>
+<li class="toc-level-3"><a href="#43-policy">4.3 POLICY</a></li>
+<li class="toc-level-3"><a href="#44-endowment">4.4 ENDOWMENT</a></li>
+<li class="toc-level-3"><a href="#45-house">4.5 HOUSE</a></li>
+<li class="toc-level-3"><a href="#46-motor">4.6 MOTOR</a></li>
+<li class="toc-level-3"><a href="#47-commercial">4.7 COMMERCIAL</a></li>
+<li class="toc-level-3"><a href="#48-claim">4.8 CLAIM</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-key-observations">5. Key Observations</a>
+<ul>
+<li class="toc-level-3"><a href="#51-high-impact-programs">5.1 High-Impact Programs</a></li>
+<li class="toc-level-3"><a href="#52-cascade-only-deletion-pattern">5.2 Cascade-Only Deletion Pattern</a></li>
+<li class="toc-level-3"><a href="#53-write-once-security-table">5.3 Write-Once Security Table</a></li>
+<li class="toc-level-3"><a href="#54-read-only-batch-programs">5.4 Read-Only Batch Programs</a></li>
+<li class="toc-level-3"><a href="#55-policy-deletion-sequence">5.5 Policy Deletion Sequence</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>
