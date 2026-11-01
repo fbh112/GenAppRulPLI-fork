@@ -14,6 +14,7 @@ This file provides guidance to agents when working with code in this repository.
 | `plinc/` | 4 PL/I include files (`.inc`) — equivalent of COBOL copybooks |
 | `jcl/` | JCL for DB2 DDL, CSD definitions, bind |
 | `application-conf/` | zAppBuild build configuration properties |
+| `docs/` | Generated documentation (program docs, impact analyses, implementation plans, wiki) |
 
 ## Build System
 
@@ -103,3 +104,18 @@ Menu (LGTESTP1-4 / LGTESTC1)
 ## Scanned Database
 
 Program metadata is stored in `.bobz/local-settings.json` (`databaseLocation` field). Use `execute_sql_query` for cross-program analysis (call chains, SQL table access, dependencies).
+
+## Documentation Output
+
+All generated documentation must be saved under the `docs/` folder. Use the following sub-directory conventions:
+
+| Sub-directory | Contents |
+|---------------|----------|
+| `docs/programs/` | Individual program documentation (docgen workflow output) |
+| `docs/wiki/` | Application-level wiki (wiki workflow output) |
+| `docs/impact-analysis/` | Impact analysis reports |
+| `docs/implementation-plans/` | Implementation plan documents |
+| `docs/business-rules/` | Business rules documentation (brd workflow output) |
+## Workspace Type
+
+IBM Z
