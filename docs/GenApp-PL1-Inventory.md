@@ -4,6 +4,59 @@
 
 ---
 
+## Table of Contents
+
+1. [Application Architecture Overview](#application-architecture-overview)
+2. [Program Inventory](#program-inventory)
+   - [Tier 1 — Presentation / BMS Menu Programs](#tier-1--presentation--bms-menu-programs)
+     - [LGTESTP1 — Motor Policy Menu](#lgtestp1---motor-policy-menu)
+     - [LGTESTP2 — Endowment Policy Menu](#lgtestp2---endowment-policy-menu)
+     - [LGTESTP3 — House Policy Menu](#lgtestp3---house-policy-menu)
+     - [LGTESTP4 — Commercial Policy Menu](#lgtestp4---commercial-policy-menu)
+     - [LGTESTC1 — Customer Menu](#lgtestc1---customer-menu)
+   - [Tier 2 — Orchestration / Business Logic Programs](#tier-2--orchestration--business-logic-programs)
+     - [LGAPOL01 — Add Policy (Orchestrator)](#lgapol01---add-policy-orchestrator)
+     - [LGIPOL01 — Inquire Policy (Orchestrator)](#lgipol01---inquire-policy-orchestrator)
+     - [LGDPOL01 — Delete Policy (Orchestrator)](#lgdpol01---delete-policy-orchestrator)
+     - [LGUPOL01 — Update Policy (Orchestrator)](#lgupol01---update-policy-orchestrator)
+     - [LGACUS01 — Add Customer (Orchestrator)](#lgacus01---add-customer-orchestrator)
+     - [LGICUS01 — Inquire Customer (Orchestrator)](#lgicus01---inquire-customer-orchestrator)
+     - [LGUCUS01 — Update Customer (Orchestrator)](#lgucus01---update-customer-orchestrator)
+   - [Tier 3 — Backend DB2 Programs](#tier-3--backend-db2-programs)
+     - [LGAPDB01 — Add Policy (DB2)](#lgapdb01---add-policy-db2)
+     - [LGIPDB01 — Inquire Policy (DB2)](#lgipdb01---inquire-policy-db2)
+     - [LGDPDB01 — Delete Policy (DB2)](#lgdpdb01---delete-policy-db2)
+     - [LGUPDB01 — Update Policy (DB2)](#lgupdb01---update-policy-db2)
+     - [LGACDB01 — Add Customer (DB2)](#lgacdb01---add-customer-db2)
+     - [LGACDB02 — Add Customer Security (DB2)](#lgacdb02---add-customer-security-db2)
+     - [LGICDB01 — Inquire Customer (DB2)](#lgicdb01---inquire-customer-db2)
+     - [LGUCDB01 — Update Customer (DB2)](#lgucdb01---update-customer-db2)
+   - [Tier 3 — Backend VSAM Programs](#tier-3--backend-vsam-programs)
+     - [LGAPVS01 — Add Policy (VSAM)](#lgapvs01---add-policy-vsam)
+     - [LGIPVS01 — Inquire Policy (VSAM Browse)](#lgipvs01---inquire-policy-vsam-browse)
+     - [LGDPVS01 — Delete Policy (VSAM)](#lgdpvs01---delete-policy-vsam)
+     - [LGUPVS01 — Update Policy (VSAM)](#lgupvs01---update-policy-vsam)
+     - [LGACVS01 — Add Customer (VSAM)](#lgacvs01---add-customer-vsam)
+     - [LGICVS01 — Inquire Customer (VSAM)](#lgicvs01---inquire-customer-vsam)
+     - [LGUCVS01 — Update Customer (VSAM)](#lgucvs01---update-customer-vsam)
+   - [Supporting CICS Programs](#supporting-cics-programs)
+     - [LGSTSQ — Error Message Logger](#lgstsq---error-message-logger)
+     - [LGASTAT1 — Statistics Counter Update](#lgastat1---statistics-counter-update)
+     - [LGWEBST5 — Statistics Collector](#lgwebst5---statistics-collector)
+     - [LGSETUP — GenApp Environment Setup](#lgsetup---genapp-environment-setup)
+   - [Batch Programs](#batch-programs)
+     - [LGBATCH — Batch Customer Report](#lgbatch---batch-customer-report)
+     - [LGBATDB2 — Batch DB2 Test Driver](#lgbatdb2---batch-db2-test-driver)
+     - [LGMOTOUT — Motor Table Extract](#lgmotout---motor-table-extract)
+     - [LGBATCHF — Format Customer Report Line](#lgbatchf---format-customer-report-line-subroutine)
+3. [Include Files (plinc/)](#include-files-plinc)
+4. [DB2 Table Access Summary](#db2-table-access-summary)
+5. [VSAM Dataset Access Summary](#vsam-dataset-access-summary)
+6. [External Program Dependencies](#external-program-dependencies-not-in-repository)
+7. [Program Count Summary](#program-count-summary)
+
+---
+
 ## Application Architecture Overview
 
 GenApp is a general insurance application running on z/OS. It exposes CICS online transactions for managing customers and insurance policies (Motor, Endowment, House, Commercial), and includes batch programs for reporting and data extraction. The architecture follows a strict three-tier layering:
