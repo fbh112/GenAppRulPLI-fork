@@ -1,0 +1,1151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB2 & VSAM Data Storage Architecture - GenApp PL/I Insurance Application Knowledge Base</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Knowledge Base</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Architecture &amp; System Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="system-architecture-inventory.html" class="nav-link" data-page-id="system-architecture-inventory">Application Architecture &amp; Component Inventory</a>
+                <a href="data-persistence-dependencies.html" class="nav-link active" data-page-id="data-persistence-dependencies">DB2 &amp; VSAM Data Storage Architecture</a>
+                <a href="customer-migration-impact.html" class="nav-link" data-page-id="customer-migration-impact">Customer Domain Migration &amp; Risk Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-interface-orchestration.html" class="nav-link" data-page-id="customer-interface-orchestration">Customer Presentation &amp; Business Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 &amp; Security Persistence</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM Data Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-interface-orchestration.html" class="nav-link" data-page-id="policy-interface-orchestration">Policy Presentation &amp; Business Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Rating Engine</a>
+                <a href="policy-vsam-storage.html" class="nav-link" data-page-id="policy-vsam-storage">Policy VSAM Storage Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-batch-reporting.html" class="nav-link" data-page-id="customer-batch-reporting">Customer Batch Reporting &amp; Test Drivers</a>
+                <a href="motor-policy-batch-extract.html" class="nav-link" data-page-id="motor-policy-batch-extract">Motor Policy Batch Extraction Utility</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">System Infrastructure &amp; Operations</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="environment-setup-initialization.html" class="nav-link" data-page-id="environment-setup-initialization">Environment Setup &amp; Queue Management</a>
+                <a href="transaction-statistics-monitoring.html" class="nav-link" data-page-id="transaction-statistics-monitoring">Transaction Statistics &amp; Telemetry Pipeline</a>
+                <a href="diagnostic-error-logging.html" class="nav-link" data-page-id="diagnostic-error-logging">Centralized Error Logging &amp; Diagnostics</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        
+                        <h1 id="db2--vsam-data-storage-architecture" tabindex="-1">DB2 &amp; VSAM Data Storage Architecture</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>This page maps how the GenApp PL/I insurance application stores and accesses data. It covers the following:</p>
+<ul>
+<li><strong>DB2 relational tables.</strong> There are eight: <code>CUSTOMER</code>, <code>CUSTOMER_SECURE</code>, <code>POLICY</code>, <code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code> and <code>CLAIM</code>.</li>
+<li><strong>VSAM KSDS counterparts for customer data.</strong> These are reached through the <code>LGACVS01</code>, <code>LGICVS01</code> and <code>LGUCVS01</code> programs.</li>
+<li><strong>Dual-write synchronization.</strong> The customer add and update paths write to both DB2 and VSAM.</li>
+<li><strong>Program-level data dependencies.</strong> The page traces which programs read or write each table and which CICS entry points reach them.</li>
+</ul>
+<p>The application has these main parts:</p>
+<ul>
+<li><strong>Customer domain.</strong> CICS transaction <code>SSC1</code> and its menu program <code>LGTESTC1</code> drive it. <code>CUSTOMER</code> is the master entity, and <code>CUSTOMER_SECURE</code> holds sensitive payment and security details separately.</li>
+<li><strong>Policy and product domain.</strong> <code>POLICY</code> is the hub table. The product tables <code>MOTOR</code>, <code>ENDOWMENT</code>, <code>HOUSE</code> and <code>COMMERCIAL</code> and the <code>CLAIM</code> table hang off it. Menus <code>LGTESTP1</code> to <code>LGTESTP4</code> drive this domain.</li>
+<li><strong>Batch and reporting domain.</strong> <code>LGBATCH</code>, <code>LGBATDB2</code> and <code>LGMOTOUT</code> run under JCL and read DB2 directly. <code>LGBATCH</code> and <code>LGBATDB2</code> read <code>CUSTOMER</code>. <code>LGMOTOUT</code> reads and writes <code>MOTOR</code>.</li>
+</ul>
+<p>In total, 12 distinct programs access DB2 tables directly. Eleven were found in the scanned metadata database. <code>LGUPDB01</code> was confirmed from its source.</p>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-layered-component-view" tabindex="-1">2.1 Layered Component View</h3>
+<p>The application is layered. Terminal transactions call menu programs, which call orchestrators. The orchestrators call backend persistence programs, and those programs reach DB2 and VSAM. A shared error logger, <code>LGSTSQ</code>, writes to a CICS TS queue.</p>
+<div class="mermaid">
+graph TD
+    subgraph Presentation
+        SSC1[Trans SSC1] --> LGTESTC1[LGTESTC1 Customer Menu]
+        SSP[Trans SSP1-SSP4] --> LGTESTP[LGTESTP1-4 Policy Menus]
+    end
+
+    subgraph Orchestration
+        LGACUS01[LGACUS01 Add Customer]
+        LGICUS01[LGICUS01 Inquire Customer]
+        LGUCUS01[LGUCUS01 Update Customer]
+        LGAPOL01[LGAPOL01 Add Policy]
+        LGIPOL01[LGIPOL01 Inquire Policy]
+        LGUPOL01[LGUPOL01 Update Policy]
+        LGDPOL01[LGDPOL01 Delete Policy]
+    end
+
+    subgraph Backend_DB2
+        LGACDB01[LGACDB01]
+        LGACDB02[LGACDB02]
+        LGICDB01[LGICDB01]
+        LGUCDB01[LGUCDB01]
+        LGAPDB01[LGAPDB01]
+        LGIPDB01[LGIPDB01]
+        LGUPDB01[LGUPDB01]
+        LGDPDB01[LGDPDB01]
+    end
+
+    subgraph Backend_VSAM
+        LGACVS01[LGACVS01]
+        LGICVS01[LGICVS01]
+        LGUCVS01[LGUCVS01]
+    end
+
+    subgraph Batch
+        LGBATCH[LGBATCH]
+        LGBATDB2[LGBATDB2]
+        LGMOTOUT[LGMOTOUT]
+    end
+
+    subgraph Data_Stores
+        DB2[(DB2 Tables)]
+        VSAM[(VSAM KSDS)]
+    end
+
+    LGTESTC1 --> LGACUS01 & LGICUS01 & LGUCUS01
+    LGTESTP --> LGAPOL01 & LGIPOL01 & LGUPOL01 & LGDPOL01
+    LGACUS01 --> LGACDB01 & LGACDB02
+    LGICUS01 --> LGICDB01 & LGICVS01
+    LGUCUS01 --> LGUCDB01
+    LGAPOL01 --> LGAPDB01
+    LGIPOL01 --> LGIPDB01
+    LGUPOL01 --> LGUPDB01
+    LGDPOL01 --> LGDPDB01
+    LGACDB01 --> LGACVS01
+    LGUCDB01 --> LGUCVS01
+
+    LGACDB01 & LGACDB02 & LGICDB01 & LGUCDB01 & LGAPDB01 & LGIPDB01 & LGUPDB01 & LGDPDB01 & LGACUS01 --> DB2
+    LGBATCH & LGBATDB2 & LGMOTOUT --> DB2
+    LGACVS01 & LGICVS01 & LGUCVS01 --> VSAM
+</div>
+<h3 id="22-storage-tiers" tabindex="-1">2.2 Storage Tiers</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Technology</th>
+<th>Content</th>
+<th>Accessing programs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relational master</td>
+<td>DB2 <code>CUSTOMER</code></td>
+<td>Core customer demographics</td>
+<td><code>LGACDB01</code>, <code>LGACUS01</code>, <code>LGUCDB01</code>, <code>LGICDB01</code>, <code>LGBATCH</code>, <code>LGBATDB2</code></td>
+</tr>
+<tr>
+<td>Relational secure</td>
+<td>DB2 <code>CUSTOMER_SECURE</code></td>
+<td>Credit card and security verification details</td>
+<td><code>LGACDB02</code></td>
+</tr>
+<tr>
+<td>Relational policy</td>
+<td>DB2 <code>POLICY</code>, <code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code>, <code>CLAIM</code></td>
+<td>Policy header, product detail and claims</td>
+<td><code>LGAPDB01</code>, <code>LGIPDB01</code>, <code>LGUPDB01</code>, <code>LGDPDB01</code>, <code>LGACUS01</code>, <code>LGMOTOUT</code></td>
+</tr>
+<tr>
+<td>VSAM KSDS</td>
+<td>Customer dataset</td>
+<td>Customer records mirrored from DB2</td>
+<td><code>LGACVS01</code>, <code>LGICVS01</code>, <code>LGUCVS01</code></td>
+</tr>
+<tr>
+<td>Error log</td>
+<td>CICS TS queue</td>
+<td>Error messages</td>
+<td><code>LGSTSQ</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-db2-relational-tables" tabindex="-1">3. DB2 Relational Tables</h2>
+<h3 id="31-table-summary-matrix" tabindex="-1">3.1 Table Summary Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th style="text-align:center">Direct programs</th>
+<th>Writers</th>
+<th>Readers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td style="text-align:center">6</td>
+<td>LGACDB01, LGACUS01, LGUCDB01</td>
+<td>LGICDB01, LGBATCH, LGBATDB2</td>
+</tr>
+<tr>
+<td><code>CUSTOMER_SECURE</code></td>
+<td style="text-align:center">1</td>
+<td>LGACDB02</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>POLICY</code></td>
+<td style="text-align:center">5</td>
+<td>LGAPDB01, LGACUS01, LGDPDB01, LGUPDB01*</td>
+<td>LGIPDB01, LGAPDB01, LGACUS01, LGUPDB01*</td>
+</tr>
+<tr>
+<td><code>ENDOWMENT</code></td>
+<td style="text-align:center">3</td>
+<td>LGAPDB01, LGUPDB01*</td>
+<td>LGIPDB01</td>
+</tr>
+<tr>
+<td><code>HOUSE</code></td>
+<td style="text-align:center">3</td>
+<td>LGAPDB01, LGUPDB01*</td>
+<td>LGIPDB01</td>
+</tr>
+<tr>
+<td><code>MOTOR</code></td>
+<td style="text-align:center">4</td>
+<td>LGAPDB01, LGUPDB01*, LGMOTOUT</td>
+<td>LGIPDB01, LGMOTOUT</td>
+</tr>
+<tr>
+<td><code>COMMERCIAL</code></td>
+<td style="text-align:center">2</td>
+<td>LGAPDB01</td>
+<td>LGIPDB01</td>
+</tr>
+<tr>
+<td><code>CLAIM</code></td>
+<td style="text-align:center">2</td>
+<td>LGAPDB01</td>
+<td>LGIPDB01</td>
+</tr>
+</tbody>
+</table>
+<p>* <code>LGUPDB01</code> has no SQL references in the scanned database. Its access was confirmed from source and the inventory.</p>
+<h3 id="32-consolidated-tableprogram-dependency-diagram" tabindex="-1">3.2 Consolidated Table–Program Dependency Diagram</h3>
+<p>Solid arrows are writes and dotted arrows are reads. Cylinders are tables, and batch programs are shown in a separate subgraph.</p>
+<div class="mermaid">
+flowchart LR
+    classDef prog fill:#e8f0fe,stroke:#1a73e8,color:#000
+    classDef batch fill:#f3e8fd,stroke:#8e24aa,color:#000
+    classDef tbl fill:#fff8e1,stroke:#f9a825,color:#000
+
+    subgraph Programs
+        LGACDB01[LGACDB01]:::prog
+        LGACDB02[LGACDB02]:::prog
+        LGACUS01[LGACUS01]:::prog
+        LGICDB01[LGICDB01]:::prog
+        LGUCDB01[LGUCDB01]:::prog
+        LGAPDB01[LGAPDB01]:::prog
+        LGIPDB01[LGIPDB01]:::prog
+        LGUPDB01["LGUPDB01*"]:::prog
+        LGDPDB01[LGDPDB01]:::prog
+        LGMOTOUT[LGMOTOUT]:::batch
+        LGBATCH[LGBATCH]:::batch
+        LGBATDB2[LGBATDB2]:::batch
+    end
+
+    subgraph Tables
+        CUSTOMER[(CUSTOMER)]:::tbl
+        CUSTOMER_SECURE[(CUSTOMER_SECURE)]:::tbl
+        POLICY[(POLICY)]:::tbl
+        ENDOWMENT[(ENDOWMENT)]:::tbl
+        HOUSE[(HOUSE)]:::tbl
+        MOTOR[(MOTOR)]:::tbl
+        COMMERCIAL[(COMMERCIAL)]:::tbl
+        CLAIM[(CLAIM)]:::tbl
+    end
+
+    LGACDB01 -- W --> CUSTOMER
+    LGACUS01 -- W --> CUSTOMER
+    LGUCDB01 -- W --> CUSTOMER
+    LGICDB01 -. R .-> CUSTOMER
+    LGBATCH -. R .-> CUSTOMER
+    LGBATDB2 -. R .-> CUSTOMER
+    LGACDB02 -- W --> CUSTOMER_SECURE
+    LGAPDB01 -- "R/W" --> POLICY
+    LGACUS01 -- "R/W" --> POLICY
+    LGDPDB01 -- W --> POLICY
+    LGIPDB01 -. R .-> POLICY
+    LGUPDB01 -- "R/W" --> POLICY
+    LGAPDB01 -- W --> ENDOWMENT
+    LGUPDB01 -- W --> ENDOWMENT
+    LGIPDB01 -. R .-> ENDOWMENT
+    LGAPDB01 -- W --> HOUSE
+    LGUPDB01 -- W --> HOUSE
+    LGIPDB01 -. R .-> HOUSE
+    LGAPDB01 -- W --> MOTOR
+    LGUPDB01 -- W --> MOTOR
+    LGMOTOUT -- "R/W" --> MOTOR
+    LGIPDB01 -. R .-> MOTOR
+    LGAPDB01 -- W --> COMMERCIAL
+    LGIPDB01 -. R .-> COMMERCIAL
+    LGAPDB01 -- W --> CLAIM
+    LGIPDB01 -. R .-> CLAIM
+</div>
+<h3 id="33-entity-relationships" tabindex="-1">3.3 Entity Relationships</h3>
+<p>The customer number (<code>CUSTOMER_NUMBER</code>, carried in the COMMAREA as <code>CA_CUSTOMER_NUM</code>) is the boundary contract between the customer and policy domains. Policy entities keep references to it.</p>
+<div class="mermaid">
+erDiagram
+    CUSTOMER ||--o| CUSTOMER_SECURE : "secured by"
+    CUSTOMER ||--o{ POLICY : "owns"
+    POLICY ||--o| MOTOR : "detail"
+    POLICY ||--o| ENDOWMENT : "detail"
+    POLICY ||--o| HOUSE : "detail"
+    POLICY ||--o| COMMERCIAL : "detail"
+    POLICY ||--o{ CLAIM : "has"
+</div>
+<p>Customer domain tables:</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Domain role</th>
+<th>Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td>Core master entity</td>
+<td><code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code></td>
+</tr>
+<tr>
+<td><code>CUSTOMER_SECURE</code></td>
+<td>Sensitive and security details, isolated from demographics</td>
+<td><code>INSERT</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-per-table-access-patterns" tabindex="-1">3.4 Per-Table Access Patterns</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Operation</th>
+<th>Program</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td>INSERT</td>
+<td>LGACUS01, LGACDB01</td>
+</tr>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td>UPDATE</td>
+<td>LGUCDB01</td>
+</tr>
+<tr>
+<td><code>CUSTOMER</code></td>
+<td>SELECT</td>
+<td>LGICDB01, LGBATCH, LGBATDB2</td>
+</tr>
+<tr>
+<td><code>CUSTOMER_SECURE</code></td>
+<td>INSERT</td>
+<td>LGACDB02</td>
+</tr>
+<tr>
+<td><code>POLICY</code></td>
+<td>INSERT</td>
+<td>LGAPDB01, LGACUS01</td>
+</tr>
+<tr>
+<td><code>POLICY</code></td>
+<td>DELETE</td>
+<td>LGDPDB01</td>
+</tr>
+<tr>
+<td><code>POLICY</code></td>
+<td>SELECT FOR UPDATE / UPDATE</td>
+<td>LGUPDB01</td>
+</tr>
+<tr>
+<td><code>POLICY</code></td>
+<td>SELECT</td>
+<td>LGIPDB01</td>
+</tr>
+<tr>
+<td><code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code></td>
+<td>INSERT</td>
+<td>LGAPDB01</td>
+</tr>
+<tr>
+<td><code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code></td>
+<td>UPDATE</td>
+<td>LGUPDB01</td>
+</tr>
+<tr>
+<td><code>ENDOWMENT</code>, <code>HOUSE</code>, <code>MOTOR</code>, <code>COMMERCIAL</code>, <code>CLAIM</code></td>
+<td>SELECT</td>
+<td>LGIPDB01</td>
+</tr>
+<tr>
+<td><code>MOTOR</code></td>
+<td>SELECT / write</td>
+<td>LGMOTOUT (batch)</td>
+</tr>
+<tr>
+<td><code>COMMERCIAL</code>, <code>CLAIM</code></td>
+<td>INSERT</td>
+<td>LGAPDB01</td>
+</tr>
+</tbody>
+</table>
+<p><code>POLICY</code> is the hub of policy processing. It has 5 direct programs and more than 30 references. Any change to its columns affects <code>LGAPDB01</code>, <code>LGIPDB01</code>, <code>LGDPDB01</code>, <code>LGUPDB01</code> and <code>LGACUS01</code>, plus all four policy menus.</p>
+<h2 id="4-vsam-ksds-layer-and-dual-write-synchronization" tabindex="-1">4. VSAM KSDS Layer and Dual-Write Synchronization</h2>
+<h3 id="41-vsam-counterparts" tabindex="-1">4.1 VSAM Counterparts</h3>
+<p>Each customer DB2 backend has a VSAM counterpart that keeps the KSDS dataset aligned with <code>CUSTOMER</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>DB2 backend</th>
+<th>VSAM backend</th>
+<th>Effect on VSAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add</td>
+<td><code>LGACDB01</code> (INSERT into <code>CUSTOMER</code>)</td>
+<td><code>LGACVS01</code></td>
+<td>Writes the customer record to the KSDS dataset</td>
+</tr>
+<tr>
+<td>Inquire</td>
+<td><code>LGICDB01</code> (SELECT from <code>CUSTOMER</code>)</td>
+<td><code>LGICVS01</code></td>
+<td>Reads the customer record from VSAM</td>
+</tr>
+<tr>
+<td>Update</td>
+<td><code>LGUCDB01</code> (UPDATE <code>CUSTOMER</code>)</td>
+<td><code>LGUCVS01</code></td>
+<td>Updates the customer record in VSAM</td>
+</tr>
+</tbody>
+</table>
+<p><code>LGACDB01</code> calls <code>LGACVS01</code> after its DB2 insert. <code>LGUCDB01</code> links to <code>LGUCVS01</code> after its DB2 update. <code>LGICUS01</code> links to both <code>LGICDB01</code> and <code>LGICVS01</code>.</p>
+<p>The product and claim tables (<code>POLICY</code>, <code>MOTOR</code>, <code>ENDOWMENT</code>, <code>HOUSE</code>, <code>COMMERCIAL</code>, <code>CLAIM</code>) have no VSAM counterpart in the analyzed material. They are DB2-only.</p>
+<h3 id="42-dual-write-component-flow" tabindex="-1">4.2 Dual-Write Component Flow</h3>
+<div class="mermaid">
+graph TD
+    LGTESTC1[LGTESTC1 SSC1 menu] --> LGACUS01
+    LGTESTC1 --> LGUCUS01
+    LGTESTC1 --> LGICUS01
+
+    LGACUS01 -->|CICS LINK| LGACDB01
+    LGACUS01 -->|CICS LINK| LGACDB02
+    LGACDB01 -->|SQL INSERT| CUST[(DB2 CUSTOMER)]
+    LGACDB01 -->|CICS LINK| LGACVS01
+    LGACVS01 -->|write| KSDS[(VSAM KSDS)]
+    LGACDB02 -->|SQL INSERT| SEC[(DB2 CUSTOMER_SECURE)]
+
+    LGUCUS01 -->|CICS LINK| LGUCDB01
+    LGUCDB01 -->|SQL UPDATE| CUST
+    LGUCDB01 -->|CICS LINK| LGUCVS01
+    LGUCVS01 -->|update| KSDS
+
+    LGICUS01 -->|CICS LINK| LGICDB01
+    LGICUS01 -->|CICS LINK| LGICVS01
+    LGICDB01 -->|SQL SELECT| CUST
+    LGICVS01 -->|read| KSDS
+</div>
+<h3 id="43-add-customer-sequence" tabindex="-1">4.3 Add Customer Sequence</h3>
+<p><code>LGACUS01</code> orchestrates onboarding across several data stores. It also reads and writes <code>POLICY</code> directly (<code>SELECT</code>, <code>INSERT</code>, <code>DELETE</code>), which is a documented coupling between the customer and policy domains. <code>LGACUS01</code> itself inserts into <code>CUSTOMER</code> and links to <code>LGACDB02</code>. <code>LGACDB01</code> has no caller in the repository.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant U as Terminal (SSC1)
+    participant M as LGTESTC1
+    participant O as LGACUS01
+    participant D1 as LGACDB01
+    participant V as LGACVS01
+    participant D2 as LGACDB02
+    participant DB as DB2
+    participant K as VSAM KSDS
+
+    U->>M: Enter customer details
+    M->>O: CICS LINK (COMMAREA)
+    O->>D1: CICS LINK
+    D1->>DB: INSERT CUSTOMER
+    D1->>V: CICS LINK
+    V->>K: Write customer record
+    O->>D2: CICS LINK
+    D2->>DB: INSERT CUSTOMER_SECURE
+    O->>DB: SELECT / INSERT / DELETE POLICY
+    O-->>M: Return COMMAREA
+    M-->>U: Confirmation
+</div>
+<h3 id="44-update-customer-sequence" tabindex="-1">4.4 Update Customer Sequence</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant M as LGTESTC1
+    participant U1 as LGUCUS01
+    participant U2 as LGUCDB01
+    participant U3 as LGUCVS01
+    participant DB as DB2 CUSTOMER
+    participant K as VSAM KSDS
+
+    M->>U1: CICS LINK
+    U1->>U2: CICS LINK
+    U2->>DB: UPDATE CUSTOMER
+    U2->>U3: CICS LINK
+    U3->>K: Update customer record
+    U3-->>U2: Return
+    U2-->>U1: Return
+    U1-->>M: Return
+</div>
+<h3 id="45-inquiry-sequence" tabindex="-1">4.5 Inquiry Sequence</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant M as LGTESTC1
+    participant I1 as LGICUS01
+    participant I2 as LGICDB01
+    participant I3 as LGICVS01
+    participant DB as DB2 CUSTOMER
+    participant K as VSAM KSDS
+
+    M->>I1: CICS LINK
+    I1->>I1: Validate COMMAREA
+    I1->>I2: CICS LINK
+    I2->>DB: SELECT CUSTOMER
+    I1->>I3: CICS LINK
+    I3->>K: Read customer record
+    I1-->>M: Return COMMAREA
+</div>
+<h3 id="46-consistency-considerations" tabindex="-1">4.6 Consistency Considerations</h3>
+<ul>
+<li><strong>DB2 first, then VSAM.</strong> On add and update, the DB2 backend performs its SQL and then links to the VSAM backend. The two writes are separate steps in one call chain. There is no single database unit of work covering both stores.</li>
+<li><strong>Error logging.</strong> <code>LGSTSQ</code> is called by the customer programs, and by the policy programs too, to log errors to a TS queue. These programs are <code>LGACDB01</code>, <code>LGACDB02</code>, <code>LGACUS01</code>, <code>LGICDB01</code>, <code>LGICUS01</code>, <code>LGUCDB01</code>, <code>LGUCUS01</code>, <code>LGACVS01</code>, <code>LGICVS01</code> and <code>LGUCVS01</code>. Each failure in either store has one common place where it is recorded.</li>
+<li><strong>Not mirrored.</strong> <code>CUSTOMER_SECURE</code> is written only by <code>LGACDB02</code> and is not part of the documented VSAM mirroring.</li>
+</ul>
+<h2 id="5-policy-domain-data-flow" tabindex="-1">5. Policy-Domain Data Flow</h2>
+<h3 id="51-policy-menu-to-table-reach" tabindex="-1">5.1 Policy Menu to Table Reach</h3>
+<p>Each policy menu reaches its product tables through a fixed orchestrator-to-backend chain:</p>
+<table>
+<thead>
+<tr>
+<th>Menu</th>
+<th>Product</th>
+<th>Tables touched</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LGTESTP1</td>
+<td>Motor</td>
+<td><code>POLICY</code>, <code>MOTOR</code>, <code>CLAIM</code></td>
+</tr>
+<tr>
+<td>LGTESTP2</td>
+<td>Endowment</td>
+<td><code>POLICY</code>, <code>ENDOWMENT</code>, <code>CLAIM</code></td>
+</tr>
+<tr>
+<td>LGTESTP3</td>
+<td>House</td>
+<td><code>POLICY</code>, <code>HOUSE</code>, <code>CLAIM</code></td>
+</tr>
+<tr>
+<td>LGTESTP4</td>
+<td>Commercial</td>
+<td><code>POLICY</code>, <code>COMMERCIAL</code>, <code>CLAIM</code></td>
+</tr>
+</tbody>
+</table>
+<div class="mermaid">
+flowchart LR
+    classDef tbl fill:#fff8e1,stroke:#f9a825,color:#000
+    classDef db fill:#e8f0fe,stroke:#1a73e8,color:#000
+    classDef up fill:#f5f5f5,stroke:#9e9e9e,color:#000
+
+    P[LGTESTP1-4 policy menus]:::up
+    LGAPOL01[LGAPOL01]:::up
+    LGIPOL01[LGIPOL01]:::up
+    LGDPOL01[LGDPOL01]:::up
+    LGUPOL01[LGUPOL01]:::up
+    LGAPDB01[LGAPDB01]:::db
+    LGIPDB01[LGIPDB01]:::db
+    LGDPDB01[LGDPDB01]:::db
+    LGUPDB01["LGUPDB01*"]:::db
+    POLICY[(POLICY)]:::tbl
+
+    P --> LGAPOL01 --> LGAPDB01
+    P --> LGIPOL01 --> LGIPDB01
+    P --> LGDPOL01 --> LGDPDB01
+    P --> LGUPOL01 --> LGUPDB01
+
+    LGAPDB01 -- INSERT --> POLICY
+    LGDPDB01 -- DELETE --> POLICY
+    LGUPDB01 -- "SELECT FOR UPDATE / UPDATE" --> POLICY
+    LGIPDB01 -. SELECT .-> POLICY
+</div>
+<h3 id="52-motor-example" tabindex="-1">5.2 Motor Example</h3>
+<p>The motor product shows the common pattern, plus a batch program that also accesses the table:</p>
+<div class="mermaid">
+flowchart LR
+    classDef tbl fill:#fff8e1,stroke:#f9a825,color:#000
+    classDef db fill:#e8f0fe,stroke:#1a73e8,color:#000
+    classDef up fill:#f5f5f5,stroke:#9e9e9e,color:#000
+    classDef batch fill:#f3e8fd,stroke:#8e24aa,color:#000
+
+    M["LGTESTP1 (Motor menu)"]:::up
+    LGAPOL01[LGAPOL01]:::up
+    LGIPOL01[LGIPOL01]:::up
+    LGUPOL01[LGUPOL01]:::up
+    LGAPDB01[LGAPDB01]:::db
+    LGIPDB01[LGIPDB01]:::db
+    LGUPDB01["LGUPDB01*"]:::db
+    LGMOTOUT[LGMOTOUT batch]:::batch
+    T[(MOTOR)]:::tbl
+
+    M --> LGAPOL01 --> LGAPDB01
+    M --> LGIPOL01 --> LGIPDB01
+    M --> LGUPOL01 --> LGUPDB01
+    LGAPDB01 -- INSERT --> T
+    LGUPDB01 -- UPDATE --> T
+    LGMOTOUT -- "SELECT / write" --> T
+    LGIPDB01 -. SELECT .-> T
+</div>
+<h3 id="53-upstream-entry-point-reach" tabindex="-1">5.3 Upstream Entry-Point Reach</h3>
+<table>
+<thead>
+<tr>
+<th>Direct DB2 program</th>
+<th>Called by (CICS LINK)</th>
+<th>Reached from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LGAPDB01</td>
+<td>LGAPOL01</td>
+<td>LGTESTP1–4</td>
+</tr>
+<tr>
+<td>LGIPDB01</td>
+<td>LGIPOL01</td>
+<td>LGTESTP1–4</td>
+</tr>
+<tr>
+<td>LGDPDB01</td>
+<td>LGDPOL01</td>
+<td>LGTESTP1–4</td>
+</tr>
+<tr>
+<td>LGUPDB01</td>
+<td>LGUPOL01</td>
+<td>LGTESTP1–3</td>
+</tr>
+<tr>
+<td>LGACUS01</td>
+<td>— (direct entry)</td>
+<td>LGTESTC1</td>
+</tr>
+<tr>
+<td>LGICDB01</td>
+<td>LGICUS01</td>
+<td>LGTESTC1</td>
+</tr>
+<tr>
+<td>LGUCDB01</td>
+<td>LGUCUS01</td>
+<td>LGTESTC1</td>
+</tr>
+<tr>
+<td>LGACDB02</td>
+<td>LGACUS01, LGACDB01</td>
+<td>LGTESTC1 (via LGACUS01)</td>
+</tr>
+<tr>
+<td>LGACDB01</td>
+<td>none found in repository</td>
+<td>—</td>
+</tr>
+<tr>
+<td>LGMOTOUT, LGBATCH, LGBATDB2</td>
+<td>batch (JCL-driven)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-batch-access" tabindex="-1">6. Batch Access</h2>
+<p>The batch programs read DB2 directly and do not run through online CICS transactions:</p>
+<ul>
+<li><code>LGBATCH</code> and <code>LGBATDB2</code> read <code>CUSTOMER</code> in bulk. They format data for reporting and for sequential flat-file distribution through <code>LGBATCHF</code>.</li>
+<li><code>LGMOTOUT</code> reads and writes <code>MOTOR</code>.</li>
+</ul>
+<div class="mermaid">
+graph LR
+    JCL[JCL batch jobs] --> LGBATCH
+    JCL --> LGBATDB2
+    JCL --> LGMOTOUT
+    LGBATCH -->|SELECT| CUST[(CUSTOMER)]
+    LGBATDB2 -->|SELECT| CUST
+    LGMOTOUT -->|SELECT / write| MOTOR[(MOTOR)]
+    LGBATCH --> LGBATCHF[LGBATCHF flat-file output]
+</div>
+<h2 id="7-domain-boundaries" tabindex="-1">7. Domain Boundaries</h2>
+<table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer vs. Policy</td>
+<td>Linked by <code>CUSTOMER_NUMBER</code> (<code>CA_CUSTOMER_NUM</code>). Customer records are the master. Policy tables hold references to the customer number. <code>LGACUS01</code> is a documented coupling point because it runs SQL against <code>POLICY</code>.</td>
+</tr>
+<tr>
+<td>Customer vs. Batch / Reporting</td>
+<td>Batch routines read <code>CUSTOMER</code> only. They never run online CICS transactions.</td>
+</tr>
+<tr>
+<td>Customer vs. Security data</td>
+<td>Demographic data in <code>CUSTOMER</code> is kept apart from payment and security details in <code>CUSTOMER_SECURE</code>, which only <code>LGACDB02</code> writes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-findings-and-caveats" tabindex="-1">8. Findings and Caveats</h2>
+<ol>
+<li><strong><code>LGUPDB01</code> missing from the scan.</strong> The metadata database has no SQL references for it. Its source contains a <code>POLICY_CURSOR</code> (SELECT … FOR UPDATE) and <code>UPDATE</code> statements on <code>POLICY</code>, <code>ENDOWMENT</code>, <code>HOUSE</code> and <code>MOTOR</code>. It is included here from source inspection, and a rescan is advisable.</li>
+<li><strong><code>LGIPDB01</code> read/write flags.</strong> The scanner flags <code>LGIPDB01</code> as write on several tables, such as <code>POLICY</code> and <code>CLAIM</code>. This is probably because <code>INTO :host-variable</code> targets are treated as writes. The source and inventory describe it as SELECT-only, so this page shows it as read-only.</li>
+<li><strong><code>LGACDB01</code> has no in-repository caller.</strong> <code>LGACUS01</code> inserts into <code>CUSTOMER</code> itself and links only to <code>LGACDB02</code>. It does not link to <code>LGACDB01</code>.</li>
+<li><strong>Dynamic program names.</strong> Some LINKs use variables initialized with program names (for example <code>LGAPDB01</code>). These were resolved by reading the <code>DCL … INIT('…')</code> declarations and the LINK statements.</li>
+<li><strong>VSAM detail limits.</strong> The analyzed material identifies the VSAM programs and their roles (write, read, update). It does not give dataset names, key layouts or record definitions for the KSDS file. Those should be taken from the VSAM backend sources (<code>LGACVS01</code>, <code>LGICVS01</code>, <code>LGUCVS01</code>) and the associated JCL or CICS file definitions.</li>
+<li><strong>Scan method.</strong> The metadata database joins SQL-table references (resource type 1) to statement occurrences. Access is classed as write when <code>bRead</code> is 0 or 2, and as read otherwise. Upstream reach comes from program-call references (resource type 5) and from <code>EXEC CICS LINK</code> statements in the <code>pli/</code> source.</li>
+</ol>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="system-architecture-inventory.html" class="card">
+                <span class="card-title">Application Architecture &amp; Component Inventory</span>
+                <span class="card-description">High-level architectural overview of the GenApp PL/I CICS multi-tiered system, layering conventions, communication area structures, and full component catalog across customer and policy domains.</span>
+            </a>
+            <a href="customer-db2-persistence.html" class="card">
+                <span class="card-title">Customer DB2 &amp; Security Persistence</span>
+                <span class="card-description">Back-end DB2 data access services for inserting, querying, updating customer records and managing credential security in the CUSTOMER and CUSTOMER_SECURE tables.</span>
+            </a>
+            <a href="policy-db2-persistence.html" class="card">
+                <span class="card-title">Policy DB2 Persistence &amp; Rating Engine</span>
+                <span class="card-description">Relational database operations for policies and claims, incorporating premium surcharges, multi-policy bundling discounts, broker commission rules, and optimistic locking validations.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-layered-component-view">2.1 Layered Component View</a></li>
+<li class="toc-level-3"><a href="#22-storage-tiers">2.2 Storage Tiers</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-db2-relational-tables">3. DB2 Relational Tables</a>
+<ul>
+<li class="toc-level-3"><a href="#31-table-summary-matrix">3.1 Table Summary Matrix</a></li>
+<li class="toc-level-3"><a href="#32-consolidated-tableprogram-dependency-diagram">3.2 Consolidated Table–Program Dependency Diagram</a></li>
+<li class="toc-level-3"><a href="#33-entity-relationships">3.3 Entity Relationships</a></li>
+<li class="toc-level-3"><a href="#34-per-table-access-patterns">3.4 Per-Table Access Patterns</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-vsam-ksds-layer-and-dual-write-synchronization">4. VSAM KSDS Layer and Dual-Write Synchronization</a>
+<ul>
+<li class="toc-level-3"><a href="#41-vsam-counterparts">4.1 VSAM Counterparts</a></li>
+<li class="toc-level-3"><a href="#42-dual-write-component-flow">4.2 Dual-Write Component Flow</a></li>
+<li class="toc-level-3"><a href="#43-add-customer-sequence">4.3 Add Customer Sequence</a></li>
+<li class="toc-level-3"><a href="#44-update-customer-sequence">4.4 Update Customer Sequence</a></li>
+<li class="toc-level-3"><a href="#45-inquiry-sequence">4.5 Inquiry Sequence</a></li>
+<li class="toc-level-3"><a href="#46-consistency-considerations">4.6 Consistency Considerations</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-policy-domain-data-flow">5. Policy-Domain Data Flow</a>
+<ul>
+<li class="toc-level-3"><a href="#51-policy-menu-to-table-reach">5.1 Policy Menu to Table Reach</a></li>
+<li class="toc-level-3"><a href="#52-motor-example">5.2 Motor Example</a></li>
+<li class="toc-level-3"><a href="#53-upstream-entry-point-reach">5.3 Upstream Entry-Point Reach</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-batch-access">6. Batch Access</a></li>
+<li class="toc-level-2"><a href="#7-domain-boundaries">7. Domain Boundaries</a></li>
+<li class="toc-level-2"><a href="#8-findings-and-caveats">8. Findings and Caveats</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

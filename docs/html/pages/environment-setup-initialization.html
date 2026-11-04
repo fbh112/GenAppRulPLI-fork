@@ -1,0 +1,1122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Setup & Queue Management - GenApp PL/I Insurance Application Knowledge Base</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Knowledge Base</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture &amp; System Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="system-architecture-inventory.html" class="nav-link" data-page-id="system-architecture-inventory">Application Architecture &amp; Component Inventory</a>
+                <a href="data-persistence-dependencies.html" class="nav-link" data-page-id="data-persistence-dependencies">DB2 &amp; VSAM Data Storage Architecture</a>
+                <a href="customer-migration-impact.html" class="nav-link" data-page-id="customer-migration-impact">Customer Domain Migration &amp; Risk Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-interface-orchestration.html" class="nav-link" data-page-id="customer-interface-orchestration">Customer Presentation &amp; Business Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 &amp; Security Persistence</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM Data Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-interface-orchestration.html" class="nav-link" data-page-id="policy-interface-orchestration">Policy Presentation &amp; Business Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Rating Engine</a>
+                <a href="policy-vsam-storage.html" class="nav-link" data-page-id="policy-vsam-storage">Policy VSAM Storage Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-batch-reporting.html" class="nav-link" data-page-id="customer-batch-reporting">Customer Batch Reporting &amp; Test Drivers</a>
+                <a href="motor-policy-batch-extract.html" class="nav-link" data-page-id="motor-policy-batch-extract">Motor Policy Batch Extraction Utility</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">System Infrastructure &amp; Operations</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="environment-setup-initialization.html" class="nav-link active" data-page-id="environment-setup-initialization">Environment Setup &amp; Queue Management</a>
+                <a href="transaction-statistics-monitoring.html" class="nav-link" data-page-id="transaction-statistics-monitoring">Transaction Statistics &amp; Telemetry Pipeline</a>
+                <a href="diagnostic-error-logging.html" class="nav-link" data-page-id="diagnostic-error-logging">Centralized Error Logging &amp; Diagnostics</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(1)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGSETUP.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGSETUP
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="environment-setup--queue-management" tabindex="-1">Environment Setup &amp; Queue Management</h1>
+<p>This page documents the GenApp environment reset and configuration program, <code>LGSETUP</code>. It is a CICS PL/I program that rebuilds the CICS runtime infrastructure the insurance application depends on. It reinitialises the temporary storage queues (control, statistics, start, errors), publishes the customer number range, and resets the named counter pool <code>GENA</code>.</p>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<h3 id="11-purpose" tabindex="-1">1.1 Purpose</h3>
+<p><code>LGSETUP</code> initialises or re-initialises the GenApp insurance application environment. An operator runs it from a terminal, usually with the transaction ID <code>LGSE</code>, and can optionally supply a high customer number. The program then does the following:</p>
+<ul>
+<li>Deletes and recreates the GenApp temporary storage (TS) queues: control (<code>GENACNTL</code>), statistics (<code>GENASTAT</code>), start (<code>GENASTRT</code>) and errors (<code>GENAERRS</code>).</li>
+<li>Writes the environment label and the customer number range (low and high) into the control queue.</li>
+<li>Deletes and redefines the named customer-number counter <code>GENACUSTNUM</code> in pool <code>GENA</code>, seeded with the configured upper bound.</li>
+<li>Resets the 36 transaction statistics counters to zero. They cover insert, add, delete and update operations for customer, motor, endowment, house and commercial policies.</li>
+</ul>
+<p>Every later GenApp transaction then starts from a clean, consistent state.</p>
+<h3 id="12-key-characteristics" tabindex="-1">1.2 Key Characteristics</h3>
+<table>
+<thead>
+<tr>
+<th>Characteristic</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language / runtime</td>
+<td>PL/I, <code>LGSETUP: Proc Options(Main)</code>, under CICS</td>
+</tr>
+<tr>
+<td>Invocation</td>
+<td>Terminal-driven, transaction ID such as <code>LGSE</code></td>
+</tr>
+<tr>
+<td>Optional input</td>
+<td>High customer number after the transaction ID</td>
+</tr>
+<tr>
+<td>Default high customer number</td>
+<td><code>11</code> (<code>LASTCUSTNUM</code>)</td>
+</tr>
+<tr>
+<td>Fixed low customer number</td>
+<td><code>1</code> (<code>FRSTCUSTNUM</code>)</td>
+</tr>
+<tr>
+<td>TS queues managed</td>
+<td><code>GENACNTL</code>, <code>GENASTAT</code>, <code>GENASTRT</code>, <code>GENAERRS</code></td>
+</tr>
+<tr>
+<td>Named counter pool</td>
+<td><code>GENA</code></td>
+</tr>
+<tr>
+<td>Counters reset</td>
+<td><code>GENACUSTNUM</code> plus 36 statistics counters</td>
+</tr>
+<tr>
+<td>Database access</td>
+<td>None. There are no <code>EXEC SQL</code> statements.</td>
+</tr>
+<tr>
+<td>Error strategy</td>
+<td>Responses are captured in <code>WS_RESP</code> but never tested.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-view" tabindex="-1">2.1 Component View</h3>
+<p><code>LGSETUP</code> is a single PL/I procedure. It sits between the operator terminal and three CICS services: terminal control, the Temporary Storage facility, and the Named Counter service.</p>
+<div class="mermaid">
+graph TD
+    OP[Operator Terminal<br>LGSE transaction] --> LG[LGSETUP<br>PL/I Main Procedure]
+    LG --> TC[CICS Terminal Services<br>RECEIVE / SEND TEXT]
+    LG --> TS[CICS Temporary Storage Facility<br>DELETEQ TS / WRITEQ TS]
+    LG --> NC[CICS Named Counter Service<br>DELETE / DEFINE COUNTER]
+    TS --> Q1[GENACNTL<br>Control Queue]
+    TS --> Q2[GENASTAT<br>Statistics Queue]
+    TS --> Q3[GENASTRT<br>Start Queue]
+    TS --> Q4[GENAERRS<br>Error Queue]
+    NC --> P[Pool GENA]
+    P --> C1[GENACUSTNUM<br>Customer Number Counter]
+    P --> C2[36 Statistics Counters<br>COUNTER_TABLE]
+</div>
+<h3 id="22-architectural-components" tabindex="-1">2.2 Architectural Components</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGSETUP</code></td>
+<td>Orchestrates the reset. It is a single procedure with no internal sub-procedures.</td>
+</tr>
+<tr>
+<td>Terminal (<code>RECEIVE</code> / <code>SEND TEXT</code>)</td>
+<td>Takes the optional high customer number and displays the confirmation.</td>
+</tr>
+<tr>
+<td>TS queue <code>GENACNTL</code></td>
+<td>Holds the environment label and the customer range. It is the only queue that is repopulated.</td>
+</tr>
+<tr>
+<td>TS queues <code>GENASTAT</code>, <code>GENASTRT</code>, <code>GENAERRS</code></td>
+<td>Purged only. Other GenApp programs recreate them on demand.</td>
+</tr>
+<tr>
+<td>Named counter pool <code>GENA</code></td>
+<td>Holds the customer number sequence and the transaction statistics counters.</td>
+</tr>
+<tr>
+<td><code>COUNTER_TABLE</code> / <code>COUNTER_ARRAY</code></td>
+<td>Static table of 36 counter names, with an array overlay used by the reset loop.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-entity-relationships" tabindex="-1">2.3 Entity Relationships</h3>
+<p>The program’s working-storage items relate to the CICS resources they feed:</p>
+<div class="mermaid">
+graph LR
+    FRST[FRSTCUSTNUM = 1] --> LOW[WRITE_MSG_LOW]
+    LAST[LASTCUSTNUM default 11] --> HIGH[WRITE_MSG_HIGH]
+    LAST --> CNT[DEFINE COUNTER GENACUSTNUM]
+    LOW --> L[WRITE_MSG_L<br>23 bytes]
+    HIGH --> H[WRITE_MSG_H<br>24 bytes]
+    E[WRITE_MSG_E<br>20 bytes] --> Q[(GENACNTL)]
+    L --> Q
+    H --> Q
+    H --> T[Terminal SEND TEXT]
+    ZV[ZERO_VALUE = 0] --> SC[36 statistics counters]
+    CT[COUNTER_TABLE / COUNTER_ARRAY] --> SC
+    GP[GENAPOOL = GENA] --> CNT
+    GP --> SC
+</div>
+<h2 id="3-inputs" tabindex="-1">3. Inputs</h2>
+<h3 id="31-terminal-input" tabindex="-1">3.1 Terminal Input</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_RECV</code></td>
+<td>80-byte buffer filled by <code>EXEC CICS RECEIVE</code>.</td>
+</tr>
+<tr>
+<td><code>WS_RECV_TRANID</code></td>
+<td>The 5-character transaction ID portion.</td>
+</tr>
+<tr>
+<td><code>WS_RECV_DATA</code></td>
+<td>The 74-character data portion. It may carry the high customer number, for example <code>LGSE 0000000011</code>.</td>
+</tr>
+<tr>
+<td><code>WS_RECV_LEN</code></td>
+<td>Initialised to <code>80</code>. After the receive it holds the actual length entered.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-optional-operator-parameter" tabindex="-1">3.2 Optional Operator Parameter</h3>
+<p><code>LASTCUSTNUM</code> is initialised to <code>11</code> but can be overridden at runtime. If <code>WS_RECV_LEN</code> is greater than 5, the trailing data is converted and assigned to <code>LASTCUSTNUM</code>. That value sets the upper bound written to the control queue and the initial value of the <code>GENACUSTNUM</code> counter.</p>
+<h2 id="4-processing-flow" tabindex="-1">4. Processing Flow</h2>
+<h3 id="41-end-to-end-flow" tabindex="-1">4.1 End-to-End Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Start - LGSETUP]) --> B[EXEC CICS RECEIVE<br>into WS_RECV, max 80 bytes]
+    B --> C{Input length > 5?}
+    C -- Yes --> D[Extract high customer number<br>override LASTCUSTNUM]
+    C -- No --> E
+    D --> E[Delete TS queue GENAERRS]
+    E --> F[Delete TS queue GENASTRT]
+    F --> G[Delete TS queue GENASTAT]
+    G --> H[Delete TS queue GENACNTL]
+    H --> I[Populate WRITE_MSG<br>FRSTCUSTNUM / LASTCUSTNUM]
+    I --> J[WRITEQ TS: environment label - 20 bytes]
+    J --> K[WRITEQ TS: low customer - 23 bytes]
+    K --> L[WRITEQ TS: high customer - 24 bytes]
+    L --> M[DELETE COUNTER GENACUSTNUM]
+    M --> N[DEFINE COUNTER GENACUSTNUM<br>VALUE = LASTCUSTNUM]
+    N --> O[COUNTER_IDX = 1]
+    O --> P{COUNTER_IDX <= 36?}
+    P -- Yes --> Q[DELETE COUNTER name]
+    Q --> R[DEFINE COUNTER name VALUE 0]
+    R --> S[Increment COUNTER_IDX]
+    S --> P
+    P -- No --> T[SEND TEXT: high customer record]
+    T --> U([EXEC CICS RETURN])
+</div>
+<h3 id="42-sequence-of-operations" tabindex="-1">4.2 Sequence of Operations</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Op as Operator
+    participant LG as LGSETUP
+    participant TS as CICS TS Queues
+    participant NC as Named Counter Pool GENA
+    Op->>LG: LGSE [high customer number]
+    LG->>LG: RECEIVE, apply optional override
+    LG->>TS: DELETEQ GENAERRS, GENASTRT, GENASTAT, GENACNTL
+    LG->>TS: WRITEQ GENACNTL (label, low, high)
+    LG->>NC: DELETE then DEFINE GENACUSTNUM (VALUE LASTCUSTNUM)
+    loop 36 statistics counters
+        LG->>NC: DELETE COUNTER
+        LG->>NC: DEFINE COUNTER VALUE 0
+    end
+    LG-->>Op: SEND TEXT HIGH CUSTOMER=nnnnnnnnnn
+    LG->>LG: EXEC CICS RETURN
+</div>
+<h3 id="43-step-by-step-description" tabindex="-1">4.3 Step-by-Step Description</h3>
+<ol>
+<li><strong>Receive terminal input.</strong> <code>EXEC CICS RECEIVE</code> reads up to 80 characters into <code>WS_RECV</code>.</li>
+<li><strong>Optional override.</strong> If <code>WS_RECV_LEN &gt; 5</code>, the program subtracts 5 and converts the data portion into <code>LASTCUSTNUM</code>. Otherwise the default of 11 stands.</li>
+<li><strong>Delete the TS queues.</strong> Four <code>DELETEQ TS</code> calls purge <code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code> and <code>GENACNTL</code>.</li>
+<li><strong>Rebuild the control queue.</strong> The low and high fields are stamped, then three <code>WRITEQ TS ... NOSUSPEND</code> calls write the records.</li>
+<li><strong>Reset the customer counter.</strong> <code>GENACUSTNUM</code> is deleted and redefined with <code>VALUE(LASTCUSTNUM)</code>.</li>
+<li><strong>Reset the statistics counters.</strong> A loop over 36 entries deletes each counter and redefines it at zero.</li>
+<li><strong>Confirm to the terminal.</strong> <code>SEND TEXT</code> shows the high customer record.</li>
+<li><strong>Return.</strong> <code>EXEC CICS RETURN</code> ends the task.</li>
+</ol>
+<h2 id="5-temporary-storage-queue-management" tabindex="-1">5. Temporary Storage Queue Management</h2>
+<h3 id="51-queue-inventory" tabindex="-1">5.1 Queue Inventory</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Queue</th>
+<th>Purpose</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STSQ_NAME</code></td>
+<td><code>GENACNTL</code></td>
+<td>Control queue holding environment label and customer range</td>
+<td>Deleted, then rebuilt with 3 records</td>
+</tr>
+<tr>
+<td><code>STSQ_STAT</code></td>
+<td><code>GENASTAT</code></td>
+<td>Transaction statistics queue</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>STSQ_STRT</code></td>
+<td><code>GENASTRT</code></td>
+<td>Start queue</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>STSQ_ERRS</code></td>
+<td><code>GENAERRS</code></td>
+<td>Error queue</td>
+<td>Deleted</td>
+</tr>
+</tbody>
+</table>
+<p>All four names are declared <code>CHAR(8) STATIC</code>, so they cannot change at runtime.</p>
+<h3 id="52-queue-lifecycle" tabindex="-1">5.2 Queue Lifecycle</h3>
+<div class="mermaid">
+stateDiagram-v2
+    [*] --> Existing: Prior run state
+    Existing --> Deleted: DELETEQ TS
+    Deleted --> Rebuilt: WRITEQ TS (GENACNTL only)
+    Deleted --> Absent: GENAERRS, GENASTRT, GENASTAT
+    Rebuilt --> [*]
+    Absent --> [*]
+</div>
+<h3 id="53-control-queue-records" tabindex="-1">5.3 Control Queue Records</h3>
+<p>The control queue <code>GENACNTL</code> receives three fixed-length records:</p>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Field</th>
+<th>Length</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>WRITE_MSG_E</code></td>
+<td>20</td>
+<td><code>'**** GENAPP CNTL    '</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>WRITE_MSG_L</code> + <code>WRITE_MSG_LOW</code></td>
+<td>23</td>
+<td><code>'LOW CUSTOMER='</code> followed by the 10-digit value of <code>FRSTCUSTNUM</code> (always 1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>WRITE_MSG_H</code> + <code>WRITE_MSG_HIGH</code></td>
+<td>24</td>
+<td><code>'HIGH CUSTOMER='</code> followed by the 10-digit value of <code>LASTCUSTNUM</code></td>
+</tr>
+</tbody>
+</table>
+<p>Consumers of <code>GENACNTL</code> must parse records at these exact lengths.</p>
+<h3 id="54-code-examples-queue-operations" tabindex="-1">5.4 Code Examples: Queue Operations</h3>
+<p>Input reception and the optional override:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN) RESP(WS_RESP)</code></pre>
+</div>
+<p>If <code>WS_RECV_LEN &gt; 5</code>, the program takes <code>SUBSTR(WS_RECV_DATA,1,WS_RECV_LEN-5)</code> and assigns it to <code>LASTCUSTNUM</code>.</p>
+<p>Queue deletion, shown for the error queue:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS DELETEQ TS QUEUE(STSQ_ERRS) RESP(WS_RESP)</code></pre>
+</div>
+<p>Control queue write:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS WRITEQ TS QUEUE(STSQ_NAME) FROM(WRITE_MSG_H)
+          NOSUSPEND LENGTH(24)</code></pre>
+</div>
+<h2 id="6-customer-number-range-and-named-counters" tabindex="-1">6. Customer Number Range and Named Counters</h2>
+<h3 id="61-customer-number-range" tabindex="-1">6.1 Customer Number Range</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Declaration</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FRSTCUSTNUM</code></td>
+<td><code>FIXED BIN(31) INIT(1)</code></td>
+<td>Fixed low boundary, never modified</td>
+</tr>
+<tr>
+<td><code>LASTCUSTNUM</code></td>
+<td><code>FIXED BIN(31) INIT(11)</code></td>
+<td>High boundary. The default can be overridden from terminal input.</td>
+</tr>
+<tr>
+<td><code>WRITE_MSG_LOW</code>, <code>WRITE_MSG_HIGH</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>10-digit unsigned display fields</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-named-counter-pool-gena" tabindex="-1">6.2 Named Counter Pool <code>GENA</code></h3>
+<p>Every counter lives in the pool named by <code>GENAPOOL</code>, which is <code>CHAR(8) STATIC INIT('GENA')</code>.</p>
+<div class="mermaid">
+graph TD
+    POOL[Pool GENA] --> CUST[GENACUSTNUM<br>seeded with LASTCUSTNUM]
+    POOL --> STATS[36 statistics counters<br>seeded with 0]
+    STATS --> OPS[Operations:<br>Insert, Add, Delete, Update]
+    STATS --> ENT[Entities:<br>Customer, Motor, Endowment,<br>House, Commercial]
+    STATS --> OUT[Outcomes:<br>00 success / 99 failure]
+</div>
+<p>Counter names are fixed 16-character strings, padded with blanks. Examples from the table are <code>GENA01ICUS00</code>, <code>GENA01ICUS99</code>, <code>GENA01IMOT99</code> and <code>GENA01UCUS99</code>.</p>
+<h3 id="63-code-examples-counter-operations" tabindex="-1">6.3 Code Examples: Counter Operations</h3>
+<p>Customer number counter reset:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS DELETE COUNTER(GENACOUNT) POOL(GENAPOOL) RESP(WS_RESP)
+EXEC CICS DEFINE COUNTER(GENACOUNT) POOL(GENAPOOL)
+          VALUE(LASTCUSTNUM) RESP(WS_RESP)</code></pre>
+</div>
+<p>Statistics counter reset loop:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">DO COUNTER_IDX = 1 TO COUNTER_COUNT;
+   EXEC CICS DELETE COUNTER(COUNTER_NAME(COUNTER_IDX))
+             POOL(GENAPOOL) RESP(WS_RESP);
+   EXEC CICS DEFINE COUNTER(COUNTER_NAME(COUNTER_IDX))
+             POOL(GENAPOOL) VALUE(ZERO_VALUE) RESP(WS_RESP);
+END;</code></pre>
+</div>
+<p>The loop is driven by <code>COUNTER_COUNT</code> (<code>FIXED BIN(15) STATIC INIT(36)</code>). <code>ZERO_VALUE</code> is <code>FIXED BIN(31) INIT(0)</code>.</p>
+<h2 id="7-outputs-and-terminal-confirmation" tabindex="-1">7. Outputs and Terminal Confirmation</h2>
+<h3 id="71-summary-of-outputs" tabindex="-1">7.1 Summary of Outputs</h3>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Resource</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control queue records</td>
+<td><code>GENACNTL</code></td>
+<td>Label, low and high customer records</td>
+</tr>
+<tr>
+<td>Purged queues</td>
+<td><code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code></td>
+<td>Emptied</td>
+</tr>
+<tr>
+<td>Customer counter</td>
+<td><code>GENACUSTNUM</code> in <code>GENA</code></td>
+<td>Defined with <code>LASTCUSTNUM</code></td>
+</tr>
+<tr>
+<td>Statistics counters</td>
+<td>36 counters in <code>GENA</code></td>
+<td>Defined with 0</td>
+</tr>
+<tr>
+<td>Terminal text</td>
+<td>Operator screen</td>
+<td><code>HIGH CUSTOMER=nnnnnnnnnn</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-code-example-terminal-confirmation" tabindex="-1">7.2 Code Example: Terminal Confirmation</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS SEND TEXT FROM(WRITE_MSG_H) TERMINAL WAIT ERASE
+          LENGTH(24) FREEKB</code></pre>
+</div>
+<p><code>ERASE</code> clears the screen, <code>WAIT</code> holds until the output completes, and <code>FREEKB</code> releases the keyboard. Only the high customer record is echoed to the screen. The label and low records are written to the queue only.</p>
+<h2 id="8-dependencies" tabindex="-1">8. Dependencies</h2>
+<h3 id="81-cics-services" tabindex="-1">8.1 CICS Services</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Commands</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transaction manager / terminal</td>
+<td><code>RECEIVE</code>, <code>SEND TEXT</code>, <code>RETURN</code></td>
+<td>Input, confirmation and task end</td>
+</tr>
+<tr>
+<td>Temporary Storage</td>
+<td><code>DELETEQ TS</code>, <code>WRITEQ TS</code></td>
+<td>Queue purge and control queue rebuild</td>
+</tr>
+<tr>
+<td>Named Counter</td>
+<td><code>DELETE COUNTER</code>, <code>DEFINE COUNTER</code></td>
+<td>Counter reset in pool <code>GENA</code></td>
+</tr>
+</tbody>
+</table>
+<p>The named counter pool <code>GENA</code> must be available in CICS.</p>
+<h3 id="82-runtime-and-internal-configuration" tabindex="-1">8.2 Runtime and Internal Configuration</h3>
+<ul>
+<li><strong>Operator input.</strong> The optional high customer number after the transaction ID, for example <code>LGSE 0000000011</code>.</li>
+<li><strong><code>FRSTCUSTNUM</code>.</strong> Hardcoded to 1.</li>
+<li><strong><code>LASTCUSTNUM</code>.</strong> Defaults to 11 and can be overridden from terminal input.</li>
+<li><strong><code>COUNTER_TABLE</code> / <code>COUNTER_ARRAY</code>.</strong> The static list of 36 counter identifiers.</li>
+</ul>
+<h2 id="9-constraints" tabindex="-1">9. Constraints</h2>
+<h3 id="91-input-and-data-constraints" tabindex="-1">9.1 Input and Data Constraints</h3>
+<ul>
+<li>The receive buffer is fixed at 80 bytes (5 for the transaction ID and 74 for data), and longer input is truncated.</li>
+<li>The override is validated by length only. No format or range check is applied before conversion to <code>FIXED BIN(31)</code>, so non-numeric input causes a PL/I conversion error at runtime. Values beyond about 2.1 billion overflow.</li>
+<li>The display fields are 10-digit unsigned pictures.</li>
+</ul>
+<h3 id="92-counter-and-queue-constraints" tabindex="-1">9.2 Counter and Queue Constraints</h3>
+<ul>
+<li>Exactly 36 statistics counters are processed. <code>COUNTER_COUNT</code> must be updated by hand if the table changes.</li>
+<li><code>GENACUSTNUM</code> starts at <code>LASTCUSTNUM</code>, not at 1 or 0.</li>
+<li>Queue names and record lengths are hardcoded (20, 23 and 24 bytes).</li>
+<li>The control queue writes use <code>NOSUSPEND</code>.</li>
+</ul>
+<h3 id="93-ordering-constraints" tabindex="-1">9.3 Ordering Constraints</h3>
+<div class="mermaid">
+graph LR
+    R[1. RECEIVE and override] --> D[2. Delete 4 TS queues]
+    D --> W[3. Write GENACNTL records]
+    W --> CU[4. Reset GENACUSTNUM]
+    CU --> ST[5. Reset 36 statistics counters]
+    ST --> SD[6. SEND TEXT]
+    SD --> RT[7. RETURN]
+</div>
+<p>The input is received first because every later step depends on the final <code>LASTCUSTNUM</code>. The queues are deleted before the control queue is rewritten, so no stale records remain. The terminal confirmation comes last, so the operator sees it only after the reset is complete.</p>
+<h2 id="10-error-handling" tabindex="-1">10. Error Handling</h2>
+<h3 id="101-passive-response-capture" tabindex="-1">10.1 Passive Response Capture</h3>
+<p>Every <code>EXEC CICS</code> command specifies <code>RESP(WS_RESP)</code>, which suppresses the default condition handling. The program never tests <code>WS_RESP</code>. It has no <code>IF WS_RESP</code> checks, no <code>EXEC CICS ABEND</code>, and no PL/I <code>ON</code> condition handlers.</p>
+<h3 id="102-error-behaviour-summary" tabindex="-1">10.2 Error Behaviour Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Only the transaction ID entered</td>
+<td><code>LASTCUSTNUM</code> stays at 11.</td>
+</tr>
+<tr>
+<td>Queue does not exist (for example QIDERR)</td>
+<td>The failure is absorbed and the reset continues.</td>
+</tr>
+<tr>
+<td>Counter does not exist on delete</td>
+<td>The failure is ignored and <code>DEFINE COUNTER</code> proceeds.</td>
+</tr>
+<tr>
+<td><code>WRITEQ TS</code> fails (<code>NOSUSPEND</code>)</td>
+<td>The failure is recorded in <code>WS_RESP</code> but not acted on, so the control queue may be incomplete.</td>
+</tr>
+<tr>
+<td>Counter pool unavailable</td>
+<td>Execution continues in a partially initialised state.</td>
+</tr>
+<tr>
+<td>Terminal display</td>
+<td>Acts as an implicit completion signal. If it is missing, the setup did not finish.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-error-flow" tabindex="-1">10.3 Error Flow</h3>
+<div class="mermaid">
+graph TD
+    CMD[EXEC CICS command with RESP WS_RESP] --> RESP[Response stored in WS_RESP]
+    RESP --> NOCHK[No test of WS_RESP]
+    NOCHK --> NEXT[Continue to next operation]
+    NEXT --> END[SEND TEXT and RETURN]
+</div>
+<h2 id="11-usage-examples" tabindex="-1">11. Usage Examples</h2>
+<h3 id="111-default-setup-no-high-customer-number" tabindex="-1">11.1 Default Setup (No High Customer Number)</h3>
+<p><strong>Input:</strong> <code>LGSE </code> (transaction ID only).</p>
+<ul>
+<li><code>WS_RECV_LEN</code> is 5, so the override branch is not taken.</li>
+<li><code>LASTCUSTNUM</code> stays at 11.</li>
+<li>All four queues are deleted, and <code>GENACNTL</code> is rebuilt with these records:</li>
+</ul>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>**** GENAPP CNTL    
+LOW CUSTOMER=0000000001
+HIGH CUSTOMER=0000000011</code></pre>
+</div>
+<ul>
+<li><code>GENACUSTNUM</code> is redefined with <code>VALUE(11)</code>.</li>
+<li>All 36 statistics counters are redefined with <code>VALUE(0)</code>.</li>
+</ul>
+<p><strong>Terminal output:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>HIGH CUSTOMER=0000000011</code></pre>
+</div>
+<h3 id="112-custom-high-customer-number" tabindex="-1">11.2 Custom High Customer Number</h3>
+<p><strong>Input:</strong> <code>LGSE 0000000050</code> (15 characters).</p>
+<ul>
+<li><code>WS_RECV_LEN</code> is 15, which is greater than 5, so the override branch is taken.</li>
+<li>The length is adjusted to 10, and <code>LASTCUSTNUM</code> is set from <code>SUBSTR(WS_RECV_DATA, 1, 10)</code>, giving 50.</li>
+<li><code>GENACNTL</code> is rebuilt with <code>LOW CUSTOMER=0000000001</code> and <code>HIGH CUSTOMER=0000000050</code>.</li>
+<li><code>GENACUSTNUM</code> is redefined with <code>VALUE(50)</code>.</li>
+<li>All 36 statistics counters are reset to 0.</li>
+</ul>
+<p><strong>Terminal output:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>HIGH CUSTOMER=0000000050</code></pre>
+</div>
+<p>Any program that reads <code>GENACNTL</code> will see this range as the valid customer number boundaries.</p>
+<h2 id="12-database-access" tabindex="-1">12. Database Access</h2>
+<p><code>LGSETUP</code> does not access any Db2 tables. All its external interaction is through CICS Temporary Storage queues and CICS Named Counters, and it contains no <code>EXEC SQL</code> statements.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="transaction-statistics-monitoring.html" class="card">
+                <span class="card-title">Transaction Statistics &amp; Telemetry Pipeline</span>
+                <span class="card-description">Event-processing adapter and continuous background statistics collector harvesting CICS named counters and tracking real-time delta rates across business operations.</span>
+            </a>
+            <a href="diagnostic-error-logging.html" class="card">
+                <span class="card-title">Centralized Error Logging &amp; Diagnostics</span>
+                <span class="card-description">Reusable error logging routine outputting diagnostic dumps, SQLCODEs, and response codes to Transient Data Queues (CSMT) and Temporary Storage Queues (GENAERRS).</span>
+            </a>
+            <a href="customer-interface-orchestration.html" class="card">
+                <span class="card-title">Customer Presentation &amp; Business Orchestration</span>
+                <span class="card-description">Interactive BMS terminal menu (transaction SSC1) and core business logic layer handling customer onboarding, profile inquiry, lifecycle administration, and updates.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a>
+<ul>
+<li class="toc-level-3"><a href="#11-purpose">1.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#12-key-characteristics">1.2 Key Characteristics</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-view">2.1 Component View</a></li>
+<li class="toc-level-3"><a href="#22-architectural-components">2.2 Architectural Components</a></li>
+<li class="toc-level-3"><a href="#23-entity-relationships">2.3 Entity Relationships</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-inputs">3. Inputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-terminal-input">3.1 Terminal Input</a></li>
+<li class="toc-level-3"><a href="#32-optional-operator-parameter">3.2 Optional Operator Parameter</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-flow">4. Processing Flow</a>
+<ul>
+<li class="toc-level-3"><a href="#41-end-to-end-flow">4.1 End-to-End Flow</a></li>
+<li class="toc-level-3"><a href="#42-sequence-of-operations">4.2 Sequence of Operations</a></li>
+<li class="toc-level-3"><a href="#43-step-by-step-description">4.3 Step-by-Step Description</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-temporary-storage-queue-management">5. Temporary Storage Queue Management</a>
+<ul>
+<li class="toc-level-3"><a href="#51-queue-inventory">5.1 Queue Inventory</a></li>
+<li class="toc-level-3"><a href="#52-queue-lifecycle">5.2 Queue Lifecycle</a></li>
+<li class="toc-level-3"><a href="#53-control-queue-records">5.3 Control Queue Records</a></li>
+<li class="toc-level-3"><a href="#54-code-examples-queue-operations">5.4 Code Examples: Queue Operations</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-customer-number-range-and-named-counters">6. Customer Number Range and Named Counters</a>
+<ul>
+<li class="toc-level-3"><a href="#61-customer-number-range">6.1 Customer Number Range</a></li>
+<li class="toc-level-3"><a href="#62-named-counter-pool-gena">6.2 Named Counter Pool GENA</a></li>
+<li class="toc-level-3"><a href="#63-code-examples-counter-operations">6.3 Code Examples: Counter Operations</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-outputs-and-terminal-confirmation">7. Outputs and Terminal Confirmation</a>
+<ul>
+<li class="toc-level-3"><a href="#71-summary-of-outputs">7.1 Summary of Outputs</a></li>
+<li class="toc-level-3"><a href="#72-code-example-terminal-confirmation">7.2 Code Example: Terminal Confirmation</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-dependencies">8. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#81-cics-services">8.1 CICS Services</a></li>
+<li class="toc-level-3"><a href="#82-runtime-and-internal-configuration">8.2 Runtime and Internal Configuration</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-constraints">9. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#91-input-and-data-constraints">9.1 Input and Data Constraints</a></li>
+<li class="toc-level-3"><a href="#92-counter-and-queue-constraints">9.2 Counter and Queue Constraints</a></li>
+<li class="toc-level-3"><a href="#93-ordering-constraints">9.3 Ordering Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#10-error-handling">10. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#101-passive-response-capture">10.1 Passive Response Capture</a></li>
+<li class="toc-level-3"><a href="#102-error-behaviour-summary">10.2 Error Behaviour Summary</a></li>
+<li class="toc-level-3"><a href="#103-error-flow">10.3 Error Flow</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#11-usage-examples">11. Usage Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#111-default-setup-no-high-customer-number">11.1 Default Setup (No High Customer Number)</a></li>
+<li class="toc-level-3"><a href="#112-custom-high-customer-number">11.2 Custom High Customer Number</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#12-database-access">12. Database Access</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

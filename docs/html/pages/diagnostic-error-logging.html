@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralized Error Logging & Diagnostics - GenApp PL/I Insurance Application Knowledge Base</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Knowledge Base</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture &amp; System Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="system-architecture-inventory.html" class="nav-link" data-page-id="system-architecture-inventory">Application Architecture &amp; Component Inventory</a>
+                <a href="data-persistence-dependencies.html" class="nav-link" data-page-id="data-persistence-dependencies">DB2 &amp; VSAM Data Storage Architecture</a>
+                <a href="customer-migration-impact.html" class="nav-link" data-page-id="customer-migration-impact">Customer Domain Migration &amp; Risk Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-interface-orchestration.html" class="nav-link" data-page-id="customer-interface-orchestration">Customer Presentation &amp; Business Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 &amp; Security Persistence</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM Data Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-interface-orchestration.html" class="nav-link" data-page-id="policy-interface-orchestration">Policy Presentation &amp; Business Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Rating Engine</a>
+                <a href="policy-vsam-storage.html" class="nav-link" data-page-id="policy-vsam-storage">Policy VSAM Storage Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-batch-reporting.html" class="nav-link" data-page-id="customer-batch-reporting">Customer Batch Reporting &amp; Test Drivers</a>
+                <a href="motor-policy-batch-extract.html" class="nav-link" data-page-id="motor-policy-batch-extract">Motor Policy Batch Extraction Utility</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">System Infrastructure &amp; Operations</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="environment-setup-initialization.html" class="nav-link" data-page-id="environment-setup-initialization">Environment Setup &amp; Queue Management</a>
+                <a href="transaction-statistics-monitoring.html" class="nav-link" data-page-id="transaction-statistics-monitoring">Transaction Statistics &amp; Telemetry Pipeline</a>
+                <a href="diagnostic-error-logging.html" class="nav-link active" data-page-id="diagnostic-error-logging">Centralized Error Logging &amp; Diagnostics</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(1)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGSTSQ.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGSTSQ
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="centralized-error-logging--diagnostics" tabindex="-1">Centralized Error Logging &amp; Diagnostics</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<h3 id="11-purpose" tabindex="-1">1.1 Purpose</h3>
+<p>Centralized error logging in the application is handled by one reusable CICS PL/I routine, <code>LGSTSQ</code>. Any program can pass it a text message, or an operator can type one at a terminal. It stamps the message with the CICS region identifier (SYSID) and writes it to two destinations:</p>
+<ul>
+<li><strong>Transient Data Queue <code>CSMT</code></strong>, the standard CICS message log, for system-level operational visibility.</li>
+<li><strong>Temporary Storage Queue <code>GENAERRS</code></strong> (the default) for application-level error tracking. The queue name can be overridden to <code>GENAnnnn</code> at runtime.</li>
+</ul>
+<h3 id="12-key-capabilities" tabindex="-1">1.2 Key Capabilities</h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dual-destination logging</td>
+<td>Each message goes to the TDQ <code>CSMT</code> and to a TSQ.</td>
+</tr>
+<tr>
+<td>Region tagging</td>
+<td>Every record starts with the 4-character CICS SYSID.</td>
+</tr>
+<tr>
+<td>Dual invocation modes</td>
+<td>The routine runs when linked from another program (COMMAREA) or started from a terminal.</td>
+</tr>
+<tr>
+<td>Dynamic queue routing</td>
+<td>A <code>Q=nnnn</code> prefix in the message redirects the TSQ write to <code>GENAnnnn</code>.</td>
+</tr>
+<tr>
+<td>Non-blocking behavior</td>
+<td>The TSQ write uses <code>NOSUSPEND</code>, and every CICS command uses <code>RESP</code>, so logging never abends or stalls the caller.</td>
+</tr>
+<tr>
+<td>No database use</td>
+<td>The routine uses only CICS queues. It does no DB2 access.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-scope-note-on-diagnostics-content" tabindex="-1">1.3 Scope Note on Diagnostics Content</h3>
+<p><code>LGSTSQ</code> is a transport and formatting utility. It does not interpret or format SQLCODEs, response codes, or dump data. It logs whatever text the calling program places in the message (up to 90 bytes). To record diagnostics such as an SQLCODE or an EIBRESP value, the caller builds that text before the call. Section 7 describes this contract.</p>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-overview" tabindex="-1">2.1 Component Overview</h3>
+<div class="mermaid">
+graph TD
+    A[Application Programs<br>Detect errors] -->|EXEC CICS LINK<br>with COMMAREA| L[LGSTSQ<br>Logging routine]
+    T[Terminal Operator<br>Types transaction and text] -->|EXEC CICS RECEIVE| L
+    L -->|ASSIGN SYSID, STARTCODE,<br>PRINSYSID, INVOKINGPROG| C[CICS Runtime<br>EIB and Task Services]
+    L -->|WRITEQ TD| Q1[(TDQ CSMT<br>System message log)]
+    L -->|WRITEQ TS NOSUSPEND| Q2[(TSQ GENAERRS<br>Default application error queue)]
+    L -.->|Q=nnnn override| Q3[(TSQ GENAnnnn<br>Alternate queue)]
+    L -->|SEND TEXT, ERASE, FREEKB<br>terminal mode only| T
+</div>
+<p>The diagram shows <code>LGSTSQ</code> as the hub between message producers and the two logging destinations. Programs invoke it with <code>EXEC CICS LINK</code> and a COMMAREA. Operators invoke it directly through a transaction ID. The TSQ destination is <code>GENAERRS</code> unless the message carries a queue override, in which case it is <code>GENAnnnn</code>.</p>
+<h3 id="22-component-responsibilities" tabindex="-1">2.2 Component Responsibilities</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGSTSQ</code></td>
+<td>PL/I CICS program (single procedure, no sub-routines)</td>
+<td>Gathers context, builds the log record, writes to the queues, and optionally responds to the terminal.</td>
+</tr>
+<tr>
+<td><code>COMMA</code> / <code>COMM_AREA_PTR</code></td>
+<td>Based structure and pointer parameter</td>
+<td>Gives access to the caller’s COMMAREA (<code>COMMA_DATA</code>, 90 bytes).</td>
+</tr>
+<tr>
+<td><code>WS_RECV</code></td>
+<td>Working storage structure</td>
+<td>Holds terminal input: a 5-character transaction ID plus 74 bytes of data.</td>
+</tr>
+<tr>
+<td><code>WRITE_MSG</code></td>
+<td>Working storage structure</td>
+<td>The composite log record: SYSID, a blank separator, and the message text.</td>
+</tr>
+<tr>
+<td><code>CSMT</code></td>
+<td>Transient Data Queue</td>
+<td>Standard CICS message log. It must be defined to the region.</td>
+</tr>
+<tr>
+<td><code>GENAERRS</code> / <code>GENAnnnn</code></td>
+<td>Temporary Storage Queue</td>
+<td>Application error queue, with a dynamic name.</td>
+</tr>
+<tr>
+<td>CICS transaction definition</td>
+<td>Resource definition</td>
+<td>Associates a transaction ID with <code>LGSTSQ</code> so it can be started from a terminal.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-data-entities" tabindex="-1">2.3 Data Entities</h3>
+<div class="mermaid">
+erDiagram
+    WRITE_MSG ||--|| WRITE_MSG_SYSID : "starts with"
+    WRITE_MSG ||--|| FILLER_X : "separator"
+    WRITE_MSG ||--|| WRITE_MSG_MSG : "contains"
+    COMMA ||--|| COMMA_DATA : "contains"
+    WS_RECV ||--|| WS_RECV_TRANID : "contains"
+    WS_RECV ||--|| WS_RECV_DATA : "contains"
+    COMMA_DATA }o--|| WRITE_MSG_MSG : "source when WS_FLAG is C"
+    WS_RECV_DATA }o--|| WRITE_MSG_MSG : "source when WS_FLAG is R"
+    WRITE_MSG }o--|| CSMT : "written to"
+    WRITE_MSG }o--|| STSQ : "written to"
+</div>
+<p><code>WRITE_MSG_MSG</code> receives its content from <code>COMMA_DATA</code> or <code>WS_RECV_DATA</code>, depending on the invocation mode. The complete <code>WRITE_MSG</code> record is then written to both queues.</p>
+<h2 id="3-message-record-design" tabindex="-1">3. Message Record Design</h2>
+<h3 id="31-record-layout" tabindex="-1">3.1 Record Layout</h3>
+<p>Every logged entry uses the same record structure:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Length</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WRITE_MSG_SYSID</code></td>
+<td>4</td>
+<td>CICS region ID from <code>ASSIGN SYSID</code></td>
+</tr>
+<tr>
+<td><code>FILLER_X</code></td>
+<td>1</td>
+<td>Blank separator</td>
+</tr>
+<tr>
+<td><code>WRITE_MSG_MSG</code></td>
+<td>90</td>
+<td>Message text (after any <code>Q=nnnn</code> prefix removal)</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>95</strong></td>
+<td>Maximum record size</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>LENGTH</code> operand on the queue writes limits how many of the 95 bytes are actually recorded.</p>
+<h3 id="32-length-computation" tabindex="-1">3.2 Length Computation</h3>
+<p>The length written to both queues is <code>WS_RECV_LEN</code>. It is adjusted as follows:</p>
+<div class="mermaid">
+graph TD
+    A{Invocation mode} -->|Called, WS_FLAG = C| B[WS_RECV_LEN = EIBCALEN]
+    A -->|Terminal, WS_FLAG = R| C[WS_RECV_LEN = received length - 5]
+    B --> D{Message starts with Q=?}
+    C --> D
+    D -->|Yes| E[WS_RECV_LEN = WS_RECV_LEN - 7]
+    D -->|No| F[No change]
+    E --> G[WS_RECV_LEN = WS_RECV_LEN + 5<br>for SYSID and separator]
+    F --> G
+    G --> H[Length used on WRITEQ TD and WRITEQ TS]
+</div>
+<h2 id="4-invocation-modes" tabindex="-1">4. Invocation Modes</h2>
+<p><code>LGSTSQ</code> chooses its input source at run time by calling <code>EXEC CICS ASSIGN INVOKINGPROG</code>. A non-blank result means another program linked to it. A blank result means a terminal started it.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Program-linked (<code>WS_FLAG = 'C'</code>)</th>
+<th>Terminal (<code>WS_FLAG = 'R'</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td><code>WS_INVOKEPROG</code> is not blank</td>
+<td><code>WS_INVOKEPROG</code> is blank</td>
+</tr>
+<tr>
+<td>Message source</td>
+<td><code>COMMA_DATA</code> (COMMAREA)</td>
+<td><code>WS_RECV_DATA</code> (after <code>EXEC CICS RECEIVE</code>)</td>
+</tr>
+<tr>
+<td>Initial length</td>
+<td><code>EIBCALEN</code></td>
+<td>Received length minus 5 (transaction ID)</td>
+</tr>
+<tr>
+<td>Terminal response</td>
+<td>None</td>
+<td><code>SEND TEXT</code> with <code>ERASE</code> and <code>FREEKB</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="41-code-context-gathering" tabindex="-1">4.1 Code: Context Gathering</h3>
+<p>The four context lookups run unconditionally, each capturing its response in <code>WS_RESP</code>. The following is an illustrative reconstruction of the commands:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS ASSIGN SYSID(WRITE_MSG_SYSID)        RESP(WS_RESP);
+EXEC CICS ASSIGN STARTCODE(WS_STARTCODE)       RESP(WS_RESP);
+EXEC CICS ASSIGN PRINSYSID(WS_PRINSYSID)       RESP(WS_RESP);
+EXEC CICS ASSIGN INVOKINGPROG(WS_INVOKEPROG)   RESP(WS_RESP);</code></pre>
+</div>
+<h3 id="42-code-invocation-mode-branch" tabindex="-1">4.2 Code: Invocation-Mode Branch</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF WS_INVOKEPROG ^= &#039; &#039; THEN DO;      /* Called by another program */
+   WS_FLAG        = &#039;C&#039;;
+   WRITE_MSG_MSG  = COMMA_DATA;
+   WS_RECV_LEN    = EIBCALEN;
+END;
+ELSE DO;                              /* Started from a terminal   */
+   EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN) RESP(WS_RESP);
+   WS_FLAG        = &#039;R&#039;;
+   WRITE_MSG_MSG  = WS_RECV_DATA;
+   WS_RECV_LEN    = WS_RECV_LEN - 5;
+END;</code></pre>
+</div>
+<h2 id="5-processing-flow" tabindex="-1">5. Processing Flow</h2>
+<h3 id="51-end-to-end-flowchart" tabindex="-1">5.1 End-to-End Flowchart</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGSTSQ]) --> B[Clear WRITE_MSG and WS_RECV]
+    B --> C[ASSIGN SYSID, STARTCODE,<br>PRINSYSID, INVOKINGPROG]
+    C --> D{INVOKINGPROG<br>not blank?}
+    D -- Yes --> E[Flag C<br>Message from COMMAREA<br>Length = EIBCALEN]
+    D -- No --> F[RECEIVE terminal input<br>Flag R<br>Length = length - 5]
+    E --> G{Message starts<br>with Q= ?}
+    F --> G
+    G -- Yes --> H[STSQ = GENAnnnn<br>Strip 7-byte prefix<br>Length = length - 7]
+    G -- No --> I[STSQ = GENAERRS]
+    H --> J[Length = length + 5]
+    I --> J
+    J --> K[WRITEQ TD to CSMT]
+    K --> L[WRITEQ TS to STSQ with NOSUSPEND]
+    L --> M{Flag = R?}
+    M -- Yes --> N[SEND TEXT<br>ERASE and FREEKB]
+    M -- No --> O[EXEC CICS RETURN]
+    N --> O
+    O --> P([End])
+</div>
+<h3 id="52-sequence-of-operations-program-linked-call" tabindex="-1">5.2 Sequence of Operations (Program-Linked Call)</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant App as Calling Program
+    participant LG as LGSTSQ
+    participant CICS as CICS Services
+    participant TD as TDQ CSMT
+    participant TS as TSQ GENAERRS or GENAnnnn
+
+    App->>LG: EXEC CICS LINK with COMMAREA (message text)
+    LG->>CICS: ASSIGN SYSID, STARTCODE, PRINSYSID, INVOKINGPROG
+    CICS-->>LG: Region and invocation context
+    LG->>LG: INVOKINGPROG not blank, so flag C and copy COMMAREA
+    LG->>LG: Check for Q=nnnn prefix and adjust length
+    LG->>TD: WRITEQ TD (SYSID + message)
+    LG->>TS: WRITEQ TS NOSUSPEND (SYSID + message)
+    LG->>CICS: EXEC CICS RETURN
+    CICS-->>App: Control returns to caller
+</div>
+<h3 id="53-sequence-of-operations-terminal-invocation" tabindex="-1">5.3 Sequence of Operations (Terminal Invocation)</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Op as Terminal Operator
+    participant LG as LGSTSQ
+    participant TD as TDQ CSMT
+    participant TS as TSQ GENAERRS or GENAnnnn
+
+    Op->>LG: Enter transaction ID and message text
+    LG->>LG: ASSIGN calls, INVOKINGPROG is blank
+    LG->>Op: EXEC CICS RECEIVE (read input)
+    LG->>LG: Flag R, drop 5-byte transaction ID
+    LG->>TD: WRITEQ TD
+    LG->>TS: WRITEQ TS NOSUSPEND
+    LG-->>Op: SEND TEXT (1 blank byte) with ERASE and FREEKB
+    LG->>LG: EXEC CICS RETURN
+</div>
+<h2 id="6-queue-routing" tabindex="-1">6. Queue Routing</h2>
+<h3 id="61-transient-data-queue-csmt" tabindex="-1">6.1 Transient Data Queue <code>CSMT</code></h3>
+<ul>
+<li>The name is fixed (<code>STDQ_NAME = 'CSMT'</code>), so every message is written there.</li>
+<li>The write uses <code>EXEC CICS WRITEQ TD</code> with the <code>WRITE_MSG</code> buffer and length <code>WS_RECV_LEN</code>.</li>
+<li>It always runs before the TSQ write.</li>
+<li>It does not use <code>NOSUSPEND</code>.</li>
+<li><code>CSMT</code> must exist in the region’s TDQ definitions.</li>
+</ul>
+<h3 id="62-temporary-storage-queue-genaerrs--genannnn" tabindex="-1">6.2 Temporary Storage Queue <code>GENAERRS</code> / <code>GENAnnnn</code></h3>
+<ul>
+<li>The default queue name is <code>GENAERRS</code>.</li>
+<li>The write uses <code>NOSUSPEND</code>, so logging is best-effort.</li>
+<li>The first four characters (<code>GENA</code>) are fixed. Only positions 5–8 can change.</li>
+</ul>
+<h3 id="63-queue-name-override-qnnnn" tabindex="-1">6.3 Queue Name Override (<code>Q=nnnn</code>)</h3>
+<p>A message that begins with <code>Q=</code> redirects the TSQ write. The next four characters become the queue suffix.</p>
+<div class="mermaid">
+graph TD
+    A[WRITE_MSG_MSG] --> B{"Bytes 1-2 equal Q= ?"}
+    B -- No --> C[STSQ stays GENAERRS<br>Message unchanged]
+    B -- Yes --> D["Take bytes 3-6 as suffix nnnn<br>Place into STSQ positions 5-8"]
+    D --> E["Copy bytes 8-90 to TEMPO<br>Copy TEMPO back to WRITE_MSG_MSG"]
+    E --> F[WS_RECV_LEN reduced by 7]
+    C --> G[Proceed to queue writes]
+    F --> G
+</div>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">STSQ = &#039;GENAERRS&#039;;
+IF SUBSTR(WRITE_MSG_MSG,1,2) = &#039;Q=&#039; THEN DO;
+   SUBSTR(STSQ,5,4) = SUBSTR(WRITE_MSG_MSG,3,4);
+   TEMPO            = SUBSTR(WRITE_MSG_MSG,8,83);
+   WRITE_MSG_MSG    = TEMPO;
+   WS_RECV_LEN      = WS_RECV_LEN - 7;
+END;
+WS_RECV_LEN = WS_RECV_LEN + 5;        /* SYSID + separator */</code></pre>
+</div>
+<p>Routing rules:</p>
+<ul>
+<li>The <code>Q=</code> match is case-sensitive and must sit in bytes 1–2. Lowercase <code>q=</code> or leading spaces disable the override.</li>
+<li>The suffix is taken as-is, with no validation.</li>
+<li>The prefix consumes 7 bytes: <code>Q=</code>, four suffix characters, and one separator byte. Message text starts at byte 8, so callers should leave a blank after <code>nnnn</code>.</li>
+</ul>
+<h2 id="7-diagnostic-content-and-caller-contract" tabindex="-1">7. Diagnostic Content and Caller Contract</h2>
+<p><code>LGSTSQ</code> records text only. It performs no formatting, SQLCODE decoding, or dump generation. It is not tied to any particular error type. Diagnostic detail therefore comes from the caller, which should assemble the text in the COMMAREA. Typical content includes a program identifier, a failing operation, an SQLCODE, or an EIBRESP/EIBRESP2 value.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Who handles it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Building the message (program name, SQLCODE, response codes)</td>
+<td>Calling program</td>
+</tr>
+<tr>
+<td>Limiting text to 90 bytes</td>
+<td>Calling program (excess is truncated by PL/I assignment)</td>
+</tr>
+<tr>
+<td>Optionally adding <code>Q=nnnn </code> to select an alternate TSQ</td>
+<td>Calling program</td>
+</tr>
+<tr>
+<td>Prefixing the region ID</td>
+<td><code>LGSTSQ</code></td>
+</tr>
+<tr>
+<td>Writing to <code>CSMT</code> and the TSQ</td>
+<td><code>LGSTSQ</code></td>
+</tr>
+</tbody>
+</table>
+<p>Because <code>SYSID</code> is prepended, a log entry from region <code>GENL</code> looks like this:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL &lt;caller-supplied diagnostic text&gt;</code></pre>
+</div>
+<h2 id="8-error-handling-and-resilience" tabindex="-1">8. Error Handling and Resilience</h2>
+<h3 id="81-design-principle" tabindex="-1">8.1 Design Principle</h3>
+<p>The logger must never become a failure point. Its error strategy is therefore deliberately minimal.</p>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RESP(WS_RESP)</code> on every CICS command</td>
+<td>Suppresses default CICS exception handling (no abend). The response code is stored in <code>WS_RESP</code>.</td>
+</tr>
+<tr>
+<td><code>NOSUSPEND</code> on <code>WRITEQ TS</code></td>
+<td>The task is not suspended if temporary storage is unavailable. The message may be lost.</td>
+</tr>
+<tr>
+<td>Conditional <code>SEND TEXT</code></td>
+<td>Terminal I/O is issued only when <code>WS_FLAG = 'R'</code>.</td>
+</tr>
+<tr>
+<td>Invocation-mode detection</td>
+<td>The COMMAREA is read only when a calling program is detected.</td>
+</tr>
+<tr>
+<td>No <code>ABEND</code>, no <code>ON</code> units</td>
+<td>The program always ends normally with <code>EXEC CICS RETURN</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-command-pattern" tabindex="-1">8.2 Command Pattern</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS WRITEQ TD QUEUE(STDQ_NAME)
+          FROM(WRITE_MSG) LENGTH(WS_RECV_LEN)
+          RESP(WS_RESP);
+
+EXEC CICS WRITEQ TS QUEUE(STSQ)
+          FROM(WRITE_MSG) LENGTH(WS_RECV_LEN)
+          NOSUSPEND RESP(WS_RESP);
+
+IF WS_FLAG = &#039;R&#039; THEN
+   EXEC CICS SEND TEXT FROM(FILLER_X) TERMINAL WAIT
+             ERASE LENGTH(1) FREEKB;
+
+EXEC CICS RETURN;</code></pre>
+</div>
+<h3 id="83-known-gaps" tabindex="-1">8.3 Known Gaps</h3>
+<ul>
+<li><code>WS_RESP</code> is populated after each command but never tested. A failed <code>ASSIGN</code>, <code>RECEIVE</code>, or queue write goes unnoticed.</li>
+<li><code>WS_RECV_LEN</code> is not bounds-checked. Very short input could produce a negative or oversized length.</li>
+<li><code>COMM_AREA_PTR</code> is dereferenced without checking <code>EIBCALEN</code>. A link with no COMMAREA could cause an abend.</li>
+<li>Messages can be lost silently if the TSQ write fails. The <code>CSMT</code> entry is the more reliable record.</li>
+</ul>
+<h2 id="9-constraints-and-limitations" tabindex="-1">9. Constraints and Limitations</h2>
+<h3 id="91-size-constraints" tabindex="-1">9.1 Size Constraints</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COMMAREA message (<code>COMMA_DATA</code>)</td>
+<td>90 bytes</td>
+</tr>
+<tr>
+<td>Terminal input (<code>WS_RECV</code>)</td>
+<td>5-byte transaction ID plus 74 bytes of data</td>
+</tr>
+<tr>
+<td>Log record (<code>WRITE_MSG</code>)</td>
+<td>95 bytes (4 SYSID + 1 separator + 90 message)</td>
+</tr>
+<tr>
+<td><code>WS_RECV_LEN</code> initial value</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Terminal response</td>
+<td>Exactly 1 blank byte</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-sequencing-constraints" tabindex="-1">9.2 Sequencing Constraints</h3>
+<ol>
+<li>All <code>ASSIGN</code> commands run before the invocation-mode branch.</li>
+<li>The message is populated, and any <code>Q=</code> prefix handled, before the queue writes.</li>
+<li>The TDQ write runs before the TSQ write, and both use the same buffer and length.</li>
+<li>The terminal <code>SEND TEXT</code> runs after both queue writes.</li>
+<li><code>EXEC CICS RETURN</code> is the final, unconditional statement.</li>
+</ol>
+<h3 id="93-environment-requirements" tabindex="-1">9.3 Environment Requirements</h3>
+<ul>
+<li>A CICS region with the TDQ <code>CSMT</code> defined.</li>
+<li>A transaction definition that maps a transaction ID to <code>LGSTSQ</code>, needed only for terminal use.</li>
+<li>Callers use <code>EXEC CICS LINK</code> and pass a COMMAREA. No caller program name is hard-coded.</li>
+</ul>
+<h2 id="10-examples" tabindex="-1">10. Examples</h2>
+<h3 id="101-program-linked-call-default-queue" tabindex="-1">10.1 Program-Linked Call, Default Queue</h3>
+<p><strong>Input:</strong> SYSID <code>GENL</code>, invoking program <code>LGSICVP</code>, <code>EIBCALEN</code> = 42, COMMAREA <code>Policy not found for customer 1234567890</code>.</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>WS_FLAG</code> = <code>C</code> and <code>WS_RECV_LEN</code> = 42.</li>
+<li>There is no <code>Q=</code> prefix, so <code>STSQ</code> stays <code>GENAERRS</code>.</li>
+<li><code>WS_RECV_LEN</code> = 42 + 5 = 47.</li>
+<li>The record is written to <code>CSMT</code> and <code>GENAERRS</code>. No terminal send occurs.</li>
+</ol>
+<p><strong>Logged record:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Policy not found for customer 1234567890</code></pre>
+</div>
+<h3 id="102-program-linked-call-with-queue-override" tabindex="-1">10.2 Program-Linked Call with Queue Override</h3>
+<p><strong>Input:</strong> COMMAREA starting <code>Q=0042</code> followed by <code>Policy limit exceeded for account 99</code>, <code>EIBCALEN</code> = 43.</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>Q=</code> is detected, so <code>STSQ</code> = <code>GENA0042</code>.</li>
+<li>The 7-byte prefix is stripped, so <code>WS_RECV_LEN</code> = 43 − 7 = 36.</li>
+<li><code>WS_RECV_LEN</code> = 36 + 5 = 41.</li>
+<li>The record is written to <code>CSMT</code> and <code>GENA0042</code>.</li>
+</ol>
+<p><strong>Logged record:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Policy limit exceeded for account 99</code></pre>
+</div>
+<p>The routine always removes 7 bytes. In practice the caller should put a blank after <code>nnnn</code>, as in <code>Q=0042 Policy limit…</code>. Otherwise the first character of the real message is removed.</p>
+<h3 id="103-terminal-invocation" tabindex="-1">10.3 Terminal Invocation</h3>
+<p><strong>Input:</strong> The operator enters <code>LGSQ Account 888 is invalid</code>. The received length is 30 and SYSID is <code>GENL</code>.</p>
+<p><strong>Processing:</strong></p>
+<ol>
+<li><code>INVOKINGPROG</code> is blank, so <code>RECEIVE</code> runs and <code>WS_FLAG</code> = <code>R</code>.</li>
+<li>The message is taken from <code>WS_RECV_DATA</code>, and <code>WS_RECV_LEN</code> = 30 − 5 = 25.</li>
+<li>There is no override, so <code>STSQ</code> = <code>GENAERRS</code>.</li>
+<li><code>WS_RECV_LEN</code> = 25 + 5 = 30.</li>
+<li>The record is written to <code>CSMT</code> and <code>GENAERRS</code>.</li>
+<li><code>SEND TEXT</code> clears the screen and unlocks the keyboard.</li>
+</ol>
+<p><strong>Logged record:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>GENL Account 888 is invalid</code></pre>
+</div>
+<h2 id="11-summary" tabindex="-1">11. Summary</h2>
+<p><code>LGSTSQ</code> is the single logging service for the application. It does the following:</p>
+<ul>
+<li>It accepts messages from programs or terminals.</li>
+<li>It tags each message with the CICS SYSID.</li>
+<li>It writes each message to the system log (<code>CSMT</code>) and to an application TSQ (<code>GENAERRS</code>, or <code>GENAnnnn</code> when overridden).</li>
+<li>It never blocks or abends the calling transaction.</li>
+</ul>
+<p>Programs that need richer diagnostics, such as SQLCODEs or response codes, must supply them as text in the COMMAREA. They should also keep the message within the 90-byte limit.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="environment-setup-initialization.html" class="card">
+                <span class="card-title">Environment Setup &amp; Queue Management</span>
+                <span class="card-description">Application environment reset and configuration program initializing TSQs (control, statistics, errors), customer number ranges, and named counter pools.</span>
+            </a>
+            <a href="transaction-statistics-monitoring.html" class="card">
+                <span class="card-title">Transaction Statistics &amp; Telemetry Pipeline</span>
+                <span class="card-description">Event-processing adapter and continuous background statistics collector harvesting CICS named counters and tracking real-time delta rates across business operations.</span>
+            </a>
+            <a href="customer-interface-orchestration.html" class="card">
+                <span class="card-title">Customer Presentation &amp; Business Orchestration</span>
+                <span class="card-description">Interactive BMS terminal menu (transaction SSC1) and core business logic layer handling customer onboarding, profile inquiry, lifecycle administration, and updates.</span>
+            </a>
+            <a href="policy-interface-orchestration.html" class="card">
+                <span class="card-title">Policy Presentation &amp; Business Orchestration</span>
+                <span class="card-description">CICS BMS menu transactions (SSP1, SSP2, SSP3, SSP4) and business dispatchers coordinating add, inquiry, update, and deletion operations across Motor, Endowment, House, and Commercial policies.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a>
+<ul>
+<li class="toc-level-3"><a href="#11-purpose">1.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#12-key-capabilities">1.2 Key Capabilities</a></li>
+<li class="toc-level-3"><a href="#13-scope-note-on-diagnostics-content">1.3 Scope Note on Diagnostics Content</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-overview">2.1 Component Overview</a></li>
+<li class="toc-level-3"><a href="#22-component-responsibilities">2.2 Component Responsibilities</a></li>
+<li class="toc-level-3"><a href="#23-data-entities">2.3 Data Entities</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-message-record-design">3. Message Record Design</a>
+<ul>
+<li class="toc-level-3"><a href="#31-record-layout">3.1 Record Layout</a></li>
+<li class="toc-level-3"><a href="#32-length-computation">3.2 Length Computation</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-invocation-modes">4. Invocation Modes</a>
+<ul>
+<li class="toc-level-3"><a href="#41-code-context-gathering">4.1 Code: Context Gathering</a></li>
+<li class="toc-level-3"><a href="#42-code-invocation-mode-branch">4.2 Code: Invocation-Mode Branch</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-processing-flow">5. Processing Flow</a>
+<ul>
+<li class="toc-level-3"><a href="#51-end-to-end-flowchart">5.1 End-to-End Flowchart</a></li>
+<li class="toc-level-3"><a href="#52-sequence-of-operations-program-linked-call">5.2 Sequence of Operations (Program-Linked Call)</a></li>
+<li class="toc-level-3"><a href="#53-sequence-of-operations-terminal-invocation">5.3 Sequence of Operations (Terminal Invocation)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-queue-routing">6. Queue Routing</a>
+<ul>
+<li class="toc-level-3"><a href="#61-transient-data-queue-csmt">6.1 Transient Data Queue CSMT</a></li>
+<li class="toc-level-3"><a href="#62-temporary-storage-queue-genaerrs--genannnn">6.2 Temporary Storage Queue GENAERRS / GENAnnnn</a></li>
+<li class="toc-level-3"><a href="#63-queue-name-override-qnnnn">6.3 Queue Name Override (Q=nnnn)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-diagnostic-content-and-caller-contract">7. Diagnostic Content and Caller Contract</a></li>
+<li class="toc-level-2"><a href="#8-error-handling-and-resilience">8. Error Handling and Resilience</a>
+<ul>
+<li class="toc-level-3"><a href="#81-design-principle">8.1 Design Principle</a></li>
+<li class="toc-level-3"><a href="#82-command-pattern">8.2 Command Pattern</a></li>
+<li class="toc-level-3"><a href="#83-known-gaps">8.3 Known Gaps</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-constraints-and-limitations">9. Constraints and Limitations</a>
+<ul>
+<li class="toc-level-3"><a href="#91-size-constraints">9.1 Size Constraints</a></li>
+<li class="toc-level-3"><a href="#92-sequencing-constraints">9.2 Sequencing Constraints</a></li>
+<li class="toc-level-3"><a href="#93-environment-requirements">9.3 Environment Requirements</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#10-examples">10. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#101-program-linked-call-default-queue">10.1 Program-Linked Call, Default Queue</a></li>
+<li class="toc-level-3"><a href="#102-program-linked-call-with-queue-override">10.2 Program-Linked Call with Queue Override</a></li>
+<li class="toc-level-3"><a href="#103-terminal-invocation">10.3 Terminal Invocation</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#11-summary">11. Summary</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

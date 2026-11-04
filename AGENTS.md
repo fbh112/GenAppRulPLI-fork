@@ -105,7 +105,15 @@ Menu (LGTESTP1-4 / LGTESTC1)
 
 Program metadata is stored in `.bobz/local-settings.json` (`databaseLocation` field). Use `execute_sql_query` for cross-program analysis (call chains, SQL table access, dependencies).
 
-When you perform any code anlaysis, always look into local metadata database first.
+### Query the metadata database FIRST — MANDATORY
+
+For any code analysis task (explaining a program, impact analysis, implementation planning, dependency mapping, data flow, documentation), **query the local metadata database before reading any source code line by line**:
+
+1. Call `get_sql_schema` (database `local`) once, then use `execute_sql_query` to gather program structure, call chains, SQL table access, include/copybook usage, and variable usage.
+2. Use `get_program_dependencies`, `get_paragraphs`, and `get_control_flow` where applicable.
+3. Only after reviewing the database results, read the source (`pli/`, `plinc/`) — and only the sections needed to answer the question.
+
+If the database is missing or stale (the path in `.bobz/local-settings.json` does not exist, or sources changed since the last scan), re-run `scan_program` on the workspace before analysis.
 
 ## Documentation Output
 

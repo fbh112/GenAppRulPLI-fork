@@ -1,0 +1,1332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Statistics & Telemetry Pipeline - GenApp PL/I Insurance Application Knowledge Base</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Knowledge Base</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture &amp; System Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="system-architecture-inventory.html" class="nav-link" data-page-id="system-architecture-inventory">Application Architecture &amp; Component Inventory</a>
+                <a href="data-persistence-dependencies.html" class="nav-link" data-page-id="data-persistence-dependencies">DB2 &amp; VSAM Data Storage Architecture</a>
+                <a href="customer-migration-impact.html" class="nav-link" data-page-id="customer-migration-impact">Customer Domain Migration &amp; Risk Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-interface-orchestration.html" class="nav-link" data-page-id="customer-interface-orchestration">Customer Presentation &amp; Business Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 &amp; Security Persistence</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM Data Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-interface-orchestration.html" class="nav-link" data-page-id="policy-interface-orchestration">Policy Presentation &amp; Business Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Rating Engine</a>
+                <a href="policy-vsam-storage.html" class="nav-link" data-page-id="policy-vsam-storage">Policy VSAM Storage Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-batch-reporting.html" class="nav-link" data-page-id="customer-batch-reporting">Customer Batch Reporting &amp; Test Drivers</a>
+                <a href="motor-policy-batch-extract.html" class="nav-link" data-page-id="motor-policy-batch-extract">Motor Policy Batch Extraction Utility</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">System Infrastructure &amp; Operations</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="environment-setup-initialization.html" class="nav-link" data-page-id="environment-setup-initialization">Environment Setup &amp; Queue Management</a>
+                <a href="transaction-statistics-monitoring.html" class="nav-link active" data-page-id="transaction-statistics-monitoring">Transaction Statistics &amp; Telemetry Pipeline</a>
+                <a href="diagnostic-error-logging.html" class="nav-link" data-page-id="diagnostic-error-logging">Centralized Error Logging &amp; Diagnostics</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(2)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGWEBST5.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGWEBST5
+            </a></li>
+            <li><a href="../sources/program/pli/LGASTAT1.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGASTAT1
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="transaction-statistics--telemetry-pipeline" tabindex="-1">Transaction Statistics &amp; Telemetry Pipeline</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The Transaction Statistics &amp; Telemetry Pipeline is the operational-metrics layer of the GenApp general insurance application. Two cooperating CICS PL/I programs implement it.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Role</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td>Event-processing adapter. Classifies each business event by request type and outcome, and resolves the matching CICS named counter.</td>
+<td>Invoked per business event, either through the CICS Event Processing (EP) channel or with a COMMAREA.</td>
+</tr>
+<tr>
+<td><code>LGWEBST5</code></td>
+<td>Continuous background collector. Harvests named counters every minute and computes real-time delta rates.</td>
+<td>Self-scheduling transaction <code>SSST</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Together they cover these business operations:</p>
+<ul>
+<li>Customer inquiry and add.</li>
+<li>Motor, endowment, house and commercial policy inquiry, add, update and delete.</li>
+</ul>
+<p>Key characteristics:</p>
+<ul>
+<li><strong>Event-driven classification.</strong> <code>LGASTAT1</code> builds a counter name of the form <code>GENA&lt;request&gt;&lt;type&gt;</code> in the <code>GENA</code> counter pool. It normalizes request variants and collapses all failure codes into a single <code>99</code> bucket.</li>
+<li><strong>Time-driven harvesting.</strong> <code>LGWEBST5</code> reads 35 named counters (1 customer-number counter, 17 success counters and 17 error counters). It stores a <em>new / old / delta</em> triple per counter in CICS Temporary Storage Queues (TSQs).</li>
+<li><strong>No database dependency.</strong> All state lives in CICS named counters and temporary storage. There are no DB2 tables.</li>
+<li><strong>Self-sustaining.</strong> <code>LGWEBST5</code> restarts itself with <code>EXEC CICS START TRANSID('SSST') AFTER MINUTES(1)</code>. Dashboards or monitors can read the TSQs for near-real-time throughput.</li>
+</ul>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-overview" tabindex="-1">2.1 Component Overview</h3>
+<p>The pipeline has an <em>event side</em> and a <em>collection side</em>. They are decoupled and share only the <code>GENA</code> named counter pool.</p>
+<div class="mermaid">
+graph TD
+    subgraph Sources["Business Event Sources"]
+        EP["CICS Event Processing Adapter<br>DFHEP.DATA.00001 / 00002"]
+        CA["Calling Program<br>COMMAREA: CA_REQUEST_ID, CA_RETURN_CODE"]
+    end
+
+    subgraph EventSide["Event Side"]
+        STAT1["LGASTAT1<br>Statistics Counter Adapter"]
+        TSQ_START[("TSQ GENASTRT<br>Startup date and time")]
+    end
+
+    subgraph Counters["CICS Named Counter Service"]
+        POOL[("Pool GENA<br>GENA request type counters<br>GENACUSTNUM")]
+    end
+
+    subgraph CollectorSide["Collection Side"]
+        SSST["Transaction SSST"]
+        WEBST5["LGWEBST5<br>Statistics Collector"]
+        RI["TRAN_RATE_INTERVAL"]
+        RC["TRAN_RATE_COUNTS"]
+    end
+
+    subgraph Telemetry["Telemetry Store - Temporary Storage"]
+        TSQ_INT[("GENA000V<br>Interval queue")]
+        TSQ_RATE[("GENA code V<br>17 per-operation rate queues")]
+        TSQ_TOT[("GENAX00V - GENAX04V<br>Aggregate totals")]
+        TSQ_CUST[("GENAX05V<br>Customer number rate")]
+    end
+
+    DASH["Dashboards / Monitors"]
+
+    EP --> STAT1
+    CA --> STAT1
+    STAT1 --> TSQ_START
+    STAT1 -->|"GET COUNTER"| POOL
+
+    SSST --> WEBST5
+    WEBST5 --> RI
+    WEBST5 --> RC
+    WEBST5 -->|"QUERY COUNTER"| POOL
+    RI --> TSQ_INT
+    RI -->|"START TRANSID SSST AFTER 1 MIN"| SSST
+    RC --> TSQ_RATE
+    RC --> TSQ_TOT
+    RC --> TSQ_CUST
+
+    TSQ_INT --> DASH
+    TSQ_RATE --> DASH
+    TSQ_TOT --> DASH
+    TSQ_CUST --> DASH
+</div>
+<h3 id="22-component-responsibilities" tabindex="-1">2.2 Component Responsibilities</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td>CICS PL/I program</td>
+<td>Reads request ID and return code, normalizes them, stamps first-use time, and resolves the named counter.</td>
+</tr>
+<tr>
+<td><code>LGWEBST5</code></td>
+<td>CICS PL/I program</td>
+<td>Main driver. Reads all counters, accumulates totals by operation, and reschedules itself.</td>
+</tr>
+<tr>
+<td><code>TRAN_RATE_INTERVAL</code></td>
+<td>Internal procedure of <code>LGWEBST5</code></td>
+<td>Computes seconds elapsed since the last run, persists it, and schedules the next run.</td>
+</tr>
+<tr>
+<td><code>TRAN_RATE_COUNTS</code></td>
+<td>Internal procedure of <code>LGWEBST5</code></td>
+<td>Maintains the new / old / delta triple for one queue.</td>
+</tr>
+<tr>
+<td><code>GENA</code> pool</td>
+<td>CICS named counter pool</td>
+<td>Holds <code>GENA01&lt;OP&gt;&lt;ENT&gt;00</code> (success), <code>GENA01&lt;OP&gt;&lt;ENT&gt;99</code> (error) and <code>GENACUSTNUM</code>.</td>
+</tr>
+<tr>
+<td><code>GENASTRT</code></td>
+<td>TS queue</td>
+<td>One-time marker recording when statistics collection began.</td>
+</tr>
+<tr>
+<td><code>GENA000V</code>, <code>GENA&lt;code&gt;V</code>, <code>GENAX00V</code>–<code>GENAX05V</code></td>
+<td>TS queues</td>
+<td>Telemetry output consumed by reporting.</td>
+</tr>
+<tr>
+<td><code>SSST</code></td>
+<td>CICS transaction</td>
+<td>Maps to <code>LGWEBST5</code>. The restart mechanism.</td>
+</tr>
+<tr>
+<td><code>LGCMAREA.inc</code></td>
+<td>PL/I include</td>
+<td>Shared <code>COMM_AREA</code> layout (<code>CA_REQUEST_ID</code>, <code>CA_RETURN_CODE</code>, and others).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-entity-relationships" tabindex="-1">2.3 Entity Relationships</h3>
+<div class="mermaid">
+erDiagram
+    COUNTER_POOL_GENA ||--o{ SUCCESS_COUNTER : contains
+    COUNTER_POOL_GENA ||--o{ ERROR_COUNTER : contains
+    COUNTER_POOL_GENA ||--|| CUSTNUM_COUNTER : contains
+    SUCCESS_COUNTER ||--|| RATE_TSQ : "snapshotted into"
+    ERROR_COUNTER }o--|| SUCCESS_COUNTER : "paired by index"
+    RATE_TSQ ||--|{ RATE_ITEM : "holds 3 items"
+    AGGREGATE_TSQ ||--|{ RATE_ITEM : "holds 3 items"
+    INTERVAL_TSQ ||--|{ INTERVAL_ITEM : "holds 2 items"
+
+    SUCCESS_COUNTER {
+        string name "GENA01 OP ENT 00"
+        string opcode "I A U D"
+    }
+    ERROR_COUNTER {
+        string name "GENA01 OP ENT 99"
+    }
+    RATE_TSQ {
+        string name "GENA code V"
+    }
+    RATE_ITEM {
+        int item "1 new, 2 old, 3 delta"
+        string value "9 digit numeric"
+    }
+    INTERVAL_ITEM {
+        int item "1 HHMMSS, 2 elapsed seconds"
+    }
+</div>
+<h2 id="3-event-classification-with-lgastat1" tabindex="-1">3. Event Classification with LGASTAT1</h2>
+<h3 id="31-purpose" tabindex="-1">3.1 Purpose</h3>
+<p><code>LGASTAT1</code> is a CICS event-processing adapter target. Each time a business transaction finishes, it receives a request identifier (for example <code>01IMOT</code>, Inquire Motor) and a return code. It maps these to a named counter and resolves that counter. The result is a running tally of business events, categorized by request type and by success or failure.</p>
+<h3 id="32-inputs" tabindex="-1">3.2 Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EP channel container <code>DFHEP.DATA.00001</code></td>
+<td><code>WS_DATA_REQ</code></td>
+<td>6-character request identifier (primary source).</td>
+</tr>
+<tr>
+<td>EP channel container <code>DFHEP.DATA.00002</code></td>
+<td><code>WS_DATA_RC</code></td>
+<td>2-character return code (primary source).</td>
+</tr>
+<tr>
+<td>COMMAREA (fallback)</td>
+<td><code>CA_REQUEST_ID</code></td>
+<td>6-character request ID.</td>
+</tr>
+<tr>
+<td>COMMAREA (fallback)</td>
+<td><code>CA_RETURN_CODE</code></td>
+<td>2-digit return code (<code>PIC '99'</code>).</td>
+</tr>
+<tr>
+<td>EIB</td>
+<td><code>EIBCALEN</code>, <code>EIBTRNID</code>, <code>EIBTRMID</code>, <code>EIBTASKN</code></td>
+<td>Presence of a COMMAREA, plus diagnostic context.</td>
+</tr>
+<tr>
+<td>TS queue <code>GENASTRT</code></td>
+<td>—</td>
+<td>Initialization marker.</td>
+</tr>
+<tr>
+<td>Counter pool <code>GENA</code></td>
+<td>—</td>
+<td>Source of counter values.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-processing-flow" tabindex="-1">3.3 Processing Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGASTAT1]) --> B["Initialize WS_HEADER<br>eyecatcher, transid, termid, tasknum, calen"]
+    B --> C["GET CONTAINER DFHEP.DATA.00001<br>GET CONTAINER DFHEP.DATA.00002"]
+    C --> D{"Last RESP = NORMAL?"}
+    D -- Yes --> E["GENACOUNTER = WS_DATA_REQ<br>GENATYPE = WS_DATA_RC"]
+    D -- No --> F{"EIBCALEN = 0?"}
+    F -- Yes --> Z1([EXEC CICS RETURN])
+    F -- No --> G["GENACOUNTER = CA_REQUEST_ID<br>GENATYPE = CA_RETURN_CODE"]
+    E --> H["READQ TS GENASTRT"]
+    G --> H
+    H --> I{"QIDERR?"}
+    I -- Yes --> J["ASKTIME / FORMATTIME<br>WRITEQ TS GENASTRT"]
+    I -- No --> K
+    J --> K{"GENACOUNTER = 02ACUS?"}
+    K -- Yes --> K1["Set 01ACUS"]
+    K -- No --> L
+    K1 --> L{"02ICOM, 03ICOM or 05ICOM?"}
+    L -- Yes --> L1["Set 01ICOM"]
+    L -- No --> M
+    L1 --> M{"GENATYPE not 00?"}
+    M -- Yes --> M1["Set GENATYPE = 99"]
+    M -- No --> N
+    M1 --> N["GET COUNTER pool GENA<br>name GENACOUNT_STR into TRANCOUNT"]
+    N --> Z2([EXEC CICS RETURN])
+</div>
+<h3 id="34-input-selection-channel-first-commarea-fallback" tabindex="-1">3.4 Input Selection: Channel First, COMMAREA Fallback</h3>
+<p>The program issues two <code>GET CONTAINER</code> calls and tests only the final <code>RESP</code>. If the channel data is unavailable, it falls back to the COMMAREA. If there is no COMMAREA either, the task ends silently.</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF EIBCALEN = 0 THEN
+   EXEC CICS RETURN;</code></pre>
+</div>
+<h3 id="35-first-use-initialization-marker" tabindex="-1">3.5 First-Use Initialization Marker</h3>
+<p>On first use, <code>READQ TS</code> against <code>GENASTRT</code> returns <code>QIDERR</code>. The program then stamps the current date and time into the queue. It never rewrites that record afterward.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Declaration / value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_QNAME</code></td>
+<td><code>CHAR(8) STATIC INIT('GENASTRT')</code></td>
+<td>Queue name.</td>
+</tr>
+<tr>
+<td><code>WS_AREA_D</code></td>
+<td>8 bytes</td>
+<td>Startup date.</td>
+</tr>
+<tr>
+<td><code>WS_AREA_T</code></td>
+<td>2-byte filler plus 6 bytes of time</td>
+<td>Startup time.</td>
+</tr>
+<tr>
+<td><code>WS_QLEN</code></td>
+<td><code>STG(WS_QAREA)</code> (16 bytes)</td>
+<td>Record length.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="36-counter-name-normalization" tabindex="-1">3.6 Counter Name Normalization</h3>
+<p>Normalization consolidates equivalent business events so statistics are not fragmented.</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF GENACOUNTER = &#039;02ACUS&#039; THEN GENACOUNTER = &#039;01ACUS&#039;;
+IF GENACOUNTER = &#039;02ICOM&#039; | GENACOUNTER = &#039;03ICOM&#039; | GENACOUNTER = &#039;05ICOM&#039;
+   THEN GENACOUNTER = &#039;01ICOM&#039;;
+IF GENATYPE ^= &#039;00&#039; THEN GENATYPE = &#039;99&#039;;</code></pre>
+</div>
+<table>
+<thead>
+<tr>
+<th>Input request</th>
+<th>Normalized request</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>02ACUS</code></td>
+<td><code>01ACUS</code></td>
+<td>Add Customer variants share one counter.</td>
+</tr>
+<tr>
+<td><code>02ICOM</code>, <code>03ICOM</code>, <code>05ICOM</code></td>
+<td><code>01ICOM</code></td>
+<td>Commercial inquiry variants share one counter.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Input return code</th>
+<th>Normalized type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td><code>00</code></td>
+<td>Success.</td>
+</tr>
+<tr>
+<td>Anything else</td>
+<td><code>99</code></td>
+<td>Generic failure bucket.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="37-counter-name-layout" tabindex="-1">3.7 Counter Name Layout</h3>
+<p>The counter name is a fixed 16-character string. The overlay <code>GENACOUNT_STR CHAR(16)</code> is <code>BASED</code> on the <code>GENACOUNT</code> structure, so the normalized values are used automatically in the <code>GET COUNTER</code> call.</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Length</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>Literal <code>GENA</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td><code>GENACOUNTER</code> (normalized request).</td>
+</tr>
+<tr>
+<td>11</td>
+<td>2</td>
+<td><code>GENATYPE</code> (<code>00</code> or <code>99</code>).</td>
+</tr>
+<tr>
+<td>13</td>
+<td>4</td>
+<td>Trailing spaces.</td>
+</tr>
+</tbody>
+</table>
+<p>Example: <code>GENA</code> + <code>01ACUS</code> + <code>99</code> + 4 spaces gives <code>GENA01ACUS99    </code>.</p>
+<h3 id="38-behavior-note-on-get-counter" tabindex="-1">3.8 Behavior Note on <code>GET COUNTER</code></h3>
+<p>The program text and purpose statements describe each invocation as counting the event, which matches the CICS behavior of <code>GET COUNTER</code>. It increments the named counter and returns the new value in <code>TRANCOUNT</code>. One internal note in the program analysis says the call only reads the value and that incrementing happens elsewhere. Verify this against the counter definition and the calling flow in your environment. The resulting value stays in working storage. No <code>PUT CONTAINER</code> or <code>RETURN DATA</code> is issued.</p>
+<h3 id="39-worked-examples" tabindex="-1">3.9 Worked Examples</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Inputs</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Channel input, motor inquiry success</td>
+<td>Containers <code>01IMOT</code> / <code>00</code></td>
+<td>Counter <code>GENA01IMOT00</code> is resolved. No normalization applies.</td>
+</tr>
+<tr>
+<td>COMMAREA fallback, failed add customer</td>
+<td><code>CA_REQUEST_ID='02ACUS'</code>, <code>CA_RETURN_CODE='01'</code>, <code>GENASTRT</code> missing</td>
+<td><code>GENASTRT</code> is created. The request becomes <code>01ACUS</code> and the type becomes <code>99</code>, so counter <code>GENA01ACUS99</code> is resolved.</td>
+</tr>
+<tr>
+<td>No channel, no COMMAREA</td>
+<td><code>EIBCALEN = 0</code></td>
+<td>Immediate <code>RETURN</code>. No counter or queue is touched.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-continuous-collection-with-lgwebst5" tabindex="-1">4. Continuous Collection with LGWEBST5</h2>
+<h3 id="41-purpose" tabindex="-1">4.1 Purpose</h3>
+<p><code>LGWEBST5</code> runs as transaction <code>SSST</code>. It reads the cumulative counters that <code>LGASTAT1</code> and the application maintain. It computes how much each changed since the previous run, and persists the results in TS queues. It then schedules its own next execution one minute later.</p>
+<h3 id="42-counter-catalog" tabindex="-1">4.2 Counter Catalog</h3>
+<p><code>LGWEBST5</code> uses static, positionally aligned arrays. Index <code>I</code> selects the same operation in all four.</p>
+<table>
+<thead>
+<tr>
+<th>Array</th>
+<th>Size</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CT_SUCCESS</code></td>
+<td>17</td>
+<td>Success counter names, <code>GENA01&lt;OP&gt;&lt;ENT&gt;00</code>.</td>
+</tr>
+<tr>
+<td><code>CT_ERROR</code></td>
+<td>17</td>
+<td>Error counter names, <code>GENA01&lt;OP&gt;&lt;ENT&gt;99</code>.</td>
+</tr>
+<tr>
+<td><code>CT_CODE</code></td>
+<td>17</td>
+<td>3-character code used to build the rate queue name <code>GENA&lt;code&gt;V</code>.</td>
+</tr>
+<tr>
+<td><code>CT_OPS</code></td>
+<td>17 chars</td>
+<td>Operation type per entry: <code>I</code> inquire, <code>A</code> add, <code>U</code> update, <code>D</code> delete.</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, <code>GENACUSTNUM</code> is queried once as a stand-alone metric. It is not part of the success or error totals.</p>
+<h3 id="43-end-to-end-processing-flow" tabindex="-1">4.3 End-to-End Processing Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Start LGWEBST5 via SSST]) --> B["Capture EIB fields<br>ASKTIME / FORMATTIME"]
+    B --> C["CALL TRAN_RATE_INTERVAL"]
+    C --> D["Zero accumulators<br>COUNTSUCCESS COUNTERRORS<br>COUNTINQ COUNTADD COUNTUPD COUNTDEL"]
+    D --> E["QUERY COUNTER GENACUSTNUM<br>TSQ GENAX05V via TRAN_RATE_COUNTS"]
+    E --> F["DO I = 1 TO 17"]
+    F --> G["QUERY COUNTER CT_SUCCESS I<br>COUNTSUCCESS += COUNTVAL"]
+    G --> H{"CT_OPS I"}
+    H -- I --> H1["COUNTINQ += COUNTVAL"]
+    H -- A --> H2["COUNTADD += COUNTVAL"]
+    H -- U --> H3["COUNTUPD += COUNTVAL"]
+    H -- D --> H4["COUNTDEL += COUNTVAL"]
+    H1 --> J
+    H2 --> J
+    H3 --> J
+    H4 --> J["TSQ name = GENA + CT_CODE I + V<br>CALL TRAN_RATE_COUNTS"]
+    J --> K["QUERY COUNTER CT_ERROR I<br>COUNTERRORS += COUNTVAL"]
+    K --> L{"More entries?"}
+    L -- Yes --> G
+    L -- No --> M["Write totals to GENAX00V to GENAX04V<br>via TRAN_RATE_COUNTS"]
+    M --> N([EXEC CICS RETURN])
+</div>
+<h3 id="44-interval-calculation-tran_rate_interval" tabindex="-1">4.4 Interval Calculation (<code>TRAN_RATE_INTERVAL</code>)</h3>
+<p>This procedure runs first, so the restart is scheduled before any statistics work.</p>
+<ol>
+<li>Read item 1 of <code>GENA000V</code>, the previous <code>HHMMSS</code>. If the read is not <code>NORMAL</code>, default <code>WS_OLDV</code> to <code>'120000'</code>.</li>
+<li>Delete the queue and write the current <code>HHMMSS</code> as item 1.</li>
+<li>Convert both times to seconds since midnight (<code>HH*3600 + MM*60 + SS</code>).</li>
+<li>Compute <code>ICOUNTVAL = ABS(NCOUNTVAL - OCOUNTVAL)</code> and write it as item 2.</li>
+<li>Schedule the next run.</li>
+</ol>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS START TRANSID(&#039;SSST&#039;)
+          AFTER MINUTES(1)
+          RESP(WS_RESP);</code></pre>
+</div>
+<h3 id="45-rate-tracking-tran_rate_counts" tabindex="-1">4.5 Rate Tracking (<code>TRAN_RATE_COUNTS</code>)</h3>
+<p>This reusable routine produces the <em>new / old / delta</em> triple for any queue name in <code>WS_TSQNAME</code>. It serves individual counters and roll-up totals alike.</p>
+<div class="mermaid">
+graph TD
+    S([Called with WS_TSQNAME and NRATEVAL]) --> R["READQ TS ITEM 1<br>9 characters"]
+    R --> Q{"RESP = NORMAL?"}
+    Q -- Yes --> Q1["ORATEVAL = WS_TSQDATA"]
+    Q -- No --> Q2["ORATEVAL = 0"]
+    Q1 --> D["DELETEQ TS"]
+    Q2 --> D
+    D --> W1["WRITEQ item 1 = NRATEVAL"]
+    W1 --> W2["WRITEQ item 2 = ORATEVAL"]
+    W2 --> W3["DRATEVAL = ABS NRATEVAL - ORATEVAL<br>WRITEQ item 3 = DRATEVAL"]
+    W3 --> E([Return])
+</div>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">DRATEVAL = ABS(NRATEVAL - ORATEVAL);</code></pre>
+</div>
+<h3 id="46-queue-output-map" tabindex="-1">4.6 Queue Output Map</h3>
+<table>
+<thead>
+<tr>
+<th>Queue</th>
+<th>Item 1</th>
+<th>Item 2</th>
+<th>Item 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GENA000V</code></td>
+<td>Current <code>HHMMSS</code> (6 chars)</td>
+<td>Elapsed seconds since the prior run</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>GENAX05V</code></td>
+<td><code>GENACUSTNUM</code> value</td>
+<td>Previous value</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENA&lt;code&gt;V</code> (×17)</td>
+<td>Current success counter value</td>
+<td>Previous value</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENAX00V</code></td>
+<td>Total successes</td>
+<td>Previous total</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENAX01V</code></td>
+<td>Total inquiries</td>
+<td>Previous</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENAX02V</code></td>
+<td>Total adds</td>
+<td>Previous</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENAX03V</code></td>
+<td>Total updates</td>
+<td>Previous</td>
+<td>Delta</td>
+</tr>
+<tr>
+<td><code>GENAX04V</code></td>
+<td>Total deletes</td>
+<td>Previous</td>
+<td>Delta</td>
+</tr>
+</tbody>
+</table>
+<p><code>COUNTERRORS</code> is accumulated but not written to any queue in the current implementation.</p>
+<h3 id="47-worked-examples" tabindex="-1">4.7 Worked Examples</h3>
+<p><strong>First run.</strong> No queues exist, so every old value is <code>0</code> and every delta equals the new value.</p>
+<table>
+<thead>
+<tr>
+<th>TSQ</th>
+<th>New / Old / Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GENA100V</code> (Inquire Customer = 50)</td>
+<td><code>000000050</code> / <code>000000000</code> / <code>000000050</code></td>
+</tr>
+<tr>
+<td><code>GENAX00V</code> (total successes)</td>
+<td><code>000000095</code> / <code>000000000</code> / <code>000000095</code></td>
+</tr>
+<tr>
+<td><code>GENAX01V</code> (inquiries 50+30)</td>
+<td><code>000000080</code> / <code>000000000</code> / <code>000000080</code></td>
+</tr>
+<tr>
+<td><code>GENAX02V</code> (adds 10+5)</td>
+<td><code>000000015</code> / <code>000000000</code> / <code>000000015</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Subsequent run.</strong> <code>GENA01ICUS00</code> has moved from 50 to 75, so 25 new successful customer inquiries occurred. <code>GENA100V</code> is rewritten as <code>000000075</code> / <code>000000050</code> / <code>000000025</code>. Dashboards read item 3 to show the per-interval rate.</p>
+<h2 id="5-sequence-of-operations" tabindex="-1">5. Sequence of Operations</h2>
+<h3 id="51-combined-runtime-sequence" tabindex="-1">5.1 Combined Runtime Sequence</h3>
+<p>The diagram below shows one business event processed by <code>LGASTAT1</code>, followed by one collection cycle of <code>LGWEBST5</code>.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant App as Business Transaction / EP Adapter
+    participant S1 as LGASTAT1
+    participant TS as CICS Temporary Storage
+    participant NC as Named Counter Pool GENA
+    participant CICS as CICS Scheduler (SSST)
+    participant W5 as LGWEBST5
+    participant Mon as Dashboard / Monitor
+
+    App->>S1: Event (containers or COMMAREA)
+    S1->>S1: Select input, normalize request and type
+    S1->>TS: READQ GENASTRT
+    alt QIDERR (first use)
+        S1->>TS: WRITEQ GENASTRT (date, time)
+    end
+    S1->>NC: GET COUNTER GENA request type
+    NC-->>S1: Counter value (TRANCOUNT)
+    S1-->>App: RETURN
+
+    CICS->>W5: Start SSST
+    W5->>TS: READQ / DELETEQ / WRITEQ GENA000V
+    W5->>CICS: START SSST AFTER 1 MINUTE
+    W5->>NC: QUERY COUNTER GENACUSTNUM
+    loop 17 operations
+        W5->>NC: QUERY COUNTER success
+        W5->>TS: Rewrite GENA code V (new, old, delta)
+        W5->>NC: QUERY COUNTER error
+    end
+    W5->>TS: Rewrite GENAX00V to GENAX04V
+    W5-->>CICS: RETURN
+    Mon->>TS: READQ rate queues (item 3 = delta)
+</div>
+<h3 id="52-collector-lifecycle" tabindex="-1">5.2 Collector Lifecycle</h3>
+<div class="mermaid">
+stateDiagram-v2
+    [*] --> Scheduled: First SSST start
+    Scheduled --> Running: Timer expires
+    Running --> Scheduled: START SSST AFTER MINUTES 1
+    Running --> Stopped: Abend before TRAN_RATE_INTERVAL completes
+    Stopped --> Scheduled: Manual restart of SSST
+</div>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-resources" tabindex="-1">6.1 CICS Resources</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Used by</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Named counter pool <code>GENA</code></td>
+<td>Both</td>
+<td>Must be defined in the region’s counter server configuration.</td>
+</tr>
+<tr>
+<td>TS queue <code>GENASTRT</code></td>
+<td><code>LGASTAT1</code></td>
+<td>Hard-coded name.</td>
+</tr>
+<tr>
+<td>TS queues <code>GENA000V</code>, <code>GENA&lt;code&gt;V</code>, <code>GENAX00V</code>–<code>GENAX05V</code></td>
+<td><code>LGWEBST5</code></td>
+<td>Global queues with static names.</td>
+</tr>
+<tr>
+<td>Channel containers <code>DFHEP.DATA.00001</code> / <code>00002</code></td>
+<td><code>LGASTAT1</code></td>
+<td>Must match the EP adapter configuration.</td>
+</tr>
+<tr>
+<td>Transaction <code>SSST</code></td>
+<td><code>LGWEBST5</code></td>
+<td>Defined in the CSD and mapped to program <code>LGWEBST5</code>.</td>
+</tr>
+<tr>
+<td><code>ASKTIME</code> / <code>FORMATTIME</code>, EIB</td>
+<td>Both</td>
+<td>Time services and task context.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-includes" tabindex="-1">6.2 Includes</h3>
+<p><code>LGASTAT1</code> uses <code>%INCLUDE LGCMAREA</code> (<code>plinc/LGCMAREA.inc</code>). It supplies the shared <code>COMM_AREA</code> layout, including the customer, policy, endowment, house, motor, commercial and claim sub-structures. The <code>COMM_AREA_RAW</code> overlay is <code>CHAR(32500)</code>.</p>
+<h3 id="63-counter-name-contract-between-the-programs" tabindex="-1">6.3 Counter-Name Contract Between the Programs</h3>
+<p>The two programs agree on counter names only by convention.</p>
+<ul>
+<li><code>LGASTAT1</code> builds names such as <code>GENA01ACUS00</code> / <code>GENA01ACUS99</code> (<code>GENA</code> + request + type).</li>
+<li><code>LGWEBST5</code> queries the static list <code>GENA01&lt;OP&gt;&lt;ENT&gt;00</code> / <code>99</code>.</li>
+</ul>
+<p>The normalization rules in <code>LGASTAT1</code> (<code>02ACUS</code>→<code>01ACUS</code>, <code>02ICOM</code>/<code>03ICOM</code>/<code>05ICOM</code>→<code>01ICOM</code>, non-zero→<code>99</code>) are what keep the counter set bounded. They are also what lets <code>LGWEBST5</code> use a fixed 17-entry catalog.</p>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-data-formats-and-sizes" tabindex="-1">7.1 Data Formats and Sizes</h3>
+<ul>
+<li><code>GENACOUNTER</code> is <code>CHAR(6)</code> and <code>GENATYPE</code> is <code>CHAR(2)</code>. The counter name is exactly 16 characters, and the pool is fixed at <code>GENA</code>.</li>
+<li><code>NRATEVAL</code>, <code>ORATEVAL</code> and <code>DRATEVAL</code> are <code>PIC '999999999'</code>, so values above 999,999,999 overflow.</li>
+<li>The <code>WS_TSQDATA</code> buffer is 9 characters. Interval values are 6 characters.</li>
+<li><code>ICOUNTVAL</code> is <code>PIC '999999'</code>.</li>
+<li>Queue names are exactly 8 characters (<code>GENA</code> + code).</li>
+</ul>
+<h3 id="72-sequencing" tabindex="-1">7.2 Sequencing</h3>
+<ul>
+<li>In <code>LGASTAT1</code>, containers are read before the COMMAREA fallback is evaluated. Normalization must precede <code>GET COUNTER</code>.</li>
+<li>In <code>LGWEBST5</code>, <code>TRAN_RATE_INTERVAL</code> runs first. Accumulators are zeroed before the loop. The aggregate queues are written only after the loop completes.</li>
+<li>Each run schedules exactly one successor. If a run fails before scheduling, the chain stops.</li>
+</ul>
+<h3 id="73-known-edge-cases" tabindex="-1">7.3 Known Edge Cases</h3>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Midnight crossing</td>
+<td><code>ABS()</code> prevents a negative interval but gives the wrong elapsed time. Example: previous <code>235500</code>, current <code>000100</code> gives <code>ABS(60 - 86100) = 86040</code> seconds instead of the true 360.</td>
+</tr>
+<tr>
+<td>First-run interval</td>
+<td>The default <code>'120000'</code> (noon) makes the first interval reflect time since noon.</td>
+</tr>
+<tr>
+<td><code>CT_OPS</code> values</td>
+<td>The <code>SELECT</code> has no <code>OTHERWISE</code>. Any character other than <code>I</code>, <code>A</code>, <code>U</code> or <code>D</code> is unhandled.</td>
+</tr>
+<tr>
+<td>Missing counter</td>
+<td><code>QUERY COUNTER</code> failures are not checked. A stale <code>COUNTVAL</code> may be accumulated.</td>
+</tr>
+<tr>
+<td>Queue sharing</td>
+<td>TSQ names are static, so the queues are shared by all concurrent instances.</td>
+</tr>
+<tr>
+<td>Restart interval</td>
+<td>Fixed at one minute and not configurable.</td>
+</tr>
+<tr>
+<td>Failure granularity</td>
+<td><code>LGASTAT1</code> reports only <code>00</code> or <code>99</code>. Per-error-code statistics are not available.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<p>Both programs use <code>RESP(...)</code> on every CICS command, which suppresses default abends and keeps control in the program. Only a few responses are actually inspected.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Condition</th>
+<th>Handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td>Container <code>GET</code> not <code>NORMAL</code></td>
+<td>Fall back to the COMMAREA.</td>
+</tr>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td>No COMMAREA (<code>EIBCALEN = 0</code>)</td>
+<td>Clean <code>RETURN</code> with no updates.</td>
+</tr>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td><code>READQ TS</code> returns <code>QIDERR</code></td>
+<td>Create the <code>GENASTRT</code> marker record.</td>
+</tr>
+<tr>
+<td><code>LGASTAT1</code></td>
+<td>Unknown or failing return codes</td>
+<td>Collapsed to <code>99</code>.</td>
+</tr>
+<tr>
+<td><code>LGWEBST5</code></td>
+<td><code>GENA000V</code> read not <code>NORMAL</code></td>
+<td><code>WS_OLDV = '120000'</code>.</td>
+</tr>
+<tr>
+<td><code>LGWEBST5</code></td>
+<td>Rate queue read not <code>NORMAL</code></td>
+<td><code>ORATEVAL = 0</code>, so the first delta equals the full value.</td>
+</tr>
+<tr>
+<td><code>LGWEBST5</code></td>
+<td><code>DELETEQ</code>, <code>WRITEQ</code>, <code>START</code> and <code>QUERY COUNTER</code> responses</td>
+<td>Captured but not evaluated (silent tolerance).</td>
+</tr>
+</tbody>
+</table>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Defensive default for a missing prior snapshot */
+IF WS_RESP = DFHRESP(NORMAL) THEN
+   ORATEVAL = WS_TSQDATA;
+ELSE
+   ORATEVAL = 0;</code></pre>
+</div>
+<h2 id="9-operational-guidance" tabindex="-1">9. Operational Guidance</h2>
+<ul>
+<li><strong>Reading the telemetry.</strong> Consumers should read items 1, 2 and 3 of each rate queue in order. Item 3 is the per-interval delta. Divide it by item 2 of <code>GENA000V</code> (elapsed seconds) to obtain a per-second rate.</li>
+<li><strong>Start-up.</strong> Define the <code>GENA</code> pool, the <code>SSST</code> transaction (program <code>LGWEBST5</code>) and the EP adapter. Start <code>SSST</code> once, and it perpetuates itself.</li>
+<li><strong>Monitoring the collector.</strong> If the rate queues stop updating, check whether <code>SSST</code> is still being scheduled. A failure before <code>TRAN_RATE_INTERVAL</code> completes breaks the chain.</li>
+<li><strong>Interpreting the first interval.</strong> Expect inflated first-cycle deltas and an anomalous first interval, because of the zero and <code>120000</code> defaults.</li>
+</ul>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="environment-setup-initialization.html" class="card">
+                <span class="card-title">Environment Setup &amp; Queue Management</span>
+                <span class="card-description">Application environment reset and configuration program initializing TSQs (control, statistics, errors), customer number ranges, and named counter pools.</span>
+            </a>
+            <a href="diagnostic-error-logging.html" class="card">
+                <span class="card-title">Centralized Error Logging &amp; Diagnostics</span>
+                <span class="card-description">Reusable error logging routine outputting diagnostic dumps, SQLCODEs, and response codes to Transient Data Queues (CSMT) and Temporary Storage Queues (GENAERRS).</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-overview">2.1 Component Overview</a></li>
+<li class="toc-level-3"><a href="#22-component-responsibilities">2.2 Component Responsibilities</a></li>
+<li class="toc-level-3"><a href="#23-entity-relationships">2.3 Entity Relationships</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-event-classification-with-lgastat1">3. Event Classification with LGASTAT1</a>
+<ul>
+<li class="toc-level-3"><a href="#31-purpose">3.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#32-inputs">3.2 Inputs</a></li>
+<li class="toc-level-3"><a href="#33-processing-flow">3.3 Processing Flow</a></li>
+<li class="toc-level-3"><a href="#34-input-selection-channel-first-commarea-fallback">3.4 Input Selection: Channel First, COMMAREA Fallback</a></li>
+<li class="toc-level-3"><a href="#35-first-use-initialization-marker">3.5 First-Use Initialization Marker</a></li>
+<li class="toc-level-3"><a href="#36-counter-name-normalization">3.6 Counter Name Normalization</a></li>
+<li class="toc-level-3"><a href="#37-counter-name-layout">3.7 Counter Name Layout</a></li>
+<li class="toc-level-3"><a href="#38-behavior-note-on-get-counter">3.8 Behavior Note on GET COUNTER</a></li>
+<li class="toc-level-3"><a href="#39-worked-examples">3.9 Worked Examples</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-continuous-collection-with-lgwebst5">4. Continuous Collection with LGWEBST5</a>
+<ul>
+<li class="toc-level-3"><a href="#41-purpose">4.1 Purpose</a></li>
+<li class="toc-level-3"><a href="#42-counter-catalog">4.2 Counter Catalog</a></li>
+<li class="toc-level-3"><a href="#43-end-to-end-processing-flow">4.3 End-to-End Processing Flow</a></li>
+<li class="toc-level-3"><a href="#44-interval-calculation-tran_rate_interval">4.4 Interval Calculation (TRAN_RATE_INTERVAL)</a></li>
+<li class="toc-level-3"><a href="#45-rate-tracking-tran_rate_counts">4.5 Rate Tracking (TRAN_RATE_COUNTS)</a></li>
+<li class="toc-level-3"><a href="#46-queue-output-map">4.6 Queue Output Map</a></li>
+<li class="toc-level-3"><a href="#47-worked-examples">4.7 Worked Examples</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-sequence-of-operations">5. Sequence of Operations</a>
+<ul>
+<li class="toc-level-3"><a href="#51-combined-runtime-sequence">5.1 Combined Runtime Sequence</a></li>
+<li class="toc-level-3"><a href="#52-collector-lifecycle">5.2 Collector Lifecycle</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-resources">6.1 CICS Resources</a></li>
+<li class="toc-level-3"><a href="#62-includes">6.2 Includes</a></li>
+<li class="toc-level-3"><a href="#63-counter-name-contract-between-the-programs">6.3 Counter-Name Contract Between the Programs</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-data-formats-and-sizes">7.1 Data Formats and Sizes</a></li>
+<li class="toc-level-3"><a href="#72-sequencing">7.2 Sequencing</a></li>
+<li class="toc-level-3"><a href="#73-known-edge-cases">7.3 Known Edge Cases</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a></li>
+<li class="toc-level-2"><a href="#9-operational-guidance">9. Operational Guidance</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>
