@@ -162,8 +162,3 @@ graph TD
     end
 ```
 
-### Interactive Zoomable Diagram
-
-For high-resolution exploration with **pan**, **smooth zoom (20% – 800%)**, **drag-to-pan**, **node highlighting**, and **caller/callee relationship inspection**, open the interactive standalone HTML diagram:
-
-👉 [`docs/Customer-Domain-Diagram.html`](docs/Customer-Domain-Diagram.html)
