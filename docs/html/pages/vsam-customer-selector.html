@@ -1,0 +1,1402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Customer Selector (LGICVS01) - GenApp General Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp General Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="data-dependencies.html" class="nav-link" data-page-id="data-dependencies">DB2 Table &amp; Program Dependencies</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-inquiry-update.html" class="nav-link" data-page-id="customer-inquiry-update">Customer Inquiry &amp; Update Programs</a>
+                <a href="customer-add-delete.html" class="nav-link" data-page-id="customer-add-delete">Customer Add &amp; Delete Programs</a>
+                <a href="customer-security-vsam.html" class="nav-link" data-page-id="customer-security-vsam">Customer Security &amp; VSAM Layer</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry Programs</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add Programs</a>
+                <a href="policy-update-delete.html" class="nav-link" data-page-id="policy-update-delete">Policy Update &amp; Delete Programs</a>
+                <a href="policy-vsam-layer.html" class="nav-link" data-page-id="policy-vsam-layer">Policy VSAM Layer</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch &amp; Reporting Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="batch-customer-report.html" class="nav-link" data-page-id="batch-customer-report">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+                <a href="statistics-monitoring.html" class="nav-link" data-page-id="statistics-monitoring">Statistics &amp; Monitoring</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">CICS Interactive Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu.html" class="nav-link" data-page-id="customer-menu">Customer CICS Interactive Menu (LGTESTC1)</a>
+                <a href="policy-menus-motor-endowment.html" class="nav-link" data-page-id="policy-menus-motor-endowment">Policy CICS Menus — Motor &amp; Endowment</a>
+                <a href="policy-menus-house-commercial.html" class="nav-link" data-page-id="policy-menus-house-commercial">Policy CICS Menus — House &amp; Commercial</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Initialisation (LGSETUP)</a>
+                <a href="logging-utility.html" class="nav-link" data-page-id="logging-utility">Error Logging Utility (LGSTSQ)</a>
+                <a href="vsam-customer-selector.html" class="nav-link active" data-page-id="vsam-customer-selector">Random Customer Selector (LGICVS01)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Migration &amp; Impact Analysis</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-table-remote-db-migration.html" class="nav-link" data-page-id="customer-table-remote-db-migration">Customer Table Remote DB Migration Impact Analysis</a>
+                <a href="customer-domain-migration-risks.html" class="nav-link" data-page-id="customer-domain-migration-risks">Customer Domain Migration Risk Assessment</a>
+                <a href="pl1-db2-inventory.html" class="nav-link" data-page-id="pl1-db2-inventory">PL/I Program &amp; DB2 Table Inventory</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(1)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGICVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGICVS01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="random-customer-selector-lgicvs01" tabindex="-1">Random Customer Selector (LGICVS01)</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p><code>LGICVS01</code> is a CICS PL/I utility in the General Insurance Application (GenApp). It randomly selects a valid customer number from the VSAM KSDS customer file <code>KSDSCUST</code>.</p>
+<p>The program works in these steps:</p>
+<ol>
+<li>It works out how it was invoked. A caller may have used <code>EXEC CICS LINK</code> with a COMMAREA, or a user may have started it from a terminal.</li>
+<li>It reads the <code>GENACNTL</code> temporary storage queue (TSQ) to get the lower and upper customer-number boundaries. An <code>ENQ</code>/<code>DEQ</code> pair serialises this access. If the control records are missing, the program writes them with defaults.</li>
+<li>It seeds PL/I <code>RANDOM</code> with the CICS task number (<code>EIBTASKN</code>) and computes a random number in the configured range.</li>
+<li>It issues a <code>GTEQ</code> read against <code>KSDSCUST</code> to find the nearest real customer key.</li>
+<li>It returns the resolved customer number in the COMMAREA (linked callers) or with <code>EXEC CICS SEND TEXT</code> (terminal users). It then issues <code>EXEC CICS RETURN</code>.</li>
+</ol>
+<h3 id="11-key-characteristics" tabindex="-1">1.1 Key Characteristics</h3>
+<table>
+<thead>
+<tr>
+<th>Characteristic</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language</td>
+<td>Enterprise PL/I (<code>Proc(COMM_AREA_PTR) Options(Main)</code>)</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>CICS Transaction Server</td>
+</tr>
+<tr>
+<td>Data stores</td>
+<td>VSAM KSDS <code>KSDSCUST</code>; TS queue <code>GENACNTL</code> (no Db2)</td>
+</tr>
+<tr>
+<td>Invocation modes</td>
+<td>CICS LINK/COMMAREA (<code>WS_FLAG = 'C'</code>) or terminal (<code>WS_FLAG = 'R'</code>)</td>
+</tr>
+<tr>
+<td>Serialisation</td>
+<td><code>EXEC CICS ENQ</code>/<code>DEQ</code> on resource <code>GENACNTL</code></td>
+</tr>
+<tr>
+<td>Default range</td>
+<td><code>1000001</code> to <code>1000001</code></td>
+</tr>
+<tr>
+<td>Program structure</td>
+<td>A single mainline procedure with no internal sub-procedures</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-architecture" tabindex="-1">2.1 Component Architecture</h3>
+<div class="mermaid">
+graph TD
+    Caller[Calling Program<br>CICS LINK + COMMAREA] --> LGICVS01
+    Terminal[3270 Terminal User] --> LGICVS01
+
+    subgraph CICS[CICS Region]
+        LGICVS01[LGICVS01<br>PL/I Main Program]
+        ENQ[ENQ / DEQ<br>Resource GENACNTL]
+        TSQ[(TS Queue<br>GENACNTL)]
+        VSAM[(VSAM KSDS<br>KSDSCUST)]
+        LGICVS01 --> ENQ
+        ENQ --> TSQ
+        LGICVS01 --> VSAM
+    end
+
+    LGICVS01 -- COMMAREA result --> Caller
+    LGICVS01 -- SEND TEXT --> Terminal
+</div>
+<p>The program sits between its callers and two CICS-managed resources. The <code>GENACNTL</code> TS queue holds the range configuration. <code>KSDSCUST</code> holds the actual customers. An enqueue on <code>GENACNTL</code> protects the queue during read and initialisation.</p>
+<h3 id="22-component-responsibilities" tabindex="-1">2.2 Component Responsibilities</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGICVS01</code></td>
+<td>PL/I CICS program</td>
+<td>Orchestrates mode detection, range retrieval, random selection and result delivery</td>
+</tr>
+<tr>
+<td><code>GENACNTL</code></td>
+<td>CICS temporary storage queue</td>
+<td>Stores an eyecatcher, a <code>LOW CUSTOMER=</code> record and a <code>HIGH CUSTOMER=</code> record</td>
+</tr>
+<tr>
+<td><code>KSDSCUST</code></td>
+<td>VSAM KSDS file</td>
+<td>Customer master records; the 10-byte customer number is the key</td>
+</tr>
+<tr>
+<td>ENQ/DEQ on <code>GENACNTL</code></td>
+<td>CICS serialisation</td>
+<td>Prevents concurrent tasks from reading or initialising the queue at the same time</td>
+</tr>
+<tr>
+<td><code>COMMA_DATA</code></td>
+<td>Based structure (84 bytes)</td>
+<td>Returns the result to a linking program</td>
+</tr>
+<tr>
+<td>Terminal</td>
+<td>3270 session</td>
+<td>Interactive invocation and output via <code>RECEIVE</code>/<code>SEND TEXT</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-data-entities" tabindex="-1">2.3 Data Entities</h3>
+<div class="mermaid">
+erDiagram
+    KSDSCUST {
+        string CA_CUSTOMER_NUM "length 10 - KSDS key"
+        string CA_REST "length 215 - remaining customer data"
+    }
+    GENACNTL_TS_QUEUE {
+        string EYECATCHER "length 20 - **** GENAPP CNTL"
+        string LOW_CUSTOMER_LABEL "length 13 - LOW CUSTOMER="
+        decimal LOW_CUSTOMER_VALUE "length 10 - lower boundary"
+        string HIGH_CUSTOMER_LABEL "length 14 - HIGH CUSTOMER="
+        decimal HIGH_CUSTOMER_VALUE "length 10 - upper boundary"
+    }
+    COMMA_DATA {
+        string COMMA_DATA_H "length 14"
+        decimal COMMA_DATA_HIGH "length 10"
+        string COMMA_DATA_FILL "length 60"
+    }
+    GENACNTL_TS_QUEUE ||--|| KSDSCUST : "range bounds the random key used to read"
+    KSDSCUST ||--o| COMMA_DATA : "resolved key returned in"
+</div>
+<h2 id="3-inputs" tabindex="-1">3. Inputs</h2>
+<h3 id="31-cics-execution-environment-eib-fields" tabindex="-1">3.1 CICS Execution Environment (EIB Fields)</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EIBTASKN</code></td>
+<td>Task number. It seeds the PL/I <code>RANDOM</code> built-in.</td>
+</tr>
+<tr>
+<td><code>EIBCALEN</code></td>
+<td>COMMAREA length. It is assigned to <code>WS_RECV_LEN</code> in COMMAREA mode.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-cics-assign-values" tabindex="-1">3.2 CICS ASSIGN Values</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Target</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STARTCODE</code></td>
+<td><code>WS_STARTCODE</code> (2 chars)</td>
+<td>A first character of <code>'D'</code> means the program was not started interactively.</td>
+</tr>
+<tr>
+<td><code>INVOKINGPROG</code></td>
+<td><code>WS_INVOKEPROG</code> (8 chars)</td>
+<td>A non-blank value means the program was linked from another program.</td>
+</tr>
+<tr>
+<td><code>SYSID</code></td>
+<td><code>WS_SYSID</code> (4 chars)</td>
+<td>Local system ID. It is retrieved but not used in the logic.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-program-parameter-commarea" tabindex="-1">3.3 Program Parameter (COMMAREA)</h3>
+<p><code>COMM_AREA_PTR</code> points to the <code>COMMA_DATA</code> based structure:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COMMA_DATA_H</code></td>
+<td>14 characters</td>
+<td>Header such as <code>'HIGH CUSTOMER='</code></td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_HIGH</code></td>
+<td><code>PIC '(10)9'</code></td>
+<td>Receives the resolved customer number</td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_FILL</code></td>
+<td>60 characters</td>
+<td>Filler, blanked on return</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-terminal-input" tabindex="-1">3.4 Terminal Input</h3>
+<p>In terminal mode the program issues <code>EXEC CICS RECEIVE INTO(WS_RECV)</code>. The 80-byte buffer holds <code>WS_RECV_TRANID</code> (5 characters) followed by <code>WS_RECV_DATA</code> (74 characters).</p>
+<h3 id="35-ts-queue-genacntl" tabindex="-1">3.5 TS Queue <code>GENACNTL</code></h3>
+<p>The program reads the queue sequentially and looks for these records:</p>
+<ul>
+<li><strong><code>LOW CUSTOMER</code></strong> is the lower bound (<code>READ_CUST_LOW</code> → <code>WS_CUST_LOW</code>). The default is <code>1000001</code>.</li>
+<li><strong><code>HIGH CUSTOMER</code></strong> is the upper bound (<code>READ_CUST_HIGH</code> → <code>WS_CUST_HIGH</code>). The default is <code>1000001</code>.</li>
+</ul>
+<h3 id="36-vsam-file-ksdscust" tabindex="-1">3.6 VSAM File <code>KSDSCUST</code></h3>
+<p>The program reads this file with a <code>GTEQ</code> search into the 225-byte <code>CA_AREA</code>. The first 10 characters, <code>CA_CUSTOMER_NUM</code>, hold the actual customer key.</p>
+<h2 id="4-outputs" tabindex="-1">4. Outputs</h2>
+<h3 id="41-ts-queue-writes-genacntl" tabindex="-1">4.1 TS Queue Writes (<code>GENACNTL</code>)</h3>
+<p>The program writes records only when they are missing:</p>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Variable</th>
+<th>Length</th>
+<th>Written when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eyecatcher <code>**** GENAPP CNTL</code></td>
+<td><code>WRITE_MSG_E</code></td>
+<td>20 bytes</td>
+<td><code>WS_FLAG_TSQE = 'Y'</code> (queue absent)</td>
+</tr>
+<tr>
+<td><code>LOW CUSTOMER=</code> + value</td>
+<td><code>WRITE_MSG_L</code></td>
+<td>23 bytes</td>
+<td><code>WS_FLAG_TSQL = 'Y'</code></td>
+</tr>
+<tr>
+<td><code>HIGH CUSTOMER=</code> + value</td>
+<td><code>WRITE_MSG_H</code></td>
+<td>24 bytes</td>
+<td><code>WS_FLAG_TSQH = 'Y'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-commarea-return-ws_flag--c" tabindex="-1">4.2 COMMAREA Return (<code>WS_FLAG = 'C'</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COMMA_DATA_H</code></td>
+<td><code>'HIGH CUSTOMER='</code> label from <code>WRITE_MSG_H</code></td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_HIGH</code></td>
+<td>The resolved customer number (<code>WRITE_MSG_HIGH</code>)</td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_FILL</code></td>
+<td>60 spaces</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-terminal-output-ws_flag--r" tabindex="-1">4.3 Terminal Output (<code>WS_FLAG = 'R'</code>)</h3>
+<p>The program sends the 24-byte <code>WRITE_MSG_H</code> (label plus customer number) with <code>EXEC CICS SEND TEXT</code>, using <code>ERASE</code>, <code>FREEKB</code> and <code>WAIT</code>.</p>
+<h2 id="5-processing-logic" tabindex="-1">5. Processing Logic</h2>
+<h3 id="51-flow-diagram" tabindex="-1">5.1 Flow Diagram</h3>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#4caf82,color:#000
+    classDef process fill:#c7ceea,stroke:#6c72cb,color:#000
+    classDef decision fill:#ffdac1,stroke:#ff9966,color:#000
+    classDef io fill:#fff1ba,stroke:#f0c040,color:#000
+    classDef tsq fill:#e2f0cb,stroke:#78b159,color:#000
+
+    A([Start LGICVS01]):::startEnd
+    B[ASSIGN SYSID<br>ASSIGN STARTCODE<br>ASSIGN INVOKINGPROG]:::io
+    C{{STARTCODE starts with D<br>OR INVOKINGPROG not blank}}:::decision
+    D[WS_FLAG = C<br>Copy COMMAREA header<br>Length from EIBCALEN]:::process
+    E[EXEC CICS RECEIVE<br>WS_FLAG = R]:::io
+    F[Initialize range<br>LOW = HIGH = 1000001<br>All TS flags = Y]:::process
+    G[EXEC CICS ENQ<br>Resource GENACNTL]:::process
+    H[READQ TS GENACNTL<br>Item 1]:::io
+    I{{RESP = NORMAL<br>Queue exists}}:::decision
+    J[WS_FLAG_TSQE = space]:::process
+    K[READQ TS NEXT]:::io
+    L{{LOW CUSTOMER record}}:::decision
+    M[WS_CUST_LOW set<br>WS_FLAG_TSQL = space]:::process
+    N{{HIGH CUSTOMER record}}:::decision
+    O[WS_CUST_HIGH set<br>WS_FLAG_TSQH = space]:::process
+    P{{RESP = NORMAL<br>More records}}:::decision
+    Q{{TSQE = Y}}:::decision
+    R[WRITEQ TS eyecatcher]:::tsq
+    S{{TSQL = Y}}:::decision
+    T[WRITEQ TS LOW CUSTOMER]:::tsq
+    U{{TSQH = Y}}:::decision
+    V[WRITEQ TS HIGH CUSTOMER]:::tsq
+    W[EXEC CICS DEQ<br>Resource GENACNTL]:::process
+    X[RANDOM seeded with EIBTASKN<br>within LOW to HIGH]:::process
+    Y[READ FILE KSDSCUST GTEQ]:::io
+    Z{{RESP = NORMAL}}:::decision
+    AA[WRITE_MSG_HIGH =<br>CA_CUSTOMER_NUM]:::process
+    AB{{WS_FLAG = C}}:::decision
+    AC[Populate COMMAREA<br>COMMA_DATA_HIGH]:::io
+    AD[EXEC CICS SEND TEXT]:::io
+    AE([EXEC CICS RETURN]):::startEnd
+
+    A --> B --> C
+    C -- Yes --> D
+    C -- No --> E
+    D --> F
+    E --> F
+    F --> G --> H --> I
+    I -- Yes --> J --> K --> L
+    L -- Yes --> M --> N
+    L -- No --> N
+    N -- Yes --> O --> P
+    N -- No --> P
+    P -- Yes --> K
+    P -- No --> Q
+    I -- No --> Q
+    Q -- Yes --> R --> S
+    Q -- No --> S
+    S -- Yes --> T --> U
+    S -- No --> U
+    U -- Yes --> V --> W
+    U -- No --> W
+    W --> X --> Y --> Z
+    Z -- Yes --> AA --> AB
+    Z -- No --> AB
+    AB -- Yes --> AC --> AE
+    AB -- No --> AD --> AE
+</div>
+<h3 id="52-sequence-of-operations" tabindex="-1">5.2 Sequence of Operations</h3>
+<p>The sequence below covers a call through CICS LINK when the queue is already populated.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant Caller as Calling Program
+    participant PGM as LGICVS01
+    participant CICS as CICS Services
+    participant TSQ as TSQ GENACNTL
+    participant VS as KSDSCUST
+
+    Caller->>PGM: EXEC CICS LINK (COMMAREA)
+    PGM->>CICS: ASSIGN SYSID / STARTCODE / INVOKINGPROG
+    CICS-->>PGM: Environment values
+    PGM->>PGM: WS_FLAG = C, defaults LOW=HIGH=1000001
+    PGM->>CICS: ENQ RESOURCE(GENACNTL)
+    PGM->>TSQ: READQ TS ITEM(1)
+    TSQ-->>PGM: Eyecatcher (queue exists)
+    loop until RESP > 0
+        PGM->>TSQ: READQ TS NEXT
+        TSQ-->>PGM: LOW / HIGH CUSTOMER records
+    end
+    PGM->>TSQ: WRITEQ TS (only missing records)
+    PGM->>CICS: DEQ RESOURCE(GENACNTL)
+    PGM->>PGM: RANDOM(EIBTASKN) within LOW..HIGH
+    PGM->>VS: READ FILE GTEQ RIDFLD(random)
+    VS-->>PGM: CA_AREA (CA_CUSTOMER_NUM)
+    PGM-->>Caller: COMMAREA with COMMA_DATA_HIGH
+    PGM->>CICS: RETURN
+</div>
+<h3 id="53-processing-steps" tabindex="-1">5.3 Processing Steps</h3>
+<h4 id="531-determine-invocation-mode" tabindex="-1">5.3.1 Determine Invocation Mode</h4>
+<p>The program issues three <code>ASSIGN</code> commands. If <code>STARTCODE</code> begins with <code>'D'</code> or <code>INVOKINGPROG</code> is not blank, it sets <code>WS_FLAG = 'C'</code>. It then copies the COMMAREA header and takes the length from <code>EIBCALEN</code>. Otherwise it issues <code>RECEIVE</code> and sets <code>WS_FLAG = 'R'</code>.</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF SUBSTR(WS_STARTCODE,1,1) = &#039;D&#039; | WS_INVOKEPROG ^= &#039; &#039; THEN DO;
+   WS_FLAG = &#039;C&#039;;
+   WS_COMMAREA = COMMA_DATA_H;
+   WS_RECV_LEN = EIBCALEN;
+END;
+ELSE DO;
+   EXEC CICS RECEIVE INTO(WS_RECV) LENGTH(WS_RECV_LEN);
+   WS_FLAG = &#039;R&#039;;
+   WS_COMMAREA = WS_RECV_DATA;
+   WS_RECV_LEN = WS_RECV_LEN - 5;
+END;</code></pre>
+</div>
+<h4 id="532-initialise-range-defaults" tabindex="-1">5.3.2 Initialise Range Defaults</h4>
+<p><code>WS_CUST_LOW</code> and <code>WS_CUST_HIGH</code> both start at <code>1000001</code>. All three TS-queue flags (<code>WS_FLAG_TSQE</code>, <code>WS_FLAG_TSQH</code>, <code>WS_FLAG_TSQL</code>) start as <code>'Y'</code>. This means every record is assumed missing until the read proves otherwise.</p>
+<h4 id="533-serialise-and-read-the-control-queue" tabindex="-1">5.3.3 Serialise and Read the Control Queue</h4>
+<p>The program takes an exclusive enqueue on <code>GENACNTL</code>, then reads item 1.</p>
+<ul>
+<li>If item 1 is read normally, the queue exists. The program clears <code>WS_FLAG_TSQE</code>. It then loops with <code>READQ TS NEXT</code> until <code>WS_RESP &gt; 0</code>.</li>
+<li>A record starting with <code>'LOW CUSTOMER'</code> sets <code>WS_CUST_LOW</code> and clears <code>WS_FLAG_TSQL</code>.</li>
+<li>A record starting with <code>'HIGH CUSTOMER'</code> sets <code>WS_CUST_HIGH</code> and clears <code>WS_FLAG_TSQH</code>.</li>
+</ul>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS ENQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));
+EXEC CICS READQ TS QUEUE(STSQ_NAME) INTO(READ_MSG) ITEM(1) RESP(WS_RESP);</code></pre>
+</div>
+<h4 id="534-write-missing-control-records" tabindex="-1">5.3.4 Write Missing Control Records</h4>
+<p>The program writes any record whose flag is still <code>'Y'</code>, using <code>NOSUSPEND</code>. It then releases the enqueue.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Record written</th>
+<th>Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_FLAG_TSQE = 'Y'</code></td>
+<td><code>**** GENAPP CNTL</code></td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>WS_FLAG_TSQL = 'Y'</code></td>
+<td><code>LOW CUSTOMER=nnnnnnnnnn</code></td>
+<td>23</td>
+</tr>
+<tr>
+<td><code>WS_FLAG_TSQH = 'Y'</code></td>
+<td><code>HIGH CUSTOMER=nnnnnnnnnn</code></td>
+<td>24</td>
+</tr>
+</tbody>
+</table>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS DEQ RESOURCE(STSQ_NAME) LENGTH(STG(STSQ_NAME));</code></pre>
+</div>
+<h4 id="535-generate-the-random-customer-number" tabindex="-1">5.3.5 Generate the Random Customer Number</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">WS_RANDOM_NUMBER = FLOOR(RANDOM(EIBTASKN) * FLOAT(WS_CUST_HIGH - WS_CUST_LOW)
+                         + WS_CUST_LOW);</code></pre>
+</div>
+<p>The task number seeds <code>RANDOM</code>, so different tasks usually get different numbers. The result goes into <code>WRITE_MSG_HIGH</code>, which is reused as the VSAM search key.</p>
+<h4 id="536-resolve-the-nearest-real-customer" tabindex="-1">5.3.6 Resolve the Nearest Real Customer</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS READ FILE(&#039;KSDSCUST&#039;) INTO(CA_AREA) LENGTH(F82)
+     RIDFLD(WRITE_MSG_HIGH) KEYLENGTH(F10) RESP(WS_RESP) GTEQ;</code></pre>
+</div>
+<p><code>GTEQ</code> returns the first record whose key is greater than or equal to the random value. On <code>DFHRESP(NORMAL)</code>, <code>CA_CUSTOMER_NUM</code> replaces the random value in <code>WRITE_MSG_HIGH</code>.</p>
+<h4 id="537-return-the-result" tabindex="-1">5.3.7 Return the Result</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">SELECT (WS_FLAG);
+  WHEN (&#039;C&#039;) DO;
+     COMMA_DATA_H    = WRITE_MSG_H;
+     COMMA_DATA_HIGH = WRITE_MSG_HIGH;
+     COMMA_DATA_FILL = (60)&#039; &#039;;
+  END;
+  OTHERWISE
+     EXEC CICS SEND TEXT FROM(WRITE_MSG_H) LENGTH(24)
+          WAIT ERASE TERMINAL FREEKB;
+END;
+EXEC CICS RETURN;</code></pre>
+</div>
+<h3 id="54-logical-phases-paragraph-equivalents" tabindex="-1">5.4 Logical Phases (Paragraph Equivalents)</h3>
+<p><code>LGICVS01</code> has no sub-procedures. Its mainline divides into these logical phases:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invocation Mode Detection</td>
+<td><code>ASSIGN</code> calls, then <code>WS_FLAG = 'C'</code> or <code>'R'</code></td>
+</tr>
+<tr>
+<td>TS Queue Initialisation and Reset</td>
+<td>Set defaults and flags</td>
+</tr>
+<tr>
+<td>TS Queue Read</td>
+<td><code>ENQ</code>, then <code>READQ TS</code> loop</td>
+</tr>
+<tr>
+<td>TS Queue Write</td>
+<td>Conditional <code>WRITEQ TS</code>, then <code>DEQ</code></td>
+</tr>
+<tr>
+<td>Random Number Generation</td>
+<td><code>RANDOM</code>/<code>FLOOR</code> computation</td>
+</tr>
+<tr>
+<td>VSAM KSDS Read</td>
+<td><code>READ FILE GTEQ</code></td>
+</tr>
+<tr>
+<td>Result Dispatch</td>
+<td><code>SELECT (WS_FLAG)</code>, then <code>RETURN</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="55-external-interactions" tabindex="-1">5.5 External Interactions</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Commands</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GENACNTL</code> TSQ</td>
+<td><code>ENQ</code>, <code>READQ TS</code>, <code>WRITEQ TS</code>, <code>DEQ</code></td>
+<td>Read and initialise range control records</td>
+</tr>
+<tr>
+<td><code>KSDSCUST</code></td>
+<td><code>READ FILE GTEQ</code></td>
+<td>Find the nearest real customer at or above the random key</td>
+</tr>
+<tr>
+<td>Terminal</td>
+<td><code>RECEIVE</code>, <code>SEND TEXT</code></td>
+<td>Interactive input and output</td>
+</tr>
+<tr>
+<td>COMMAREA</td>
+<td>Pointer-based read and write</td>
+<td>Return the result to the LINK caller</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-dependencies" tabindex="-1">6. Dependencies</h2>
+<h3 id="61-cics-commands" tabindex="-1">6.1 CICS Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ASSIGN SYSID</code> / <code>STARTCODE</code> / <code>INVOKINGPROG</code></td>
+<td>Environment and mode detection</td>
+</tr>
+<tr>
+<td><code>RECEIVE</code></td>
+<td>Terminal input</td>
+</tr>
+<tr>
+<td><code>ENQ</code> / <code>DEQ</code></td>
+<td>Serialise access to <code>GENACNTL</code></td>
+</tr>
+<tr>
+<td><code>READQ TS</code> / <code>WRITEQ TS</code></td>
+<td>Read and initialise control records</td>
+</tr>
+<tr>
+<td><code>READ FILE ... GTEQ</code></td>
+<td>Locate the nearest customer</td>
+</tr>
+<tr>
+<td><code>SEND TEXT</code></td>
+<td>Terminal output</td>
+</tr>
+<tr>
+<td><code>RETURN</code></td>
+<td>End of task</td>
+</tr>
+</tbody>
+</table>
+<p>The program also uses <code>DFHRESP(NORMAL)</code>, <code>EIBCALEN</code> and <code>EIBTASKN</code>.</p>
+<h3 id="62-resources" tabindex="-1">6.2 Resources</h3>
+<ul>
+<li><strong>VSAM:</strong> <code>KSDSCUST</code>, a KSDS with a 10-byte key and 225-byte records as read.</li>
+<li><strong>TS queue:</strong> <code>GENACNTL</code> (<code>STSQ_NAME</code>), holding the eyecatcher, <code>LOW CUSTOMER</code> and <code>HIGH CUSTOMER</code> records.</li>
+</ul>
+<h3 id="63-invocation-interface" tabindex="-1">6.3 Invocation Interface</h3>
+<ul>
+<li><code>COMM_AREA_PTR</code> points to the 84-byte <code>COMMA_DATA</code> structure.</li>
+<li><code>WS_RECV</code> is an 80-byte terminal buffer: 5 bytes of transaction ID plus 74 bytes of data.</li>
+</ul>
+<h3 id="64-pli-built-ins" tabindex="-1">6.4 PL/I Built-ins</h3>
+<table>
+<thead>
+<tr>
+<th>Built-in</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RANDOM(seed)</code></td>
+<td>Pseudo-random value in [0,1), seeded with <code>EIBTASKN</code></td>
+</tr>
+<tr>
+<td><code>FLOOR</code></td>
+<td>Truncate to an integer</td>
+</tr>
+<tr>
+<td><code>FLOAT</code></td>
+<td>Convert the range width to floating point</td>
+</tr>
+<tr>
+<td><code>SUBSTR</code></td>
+<td>Detect <code>'LOW CUSTOMER'</code> and <code>'HIGH CUSTOMER'</code> prefixes and the start code</td>
+</tr>
+<tr>
+<td><code>STG</code></td>
+<td>Supply the length of <code>STSQ_NAME</code> for <code>ENQ</code>/<code>DEQ</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-constraints" tabindex="-1">7. Constraints</h2>
+<h3 id="71-invocation-mode" tabindex="-1">7.1 Invocation Mode</h3>
+<ul>
+<li>The two modes are mutually exclusive, and the output path is fixed by <code>WS_FLAG</code> at detection time.</li>
+<li>The program dereferences <code>COMM_AREA_PTR</code> without an <code>EIBCALEN</code> guard. An absent COMMAREA in LINK mode is therefore unsafe.</li>
+<li>The terminal buffer is 80 bytes. Longer input is truncated, and at most 74 data characters remain after the transaction ID.</li>
+</ul>
+<h3 id="72-serialisation" tabindex="-1">7.2 Serialisation</h3>
+<ul>
+<li><code>ENQ</code> is issued before any access to the TS queue, and <code>DEQ</code> is issued after the last read or write.</li>
+<li>The VSAM read and the output steps run outside the ENQ/DEQ bracket.</li>
+<li>Reads must come before writes. The read determines whether the records already exist.</li>
+</ul>
+<h3 id="73-ts-queue-content" tabindex="-1">7.3 TS Queue Content</h3>
+<ul>
+<li>Each control record is written only when it is absent, so duplicates are avoided.</li>
+<li>The read loop ends on the first non-NORMAL response, for example <code>ITEMERR</code>.</li>
+<li><code>WRITEQ TS</code> uses <code>NOSUSPEND</code>, and its response is not checked. A failed write can leave the queue partly initialised without any signal.</li>
+</ul>
+<h3 id="74-customer-number-range" tabindex="-1">7.4 Customer Number Range</h3>
+<ul>
+<li>The default range is <code>[1000001, 1000001]</code>, which is a zero-width range.</li>
+<li><code>RANDOM</code> returns a value in [0,1), so the result falls in <code>[LOW, HIGH)</code>.</li>
+<li>The seed is the task number, so the same task number always gives the same value.</li>
+<li>There is no upper-bound guard. If the random key is above the highest key in <code>KSDSCUST</code>, the read returns a non-NORMAL response and the raw random value is returned.</li>
+</ul>
+<h3 id="75-vsam-access" tabindex="-1">7.5 VSAM Access</h3>
+<ul>
+<li><code>F82</code> is 225 bytes and must match the <code>CA_AREA</code> length.</li>
+<li><code>F10</code> is the 10-byte key length and must match the cluster definition. A mismatch causes <code>LENGERR</code>.</li>
+<li>Only <code>CA_CUSTOMER_NUM</code> is used. The other 215 bytes are ignored.</li>
+</ul>
+<h3 id="76-output-format" tabindex="-1">7.6 Output Format</h3>
+<ul>
+<li>The COMMAREA result is 84 bytes, so the caller must allocate at least that much.</li>
+<li>The terminal send is fixed at 24 bytes and always uses <code>ERASE</code> and <code>FREEKB</code>.</li>
+</ul>
+<h2 id="8-error-handling" tabindex="-1">8. Error Handling</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RESP(WS_RESP)</code></td>
+<td>Most commands capture the response, so there are no implicit condition raises.</td>
+</tr>
+<tr>
+<td><code>READQ TS ITEM(1)</code></td>
+<td>A normal response means the queue exists. Otherwise (for example <code>QIDERR</code>) the read loop is skipped and all flags stay <code>'Y'</code>.</td>
+</tr>
+<tr>
+<td><code>READQ TS NEXT</code> loop</td>
+<td>A non-normal response ends the loop. Record extraction requires both a normal response and a matching prefix.</td>
+</tr>
+<tr>
+<td><code>READ FILE GTEQ</code></td>
+<td>On NORMAL, the real key is adopted. Otherwise (for example <code>NOTFND</code>) the random value is kept. No abend or message is issued.</td>
+</tr>
+<tr>
+<td><code>ASSIGN</code> commands</td>
+<td>Responses are captured but never tested.</td>
+</tr>
+<tr>
+<td><code>ENQ</code> / <code>DEQ</code></td>
+<td>These carry no <code>RESP</code>, so failures raise a CICS condition under default handling.</td>
+</tr>
+<tr>
+<td><code>WRITEQ TS NOSUSPEND</code></td>
+<td>A failure returns immediately and is not tested.</td>
+</tr>
+<tr>
+<td><code>SELECT (WS_FLAG)</code></td>
+<td><code>OTHERWISE</code> is a catch-all that defaults to the terminal path.</td>
+</tr>
+</tbody>
+</table>
+<div class="mermaid">
+graph TD
+    A[READQ TS ITEM 1] --> B{RESP NORMAL?}
+    B -- Yes --> C[Clear eyecatcher flag<br>Scan remaining records]
+    B -- No --> D[Keep all flags = Y<br>Write all defaults]
+    C --> E{LOW / HIGH found?}
+    E -- Yes --> F[Clear flag, use stored value]
+    E -- No --> G[Keep default 1000001<br>Write missing record]
+    F --> H[Continue]
+    G --> H
+    D --> H
+    H --> I[READ KSDSCUST GTEQ]
+    I --> J{RESP NORMAL?}
+    J -- Yes --> K[Use actual CA_CUSTOMER_NUM]
+    J -- No --> L[Keep raw random number]
+</div>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-first-time-invocation-via-cics-link-queue-does-not-exist" tabindex="-1">9.1 First-Time Invocation via CICS LINK (Queue Does Not Exist)</h3>
+<p><strong>Scenario:</strong> A program such as <code>LGICUS01</code> links to <code>LGICVS01</code>. <code>GENACNTL</code> has never been written. <code>KSDSCUST</code> has a record with key <code>0001000050</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_INVOKEPROG</code></td>
+<td><code>'LGICUS01'</code></td>
+</tr>
+<tr>
+<td><code>WS_STARTCODE</code></td>
+<td><code>'SD'</code></td>
+</tr>
+<tr>
+<td><code>GENACNTL</code></td>
+<td>Does not exist</td>
+</tr>
+<tr>
+<td><code>EIBTASKN</code></td>
+<td><code>1234</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><code>INVOKINGPROG</code> is non-blank, so <code>WS_FLAG = 'C'</code>.</li>
+<li><code>WS_CUST_LOW</code> and <code>WS_CUST_HIGH</code> are set to <code>1000001</code>.</li>
+<li><code>ENQ</code> is issued. <code>READQ TS ITEM(1)</code> returns non-NORMAL, so all three flags stay <code>'Y'</code>.</li>
+<li>Three <code>WRITEQ TS</code> calls create the queue:
+<ul>
+<li>Item 1 is <code>**** GENAPP CNTL</code>.</li>
+<li>Item 2 is <code>LOW CUSTOMER=0001000001</code>.</li>
+<li>Item 3 is <code>HIGH CUSTOMER=0001000001</code>.</li>
+</ul>
+</li>
+<li><code>DEQ</code> is issued.</li>
+<li>The range width is zero, so the random number is <code>1000001</code>.</li>
+<li><code>READ FILE('KSDSCUST') GTEQ RIDFLD(1000001)</code> returns <code>CA_CUSTOMER_NUM = '0001000050'</code>.</li>
+<li>The COMMAREA is returned to the caller.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>COMMAREA field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COMMA_DATA_H</code></td>
+<td><code>'HIGH CUSTOMER='</code></td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_HIGH</code></td>
+<td><code>0001000050</code></td>
+</tr>
+<tr>
+<td><code>COMMA_DATA_FILL</code></td>
+<td>60 spaces</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-interactive-terminal-invocation-queue-already-populated" tabindex="-1">9.2 Interactive Terminal Invocation (Queue Already Populated)</h3>
+<p><strong>Scenario:</strong> A user starts transaction <code>LGIS</code> at a 3270 terminal. <code>GENACNTL</code> holds <code>LOW CUSTOMER=0001000001</code> and <code>HIGH CUSTOMER=0001009999</code>. <code>KSDSCUST</code> has a record at key <code>0001005500</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS_INVOKEPROG</code></td>
+<td>Blank</td>
+</tr>
+<tr>
+<td><code>WS_STARTCODE</code></td>
+<td><code>'TC'</code></td>
+</tr>
+<tr>
+<td><code>EIBTASKN</code></td>
+<td><code>5678</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Both conditions are false, so <code>RECEIVE</code> runs and <code>WS_FLAG = 'R'</code>.</li>
+<li>After <code>ENQ</code>, item 1 is read normally, so <code>WS_FLAG_TSQE = ' '</code>.</li>
+<li>The loop finds the LOW record (<code>WS_CUST_LOW = 1000001</code>) and the HIGH record (<code>WS_CUST_HIGH = 1009999</code>), and clears both flags.</li>
+<li>No <code>WRITEQ TS</code> runs. <code>DEQ</code> is issued.</li>
+<li>The program computes <code>FLOOR(RANDOM(5678) × FLOAT(1009999 − 1000001) + 1000001)</code>. Assume this gives <code>1005482</code>.</li>
+<li><code>READ FILE GTEQ RIDFLD(1005482)</code> returns key <code>0001005500</code>.</li>
+<li><code>SEND TEXT</code> displays the result.</li>
+</ol>
+<p><strong>Terminal output:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>HIGH CUSTOMER=0001005500</code></pre>
+</div>
+<p>The 24-character message is sent with <code>ERASE</code> and <code>FREEKB</code>. It clears the screen and unlocks the keyboard.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-security-vsam.html" class="card">
+                <span class="card-title">Customer Security &amp; VSAM Layer</span>
+                <span class="card-description">Covers the security record creation program LGACDB02 (inserting into CUSTOMER_SECURE) and the VSAM KSDS file layer programs that back the customer store (LGACVS01, LGUCVS01, LGICVS01).</span>
+            </a>
+            <a href="environment-setup.html" class="card">
+                <span class="card-title">Environment Initialisation (LGSETUP)</span>
+                <span class="card-description">Documents LGSETUP, the CICS PL/I program that bootstraps or resets the entire GenApp environment: recreating TSQs, redefining the GENACUSTNUM named counter, and zeroing all 36 transaction statistics counters.</span>
+            </a>
+            <a href="customer-inquiry-update.html" class="card">
+                <span class="card-title">Customer Inquiry &amp; Update Programs</span>
+                <span class="card-description">Covers the full inquiry and update path for customer records: LGICUS01 (business logic front-end), LGICDB01 (DB2 retrieval), LGUCUS01 (update orchestrator), LGUCDB01 (DB2 update), and LGUCVS01 (VSAM update).</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a>
+<ul>
+<li class="toc-level-3"><a href="#11-key-characteristics">1.1 Key Characteristics</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-architecture">2.1 Component Architecture</a></li>
+<li class="toc-level-3"><a href="#22-component-responsibilities">2.2 Component Responsibilities</a></li>
+<li class="toc-level-3"><a href="#23-data-entities">2.3 Data Entities</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-inputs">3. Inputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-cics-execution-environment-eib-fields">3.1 CICS Execution Environment (EIB Fields)</a></li>
+<li class="toc-level-3"><a href="#32-cics-assign-values">3.2 CICS ASSIGN Values</a></li>
+<li class="toc-level-3"><a href="#33-program-parameter-commarea">3.3 Program Parameter (COMMAREA)</a></li>
+<li class="toc-level-3"><a href="#34-terminal-input">3.4 Terminal Input</a></li>
+<li class="toc-level-3"><a href="#35-ts-queue-genacntl">3.5 TS Queue GENACNTL</a></li>
+<li class="toc-level-3"><a href="#36-vsam-file-ksdscust">3.6 VSAM File KSDSCUST</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-outputs">4. Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#41-ts-queue-writes-genacntl">4.1 TS Queue Writes (GENACNTL)</a></li>
+<li class="toc-level-3"><a href="#42-commarea-return-ws_flag--c">4.2 COMMAREA Return (WS_FLAG = &#039;C&#039;)</a></li>
+<li class="toc-level-3"><a href="#43-terminal-output-ws_flag--r">4.3 Terminal Output (WS_FLAG = &#039;R&#039;)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-processing-logic">5. Processing Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#51-flow-diagram">5.1 Flow Diagram</a></li>
+<li class="toc-level-3"><a href="#52-sequence-of-operations">5.2 Sequence of Operations</a></li>
+<li class="toc-level-3"><a href="#53-processing-steps">5.3 Processing Steps</a>
+<ul>
+<li class="toc-level-4"><a href="#531-determine-invocation-mode">5.3.1 Determine Invocation Mode</a></li>
+<li class="toc-level-4"><a href="#532-initialise-range-defaults">5.3.2 Initialise Range Defaults</a></li>
+<li class="toc-level-4"><a href="#533-serialise-and-read-the-control-queue">5.3.3 Serialise and Read the Control Queue</a></li>
+<li class="toc-level-4"><a href="#534-write-missing-control-records">5.3.4 Write Missing Control Records</a></li>
+<li class="toc-level-4"><a href="#535-generate-the-random-customer-number">5.3.5 Generate the Random Customer Number</a></li>
+<li class="toc-level-4"><a href="#536-resolve-the-nearest-real-customer">5.3.6 Resolve the Nearest Real Customer</a></li>
+<li class="toc-level-4"><a href="#537-return-the-result">5.3.7 Return the Result</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#54-logical-phases-paragraph-equivalents">5.4 Logical Phases (Paragraph Equivalents)</a></li>
+<li class="toc-level-3"><a href="#55-external-interactions">5.5 External Interactions</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-dependencies">6. Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#61-cics-commands">6.1 CICS Commands</a></li>
+<li class="toc-level-3"><a href="#62-resources">6.2 Resources</a></li>
+<li class="toc-level-3"><a href="#63-invocation-interface">6.3 Invocation Interface</a></li>
+<li class="toc-level-3"><a href="#64-pli-built-ins">6.4 PL/I Built-ins</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints">7. Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#71-invocation-mode">7.1 Invocation Mode</a></li>
+<li class="toc-level-3"><a href="#72-serialisation">7.2 Serialisation</a></li>
+<li class="toc-level-3"><a href="#73-ts-queue-content">7.3 TS Queue Content</a></li>
+<li class="toc-level-3"><a href="#74-customer-number-range">7.4 Customer Number Range</a></li>
+<li class="toc-level-3"><a href="#75-vsam-access">7.5 VSAM Access</a></li>
+<li class="toc-level-3"><a href="#76-output-format">7.6 Output Format</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-error-handling">8. Error Handling</a></li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-first-time-invocation-via-cics-link-queue-does-not-exist">9.1 First-Time Invocation via CICS LINK (Queue Does Not Exist)</a></li>
+<li class="toc-level-3"><a href="#92-interactive-terminal-invocation-queue-already-populated">9.2 Interactive Terminal Invocation (Queue Already Populated)</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

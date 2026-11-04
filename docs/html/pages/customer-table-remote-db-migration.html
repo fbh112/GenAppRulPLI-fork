@@ -1,0 +1,1403 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Table Remote DB Migration Impact Analysis - GenApp General Insurance Application — PL/I on z/OS</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp General Insurance Application — PL/I on z/OS</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="data-dependencies.html" class="nav-link" data-page-id="data-dependencies">DB2 Table &amp; Program Dependencies</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-inquiry-update.html" class="nav-link" data-page-id="customer-inquiry-update">Customer Inquiry &amp; Update Programs</a>
+                <a href="customer-add-delete.html" class="nav-link" data-page-id="customer-add-delete">Customer Add &amp; Delete Programs</a>
+                <a href="customer-security-vsam.html" class="nav-link" data-page-id="customer-security-vsam">Customer Security &amp; VSAM Layer</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry Programs</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add Programs</a>
+                <a href="policy-update-delete.html" class="nav-link" data-page-id="policy-update-delete">Policy Update &amp; Delete Programs</a>
+                <a href="policy-vsam-layer.html" class="nav-link" data-page-id="policy-vsam-layer">Policy VSAM Layer</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch &amp; Reporting Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="batch-customer-report.html" class="nav-link" data-page-id="batch-customer-report">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+                <a href="statistics-monitoring.html" class="nav-link" data-page-id="statistics-monitoring">Statistics &amp; Monitoring</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">CICS Interactive Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu.html" class="nav-link" data-page-id="customer-menu">Customer CICS Interactive Menu (LGTESTC1)</a>
+                <a href="policy-menus-motor-endowment.html" class="nav-link" data-page-id="policy-menus-motor-endowment">Policy CICS Menus — Motor &amp; Endowment</a>
+                <a href="policy-menus-house-commercial.html" class="nav-link" data-page-id="policy-menus-house-commercial">Policy CICS Menus — House &amp; Commercial</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure &amp; Utilities</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Initialisation (LGSETUP)</a>
+                <a href="logging-utility.html" class="nav-link" data-page-id="logging-utility">Error Logging Utility (LGSTSQ)</a>
+                <a href="vsam-customer-selector.html" class="nav-link" data-page-id="vsam-customer-selector">Random Customer Selector (LGICVS01)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Migration &amp; Impact Analysis</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="customer-table-remote-db-migration.html" class="nav-link active" data-page-id="customer-table-remote-db-migration">Customer Table Remote DB Migration Impact Analysis</a>
+                <a href="customer-domain-migration-risks.html" class="nav-link" data-page-id="customer-domain-migration-risks">Customer Domain Migration Risk Assessment</a>
+                <a href="pl1-db2-inventory.html" class="nav-link" data-page-id="pl1-db2-inventory">PL/I Program &amp; DB2 Table Inventory</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        
+                        <h1 id="customer-table-remote-db-migration-impact-analysis" tabindex="-1">Customer Table Remote DB Migration Impact Analysis</h1>
+<p><strong>Created:</strong> 2026-11-01 · <strong>Author:</strong> IBM Bob — Z Architect · <strong>Confidence Level:</strong> High</p>
+<hr>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>This document presents the impact analysis for the planned migration of the <code>CUSTOMER</code> table from the local z/OS DB2 subsystem to a remote database (e.g., PostgreSQL, Oracle, or a cloud RDBMS), targeted for <strong>November 2026</strong>. The migration is driven by objectives to decouple customer data from the z/OS DB2 subsystem, reduce DB2 licensing costs, and consolidate customer data in a central enterprise data platform.</p>
+<p>Six PL/I programs within the GenApp application currently access the <code>CUSTOMER</code> table via <code>EXEC SQL</code> embedded SQL. All must be modified to replace those SQL statements with calls to a new CICS service program that proxies the remote database via a REST API. Batch programs present an additional architectural challenge, as they cannot use <code>EXEC CICS LINK</code> and require a separate remote-call mechanism.</p>
+<p><strong>Scope boundary confirmed:</strong> Only GenApp programs in this repository access the <code>CUSTOMER</code> table. No external systems, data warehouses, or other applications are affected.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>SQL Operations</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td>INSERT (×2)</td>
+<td>CICS online</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td>INSERT (×4), SELECT (×2), DELETE</td>
+<td>CICS online (orchestrator)</td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td>SELECT</td>
+<td>CICS online</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td>UPDATE</td>
+<td>CICS online</td>
+</tr>
+<tr>
+<td><code>LGBATCH</code></td>
+<td>SELECT</td>
+<td>Batch</td>
+</tr>
+<tr>
+<td><code>LGBATDB2</code></td>
+<td>SELECT</td>
+<td>Batch</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The current architecture routes all <code>CUSTOMER</code> table access through embedded DB2 SQL in PL/I programs, organised across three tiers: a presentation tier, an orchestration tier, and a DB2 backend tier, alongside independently executing batch programs. After migration, the DB2 backend tier for customer data is replaced by a new CICS Customer Service Program that acts as a REST proxy to the remote database. Batch programs must be rerouted through a separate non-CICS remote-call mechanism (e.g., EXCI, HTTP stub, or MQ).</p>
+<p>The diagram below illustrates the full post-migration system architecture, highlighting impacted programs (red), new components to be created (blue), and the external remote system (yellow).</p>
+<div class="mermaid">
+graph TB
+    subgraph PRESENTATION ["Tier 1 — Presentation (unchanged)"]
+        LGTESTC1[LGTESTC1\nCustomer Menu]
+    end
+
+    subgraph ORCHESTRATION ["Tier 2 — Orchestration"]
+        LGACUS01["⚠ LGACUS01\nAdd Customer Orch"]
+        LGICUS01[LGICUS01\nInquire Customer Orch]
+        LGUCUS01[LGUCUS01\nUpdate Customer Orch]
+    end
+
+    subgraph BACKEND_CICS ["Tier 3 — CICS DB2 Backends  ⚠ IMPACTED"]
+        LGACDB01["⚠ LGACDB01"]
+        LGICDB01["⚠ LGICDB01"]
+        LGUCDB01["⚠ LGUCDB01"]
+    end
+
+    subgraph BACKEND_VSAM ["Tier 3 — VSAM Backends (unchanged)"]
+        LGACVS01[LGACVS01]
+        LGICVS01[LGICVS01]
+        LGUCVS01[LGUCVS01]
+    end
+
+    subgraph BATCH ["Batch  ⚠ IMPACTED"]
+        LGBATCH["⚠ LGBATCH"]
+        LGBATDB2["⚠ LGBATDB2"]
+        LGBATCHF[LGBATCHF\nFormatter subroutine]
+    end
+
+    subgraph NEW ["New Components  ✦ CREATE"]
+        SVCPROG["NEW: CICS Customer\nService Program"]
+        SVCCOMM["NEW: COMMAREA\n%INCLUDE member"]
+        REMOTESVC["Remote Database\nREST API"]
+    end
+
+    LGTESTC1 -->|CICS LINK| LGACUS01
+    LGTESTC1 -->|CICS LINK| LGICUS01
+    LGACUS01 -->|CICS DYNAMIC_LINK| LGACDB01
+    LGACDB01 -->|CICS LINK — NEW| SVCPROG
+    LGACUS01 -->|CICS LINK — NEW| SVCPROG
+    LGICDB01 -->|CICS LINK — NEW| SVCPROG
+    LGUCDB01 -->|CICS LINK — NEW| SVCPROG
+    LGACDB01 -->|CICS DYNAMIC_LINK| LGACVS01
+    LGACUS01 -->|CICS DYNAMIC_LINK| LGACVS01
+    LGUCDB01 -->|CICS DYNAMIC_LINK| LGUCVS01
+    SVCPROG -->|REST HTTP| REMOTESVC
+    LGBATCH -->|non-CICS stub\nNEW mechanism| REMOTESVC
+    LGBATDB2 -->|non-CICS stub\nNEW mechanism| REMOTESVC
+    LGBATCH --> LGBATCHF
+    LGBATDB2 --> LGBATCHF
+</div>
+<blockquote>
+<p><strong>Legend:</strong> ⚠ = directly impacted programs · ✦ = new components to create · Remote Database REST API = external remote system</p>
+</blockquote>
+<hr>
+<h2 id="3-dependency-analysis" tabindex="-1">3. Dependency Analysis</h2>
+<h3 id="31-upstream-dependencies" tabindex="-1">3.1 Upstream Dependencies</h3>
+<p>The table below lists all callers of impacted programs, detailing the call type and resulting impact.</p>
+<table>
+<thead>
+<tr>
+<th>Caller</th>
+<th>Calls</th>
+<th>Call Type</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGTESTC1</code></td>
+<td><code>LGICUS01</code></td>
+<td>CICS LINK</td>
+<td>Indirect — passes through orchestrator</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td><code>LGACDB01</code></td>
+<td>CICS DYNAMIC_LINK</td>
+<td><code>LGACUS01</code> itself is impacted</td>
+</tr>
+<tr>
+<td><em>(Batch JCL)</em></td>
+<td><code>LGBATCH</code></td>
+<td>Batch JCL</td>
+<td>JCL unchanged; internal mechanism changes</td>
+</tr>
+<tr>
+<td><em>(Batch JCL)</em></td>
+<td><code>LGBATDB2</code></td>
+<td>Batch JCL</td>
+<td>Same as above</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> No in-repository program statically calls <code>LGACDB01</code>, <code>LGICDB01</code>, or <code>LGUCDB01</code> directly. These are invoked dynamically by their orchestrators via <code>CICS DYNAMIC_LINK</code> using string-based program names, which are not resolved statically by the scanner.</p>
+</blockquote>
+<h3 id="32-downstream-dependencies" tabindex="-1">3.2 Downstream Dependencies</h3>
+<p>Downstream calls from impacted programs that are <strong>not</strong> affected by the migration are identified below. All VSAM write paths and the formatter subroutine remain unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Calls</th>
+<th>Call Type</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td><code>LGACVS01</code></td>
+<td>CICS DYNAMIC_LINK (line 265)</td>
+<td>Unchanged — VSAM write path unaffected</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td><code>LGACVS01</code></td>
+<td>CICS DYNAMIC_LINK (line 452)</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td><code>LGUCVS01</code></td>
+<td>CICS DYNAMIC_LINK (line 237)</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td><code>LGBATCH</code></td>
+<td><code>LGBATCHF</code></td>
+<td>PL/I CALL (lines 193, 224)</td>
+<td>Unchanged — formatter subroutine unaffected</td>
+</tr>
+<tr>
+<td><code>LGBATDB2</code></td>
+<td><code>LGBATCHF</code></td>
+<td>PL/I CALL (lines 156, 172)</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td><em>(none)</em></td>
+<td>—</td>
+<td>No downstream call changes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-sql-statement-locations-per-program" tabindex="-1">3.3 SQL Statement Locations Per Program</h3>
+<p>The following table pinpoints every <code>EXEC SQL</code> statement in scope, by program, line range, and operation type.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>SQL Lines</th>
+<th>Paragraph</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGACDB01</code></td>
+<td>316–337, 345–366</td>
+<td><code>INSERT_CUSTOMER</code></td>
+<td>INSERT (×2)</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td>497–518, 526–547, 597–616, 660–679</td>
+<td><code>INSERT_CUSTOMER</code></td>
+<td>INSERT (×4)</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td>641–645, 704–708</td>
+<td><code>INSERT_CUSTOMER</code></td>
+<td>SELECT (×2)</td>
+</tr>
+<tr>
+<td><code>LGACUS01</code></td>
+<td>720–724</td>
+<td><code>INSERT_CUSTOMER</code></td>
+<td>DELETE (×1)</td>
+</tr>
+<tr>
+<td><code>LGICDB01</code></td>
+<td>260–280</td>
+<td><code>GET_CUSTOMER_INFO</code></td>
+<td>SELECT</td>
+</tr>
+<tr>
+<td><code>LGBATCH</code></td>
+<td>233–253</td>
+<td><code>GET_CUSTOMER_INFO</code></td>
+<td>SELECT</td>
+</tr>
+<tr>
+<td><code>LGBATDB2</code></td>
+<td>180–200</td>
+<td><code>GET_CUSTOMER_INFO</code></td>
+<td>SELECT</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td>252–265</td>
+<td><code>UPDATE_CUSTOMER_INFO</code></td>
+<td>UPDATE</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-impact-analysis" tabindex="-1">4. Impact Analysis</h2>
+<h3 id="41-code-level-impact-per-program" tabindex="-1">4.1 Code-Level Impact per Program</h3>
+<h4 id="411-lgacdb01--add-customer-db2-backend" tabindex="-1">4.1.1 <code>LGACDB01</code> — Add Customer DB2 Backend</h4>
+<p><strong>Complexity:</strong> Medium (Cyclomatic score: 13) · <strong>Impact Type:</strong> Modify</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC SQL INCLUDE SQLCA</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INCLUDE</code> DCLGEN member</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INSERT</code> at lines 316–337, 345–366</td>
+<td>Replace with <code>EXEC CICS LINK</code> to new service program</td>
+</tr>
+<tr>
+<td><code>SQLCODE</code> / <code>SQLCA</code> checks</td>
+<td>Replace with COMMAREA return code checks</td>
+</tr>
+<tr>
+<td><code>EXEC SQL WHENEVER</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Host variable declarations</td>
+<td>Remove or repurpose as COMMAREA field assignments</td>
+</tr>
+<tr>
+<td>DB2 null indicator variables</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Build: SQL precompiler step</td>
+<td>Remove from <code>application-conf/PLI.properties</code></td>
+</tr>
+<tr>
+<td>Build: DBRM / bind package</td>
+<td>Retire from DB2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Before (current):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC SQL INSERT INTO CUSTOMER
+   (CUST_ID, CUST_FIRSTNAME, CUST_LASTNAME, CUST_DOB,
+    CUST_ADDR1, CUST_ADDR2, CUST_ADDR3, CUST_ADDR4,
+    CUST_ADDR5, CUST_EMAILADDRESS, CUST_PHONE)
+   VALUES (:WS-CUST-ID, :WS-FIRSTNAME, :WS-LASTNAME,
+           :WS-DOB, :WS-ADDR1, :WS-ADDR2, :WS-ADDR3,
+           :WS-ADDR4, :WS-ADDR5, :WS-EMAIL, :WS-PHONE);
+
+IF SQLCODE = 0 THEN ...
+ELSE /* handle DB2 error using SQLCA */;</code></pre>
+</div>
+<p><strong>After (target):</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Populate COMMAREA for new service */
+COMM_FUNCTION  = &#039;INS&#039;;
+COMM_CUST_ID   = WS_CUST_ID;
+COMM_FIRSTNAME = WS_FIRSTNAME;
+/* ... remaining fields ... */
+
+EXEC CICS LINK PROGRAM(&#039;LGCSVSVC&#039;)
+     COMMAREA(CUSTOMER_COMMAREA)
+     LENGTH(LENGTH(CUSTOMER_COMMAREA));
+
+IF COMM_RETCODE = &#039;00&#039; THEN ...
+ELSE /* handle service return code */;</code></pre>
+</div>
+<hr>
+<h4 id="412-lgacus01--add-customer-orchestrator" tabindex="-1">4.1.2 <code>LGACUS01</code> — Add Customer Orchestrator</h4>
+<p><strong>Complexity:</strong> High (Cyclomatic score: 25 — highest in the application) · <strong>Impact Type:</strong> Modify — <strong>⚠ Highest Risk Program</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC SQL INCLUDE SQLCA</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INCLUDE</code> DCLGEN member</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INSERT</code> at lines 497–518, 526–547, 597–616, 660–679</td>
+<td>Replace with <code>EXEC CICS LINK</code> (×4)</td>
+</tr>
+<tr>
+<td><code>EXEC SQL SELECT</code> at lines 641–645, 704–708</td>
+<td>Replace with <code>EXEC CICS LINK</code> (×2)</td>
+</tr>
+<tr>
+<td><code>EXEC SQL DELETE</code> at lines 720–724</td>
+<td>Replace with <code>EXEC CICS LINK</code> (×1)</td>
+</tr>
+<tr>
+<td>All <code>SQLCODE</code> / <code>SQLCA</code> checks</td>
+<td>Replace with COMMAREA return code checks</td>
+</tr>
+<tr>
+<td>Error-logging routines referencing <code>SQLCA</code></td>
+<td>Audit and update</td>
+</tr>
+<tr>
+<td>Build: SQL precompiler step</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Build: DBRM / bind package</td>
+<td>Retire</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠ <code>LGACUS01</code> has <strong>7 SQL statements</strong> across 3 different operation types (INSERT, SELECT, DELETE). Its cyclomatic score of 25 means thorough regression testing is mandatory.</p>
+</blockquote>
+<hr>
+<h4 id="413-lgicdb01--inquire-customer-db2-backend" tabindex="-1">4.1.3 <code>LGICDB01</code> — Inquire Customer DB2 Backend</h4>
+<p><strong>Complexity:</strong> Low-Medium (Cyclomatic score: 8) · <strong>Impact Type:</strong> Modify</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC SQL INCLUDE SQLCA</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INCLUDE</code> DCLGEN member</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL SELECT</code> at lines 260–280 (<code>GET_CUSTOMER_INFO</code>)</td>
+<td>Replace with <code>EXEC CICS LINK</code></td>
+</tr>
+<tr>
+<td><code>SQLCODE</code> checks (including <code>+100</code> not-found handling)</td>
+<td>Replace with COMMAREA return code</td>
+</tr>
+<tr>
+<td>Build: SQL precompiler step</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Build: DBRM / bind package</td>
+<td>Retire</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="414-lgucdb01--update-customer-db2-backend" tabindex="-1">4.1.4 <code>LGUCDB01</code> — Update Customer DB2 Backend</h4>
+<p><strong>Complexity:</strong> Low-Medium (Cyclomatic score: 8) · <strong>Impact Type:</strong> Modify</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC SQL INCLUDE SQLCA</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INCLUDE</code> DCLGEN member</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL UPDATE</code> at lines 252–265 (<code>UPDATE_CUSTOMER_INFO</code>)</td>
+<td>Replace with <code>EXEC CICS LINK</code></td>
+</tr>
+<tr>
+<td><code>SQLCODE</code> checks</td>
+<td>Replace with COMMAREA return code</td>
+</tr>
+<tr>
+<td>Build: SQL precompiler step</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Build: DBRM / bind package</td>
+<td>Retire</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="415-lgbatch--batch-customer-report" tabindex="-1">4.1.5 <code>LGBATCH</code> — Batch Customer Report</h4>
+<p><strong>Complexity:</strong> Low (Cyclomatic score: 6) · <strong>Impact Type:</strong> Modify — <strong>⚠ Different Mechanism Required</strong></p>
+<p>Batch programs cannot use <code>EXEC CICS LINK</code>. A non-CICS remote call mechanism must be selected before code changes begin:</p>
+<ul>
+<li><strong>Option 1 — EXCI:</strong> CICS External Call Interface — calls CICS service from batch</li>
+<li><strong>Option 2 — HTTP Client Stub:</strong> z/OS Unix System Services <code>curl</code> or Java HTTP client</li>
+<li><strong>Option 3 — MQ/Socket Stub:</strong> New batch-callable PL/I stub using sockets or MQ to reach the remote DB</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXEC SQL INCLUDE SQLCA</code></td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL INCLUDE</code> DCLGEN member</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td><code>EXEC SQL SELECT</code> at lines 233–253 (<code>GET_CUSTOMER_INFO</code>)</td>
+<td>Replace with chosen batch remote-call mechanism</td>
+</tr>
+<tr>
+<td><code>SQLCODE</code> checks</td>
+<td>Replace with remote-call return code</td>
+</tr>
+<tr>
+<td>Build: SQL precompiler step</td>
+<td>Remove</td>
+</tr>
+<tr>
+<td>Build: DBRM / bind package</td>
+<td>Retire</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="416-lgbatdb2--batch-db2-test-driver" tabindex="-1">4.1.6 <code>LGBATDB2</code> — Batch DB2 Test Driver</h4>
+<p><strong>Complexity:</strong> Very Low (Cyclomatic score: 1) · <strong>Impact Type:</strong> Modify</p>
+<p>Follows the same pattern as <code>LGBATCH</code>. One <code>EXEC SQL SELECT</code> at lines 180–200 must be replaced with the agreed batch remote-call mechanism.</p>
+<hr>
+<h3 id="42-new-components-to-create" tabindex="-1">4.2 New Components to Create</h3>
+<h4 id="421-new-cics-customer-service-program-name-tbd" tabindex="-1">4.2.1 New CICS Customer Service Program (name TBD)</h4>
+<p>This new program acts as the central REST proxy for all CICS callers and is the only component that needs to know about the remote database endpoint.</p>
+<ul>
+<li>CICS-linked proxy program invoked via <code>EXEC CICS LINK</code></li>
+<li>Accepts a COMMAREA with a function code (<code>SEL</code>, <code>INS</code>, <code>UPD</code>, <code>DEL</code>) plus customer fields</li>
+<li>Internally constructs and issues an HTTP REST API call to the remote database endpoint</li>
+<li>Returns data and a return code in the COMMAREA to the caller</li>
+<li>Fully encapsulates the DB2→REST translation; no caller needs knowledge of REST</li>
+</ul>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Skeleton structure for new CICS Customer Service Program */
+DCL 1 CUSTOMER_COMMAREA BASED(DFHCOMMPTR),
+      3 COMM_FUNCTION    CHAR(3),   /* SEL / INS / UPD / DEL */
+      3 COMM_RETCODE     CHAR(2),   /* 00=OK, 04=NOTFND, 08=ERR */
+      3 COMM_REASON      CHAR(50),  /* Diagnostic text          */
+      3 COMM_CUST_ID     FIXED DEC(10),
+      3 COMM_FIRSTNAME   CHAR(20),
+      3 COMM_LASTNAME    CHAR(20),
+      /* ... remaining CUSTOMER columns ... */
+      3 COMM_PHONE       CHAR(20);
+
+SELECT (COMM_FUNCTION);
+  WHEN (&#039;SEL&#039;) CALL PERFORM_SELECT;
+  WHEN (&#039;INS&#039;) CALL PERFORM_INSERT;
+  WHEN (&#039;UPD&#039;) CALL PERFORM_UPDATE;
+  WHEN (&#039;DEL&#039;) CALL PERFORM_DELETE;
+  OTHERWISE    COMM_RETCODE = &#039;08&#039;;
+END;</code></pre>
+</div>
+<h4 id="422-new-commarea-include-member" tabindex="-1">4.2.2 New COMMAREA <code>%INCLUDE</code> Member</h4>
+<p>A shared PL/I <code>%INCLUDE</code> layout used by all 4 CICS callers and the new service program to enforce a single data contract.</p>
+<ul>
+<li><strong>Fields:</strong> function code, return code, reason text, customer key (<code>CUST_ID</code>), all <code>CUSTOMER</code> table columns</li>
+<li><strong>Types:</strong> Fixed-length <code>CHAR(n)</code> and <code>FIXED DEC</code>; null indicators represented as flags within the structure</li>
+<li><strong>Constraint:</strong> Total structure size must remain under the <strong>32 KB COMMAREA limit</strong>; if exceeded, migrate to CICS Channels and Containers</li>
+</ul>
+<hr>
+<h3 id="43-application-level-impact" tabindex="-1">4.3 Application-Level Impact</h3>
+<h4 id="431-build-configuration--application-confpliproperties" tabindex="-1">4.3.1 Build Configuration — <code>application-conf/PLI.properties</code></h4>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Remove SQL precompiler option</td>
+<td>Remove <code>SQL(...)</code> compile option for 6 impacted programs</td>
+</tr>
+<tr>
+<td>Remove DB2 link-edit stubs</td>
+<td>Remove <code>DSNCLI</code> (CICS) and <code>DSNELI</code>/<code>DSNALI</code> (batch) from link-edit for impacted programs</td>
+</tr>
+<tr>
+<td>Add new service program</td>
+<td>New program entry with CICS compile options</td>
+</tr>
+<tr>
+<td>Retain SQL options for other programs</td>
+<td><code>LGAPDB01</code>, <code>LGIPDB01</code>, <code>LGDPDB01</code>, <code>LGUPDB01</code>, <code>LGACDB02</code> still use DB2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="432-cics-csd--infrastructure" tabindex="-1">4.3.2 CICS CSD / Infrastructure</h4>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install new service program</td>
+<td>Define new program in CICS CSD</td>
+</tr>
+<tr>
+<td>Remove DB2ENTRY / DB2TRAN</td>
+<td>Retire DB2 connection definitions for the 6 impacted transactions</td>
+</tr>
+<tr>
+<td>No transaction ID changes</td>
+<td>Existing transactions (<code>LGA*</code>, <code>LGI*</code>, <code>LGU*</code>) continue to work</td>
+</tr>
+</tbody>
+</table>
+<h4 id="433-operational-impact" tabindex="-1">4.3.3 Operational Impact</h4>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DB2 BIND</td>
+<td>Retire packages/plans for <code>LGACDB01</code>, <code>LGACUS01</code>, <code>LGICDB01</code>, <code>LGUCDB01</code>, <code>LGBATCH</code>, <code>LGBATDB2</code></td>
+</tr>
+<tr>
+<td>DB2 Authorisations</td>
+<td>Remove <code>EXECUTE</code> privilege on retired packages</td>
+</tr>
+<tr>
+<td>Batch JCL</td>
+<td>Step definitions unchanged; internal mechanism changes only</td>
+</tr>
+<tr>
+<td>Unit-of-work</td>
+<td>CICS programs currently commit via DB2 sync-point; replace with <code>EXEC CICS SYNCPOINT</code> — verify transactional integrity with REST backend</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-change-propagation-map" tabindex="-1">5. Change Propagation Map</h2>
+<p>The diagram below traces the full cascade of changes from the migration trigger through to deployment, making explicit the two critical parallel tracks: CICS program modifications and batch program modifications.</p>
+<div class="mermaid">
+graph TD
+    CHANGE["🔴 TRIGGER\nRetire CUSTOMER from DB2\nReplace EXEC SQL → REST API"] --> NEWCOMP
+
+    NEWCOMP["✦ Create new CICS service program\n+ COMMAREA %INCLUDE member"]
+
+    NEWCOMP --> CICS_PROGS["Modify 4 CICS programs\nLGACDB01 · LGACUS01\nLGICDB01 · LGUCDB01"]
+    NEWCOMP --> BATCH_PROGS["Modify 2 batch programs\nLGBATCH · LGBATDB2\n⚠ Different mechanism needed"]
+
+    CICS_PROGS --> SQL_REMOVE["Remove from each program:\n• EXEC SQL statements\n• EXEC SQL INCLUDE SQLCA\n• EXEC SQL INCLUDE DCLGEN\n• SQLCODE tests\n• WHENEVER / null indicators"]
+    CICS_PROGS --> LINK_ADD["Add to each CICS program:\n• EXEC CICS LINK to service\n• COMMAREA return code checks"]
+
+    BATCH_PROGS --> BATCH_MECH["Design batch remote-call\nmechanism\n(EXCI / HTTP stub / MQ)"]
+
+    SQL_REMOVE --> BUILD["Build changes per program:\n• Remove SQL compile option\n• Remove DBRM / bind\n• Remove DB2 link-edit stubs\n• Drop DB2ENTRY / DB2TRAN"]
+
+    LINK_ADD --> UOW["Verify unit-of-work:\nEXEC SQL COMMIT →\nEXEC CICS SYNCPOINT"]
+
+    BUILD --> TEST["Test Strategy:\n• Unit test each modified program\n• Integration test full CICS call chain\n• Regression: LGTESTC1 → LGxCUS01 → LGxCDB01\n• Batch regression: LGBATCH, LGBATDB2"]
+
+    TEST --> DEPLOY["Deployment sequence:\n1. Deploy remote DB schema\n2. Deploy REST API service\n3. Deploy CICS service program\n4. Deploy modified programs\n5. Update CICS CSD / remove DB2ENTRY\n6. Retire DB2 packages"]
+
+    style CHANGE fill:#c0392b,color:#fff
+    style NEWCOMP fill:#1a5276,color:#fff
+    style BATCH_MECH fill:#7d6608,color:#fff
+    style UOW fill:#7d6608,color:#fff
+    style DEPLOY fill:#1e8449,color:#fff
+</div>
+<hr>
+<h2 id="6-risk-assessment" tabindex="-1">6. Risk Assessment</h2>
+<p>The following table summarises all identified risks, rated by likelihood, impact, and overall severity level, with recommended mitigations.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Risk</th>
+<th>Category</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Level</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><code>LGACUS01</code> (cyclomatic 25, 7 SQL statements) regression after modification</td>
+<td>Regression</td>
+<td>High</td>
+<td>High</td>
+<td>🔴 <strong>CRITICAL</strong></td>
+<td>Mandatory full regression test suite; consider incremental migration (SQL→LINK one statement at a time)</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Batch programs cannot use <code>EXEC CICS LINK</code> — no mechanism defined yet</td>
+<td>Architecture Gap</td>
+<td>High</td>
+<td>High</td>
+<td>🔴 <strong>CRITICAL</strong></td>
+<td>Design and agree batch remote-call mechanism before starting code changes</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Unit-of-work integrity lost: REST calls are not part of CICS/DB2 sync-point</td>
+<td>Data Integrity</td>
+<td>Medium</td>
+<td>High</td>
+<td>🟠 <strong>HIGH</strong></td>
+<td>Design compensation/idempotency in service program; replace <code>EXEC SQL COMMIT</code> with <code>EXEC CICS SYNCPOINT</code></td>
+</tr>
+<tr>
+<td>R4</td>
+<td>COMMAREA size limit (~32 KB): customer record may approach limit</td>
+<td>Runtime Failure</td>
+<td>Low</td>
+<td>Medium</td>
+<td>🟡 <strong>MEDIUM</strong></td>
+<td>Size the COMMAREA layout before coding; use CICS Channels/Containers if limit is reached</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Network latency of REST call vs local DB2 degrades CICS response time</td>
+<td>Performance</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>🟡 <strong>MEDIUM</strong></td>
+<td>Baseline current response times; set SLA for new service; consider connection pooling</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>SQLCODE mapping gaps: <code>+100</code> not-found, <code>-803</code> duplicate must map to COMMAREA return codes</td>
+<td>Data Integrity</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>🟡 <strong>MEDIUM</strong></td>
+<td>Document full SQLCODE→COMMAREA return code mapping table before coding</td>
+</tr>
+<tr>
+<td>R7</td>
+<td><code>EXEC SQL WHENEVER</code> implicit branching removed — hidden control flow in error routines</td>
+<td>Regression</td>
+<td>Low</td>
+<td>Medium</td>
+<td>🟡 <strong>MEDIUM</strong></td>
+<td>Audit all error-handling and logging paths for hidden <code>SQLCA</code> references</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>Premature DB2 DBRM/plan retirement breaks programs still in test</td>
+<td>Operational</td>
+<td>Low</td>
+<td>High</td>
+<td>🟡 <strong>MEDIUM</strong></td>
+<td>Retire DB2 packages only after all 6 programs are deployed and verified in production</td>
+</tr>
+</tbody>
+</table>
+<p>The sequence diagram below illustrates the interaction flow for a CICS online request after migration, contrasting it with the current direct DB2 path and highlighting the new unit-of-work boundary.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as CICS Terminal
+    participant Orch as LGACUS01 (Orchestrator)
+    participant DB01 as LGACDB01 (Backend)
+    participant SVC as NEW: CICS Customer Svc
+    participant REST as Remote DB REST API
+
+    User->>Orch: EXEC CICS LINK (COMMAREA)
+    Orch->>DB01: EXEC CICS DYNAMIC_LINK
+    DB01->>SVC: EXEC CICS LINK (COMM_FUNCTION=INS)
+    SVC->>REST: HTTP POST /customer
+    REST-->>SVC: 201 Created / Error JSON
+    SVC-->>DB01: COMM_RETCODE = 00/08
+    DB01-->>Orch: Return COMMAREA
+    Orch->>Orch: EXEC CICS SYNCPOINT
+    Orch-->>User: Response COMMAREA
+</div>
+<hr>
+<h2 id="7-assumptions-and-unknowns" tabindex="-1">7. Assumptions and Unknowns</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Scope of external systems</td>
+<td>✅ <strong>Confirmed:</strong> Only GenApp programs access the <code>CUSTOMER</code> table</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Migration approach</td>
+<td>✅ <strong>Confirmed:</strong> Replace <code>EXEC SQL</code> with REST API calls (not DB2 federation)</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Remote DB REST API contract</td>
+<td>❓ <strong>Unknown</strong> — API design is out of scope; must be defined before coding</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Batch remote-call mechanism</td>
+<td>❓ <strong>Unknown</strong> — EXCI, HTTP stub, or MQ approach must be decided (R2 — Critical Blocker)</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>Transaction integrity model</td>
+<td>🔵 <strong>Assumed:</strong> REST backend is the system of record; <code>EXEC CICS SYNCPOINT</code> used for CICS-side</td>
+</tr>
+<tr>
+<td>A6</td>
+<td><code>LGACUS01</code> cursor usage</td>
+<td>🔵 <strong>Pending</strong> — source inspection needed to confirm no additional cursors beyond identified SQL</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-recommended-remediation-steps" tabindex="-1">8. Recommended Remediation Steps</h2>
+<p>Based on the full impact and risk analysis, the following prioritised remediation steps are recommended:</p>
+<ol>
+<li>
+<p><strong>Resolve Critical Blockers First (R1, R2)</strong></p>
+<ul>
+<li>Design the Remote DB REST API contract and COMMAREA <code>%INCLUDE</code> layout (A3).</li>
+<li>Decide the batch remote-call mechanism — EXCI, HTTP stub, or MQ (A4). This is a <strong>critical blocker</strong> before any batch code changes begin.</li>
+</ul>
+</li>
+<li>
+<p><strong>Create Shared Infrastructure</strong></p>
+<ul>
+<li>Implement the new COMMAREA <code>%INCLUDE</code> member and verify its total size is under 32 KB.</li>
+<li>Implement and unit-test the new CICS Customer Service Program against the remote DB endpoint.</li>
+</ul>
+</li>
+<li>
+<p><strong>Migrate CICS Programs — Simplest First</strong></p>
+<ul>
+<li>Begin with <code>LGICDB01</code> (cyclomatic 8, one SELECT) as a proof-of-concept migration to establish patterns.</li>
+<li>Proceed with <code>LGUCDB01</code> (cyclomatic 8, one UPDATE) and <code>LGACDB01</code> (cyclomatic 13, two INSERTs).</li>
+<li>Tackle <code>LGACUS01</code> (cyclomatic 25, 7 SQL statements) <strong>last</strong>, after patterns are fully established and the test suite is in place.</li>
+</ul>
+</li>
+<li>
+<p><strong>Migrate Batch Programs</strong></p>
+<ul>
+<li>Apply the agreed batch remote-call mechanism to <code>LGBATDB2</code> (cyclomatic 1 — trivial) first.</li>
+<li>Then apply to <code>LGBATCH</code> (cyclomatic 6).</li>
+</ul>
+</li>
+<li>
+<p><strong>Update Build Configuration</strong></p>
+<ul>
+<li>Remove SQL precompiler options and DB2 link-edit stubs from <code>application-conf/PLI.properties</code> for all 6 impacted programs.</li>
+<li>Add the new service program entry.</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify Unit-of-Work Integrity</strong></p>
+<ul>
+<li>Audit all <code>EXEC SQL COMMIT</code> / <code>EXEC SQL WHENEVER</code> usages and replace with <code>EXEC CICS SYNCPOINT</code> where applicable (R3, R7).</li>
+<li>Validate compensation and idempotency logic in the new service program.</li>
+</ul>
+</li>
+<li>
+<p><strong>Execute Test Strategy</strong></p>
+<ul>
+<li>Unit test each modified program in isolation.</li>
+<li>Integration test the full CICS call chain: <code>LGTESTC1</code> → <code>LGxCUS01</code> → <code>LGxCDB01</code> → new service.</li>
+<li>Batch regression: <code>LGBATCH</code>, <code>LGBATDB2</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Deploy in Sequence and Retire DB2 Artefacts</strong></p>
+<ul>
+<li>Deploy remote DB schema → REST API → CICS service program → modified programs → update CICS CSD.</li>
+<li><strong>Only after</strong> all 6 programs are confirmed in production: retire DB2 packages/plans, remove <code>EXECUTE</code> privileges, and drop <code>DB2ENTRY</code>/<code>DB2TRAN</code> definitions (R8).</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="9-confidence-assessment" tabindex="-1">9. Confidence Assessment</h2>
+<p><strong>Confidence Level: High</strong></p>
+<ul>
+<li>All 6 impacted programs and their exact SQL statement locations were confirmed from the local scan database.</li>
+<li>Caller/callee relationships were verified via SQL analysis of the full call graph.</li>
+<li>Scope boundary confirmed by user — no external systems are affected.</li>
+<li>Only two unknowns remain (A3 — REST API contract, A4 — batch mechanism), both of which are <strong>design decisions</strong>, not discovery gaps.</li>
+</ul>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-domain-migration-risks.html" class="card">
+                <span class="card-title">Customer Domain Migration Risk Assessment</span>
+                <span class="card-description">Broader risk assessment for customer domain migrations: identifies structural risks across the DB2/VSAM dual-store pattern, named counter dependencies, security record coupling, and cross-program COMMAREA contract fragility.</span>
+            </a>
+            <a href="data-dependencies.html" class="card">
+                <span class="card-title">DB2 Table &amp; Program Dependencies</span>
+                <span class="card-description">A map of which PL/I programs access which DB2 tables (CUSTOMER, POLICY, ENDOWMENT, HOUSE, MOTOR, COMMERCIAL, CLAIM, CUSTOMER_SECURE), including read, insert, update, and delete access patterns.</span>
+            </a>
+            <a href="customer-domain-architecture.html" class="card">
+                <span class="card-title">Customer Domain Architecture</span>
+                <span class="card-description">Architectural overview of the customer domain: how customer lifecycle programs interact, the layered DB2/VSAM design, and the orchestration pattern used by LGACUS01 as the central business-logic hub.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-dependency-analysis">3. Dependency Analysis</a>
+<ul>
+<li class="toc-level-3"><a href="#31-upstream-dependencies">3.1 Upstream Dependencies</a></li>
+<li class="toc-level-3"><a href="#32-downstream-dependencies">3.2 Downstream Dependencies</a></li>
+<li class="toc-level-3"><a href="#33-sql-statement-locations-per-program">3.3 SQL Statement Locations Per Program</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-impact-analysis">4. Impact Analysis</a>
+<ul>
+<li class="toc-level-3"><a href="#41-code-level-impact-per-program">4.1 Code-Level Impact per Program</a>
+<ul>
+<li class="toc-level-4"><a href="#411-lgacdb01--add-customer-db2-backend">4.1.1 LGACDB01 — Add Customer DB2 Backend</a></li>
+<li class="toc-level-4"><a href="#412-lgacus01--add-customer-orchestrator">4.1.2 LGACUS01 — Add Customer Orchestrator</a></li>
+<li class="toc-level-4"><a href="#413-lgicdb01--inquire-customer-db2-backend">4.1.3 LGICDB01 — Inquire Customer DB2 Backend</a></li>
+<li class="toc-level-4"><a href="#414-lgucdb01--update-customer-db2-backend">4.1.4 LGUCDB01 — Update Customer DB2 Backend</a></li>
+<li class="toc-level-4"><a href="#415-lgbatch--batch-customer-report">4.1.5 LGBATCH — Batch Customer Report</a></li>
+<li class="toc-level-4"><a href="#416-lgbatdb2--batch-db2-test-driver">4.1.6 LGBATDB2 — Batch DB2 Test Driver</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#42-new-components-to-create">4.2 New Components to Create</a>
+<ul>
+<li class="toc-level-4"><a href="#421-new-cics-customer-service-program-name-tbd">4.2.1 New CICS Customer Service Program (name TBD)</a></li>
+<li class="toc-level-4"><a href="#422-new-commarea-include-member">4.2.2 New COMMAREA %INCLUDE Member</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-application-level-impact">4.3 Application-Level Impact</a>
+<ul>
+<li class="toc-level-4"><a href="#431-build-configuration--application-confpliproperties">4.3.1 Build Configuration — application-conf/PLI.properties</a></li>
+<li class="toc-level-4"><a href="#432-cics-csd--infrastructure">4.3.2 CICS CSD / Infrastructure</a></li>
+<li class="toc-level-4"><a href="#433-operational-impact">4.3.3 Operational Impact</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-change-propagation-map">5. Change Propagation Map</a></li>
+<li class="toc-level-2"><a href="#6-risk-assessment">6. Risk Assessment</a></li>
+<li class="toc-level-2"><a href="#7-assumptions-and-unknowns">7. Assumptions and Unknowns</a></li>
+<li class="toc-level-2"><a href="#8-recommended-remediation-steps">8. Recommended Remediation Steps</a></li>
+<li class="toc-level-2"><a href="#9-confidence-assessment">9. Confidence Assessment</a></li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

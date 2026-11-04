@@ -1,0 +1,1099 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGACUS01-inventory</title>
+    <link rel="stylesheet" href="../../../assets/style.css">
+    <script src="../../../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../../../assets/prism-tomorrow.css">
+    <script src="../../../assets/prism-core.js"></script>
+    <script src="../../../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I General Insurance Application Wiki</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview &amp; Program Inventory</a>
+                <a href="../../../pages/customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="../../../pages/migration-impact-analysis.html" class="nav-link" data-page-id="migration-impact-analysis">Customer Domain Migration Risks &amp; Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">User Interface Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-menu-transaction.html" class="nav-link" data-page-id="customer-menu-transaction">Customer Maintenance Menu (SSC1)</a>
+                <a href="../../../pages/policy-menu-transactions.html" class="nav-link" data-page-id="policy-menu-transactions">Policy Maintenance Menus (SSP1–SSP4)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/customer-inquiry.html" class="nav-link" data-page-id="customer-inquiry">Customer Inquiry</a>
+                <a href="../../../pages/customer-add.html" class="nav-link" data-page-id="customer-add">Customer Add &amp; Onboarding</a>
+                <a href="../../../pages/customer-update.html" class="nav-link" data-page-id="customer-update">Customer Update</a>
+                <a href="../../../pages/customer-vsam-utilities.html" class="nav-link" data-page-id="customer-vsam-utilities">Customer VSAM Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry</a>
+                <a href="../../../pages/policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add</a>
+                <a href="../../../pages/policy-update.html" class="nav-link" data-page-id="policy-update">Policy Update</a>
+                <a href="../../../pages/policy-delete.html" class="nav-link" data-page-id="policy-delete">Policy Delete</a>
+                <a href="../../../pages/policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM (KSDSPOLY) Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/batch-customer-reporting.html" class="nav-link" data-page-id="batch-customer-reporting">Batch Customer Reporting</a>
+                <a href="../../../pages/batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Logging &amp; Statistics</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../pages/error-logging.html" class="nav-link" data-page-id="error-logging">Error Logging (LGSTSQ)</a>
+                <a href="../../../pages/environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup (LGSETUP)</a>
+                <a href="../../../pages/statistics-collection.html" class="nav-link" data-page-id="statistics-collection">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle open" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items open">
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="../../../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../../../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link active">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../../../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../../../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../../../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../../../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../../../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../../../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../../../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../../../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../../../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../../../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../../../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../../../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../../../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../../../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../../../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../../../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../../../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../../../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../../../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../../../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../../../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../../../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../../../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../../../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../../../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../../../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../../../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../../../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../../../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../../../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../../../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../../../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../../../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../../../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../../../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="prog-container">
+                <div id="wiki-breadcrumb"></div>
+                <div class="content-layout">
+                    <article class="prose">
+                        <h1 id="business-rules-inventory" tabindex="-1">Business rules: Inventory</h1>
+<p><strong>Program:</strong> LGACUS01</p>
+<p><strong>Total rules extracted:</strong> 14</p>
+<h2 id="1-purpose" tabindex="-1">1. Purpose</h2>
+<p>This document is an inventory of all business rules extracted from LGACUS01, organised at the Procedure level. Each Procedure contributes one or more named rule blocks, where each block captures a discrete business policy with its title, decision logic, conditions, actions, outcomes, and the exact source code that realises it. Key variables, when available, are annotated with their role (input or output) and their specific purpose within the rule. References to related Procedures called or invoked by each rule are also recorded.</p>
+<h2 id="2-rule-inventory" tabindex="-1">2. Rule Inventory</h2>
+<h3 id="21-procedure-lgacus01" tabindex="-1">2.1 Procedure: LGACUS01</h3>
+<h4 id="211-customer-action-dispatch-and-request-identification" tabindex="-1">2.1.1 Customer action dispatch and request identification</h4>
+<p><strong>Description:</strong> Selects which customer business operation to run based on the action code. Each action sets the matching request identifier and invokes the corresponding routine: onboard a customer, offer a policy, transfer a customer with its policy, or delete a customer with its policy. Any other action code performs no operation.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Action code ‘1’ onboards a new customer with request ID ‘01ICUS’</li>
+<li>Action code ‘2’ offers a policy to a customer with request ID ‘02OCUS’</li>
+<li>Action code ‘3’ transfers a customer and its policy with request ID ‘02UCUS’</li>
+<li>Action code ‘4’ deletes a customer and removes its policy with request ID ‘02DCUS’</li>
+<li>Any other action code results in no business operation</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">SELECT;                                                                      
+     WHEN (ACTION_CODE = &#039;1&#039;) DO;                                               
+  /* Call routine to Insert row in DB2 Customer table */                        
+         CA_REQUEST_ID = &#039;01ICUS&#039;;                                              
+         CALL ONBOARD_CUSTOMER;                                                 
+     END;                                                                       
+     WHEN (ACTION_CODE = &#039;2&#039;) DO;                                               
+  /* Call routine to offer a policy to a given customer */                      
+         CA_REQUEST_ID = &#039;02OCUS&#039;;                                              
+         CALL OFFER_CUSTOMER;                                                   
+     END;                                                                       
+     WHEN (ACTION_CODE = &#039;3&#039;) DO;                                               
+  /* Call routine to transfer customer and its policy */                        
+         CA_REQUEST_ID = &#039;02UCUS&#039;;                                              
+         CALL TRANSFER_CUSTOMER;                                                
+     END;                                                                       
+     WHEN (ACTION_CODE = &#039;4&#039;) DO;                                               
+  /* Call routine to delete customer and remove its policy */                   
+         CA_REQUEST_ID = &#039;02DCUS&#039;;                                              
+         CALL DELETE_CUSTOMER;                                                  
+     END;                                                                       
+     OTHERWISE;                                                                 
+   END;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ACTION_CODE</code></td>
+<td>input</td>
+<td>Selector that determines which customer business operation is dispatched.</td>
+</tr>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td>output</td>
+<td>Set to the request code identifying the selected business operation.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>ONBOARD_CUSTOMER</li>
+<li>OFFER_CUSTOMER</li>
+<li>TRANSFER_CUSTOMER</li>
+<li>DELETE_CUSTOMER</li>
+</ul>
+<h3 id="22-procedure-onboard_customer" tabindex="-1">2.2 Procedure: ONBOARD_CUSTOMER</h3>
+<h4 id="221-obtain-and-insert-new-customer-record" tabindex="-1">2.2.1 Obtain and insert new customer record</h4>
+<p><strong>Description:</strong> Assigns a new customer number and creates the customer record in the customer table as part of onboarding.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>A new customer number is obtained before the customer record is created</li>
+<li>A customer record is created as part of onboarding</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">CALL OBTAIN_CUSTOMER_NUMBER;                                                 
+   CALL INSERT_CUSTOMER;</code></pre>
+</div>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>OBTAIN_CUSTOMER_NUMBER</li>
+<li>INSERT_CUSTOMER</li>
+</ul>
+<h4 id="222-create-customer-security-record" tabindex="-1">2.2.2 Create customer security record</h4>
+<p><strong>Description:</strong> Creates the security record for the newly onboarded customer with an initial count of zero and state ‘N’.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>A new customer’s security record is created with state ‘N’</li>
+<li>The security failed-attempt count starts at ‘0000’</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">D2_CUSTOMER_NUM    = DB2_CUSTOMERNUM_INT;                                    
+   D2_REQUEST_ID      = &#039;02ACUS&#039;;                                               
+   D2_CUSTSECR_COUNT  = &#039;0000&#039;;                                                 
+   D2_CUSTSECR_STATE  = &#039;N&#039;;                                                    
+                                                                                
+   EXEC CICS LINK PROGRAM(LGACDB02)                                             
+        COMMAREA(CDB2AREA)                                                      
+        LENGTH(32500);</code></pre>
+</div>
+<h3 id="23-procedure-insert_customer" tabindex="-1">2.3 Procedure: INSERT_CUSTOMER</h3>
+<h4 id="231-insert-customer-with-pre-assigned-customer-number" tabindex="-1">2.3.1 Insert customer with pre-assigned customer number</h4>
+<p><strong>Description:</strong> When the named counter service is on, the customer is inserted into the customer table using the customer number previously obtained from the counter.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>If the named counter is active, the pre-assigned customer number is used for the new customer record</li>
+<li>A failed insert terminates the request with return code ‘90’</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">IF (LGAC_NCS = &#039;ON&#039;) THEN DO;                                                
+     EXEC SQL                                                                   
+       INSERT INTO CUSTOMER                                                     
+                 ( CUSTOMERNUMBER,                                              
+                   FIRSTNAME,                                                   
+                   LASTNAME,                                                    
+                   DATEOFBIRTH,                                                 
+                   HOUSENAME,                                                   
+                   HOUSENUMBER,                                                 
+                   POSTCODE,                                                    
+                   PHONEMOBILE,                                                 
+                   PHONEHOME,                                                   
+                   EMAILADDRESS )                                               
+          VALUES ( :DB2_CUSTOMERNUM_INT,                                        
+                   :CA_FIRST_NAME,                                              
+                   :CA_LAST_NAME,                                               
+                   :CA_DOB,                                                     
+                   :CA_HOUSE_NAME,                                              
+                   :CA_HOUSE_NUM,                                               
+                   :CA_POSTCODE,                                                
+                   :CA_PHONE_MOBILE,                                            
+                   :CA_PHONE_HOME,                                              
+                   :CA_EMAIL_ADDRESS );                                         
+     IF (SQLCODE &lt;&gt; 0) THEN DO;                                                 
+       CA_RETURN_CODE = &#039;90&#039;;                                                   
+       CALL WRITE_ERROR_MESSAGE;                                                
+       EXEC CICS RETURN;                                                        
+     END;                                                                       
+   END;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td>input</td>
+<td>Supplies the customer’s given name for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td>input</td>
+<td>Supplies the customer’s family name for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td>input</td>
+<td>Supplies the customer’s date of birth for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td>input</td>
+<td>Supplies the house name of the customer’s address.</td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td>input</td>
+<td>Supplies the postal code of the customer’s address.</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td>input</td>
+<td>Supplies the customer’s mobile phone number.</td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td>input</td>
+<td>Supplies the customer’s email address.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>WRITE_ERROR_MESSAGE</li>
+</ul>
+<h4 id="232-insert-customer-with-database-generated-customer-number" tabindex="-1">2.3.2 Insert customer with database-generated customer number</h4>
+<p><strong>Description:</strong> When the named counter is not active, the customer is inserted letting the database generate the customer number, and the generated number is then retrieved.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>If the named counter is not active, the database assigns the customer number</li>
+<li>The generated customer number is captured for use in the rest of onboarding</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">ELSE DO;                                                                     
+     EXEC SQL                                                                   
+       INSERT INTO CUSTOMER                                                     
+                 ( CUSTOMERNUMBER,                                              
+                   FIRSTNAME,                                                   
+                   LASTNAME,                                                    
+                   DATEOFBIRTH,                                                 
+                   HOUSENAME,                                                   
+                   HOUSENUMBER,                                                 
+                   POSTCODE,                                                    
+                   PHONEMOBILE,                                                 
+                   PHONEHOME,                                                   
+                   EMAILADDRESS )                                               
+          VALUES ( DEFAULT,                                                     
+                   :CA_FIRST_NAME,                                              
+                   :CA_LAST_NAME,                                               
+                   :CA_DOB,                                                     
+                   :CA_HOUSE_NAME,                                              
+                   :CA_HOUSE_NUM,                                               
+                   :CA_POSTCODE,                                                
+                   :CA_PHONE_MOBILE,                                            
+                   :CA_PHONE_HOME,                                              
+                   :CA_EMAIL_ADDRESS );                                         
+     IF (SQLCODE &lt;&gt; 0) THEN DO;                                                 
+       CA_RETURN_CODE = &#039;90&#039;;                                                   
+       CALL WRITE_ERROR_MESSAGE;                                                
+       EXEC CICS RETURN;                                                        
+     END;                                                                       
+  /* get value of assigned customer number */                                   
+     EXEC SQL                                                                   
+       SET :DB2_CUSTOMERNUM_INT = IDENTITY_VAL_LOCAL();                         
+   END;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td>input</td>
+<td>Supplies the customer’s given name for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td>input</td>
+<td>Supplies the customer’s family name for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td>input</td>
+<td>Supplies the customer’s date of birth for the new record.</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td>input</td>
+<td>Supplies the house name of the customer’s address.</td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td>input</td>
+<td>Supplies the postal code of the customer’s address.</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td>input</td>
+<td>Supplies the customer’s mobile phone number.</td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td>input</td>
+<td>Supplies the customer’s email address.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>WRITE_ERROR_MESSAGE</li>
+</ul>
+<h3 id="24-procedure-transfer_customer" tabindex="-1">2.4 Procedure: TRANSFER_CUSTOMER</h3>
+<h4 id="241-transfer-customer-policy-unless-claim-request" tabindex="-1">2.4.1 Transfer customer policy unless claim request</h4>
+<p><strong>Description:</strong> The customer policy transfer is performed only when the request is not a claim request.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Policy transfer is skipped for claim requests (‘01ACLM’)</li>
+<li>Policy transfer runs for all other request types</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">IF (CA_REQUEST_ID ^= &#039;01ACLM&#039;) THEN                                          
+     CALL TRANSFER_CUSTOMER_POLICY;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td>input</td>
+<td>Compared with the claim request code to decide whether the policy transfer runs.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>TRANSFER_CUSTOMER_POLICY</li>
+</ul>
+<h3 id="25-procedure-delete_customer" tabindex="-1">2.5 Procedure: DELETE_CUSTOMER</h3>
+<h4 id="251-delete-customer-policy-unless-claim-request" tabindex="-1">2.5.1 Delete customer policy unless claim request</h4>
+<p><strong>Description:</strong> The customer policy deletion is performed only when the request is not a claim request.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Policy deletion is skipped for claim requests (‘01ACLM’)</li>
+<li>Policy deletion runs for all other request types</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">IF (CA_REQUEST_ID ^= &#039;01ACLM&#039;) THEN                                          
+     CALL DELETE_CUSTOMER_POLICY;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td>input</td>
+<td>Compared with the claim request code to decide whether the policy deletion runs.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>DELETE_CUSTOMER_POLICY</li>
+</ul>
+<h3 id="26-procedure-offer_customer" tabindex="-1">2.6 Procedure: OFFER_CUSTOMER</h3>
+<h4 id="261-offer-customer-policy-unless-claim-request" tabindex="-1">2.6.1 Offer customer policy unless claim request</h4>
+<p><strong>Description:</strong> A policy is offered to the customer only when the request is not a claim request.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Policy creation is skipped for claim requests (‘01ACLM’)</li>
+<li>Policy creation runs for all other request types</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">IF (CA_REQUEST_ID ^= &#039;01ACLM&#039;) THEN                                          
+     CALL INSERT_CUSTOMER_POLICY;</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td>input</td>
+<td>Compared with the claim request code to decide whether the policy is offered.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>INSERT_CUSTOMER_POLICY</li>
+</ul>
+<h3 id="27-procedure-insert_customer_policy" tabindex="-1">2.7 Procedure: INSERT_CUSTOMER_POLICY</h3>
+<h4 id="271-insert-policy-record-for-customer" tabindex="-1">2.7.1 Insert policy record for customer</h4>
+<p><strong>Description:</strong> Creates a new policy for the customer with issue and expiry dates, policy type, broker details and payment, and stamps it with the current timestamp.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>A new policy is linked to the customer by customer number</li>
+<li>The policy number is generated by the database</li>
+<li>The last-changed timestamp is set to the current time</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">EM_SQLREQ = &#039; INSERT POLICY  &#039;;                                              
+   EXEC SQL                                                                     
+     INSERT INTO POLICY                                                         
+               ( POLICYNUMBER,                                                  
+                 CUSTOMERNUMBER,                                                
+                 ISSUEDATE,                                                     
+                 EXPIRYDATE,                                                    
+                 POLICYTYPE,                                                    
+                 LASTCHANGED,                                                   
+                 BROKERID,                                                      
+                 BROKERSREFERENCE,                                              
+                 PAYMENT           )                                            
+        VALUES ( DEFAULT,                                                       
+                 :DB2_CUSTOMERNUM_INT,                                          
+                 :CA_ISSUE_DATE,                                                
+                 :CA_EXPIRY_DATE,                                               
+                 :DB2_POLICYTYPE,                                               
+                 CURRENT TIMESTAMP,                                             
+                 :DB2_BROKERID_INT,                                             
+                 :CA_BROKERSREF,                                                
+                 :DB2_PAYMENT_INT      );</code></pre>
+</div>
+<h4 id="272-evaluate-policy-insert-outcome" tabindex="-1">2.7.2 Evaluate policy insert outcome</h4>
+<p><strong>Description:</strong> Maps the policy insert result to a business return code; a -530 (referential integrity violation, i.e. the customer does not exist) is reported as ‘70’.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Success yields return code ‘00’</li>
+<li>SQLCODE -530 (customer reference not valid) yields return code ‘70’ and ends the request</li>
+<li>Any other failure yields return code ‘90’ and ends the request</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">SELECT (SQLCODE);                                                            
+     WHEN (0)                                                                   
+         CA_RETURN_CODE = &#039;00&#039;;                                                 
+     WHEN (-530) DO;                                                            
+         CA_RETURN_CODE = &#039;70&#039;;                                                 
+         CALL WRITE_ERROR_MESSAGE;                                              
+         EXEC CICS RETURN;                                                      
+     END;                                                                       
+     OTHERWISE DO;                                                              
+         CA_RETURN_CODE = &#039;90&#039;;                                                 
+         CALL WRITE_ERROR_MESSAGE;                                              
+         EXEC CICS RETURN;                                                      
+     END;                                                                       
+   END;</code></pre>
+</div>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>WRITE_ERROR_MESSAGE</li>
+</ul>
+<h3 id="28-procedure-transfer_customer_policy" tabindex="-1">2.8 Procedure: TRANSFER_CUSTOMER_POLICY</h3>
+<h4 id="281-insert-transferred-policy-record-for-customer" tabindex="-1">2.8.1 Insert transferred policy record for customer</h4>
+<p><strong>Description:</strong> Creates a new policy record in the POLICY table for the customer being transferred, with the issue and expiry dates, policy type, broker details and payment amount. A new policy number is generated automatically and the last-changed timestamp is set to the current time.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>A new policy record is created for the customer as a domain state change</li>
+<li>The policy number is system-generated through the DEFAULT identity value</li>
+<li>The last-changed timestamp is set to the current time at creation</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">EM_SQLREQ = &#039; INSERT POLICY  &#039;;                                              
+   EXEC SQL                                                                     
+     INSERT INTO POLICY                                                         
+               ( POLICYNUMBER,                                                  
+                 CUSTOMERNUMBER,                                                
+                 ISSUEDATE,                                                     
+                 EXPIRYDATE,                                                    
+                 POLICYTYPE,                                                    
+                 LASTCHANGED,                                                   
+                 BROKERID,                                                      
+                 BROKERSREFERENCE,                                              
+                 PAYMENT           )                                            
+        VALUES ( DEFAULT,                                                       
+                 :DB2_CUSTOMERNUM_INT,                                          
+                 :CA_ISSUE_DATE,                                                
+                 :CA_EXPIRY_DATE,                                               
+                 :DB2_POLICYTYPE,                                               
+                 CURRENT TIMESTAMP,                                             
+                 :DB2_BROKERID_INT,                                             
+                 :CA_BROKERSREF,                                                
+                 :DB2_PAYMENT_INT      );</code></pre>
+</div>
+<p><strong>Variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td>output</td>
+<td>Policy number field that later receives the generated policy number; the insert relies on the DEFAULT identity to produce it.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="282-policy-insert-outcome-handling-with-duplicateconstraint-check" tabindex="-1">2.8.2 Policy insert outcome handling with duplicate/constraint check</h4>
+<p><strong>Description:</strong> Evaluates the result of the policy insert. Success returns code ‘00’. A foreign-key violation (-530), meaning the referenced customer does not exist, returns ‘70’. Any other failure returns ‘90’. Failures are logged and processing stops.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>SQLCODE 0 means the policy was created successfully, return code ‘00’</li>
+<li>SQLCODE -530 means the customer reference is invalid, return code ‘70’ and stop processing</li>
+<li>Any other SQL failure returns ‘90’ and stops processing</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">SELECT (SQLCODE);                                                            
+     WHEN (0)                                                                   
+         CA_RETURN_CODE = &#039;00&#039;;                                                 
+     WHEN (-530) DO;                                                            
+         CA_RETURN_CODE = &#039;70&#039;;                                                 
+         CALL WRITE_ERROR_MESSAGE;                                              
+         EXEC CICS RETURN;                                                      
+     END;                                                                       
+     OTHERWISE DO;                                                              
+         CA_RETURN_CODE = &#039;90&#039;;                                                 
+         CALL WRITE_ERROR_MESSAGE;                                              
+         EXEC CICS RETURN;                                                      
+     END;                                                                       
+   END;</code></pre>
+</div>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>WRITE_ERROR_MESSAGE</li>
+</ul>
+<h3 id="29-procedure-delete_customer_policy" tabindex="-1">2.9 Procedure: DELETE_CUSTOMER_POLICY</h3>
+<h4 id="291-delete-customer-policy-record" tabindex="-1">2.9.1 Delete customer policy record</h4>
+<p><strong>Description:</strong> Removes the policy record that matches both the given customer number and policy number from the POLICY table. Both must match, so a customer’s policy can only be deleted by its owner.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>A policy is deleted only when both the customer number and the policy number match</li>
+<li>Deleting the policy removes the domain record</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">EM_SQLREQ = &#039; DELETE POLICY  &#039;;                                              
+   EXEC SQL                                                                     
+     DELETE                                                                     
+       FROM POLICY                                                              
+       WHERE ( CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT AND                        
+               POLICYNUMBER  = :DB2_POLICYNUM_INT      );</code></pre>
+</div>
+<h4 id="292-delete-outcome-acceptance-rule" tabindex="-1">2.9.2 Delete outcome acceptance rule</h4>
+<p><strong>Description:</strong> Checks the result of the policy delete. The comment in the source states that both SQLCODE 0 and 100 (record not found) are treated as successful because the end result is that the record no longer exists. Any other failure returns code ‘90’, logs the error and stops processing.</p>
+<p><strong>Core decision logic:</strong></p>
+<ul>
+<li>Any non-zero SQLCODE leads to return code ‘90’ and termination</li>
+<li>Not-found handling is described in the source comment as a success case</li>
+</ul>
+<p><strong>Code:</strong></p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PL1</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pl1">IF (SQLCODE &lt;&gt; 0) THEN DO;                                                   
+       CA_RETURN_CODE = &#039;90&#039;;                                                   
+       CALL WRITE_ERROR_MESSAGE;                                                
+       EXEC CICS RETURN;                                                        
+   END;</code></pre>
+</div>
+<p><strong>Procedures:</strong></p>
+<ul>
+<li>WRITE_ERROR_MESSAGE</li>
+</ul>
+
+                    </article>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-purpose">1. Purpose</a></li>
+<li class="toc-level-2"><a href="#2-rule-inventory">2. Rule Inventory</a>
+<ul>
+<li class="toc-level-3"><a href="#21-procedure-lgacus01">2.1 Procedure: LGACUS01</a>
+<ul>
+<li class="toc-level-4"><a href="#211-customer-action-dispatch-and-request-identification">2.1.1 Customer action dispatch and request identification</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#22-procedure-onboard_customer">2.2 Procedure: ONBOARD_CUSTOMER</a>
+<ul>
+<li class="toc-level-4"><a href="#221-obtain-and-insert-new-customer-record">2.2.1 Obtain and insert new customer record</a></li>
+<li class="toc-level-4"><a href="#222-create-customer-security-record">2.2.2 Create customer security record</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#23-procedure-insert_customer">2.3 Procedure: INSERT_CUSTOMER</a>
+<ul>
+<li class="toc-level-4"><a href="#231-insert-customer-with-pre-assigned-customer-number">2.3.1 Insert customer with pre-assigned customer number</a></li>
+<li class="toc-level-4"><a href="#232-insert-customer-with-database-generated-customer-number">2.3.2 Insert customer with database-generated customer number</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#24-procedure-transfer_customer">2.4 Procedure: TRANSFER_CUSTOMER</a>
+<ul>
+<li class="toc-level-4"><a href="#241-transfer-customer-policy-unless-claim-request">2.4.1 Transfer customer policy unless claim request</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#25-procedure-delete_customer">2.5 Procedure: DELETE_CUSTOMER</a>
+<ul>
+<li class="toc-level-4"><a href="#251-delete-customer-policy-unless-claim-request">2.5.1 Delete customer policy unless claim request</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#26-procedure-offer_customer">2.6 Procedure: OFFER_CUSTOMER</a>
+<ul>
+<li class="toc-level-4"><a href="#261-offer-customer-policy-unless-claim-request">2.6.1 Offer customer policy unless claim request</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#27-procedure-insert_customer_policy">2.7 Procedure: INSERT_CUSTOMER_POLICY</a>
+<ul>
+<li class="toc-level-4"><a href="#271-insert-policy-record-for-customer">2.7.1 Insert policy record for customer</a></li>
+<li class="toc-level-4"><a href="#272-evaluate-policy-insert-outcome">2.7.2 Evaluate policy insert outcome</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#28-procedure-transfer_customer_policy">2.8 Procedure: TRANSFER_CUSTOMER_POLICY</a>
+<ul>
+<li class="toc-level-4"><a href="#281-insert-transferred-policy-record-for-customer">2.8.1 Insert transferred policy record for customer</a></li>
+<li class="toc-level-4"><a href="#282-policy-insert-outcome-handling-with-duplicateconstraint-check">2.8.2 Policy insert outcome handling with duplicate/constraint check</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#29-procedure-delete_customer_policy">2.9 Procedure: DELETE_CUSTOMER_POLICY</a>
+<ul>
+<li class="toc-level-4"><a href="#291-delete-customer-policy-record">2.9.1 Delete customer policy record</a></li>
+<li class="toc-level-4"><a href="#292-delete-outcome-acceptance-rule">2.9.2 Delete outcome acceptance rule</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* breadcrumb.js — reads sessionStorage['wiki_referrer'] and renders breadcrumb.
+       Only fires when the referrer was set by clicking a link inside the Source Files
+       disclosure on a wiki page; clears after rendering so stale state never lingers. */
+    (function () {
+      var raw;
+      try { raw = sessionStorage.getItem('wiki_referrer'); } catch (_e) {}
+      if (!raw) return;
+      /* Consume immediately — prevents the breadcrumb re-appearing on the next visit. */
+      try { sessionStorage.removeItem('wiki_referrer'); } catch (_e) {}
+      var ref;
+      try { ref = JSON.parse(raw); } catch (_e) { return; }
+      if (!ref || !ref.href) return;
+      var bc = document.getElementById('wiki-breadcrumb');
+      if (!bc) return;
+      bc.className = 'wiki-breadcrumb';
+      bc.innerHTML =
+        '<a href="' + ref.href + '">' + (ref.title || 'Back') + '</a>' +
+        '<span class="wiki-breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="wiki-breadcrumb-current">LGACUS01-inventory</span>';
+    })();
+    </script>
+    <script>
+    /* sidebar toggle — same as main wiki pages */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+</body>
+</html>

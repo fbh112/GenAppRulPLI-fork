@@ -1,0 +1,1273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Delete - GenApp PL/I General Insurance Application Wiki</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I General Insurance Application Wiki</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview &amp; Program Inventory</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="migration-impact-analysis.html" class="nav-link" data-page-id="migration-impact-analysis">Customer Domain Migration Risks &amp; Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">User Interface Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu-transaction.html" class="nav-link" data-page-id="customer-menu-transaction">Customer Maintenance Menu (SSC1)</a>
+                <a href="policy-menu-transactions.html" class="nav-link" data-page-id="policy-menu-transactions">Policy Maintenance Menus (SSP1–SSP4)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-inquiry.html" class="nav-link" data-page-id="customer-inquiry">Customer Inquiry</a>
+                <a href="customer-add.html" class="nav-link" data-page-id="customer-add">Customer Add &amp; Onboarding</a>
+                <a href="customer-update.html" class="nav-link" data-page-id="customer-update">Customer Update</a>
+                <a href="customer-vsam-utilities.html" class="nav-link" data-page-id="customer-vsam-utilities">Customer VSAM Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add</a>
+                <a href="policy-update.html" class="nav-link" data-page-id="policy-update">Policy Update</a>
+                <a href="policy-delete.html" class="nav-link active" data-page-id="policy-delete">Policy Delete</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM (KSDSPOLY) Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="batch-customer-reporting.html" class="nav-link" data-page-id="batch-customer-reporting">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Logging &amp; Statistics</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="error-logging.html" class="nav-link" data-page-id="error-logging">Error Logging (LGSTSQ)</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup (LGSETUP)</a>
+                <a href="statistics-collection.html" class="nav-link" data-page-id="statistics-collection">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(3)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGDPDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGDPDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGDPVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGDPVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGDPOL01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGDPOL01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="policy-delete" tabindex="-1">Policy Delete</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The Policy Delete function removes an insurance policy from the General Insurance Application (GenApp). It is a three-program chain that runs under CICS and is written in Enterprise PL/I:</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Role</th>
+<th>Data store</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGDPOL01</code></td>
+<td>Front end. Validates the request and routes it.</td>
+<td>None (delegates)</td>
+</tr>
+<tr>
+<td><code>LGDPDB01</code></td>
+<td>Deletes the policy from DB2. Foreign-key cascade removes the policy-type row.</td>
+<td>DB2 (<code>POLICY</code> and child tables)</td>
+</tr>
+<tr>
+<td><code>LGDPVS01</code></td>
+<td>Deletes the matching record from the VSAM KSDS file <code>KSDSPOLY</code>.</td>
+<td>VSAM (<code>KSDSPOLY</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The chain supports four policy types, each selected by <code>CA_REQUEST_ID</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Request ID</th>
+<th>Policy type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01DEND</code></td>
+<td>Endowment</td>
+</tr>
+<tr>
+<td><code>01DHOU</code></td>
+<td>House</td>
+</tr>
+<tr>
+<td><code>01DCOM</code></td>
+<td>Commercial</td>
+</tr>
+<tr>
+<td><code>01DMOT</code></td>
+<td>Motor</td>
+</tr>
+</tbody>
+</table>
+<p>All programs share one COMMAREA layout, <code>COMM_AREA</code>, which comes from the <code>LGCMAREA</code> include. Each program reports its outcome in <code>CA_RETURN_CODE</code>. Failures are written to a transient data queue by the shared logging program <code>LGSTSQ</code>.</p>
+<h3 id="11-return-codes" tabindex="-1">1.1 Return codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Set by</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>Success. This is the initial value.</td>
+</tr>
+<tr>
+<td><code>81</code></td>
+<td><code>LGDPVS01</code></td>
+<td>The VSAM <code>DELETE</code> of <code>KSDSPOLY</code> failed.</td>
+</tr>
+<tr>
+<td><code>90</code></td>
+<td><code>LGDPDB01</code></td>
+<td>A DB2 error occurred on the <code>DELETE</code> from <code>POLICY</code>.</td>
+</tr>
+<tr>
+<td><code>98</code></td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>The COMMAREA is shorter than the 28-byte minimum header.</td>
+</tr>
+<tr>
+<td><code>99</code></td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>The request identifier is not recognised.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-view" tabindex="-1">2.1 Component View</h3>
+<div class="mermaid">
+graph TD
+    Caller[Calling CICS Program<br>Menu or Orchestrator] -->|EXEC CICS LINK<br>COMMAREA| FE[LGDPOL01<br>Front End]
+    FE -->|EXEC CICS LINK<br>LENGTH 32500| DB[LGDPDB01<br>DB2 Delete]
+    DB -->|EXEC SQL DELETE| POL[(DB2 POLICY)]
+    POL -.->|FK cascade| TYPES[(ENDOWMENT / HOUSE /<br>MOTOR / COMMERCIAL)]
+    DB -->|EXEC CICS LINK<br>after DB2 success| VS[LGDPVS01<br>VSAM Delete]
+    VS -->|EXEC CICS DELETE| KSDS[(VSAM KSDSPOLY)]
+    FE -.->|errors| LOG[LGSTSQ<br>TDQ Logger]
+    DB -.->|errors| LOG
+    VS -.->|errors| LOG
+    LOG --> TDQ[(CICS TD Queue CSMT)]
+</div>
+<p><code>LGDPOL01</code> never touches a data store directly. <code>LGDPDB01</code> owns the DB2 side, and <code>LGDPVS01</code> owns the VSAM side. <code>LGDPDB01</code> links to <code>LGDPVS01</code> only after the DB2 delete has succeeded.</p>
+<h3 id="22-layered-responsibilities" tabindex="-1">2.2 Layered Responsibilities</h3>
+<div class="mermaid">
+graph TD
+    subgraph Presentation_Routing[Validation and Routing]
+        A[LGDPOL01]
+    end
+    subgraph Data_Access[Data Access]
+        B[LGDPDB01 - DB2]
+        C[LGDPVS01 - VSAM]
+    end
+    subgraph Shared[Shared Services]
+        D[LGCMAREA copybook]
+        E[LGSTSQ error logger]
+    end
+    A --> B
+    B --> C
+    A -.-> D
+    B -.-> D
+    C -.-> D
+    A -.-> E
+    B -.-> E
+    C -.-> E
+</div>
+<h3 id="23-shared-commarea" tabindex="-1">2.3 Shared COMMAREA</h3>
+<p><code>LGCMAREA</code> is included in all three programs with <code>%INCLUDE LGCMAREA;</code>. It defines <code>COMM_AREA</code> as a BASED UNION over the <code>COMM_AREA_PTR</code> parameter. Fields used by this flow:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code></td>
+<td>Selects the delete type. <code>LGDPVS01</code> uses its 4th character in the VSAM key.</td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>PIC '99'</code></td>
+<td>Outcome reported to the caller.</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>Customer key.</td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>PIC '9999999999'</code></td>
+<td>Policy key.</td>
+</tr>
+<tr>
+<td><code>CA_POLICY_COMMON</code></td>
+<td>group</td>
+<td>Issue date, expiry date, broker ID, broker’s reference, payment. Passed through.</td>
+</tr>
+<tr>
+<td><code>CA_ENDOWMENT</code>, <code>CA_HOUSE</code>, <code>CA_MOTOR</code>, <code>CA_COMMERCIAL</code></td>
+<td>union members</td>
+<td>Policy-type-specific data, passed through.</td>
+</tr>
+<tr>
+<td><code>COMM_AREA_RAW</code></td>
+<td><code>CHAR(32500)</code></td>
+<td>Raw overlay, used for diagnostic dumps.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-end-to-end-process-flow" tabindex="-1">3. End-to-End Process Flow</h2>
+<h3 id="31-sequence-of-operations-successful-delete" tabindex="-1">3.1 Sequence of Operations (Successful Delete)</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant C as Caller
+    participant F as LGDPOL01
+    participant D as LGDPDB01
+    participant DB as DB2
+    participant V as LGDPVS01
+    participant K as VSAM KSDSPOLY
+    C->>F: LINK (COMMAREA, e.g. 01DMOT)
+    F->>F: Check EIBCALEN, set RC=00, UPPERCASE request ID
+    F->>D: LINK LGDPDB01 (LENGTH 32500)
+    D->>D: Validate COMMAREA, convert keys to FIXED BIN(31)
+    D->>DB: DELETE FROM POLICY WHERE CUSTOMERNUMBER AND POLICYNUMBER
+    DB-->>DB: Cascade delete of type-specific row
+    DB-->>D: SQLCODE 0
+    D->>V: LINK LGDPVS01 (LENGTH 32500)
+    V->>K: EXEC CICS DELETE FILE KSDSPOLY RIDFLD 21 bytes
+    K-->>V: RESP NORMAL
+    V-->>D: Return (RC unchanged)
+    D-->>F: EXEC CICS RETURN (RC=00)
+    F-->>C: EXEC CICS RETURN (RC=00)
+</div>
+<h3 id="32-decision-flow-across-the-chain" tabindex="-1">3.2 Decision Flow Across the Chain</h3>
+<div class="mermaid">
+graph TD
+    S([Request received]) --> L0{EIBCALEN = 0?}
+    L0 -- Yes --> AB[Log error and ABEND LGCA NODUMP]
+    L0 -- No --> L1{EIBCALEN < 28?}
+    L1 -- Yes --> R98[RC = 98 and RETURN]
+    L1 -- No --> L2{Request ID is<br>01DEND, 01DHOU,<br>01DCOM or 01DMOT?}
+    L2 -- No --> R99[RC = 99 and RETURN]
+    L2 -- Yes --> DB[LGDPDB01: DELETE FROM POLICY]
+    DB --> L3{SQLCODE = 0?}
+    L3 -- No --> R90[RC = 90, log, RETURN]
+    L3 -- Yes --> VS[LGDPVS01: DELETE KSDSPOLY]
+    VS --> L4{RESP = NORMAL?}
+    L4 -- No --> R81[RC = 81, log, RETURN]
+    L4 -- Yes --> OK[RC = 00 and RETURN]
+</div>
+<h2 id="4-front-end-lgdpol01" tabindex="-1">4. Front End: LGDPOL01</h2>
+<h3 id="41-responsibilities" tabindex="-1">4.1 Responsibilities</h3>
+<p><code>LGDPOL01</code> is the business-logic entry point. It does the following:</p>
+<ul>
+<li>Captures <code>EIBTRNID</code>, <code>EIBTRMID</code> and <code>EIBTASKN</code> into <code>WS_HEADER</code> for dump analysis.</li>
+<li>Validates that a COMMAREA exists and is at least 28 bytes (<code>WS_CA_HEADER_LEN</code>).</li>
+<li>Copies the customer and policy numbers into the error message structure ahead of time, so any later log entry is complete.</li>
+<li>Normalises <code>CA_REQUEST_ID</code> to uppercase and routes it.</li>
+<li>Delegates the delete to <code>LGDPDB01</code> and passes the result back to the caller.</li>
+</ul>
+<h3 id="42-validation-and-routing" tabindex="-1">4.2 Validation and Routing</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF EIBCALEN = 0 THEN DO;
+   EM_MSG_TEXT = &#039; NO COMMAREA RECEIVED&#039;;
+   CALL WRITE_ERROR_MESSAGE;
+   EXEC CICS ABEND ABCODE(&#039;LGCA&#039;) NODUMP;
+END;
+
+CA_RETURN_CODE = &#039;00&#039;;
+WS_CALEN = EIBCALEN;
+IF EIBCALEN &lt; WS_CA_HEADER_LEN THEN DO;
+   CA_RETURN_CODE = &#039;98&#039;;
+   EXEC CICS RETURN;
+END;
+
+EM_CUSNUM = CA_CUSTOMER_NUM;
+EM_POLNUM = CA_POLICY_NUM;
+CA_REQUEST_ID = UPPERCASE(CA_REQUEST_ID);
+
+SELECT (CA_REQUEST_ID);
+  WHEN (&#039;01DEND&#039;,&#039;01DHOU&#039;,&#039;01DCOM&#039;,&#039;01DMOT&#039;) DO;
+     CALL DELETE_POLICY_DB2_INFO;
+     IF CA_RETURN_CODE &gt; 0 THEN
+        EXEC CICS RETURN;
+  END;
+  OTHERWISE
+     CA_RETURN_CODE = &#039;99&#039;;
+END;
+EXEC CICS RETURN;</code></pre>
+</div>
+<p>All four request types share one branch. The <code>UPPERCASE</code> built-in means mixed-case input is accepted.</p>
+<h3 id="43-db2-delegation" tabindex="-1">4.3 DB2 Delegation</h3>
+<p><code>DELETE_POLICY_DB2_INFO</code> is a thin wrapper that passes the whole COMMAREA to <code>LGDPDB01</code>:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS LINK PROGRAM(LGDPDB01)
+               COMMAREA(COMM_AREA)
+               LENGTH(32500);</code></pre>
+</div>
+<p>Any failure comes back through <code>CA_RETURN_CODE</code>. The caller checks it with <code>CA_RETURN_CODE &gt; 0</code>.</p>
+<h3 id="44-front-end-flow" tabindex="-1">4.4 Front-End Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Entry]) --> B[Capture EIB identifiers]
+    B --> C{EIBCALEN = 0}
+    C -- Yes --> D[WRITE_ERROR_MESSAGE<br>ABEND LGCA]
+    C -- No --> E[RC = 00]
+    E --> F{EIBCALEN < 28}
+    F -- Yes --> G[RC = 98 and RETURN]
+    F -- No --> H[Copy cust and policy num<br>to ERROR_MSG]
+    H --> I[UPPERCASE request ID]
+    I --> J{SELECT request ID}
+    J -- Valid delete ID --> K[LINK LGDPDB01]
+    K --> L{RC greater than 0}
+    L -- Yes --> M[RETURN error to caller]
+    L -- No --> N[RETURN success]
+    J -- Otherwise --> O[RC = 99 and RETURN]
+</div>
+<h2 id="5-db2-delete-lgdpdb01" tabindex="-1">5. DB2 Delete: LGDPDB01</h2>
+<h3 id="51-responsibilities" tabindex="-1">5.1 Responsibilities</h3>
+<p><code>LGDPDB01</code> is the DB2 back end. It does the following:</p>
+<ul>
+<li>Repeats the COMMAREA presence and length checks.</li>
+<li>Converts <code>CA_CUSTOMER_NUM</code> and <code>CA_POLICY_NUM</code> to <code>FIXED BIN(31)</code> host variables (<code>DB2_CUSTOMERNUM_INT</code>, <code>DB2_POLICYNUM_INT</code>).</li>
+<li>Issues one <code>DELETE</code> against <code>POLICY</code>.</li>
+<li>On success, links to <code>LGDPVS01</code> to remove the VSAM counterpart.</li>
+</ul>
+<h3 id="52-routing-and-vsam-hand-off" tabindex="-1">5.2 Routing and VSAM Hand-off</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">SELECT (CA_REQUEST_ID);
+  WHEN (&#039;01DEND&#039;,&#039;01DHOU&#039;,&#039;01DCOM&#039;,&#039;01DMOT&#039;) DO;
+     CALL DELETE_POLICY_DB2_INFO;
+     EXEC CICS LINK PROGRAM(&#039;LGDPVS01&#039;)
+                    COMMAREA(COMM_AREA)
+                    LENGTH(32500);
+  END;
+  OTHERWISE
+     CA_RETURN_CODE = &#039;99&#039;;
+END;
+EXEC CICS RETURN;</code></pre>
+</div>
+<p>If <code>DELETE_POLICY_DB2_INFO</code> hits a DB2 error, it issues <code>EXEC CICS RETURN</code> itself. The <code>LGDPVS01</code> link is therefore skipped.</p>
+<h3 id="53-the-db2-delete" tabindex="-1">5.3 The DB2 DELETE</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EM_SQLREQ = &#039; DELETE POLICY  &#039;;
+EXEC SQL DELETE FROM POLICY
+   WHERE ( CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT
+       AND POLICYNUMBER   = :DB2_POLICYNUM_INT );
+
+IF SQLCODE &lt;&gt; 0 THEN DO;
+   CA_RETURN_CODE = &#039;90&#039;;
+   CALL WRITE_ERROR_MESSAGE;
+   EXEC CICS RETURN;
+END;</code></pre>
+</div>
+<p>The program never deletes from the policy-type tables explicitly. It relies on the foreign-key cascade defined in DB2.</p>
+<p>The source says <code>SQLCODE 100</code> (row not found) is acceptable. The <code>IF SQLCODE &lt;&gt; 0</code> test as written would also catch 100 and set return code <code>90</code>. The two statements are inconsistent, so check the actual behaviour in your environment.</p>
+<h3 id="54-db2-entity-relationships" tabindex="-1">5.4 DB2 Entity Relationships</h3>
+<div class="mermaid">
+erDiagram
+    POLICY {
+        int CUSTOMERNUMBER "FK to CUSTOMER"
+        int POLICYNUMBER "Primary key"
+        string ISSUEDATE
+        string EXPIRYDATE
+        string LASTCHANGED
+        int BROKERID
+        string BROKERSREF
+        int PAYMENT
+    }
+    ENDOWMENT {
+        int POLICYNUMBER "FK to POLICY"
+        string FUND_NAME
+        int TERM
+        int SUM_ASSURED
+        string LIFE_ASSURED
+    }
+    HOUSE {
+        int POLICYNUMBER "FK to POLICY"
+        string PROPERTY_TYPE
+        int BEDROOMS
+        int VALUE
+        string POSTCODE
+    }
+    MOTOR {
+        int POLICYNUMBER "FK to POLICY"
+        string MAKE
+        string MODEL
+        string REGNUMBER
+        int PREMIUM
+    }
+    COMMERCIAL {
+        int POLICYNUMBER "FK to POLICY"
+        string ADDRESS
+        string POSTCODE
+        int STATUS
+        string REJECT_REASON
+    }
+    POLICY ||--o| ENDOWMENT : "cascade delete"
+    POLICY ||--o| HOUSE : "cascade delete"
+    POLICY ||--o| MOTOR : "cascade delete"
+    POLICY ||--o| COMMERCIAL : "cascade delete"
+</div>
+<p>Deleting a <code>POLICY</code> row removes the child row in whichever type table holds it. Only a subset of columns is shown for each table.</p>
+<h3 id="55-db2-delete-flow" tabindex="-1">5.5 DB2 Delete Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Entry]) --> B[Capture EIB ids<br>Zero DB2_IN_INTEGERS]
+    B --> C{EIBCALEN = 0}
+    C -- Yes --> D[Log and ABEND LGCA]
+    C -- No --> E[RC = 00]
+    E --> F{EIBCALEN < 28}
+    F -- Yes --> G[RC = 98 and RETURN]
+    F -- No --> H[Convert keys to FIXED BIN 31<br>Populate EM_CUSNUM EM_POLNUM]
+    H --> I{SELECT request ID}
+    I -- Valid --> J[DELETE FROM POLICY]
+    J --> K{SQLCODE not 0}
+    K -- Yes --> L[RC = 90, log, RETURN]
+    K -- No --> M[LINK LGDPVS01]
+    M --> N[RETURN]
+    I -- Otherwise --> O[RC = 99]
+    O --> N
+</div>
+<h2 id="6-vsam-delete-lgdpvs01" tabindex="-1">6. VSAM Delete: LGDPVS01</h2>
+<h3 id="61-responsibilities" tabindex="-1">6.1 Responsibilities</h3>
+<p><code>LGDPVS01</code> is the VSAM back end and the counterpart of the DB2 program. It builds a 21-byte composite key and deletes the matching record from <code>KSDSPOLY</code>.</p>
+<h3 id="62-composite-key" tabindex="-1">6.2 Composite Key</h3>
+<table>
+<thead>
+<tr>
+<th>Key part</th>
+<th>Source</th>
+<th>Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WF_REQUEST_ID</code></td>
+<td>4th character of <code>CA_REQUEST_ID</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>WF_CUSTOMER_NUM</code></td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>WF_POLICY_NUM</code></td>
+<td><code>CA_POLICY_NUM</code></td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>21</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For <code>01DMOT</code>, the 4th character is <code>D</code>. The source examples use a different sample ID (<code>DPV001</code>) whose 4th character is <code>'0'</code>.</p>
+<h3 id="63-delete-logic" tabindex="-1">6.3 Delete Logic</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">WS_Commarea_Len = EIBCALEN;
+WF_Request_ID   = SUBSTR(CA_Request_ID,4,1);
+WF_Policy_Num   = CA_Policy_Num;
+WF_Customer_Num = CA_Customer_Num;
+
+EXEC CICS DELETE FILE(&#039;KSDSPOLY&#039;)
+               RIDFLD(WF_Policy_Key)
+               KEYLENGTH(21)
+               RESP(WS_RESP);
+
+IF WS_RESP &lt;&gt; DFHRESP(NORMAL) THEN DO;
+   WS_RESP2 = EIBRESP2;
+   CA_RETURN_CODE = &#039;81&#039;;
+   CALL WRITE_ERROR_MESSAGE;
+   EXEC CICS RETURN;
+END;
+RETURN;</code></pre>
+</div>
+<p>Because the command uses <code>RESP</code>, a failure does not cause an implicit abend. The program handles the error itself.</p>
+<h3 id="64-behavioural-notes" tabindex="-1">6.4 Behavioural Notes</h3>
+<ul>
+<li><code>LGDPVS01</code> does no COMMAREA length validation of its own. It relies on its caller, <code>LGDPDB01</code>, having done that.</li>
+<li>On success it leaves <code>CA_RETURN_CODE</code> unchanged, which is <code>00</code> after the earlier checks.</li>
+<li>The error message populates <code>EM_CUSNUM</code>, <code>EM_RESPRC</code> and <code>EM_RESP2RC</code>. The program description lists <code>EM_POLNUM</code>, but the code shown never assigns it, so the logged policy number may be blank.</li>
+</ul>
+<h3 id="65-vsam-delete-flow" tabindex="-1">6.5 VSAM Delete Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Entry]) --> B[WS_Commarea_Len = EIBCALEN]
+    B --> C[Build 21-byte WF_POLICY_KEY]
+    C --> D[EXEC CICS DELETE KSDSPOLY]
+    D --> E{RESP = NORMAL}
+    E -- Yes --> F([RETURN success])
+    E -- No --> G[WS_RESP2 = EIBRESP2<br>RC = 81]
+    G --> H[WRITE_ERROR_MESSAGE]
+    H --> I([EXEC CICS RETURN])
+</div>
+<h2 id="7-error-handling-and-logging" tabindex="-1">7. Error Handling and Logging</h2>
+<h3 id="71-error-matrix" tabindex="-1">7.1 Error Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Detected in</th>
+<th>Action</th>
+<th>Return code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EIBCALEN = 0</code></td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>Log, then <code>ABEND LGCA NODUMP</code></td>
+<td>None (task abends)</td>
+</tr>
+<tr>
+<td><code>EIBCALEN &lt; 28</code></td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>Return immediately, no log</td>
+<td><code>98</code></td>
+</tr>
+<tr>
+<td>Unknown request ID</td>
+<td><code>LGDPOL01</code>, <code>LGDPDB01</code></td>
+<td>Return, no log</td>
+<td><code>99</code></td>
+</tr>
+<tr>
+<td>DB2 <code>SQLCODE &lt;&gt; 0</code></td>
+<td><code>LGDPDB01</code></td>
+<td>Log, return, skip VSAM</td>
+<td><code>90</code></td>
+</tr>
+<tr>
+<td>VSAM <code>RESP &lt;&gt; NORMAL</code></td>
+<td><code>LGDPVS01</code></td>
+<td>Log, return</td>
+<td><code>81</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-error-logging-sequence" tabindex="-1">7.2 Error Logging Sequence</h3>
+<p>Each program has its own <code>WRITE_ERROR_MESSAGE</code> procedure. All three work the same way:</p>
+<div class="mermaid">
+sequenceDiagram
+    participant P as Program
+    participant CICS as CICS
+    participant L as LGSTSQ
+    participant Q as TD Queue
+    P->>CICS: ASKTIME ABSTIME(WS_ABSTIME)
+    P->>CICS: FORMATTIME MMDDYYYY(WS_DATE) TIME(WS_TIME)
+    P->>L: LINK COMMAREA(ERROR_MSG)
+    L->>Q: Write formatted error record
+    alt EIBCALEN greater than 0
+        P->>P: CA_DATA = LEFT(COMM_AREA_RAW, min(EIBCALEN, 90))
+        P->>L: LINK COMMAREA(CA_ERROR_MSG)
+        L->>Q: Write COMMAREA= snapshot
+    end
+</div>
+<h3 id="73-error-message-content" tabindex="-1">7.3 Error Message Content</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th><code>LGDPOL01</code></th>
+<th><code>LGDPDB01</code></th>
+<th><code>LGDPVS01</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EM_DATE</code> / <code>EM_TIME</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Program name literal</td>
+<td><code>LGDPOL01</code></td>
+<td><code>LGDPDB01</code></td>
+<td><code>LGDPVS01</code></td>
+</tr>
+<tr>
+<td><code>EM_CUSNUM</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>EM_POLNUM</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Not assigned</td>
+</tr>
+<tr>
+<td><code>EM_SQLREQ</code> / <code>EM_SQLRC</code></td>
+<td>No</td>
+<td><code>' DELETE POLICY  '</code> and <code>SQLCODE</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>EM_RESPRC</code> / <code>EM_RESP2RC</code></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Text</td>
+<td><code>' NO COMMAREA RECEIVED'</code></td>
+<td>Same, or the SQL label</td>
+<td><code>' Delete file KSDSPOLY'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-commarea-snapshot-rule" tabindex="-1">7.4 COMMAREA Snapshot Rule</h3>
+<p>The snapshot is capped at 90 bytes, the size of <code>CA_DATA</code>:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF EIBCALEN &gt; 0 THEN DO;
+   IF EIBCALEN &lt; 91 THEN
+      CA_DATA = LEFT(COMM_AREA_RAW, EIBCALEN);
+   ELSE
+      CA_DATA = LEFT(COMM_AREA_RAW, 90);
+   EXEC CICS LINK PROGRAM(&#039;LGSTSQ&#039;)
+                  COMMAREA(CA_ERROR_MSG)
+                  LENGTH(STG(CA_ERROR_MSG));
+END;</code></pre>
+</div>
+<h2 id="8-dependencies-and-constraints" tabindex="-1">8. Dependencies and Constraints</h2>
+<h3 id="81-dependencies" tabindex="-1">8.1 Dependencies</h3>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Used by</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICS runtime (EIB, <code>LINK</code>, <code>RETURN</code>, <code>ABEND</code>, <code>ASKTIME</code>, <code>FORMATTIME</code>)</td>
+<td>All</td>
+<td>Transaction services</td>
+</tr>
+<tr>
+<td><code>LGCMAREA</code> include</td>
+<td>All</td>
+<td><code>COMM_AREA</code> layout</td>
+</tr>
+<tr>
+<td><code>SQLCA</code> include</td>
+<td><code>LGDPDB01</code></td>
+<td><code>SQLCODE</code> access</td>
+</tr>
+<tr>
+<td>DB2 <code>POLICY</code> and type tables</td>
+<td><code>LGDPDB01</code></td>
+<td>Policy data and cascade</td>
+</tr>
+<tr>
+<td>VSAM KSDS <code>KSDSPOLY</code></td>
+<td><code>LGDPVS01</code></td>
+<td>Policy record store</td>
+</tr>
+<tr>
+<td><code>LGSTSQ</code></td>
+<td>All</td>
+<td>Writes errors to the TD queue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-key-constraints" tabindex="-1">8.2 Key Constraints</h3>
+<ul>
+<li>The COMMAREA must be at least 28 bytes. The maximum raw size is 32,500 bytes, and every <code>LINK</code> in the chain passes <code>LENGTH(32500)</code>.</li>
+<li>Customer and policy numbers are 10-digit pictures. <code>LGDPDB01</code> converts them to <code>FIXED BIN(31)</code>, so valid values are 0 to 2,147,483,647.</li>
+<li>The DB2 delete needs both <code>CUSTOMERNUMBER</code> and <code>POLICYNUMBER</code> to match.</li>
+<li>Order is fixed: <code>LGDPOL01</code> validates, <code>LGDPDB01</code> deletes from DB2, then <code>LGDPVS01</code> deletes from VSAM. A DB2 error stops the chain before VSAM is touched.</li>
+<li>The policy-type fields are members of a UNION and share storage. Only the layout matching <code>CA_REQUEST_ID</code> is meaningful.</li>
+<li>The two stores are not updated in one unit of work by the program logic described here. An <code>81</code> from <code>LGDPVS01</code> is reported after the DB2 row has already been deleted. The source documents do not describe any compensating action.</li>
+<li><code>LGDPVS01</code> uses the key <code>request-type character + customer + policy</code>. The KSDS must be defined with exactly this 21-byte key.</li>
+</ul>
+<h2 id="9-examples" tabindex="-1">9. Examples</h2>
+<h3 id="91-successful-motor-policy-delete" tabindex="-1">9.1 Successful Motor Policy Delete</h3>
+<p>Input:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>01DMOT</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>0000001234</code></td>
+</tr>
+<tr>
+<td><code>CA_POLICY_NUM</code></td>
+<td><code>0000005678</code></td>
+</tr>
+<tr>
+<td>COMMAREA length</td>
+<td>32500</td>
+</tr>
+</tbody>
+</table>
+<p>Processing:</p>
+<ol>
+<li><code>LGDPOL01</code> passes the length checks and matches <code>01DMOT</code>.</li>
+<li><code>LGDPDB01</code> runs <code>DELETE FROM POLICY WHERE CUSTOMERNUMBER = 1234 AND POLICYNUMBER = 5678</code>. DB2 cascades the delete to the <code>MOTOR</code> row. <code>SQLCODE</code> is 0.</li>
+<li><code>LGDPVS01</code> deletes the <code>KSDSPOLY</code> record. <code>RESP</code> is NORMAL.</li>
+<li>The caller receives <code>CA_RETURN_CODE = '00'</code>.</li>
+</ol>
+<h3 id="92-unknown-request-id" tabindex="-1">9.2 Unknown Request ID</h3>
+<p>Input: <code>CA_REQUEST_ID = '01DTRV'</code>, with a valid length.</p>
+<p>The <code>OTHERWISE</code> branch in <code>LGDPOL01</code> sets <code>CA_RETURN_CODE = '99'</code>. <code>LGDPDB01</code> is never linked, nothing is deleted, and nothing is logged.</p>
+<h3 id="93-commarea-too-small" tabindex="-1">9.3 COMMAREA Too Small</h3>
+<p>Input: a 20-byte COMMAREA.</p>
+<p><code>EIBCALEN</code> (20) is less than 28, so <code>LGDPOL01</code> sets <code>CA_RETURN_CODE = '98'</code> and returns at once. No routing or database call happens.</p>
+<h3 id="94-db2-failure" tabindex="-1">9.4 DB2 Failure</h3>
+<p>Input: <code>CA_REQUEST_ID = '01DHOU'</code>, and DB2 returns a non-zero <code>SQLCODE</code> such as <code>-904</code>.</p>
+<p><code>LGDPDB01</code> sets <code>CA_RETURN_CODE = '90'</code> and writes two entries through <code>LGSTSQ</code>: the formatted message (date, time, customer, policy, <code>' DELETE POLICY  '</code>, <code>SQLCODE</code>) and a <code>COMMAREA=</code> snapshot of up to 90 bytes. It then returns without linking <code>LGDPVS01</code>. <code>LGDPOL01</code> sees <code>CA_RETURN_CODE &gt; 0</code> and returns the <code>90</code> to the caller.</p>
+<h3 id="95-vsam-failure" tabindex="-1">9.5 VSAM Failure</h3>
+<p>Input: a valid DB2 delete, but no <code>KSDSPOLY</code> record exists for the key. CICS returns <code>NOTFND</code>.</p>
+<p><code>LGDPVS01</code> sets <code>WS_RESP2 = EIBRESP2</code> and <code>CA_RETURN_CODE = '81'</code>. It logs <code>' Delete file KSDSPOLY'</code> with both response codes, then returns. The DB2 delete has already been applied at this point.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="policy-menu-transactions.html" class="card">
+                <span class="card-title">Policy Maintenance Menus (SSP1–SSP4)</span>
+                <span class="card-description">Interactive BMS menu transactions for motor (SSP1), endowment (SSP2), house (SSP3) and commercial (SSP4) policies. They route to the inquiry, add, delete and update programs.</span>
+            </a>
+            <a href="policy-vsam-programs.html" class="card">
+                <span class="card-title">Policy VSAM (KSDSPOLY) Programs</span>
+                <span class="card-description">Programs that access the KSDSPOLY policy file: add (LGAPVS01), update (LGUPVS01), delete (LGDPVS01) and generic GTEQ browse (LGIPVS01). It covers the composite key structure and return codes.</span>
+            </a>
+            <a href="error-logging.html" class="card">
+                <span class="card-title">Error Logging (LGSTSQ)</span>
+                <span class="card-description">The shared LGSTSQ logging utility that writes to the CSMT transient data queue and the GENAERRS temporary storage queue. It also covers the diagnostic message conventions used by the other programs.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a>
+<ul>
+<li class="toc-level-3"><a href="#11-return-codes">1.1 Return codes</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-view">2.1 Component View</a></li>
+<li class="toc-level-3"><a href="#22-layered-responsibilities">2.2 Layered Responsibilities</a></li>
+<li class="toc-level-3"><a href="#23-shared-commarea">2.3 Shared COMMAREA</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-end-to-end-process-flow">3. End-to-End Process Flow</a>
+<ul>
+<li class="toc-level-3"><a href="#31-sequence-of-operations-successful-delete">3.1 Sequence of Operations (Successful Delete)</a></li>
+<li class="toc-level-3"><a href="#32-decision-flow-across-the-chain">3.2 Decision Flow Across the Chain</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-front-end-lgdpol01">4. Front End: LGDPOL01</a>
+<ul>
+<li class="toc-level-3"><a href="#41-responsibilities">4.1 Responsibilities</a></li>
+<li class="toc-level-3"><a href="#42-validation-and-routing">4.2 Validation and Routing</a></li>
+<li class="toc-level-3"><a href="#43-db2-delegation">4.3 DB2 Delegation</a></li>
+<li class="toc-level-3"><a href="#44-front-end-flow">4.4 Front-End Flow</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-db2-delete-lgdpdb01">5. DB2 Delete: LGDPDB01</a>
+<ul>
+<li class="toc-level-3"><a href="#51-responsibilities">5.1 Responsibilities</a></li>
+<li class="toc-level-3"><a href="#52-routing-and-vsam-hand-off">5.2 Routing and VSAM Hand-off</a></li>
+<li class="toc-level-3"><a href="#53-the-db2-delete">5.3 The DB2 DELETE</a></li>
+<li class="toc-level-3"><a href="#54-db2-entity-relationships">5.4 DB2 Entity Relationships</a></li>
+<li class="toc-level-3"><a href="#55-db2-delete-flow">5.5 DB2 Delete Flow</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-vsam-delete-lgdpvs01">6. VSAM Delete: LGDPVS01</a>
+<ul>
+<li class="toc-level-3"><a href="#61-responsibilities">6.1 Responsibilities</a></li>
+<li class="toc-level-3"><a href="#62-composite-key">6.2 Composite Key</a></li>
+<li class="toc-level-3"><a href="#63-delete-logic">6.3 Delete Logic</a></li>
+<li class="toc-level-3"><a href="#64-behavioural-notes">6.4 Behavioural Notes</a></li>
+<li class="toc-level-3"><a href="#65-vsam-delete-flow">6.5 VSAM Delete Flow</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-error-handling-and-logging">7. Error Handling and Logging</a>
+<ul>
+<li class="toc-level-3"><a href="#71-error-matrix">7.1 Error Matrix</a></li>
+<li class="toc-level-3"><a href="#72-error-logging-sequence">7.2 Error Logging Sequence</a></li>
+<li class="toc-level-3"><a href="#73-error-message-content">7.3 Error Message Content</a></li>
+<li class="toc-level-3"><a href="#74-commarea-snapshot-rule">7.4 COMMAREA Snapshot Rule</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-dependencies-and-constraints">8. Dependencies and Constraints</a>
+<ul>
+<li class="toc-level-3"><a href="#81-dependencies">8.1 Dependencies</a></li>
+<li class="toc-level-3"><a href="#82-key-constraints">8.2 Key Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#9-examples">9. Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#91-successful-motor-policy-delete">9.1 Successful Motor Policy Delete</a></li>
+<li class="toc-level-3"><a href="#92-unknown-request-id">9.2 Unknown Request ID</a></li>
+<li class="toc-level-3"><a href="#93-commarea-too-small">9.3 COMMAREA Too Small</a></li>
+<li class="toc-level-3"><a href="#94-db2-failure">9.4 DB2 Failure</a></li>
+<li class="toc-level-3"><a href="#95-vsam-failure">9.5 VSAM Failure</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

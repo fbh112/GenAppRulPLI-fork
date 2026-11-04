@@ -1,0 +1,1153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Update - GenApp PL/I General Insurance Application Wiki</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I General Insurance Application Wiki</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview &amp; Program Inventory</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="migration-impact-analysis.html" class="nav-link" data-page-id="migration-impact-analysis">Customer Domain Migration Risks &amp; Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">User Interface Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu-transaction.html" class="nav-link" data-page-id="customer-menu-transaction">Customer Maintenance Menu (SSC1)</a>
+                <a href="policy-menu-transactions.html" class="nav-link" data-page-id="policy-menu-transactions">Policy Maintenance Menus (SSP1–SSP4)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="customer-inquiry.html" class="nav-link" data-page-id="customer-inquiry">Customer Inquiry</a>
+                <a href="customer-add.html" class="nav-link" data-page-id="customer-add">Customer Add &amp; Onboarding</a>
+                <a href="customer-update.html" class="nav-link active" data-page-id="customer-update">Customer Update</a>
+                <a href="customer-vsam-utilities.html" class="nav-link" data-page-id="customer-vsam-utilities">Customer VSAM Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add</a>
+                <a href="policy-update.html" class="nav-link" data-page-id="policy-update">Policy Update</a>
+                <a href="policy-delete.html" class="nav-link" data-page-id="policy-delete">Policy Delete</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM (KSDSPOLY) Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="batch-customer-reporting.html" class="nav-link" data-page-id="batch-customer-reporting">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Logging &amp; Statistics</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="error-logging.html" class="nav-link" data-page-id="error-logging">Error Logging (LGSTSQ)</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup (LGSETUP)</a>
+                <a href="statistics-collection.html" class="nav-link" data-page-id="statistics-collection">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(3)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGUCVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUCVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUCDB01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUCDB01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUCUS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUCUS01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="customer-update" tabindex="-1">Customer Update</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The Customer Update application changes an existing customer’s personal and contact details in the GenApp general insurance system. It runs as a chain of three CICS-hosted Enterprise PL/I programs. Together they keep two data stores consistent: the DB2 <code>CUSTOMER</code> table and the VSAM KSDS file <code>KSDSCUST</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Role</th>
+<th>Data store / resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGUCUS01</code></td>
+<td>Entry point and orchestrator. Validates the COMMAREA and request ID, then delegates.</td>
+<td>None (no direct data access)</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td>DB2 update. Runs a single SQL <code>UPDATE</code> on the <code>CUSTOMER</code> table, then links to the VSAM program.</td>
+<td>DB2 <code>CUSTOMER</code> table</td>
+</tr>
+<tr>
+<td><code>LGUCVS01</code></td>
+<td>VSAM update. Reads the customer record for update, then rewrites it.</td>
+<td>VSAM KSDS <code>KSDSCUST</code></td>
+</tr>
+<tr>
+<td><code>LGSTSQ</code> (shared utility)</td>
+<td>Writes diagnostic messages and COMMAREA dumps to a CICS queue.</td>
+<td>CICS queue</td>
+</tr>
+</tbody>
+</table>
+<p>Key behaviours:</p>
+<ul>
+<li><strong>Single request code:</strong> only request ID <code>01UCUS</code> is accepted. Anything else is rejected with return code <code>99</code>.</li>
+<li><strong>Shared COMMAREA:</strong> all programs use the <code>LGCMAREA</code> layout, up to 32,500 bytes. It carries the customer number, the updated details and the return code.</li>
+<li><strong>Return codes:</strong> <code>00</code> means success. <code>01</code> means customer not found in DB2. <code>90</code> means an unexpected DB2 error. <code>99</code> means invalid request ID. <code>81</code> and <code>82</code> mean a VSAM read or rewrite failure.</li>
+<li><strong>Diagnostics:</strong> errors are timestamped and sent to <code>LGSTSQ</code>, together with up to 90 bytes of the raw COMMAREA.</li>
+</ul>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<h3 id="21-component-architecture" tabindex="-1">2.1 Component Architecture</h3>
+<p><code>LGUCUS01</code> is the only program the caller talks to. It validates the request and hands the full COMMAREA to <code>LGUCDB01</code>. <code>LGUCDB01</code> updates DB2 and then calls <code>LGUCVS01</code> to mirror the change in VSAM. All three programs use <code>LGSTSQ</code> for error logging.</p>
+<div class="mermaid">
+graph TD
+    CALLER[Calling Program / Transaction] -->|EXEC CICS LINK<br>COMMAREA 01UCUS| UCUS[LGUCUS01<br>Entry Point / Orchestrator]
+    UCUS -->|EXEC CICS LINK<br>LENGTH 32500| UCDB[LGUCDB01<br>DB2 Update]
+    UCDB -->|EXEC SQL UPDATE| DB2[(DB2 CUSTOMER Table)]
+    UCDB -->|EXEC CICS LINK<br>LENGTH 225| UCVS[LGUCVS01<br>VSAM Rewrite]
+    UCVS -->|READ UPDATE / REWRITE| VSAM[(VSAM KSDS KSDSCUST)]
+    UCUS -.->|errors| LOG[LGSTSQ<br>Error Logging Utility]
+    UCDB -.->|errors| LOG
+    UCVS -.->|errors| LOG
+    LOG --> Q[(CICS Queue)]
+    CPY[[LGCMAREA copybook<br>COMM_AREA layout]] -.-> UCUS
+    CPY -.-> UCDB
+    CPY -.-> UCVS
+</div>
+<h3 id="22-component-responsibilities" tabindex="-1">2.2 Component Responsibilities</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGUCUS01</code></td>
+<td>Captures EIB fields (<code>EIBTRNID</code>, <code>EIBTRMID</code>, <code>EIBTASKN</code>). Abends with <code>LGCA</code> if no COMMAREA is present. Initialises <code>CA_RETURN_CODE</code> to <code>00</code> and <code>CA_NUM_POLICIES</code> to <code>0</code>. Validates <code>CA_REQUEST_ID = '01UCUS'</code>. Links to <code>LGUCDB01</code>.</td>
+</tr>
+<tr>
+<td><code>LGUCDB01</code></td>
+<td>Converts <code>CA_CUSTOMER_NUM</code> to the integer host variable <code>DB2_CUSTOMERNUM_INT</code>. Updates nine columns in one SQL statement. Maps SQLCODE to return codes. Links to <code>LGUCVS01</code>.</td>
+</tr>
+<tr>
+<td><code>LGUCVS01</code></td>
+<td>Reads <code>KSDSCUST</code> with <code>UPDATE</code> intent, keyed by <code>CA_CUSTOMER_NUM</code> with a key length of 10. Rewrites the record. Sets <code>81</code> or <code>82</code> and abends (<code>LGV1</code> or <code>LGV2</code>) on failure.</td>
+</tr>
+<tr>
+<td><code>LGSTSQ</code></td>
+<td>Shared logging utility called by all three programs via <code>EXEC CICS LINK</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-end-to-end-processing-flow" tabindex="-1">3. End-to-End Processing Flow</h2>
+<h3 id="31-sequence-of-operations-successful-update" tabindex="-1">3.1 Sequence of Operations (Successful Update)</h3>
+<div class="mermaid">
+sequenceDiagram
+    participant C as Caller
+    participant U as LGUCUS01
+    participant D as LGUCDB01
+    participant DB as DB2 CUSTOMER
+    participant V as LGUCVS01
+    participant F as VSAM KSDSCUST
+
+    C->>U: LINK with COMMAREA (CA_REQUEST_ID = 01UCUS)
+    U->>U: Check EIBCALEN, set CA_RETURN_CODE = 00
+    U->>U: Validate request ID
+    U->>D: LINK PROGRAM(LGUCDB01) LENGTH(32500)
+    D->>DB: UPDATE CUSTOMER ... WHERE CUSTOMERNUMBER
+    DB-->>D: SQLCODE 0
+    D->>V: LINK PROGRAM(LGUCVS01) LENGTH(225)
+    V->>F: READ FILE(KSDSCUST) UPDATE
+    F-->>V: Customer record (locked)
+    V->>F: REWRITE FILE(KSDSCUST)
+    F-->>V: RESP NORMAL
+    V-->>D: Return
+    D-->>U: Return (CA_RETURN_CODE = 00)
+    U-->>C: EXEC CICS RETURN
+</div>
+<h3 id="32-combined-decision-flow" tabindex="-1">3.2 Combined Decision Flow</h3>
+<div class="mermaid">
+graph TD
+    A([Request received by LGUCUS01]) --> B{EIBCALEN = 0?}
+    B -- Yes --> B1[Log NO COMMAREA RECEIVED]
+    B1 --> B2([ABEND LGCA])
+    B -- No --> C{CA_REQUEST_ID = 01UCUS?}
+    C -- No --> C1[CA_RETURN_CODE = 99]
+    C1 --> Z([Return to caller])
+    C -- Yes --> D[LGUCDB01: SQL UPDATE CUSTOMER]
+    D --> E{SQLCODE}
+    E -- 0 --> F[CA_RETURN_CODE = 00]
+    E -- 100 --> G[CA_RETURN_CODE = 01]
+    E -- other --> H[CA_RETURN_CODE = 90<br>Log error via LGSTSQ]
+    F --> I[LGUCVS01: READ UPDATE KSDSCUST]
+    G --> I
+    H --> I
+    I --> J{READ OK?}
+    J -- No --> J1[CA_RETURN_CODE = 81<br>Log, ABEND LGV1]
+    J -- Yes --> K[REWRITE KSDSCUST]
+    K --> L{REWRITE OK?}
+    L -- No --> L1[CA_RETURN_CODE = 82<br>Log, ABEND LGV2]
+    L -- Yes --> Z
+</div>
+<h2 id="4-component-details" tabindex="-1">4. Component Details</h2>
+<h3 id="41-lgucus01--entry-point" tabindex="-1">4.1 LGUCUS01 — Entry Point</h3>
+<h4 id="411-processing-steps" tabindex="-1">4.1.1 Processing Steps</h4>
+<ol>
+<li>Copy <code>EIBTRNID</code>, <code>EIBTRMID</code> and <code>EIBTASKN</code> into working storage for diagnostics.</li>
+<li>If <code>EIBCALEN = 0</code>, set <code>EM_MSG_TEXT</code> to <code>' NO COMMAREA RECEIVED'</code>, call <code>WRITE_ERROR_MESSAGE</code>, and issue <code>EXEC CICS ABEND ABCODE('LGCA') NODUMP</code>.</li>
+<li>Set <code>CA_RETURN_CODE = '00'</code> and <code>CA_NUM_POLICIES = 0</code>. Save the COMMAREA length and pointer. Copy <code>CA_CUSTOMER_NUM</code> into <code>EM_CUSNUM</code>.</li>
+<li>If <code>CA_REQUEST_ID</code> is not <code>'01UCUS'</code>, set <code>CA_RETURN_CODE = '99'</code> and return immediately. No error message is logged for this case.</li>
+<li>Otherwise call <code>UPDATE_CUSTOMER_INFO</code>, then issue <code>EXEC CICS RETURN</code>.</li>
+</ol>
+<h4 id="412-delegation-to-the-db2-program" tabindex="-1">4.1.2 Delegation to the DB2 Program</h4>
+<p><code>UPDATE_CUSTOMER_INFO</code> contains one synchronous link that passes the full 32,500-byte COMMAREA:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS LINK PROGRAM(LGUCDB01)
+               COMMAREA(COMM_AREA)
+               LENGTH(32500);</code></pre>
+</div>
+<p>The request ID check that guards this call:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">IF CA_REQUEST_ID ^= &#039;01UCUS&#039; THEN DO;
+   CA_RETURN_CODE = &#039;99&#039;;
+   EXEC CICS RETURN;
+END;</code></pre>
+</div>
+<h3 id="42-lgucdb01--db2-update" tabindex="-1">4.2 LGUCDB01 — DB2 Update</h3>
+<h4 id="421-processing-steps" tabindex="-1">4.2.1 Processing Steps</h4>
+<ol>
+<li>Capture the EIB fields and apply the same missing-COMMAREA guard as <code>LGUCUS01</code>. This abends with <code>LGCA</code>.</li>
+<li>Set <code>CA_RETURN_CODE = '00'</code>. Convert the 10-digit <code>CA_CUSTOMER_NUM</code> to the <code>FIXED BIN(31)</code> host variable <code>DB2_CUSTOMERNUM_INT</code>.</li>
+<li>Call <code>UPDATE_CUSTOMER_INFO</code>, which sets <code>EM_SQLREQ</code> to <code>' UPDATE CUST    '</code> and runs the SQL <code>UPDATE</code>.</li>
+<li>Link to <code>LGUCVS01</code> with a 225-byte COMMAREA.</li>
+<li>Issue <code>EXEC CICS RETURN</code>.</li>
+</ol>
+<h4 id="422-the-sql-update" tabindex="-1">4.2.2 The SQL Update</h4>
+<p>All nine customer columns are updated in one statement. The row is selected by customer number:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">SQL</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-sql">UPDATE CUSTOMER
+  SET FIRSTNAME=:CA_FIRST_NAME, LASTNAME=:CA_LAST_NAME, DATEOFBIRTH=:CA_DOB,
+      HOUSENAME=:CA_HOUSE_NAME, HOUSENUMBER=:CA_HOUSE_NUM, POSTCODE=:CA_POSTCODE,
+      PHONEMOBILE=:CA_PHONE_MOBILE, PHONEHOME=:CA_PHONE_HOME,
+      EMAILADDRESS=:CA_EMAIL_ADDRESS
+WHERE CUSTOMERNUMBER = :DB2_CUSTOMERNUM_INT;</code></pre>
+</div>
+<h4 id="423-sqlcode-mapping" tabindex="-1">4.2.3 SQLCODE Mapping</h4>
+<table>
+<thead>
+<tr>
+<th>SQLCODE</th>
+<th>Meaning</th>
+<th><code>CA_RETURN_CODE</code></th>
+<th>Error logged?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Row updated</td>
+<td><code>00</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>100</code></td>
+<td>No matching customer</td>
+<td><code>01</code></td>
+<td>No (expected business condition)</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>Unexpected DB2 error</td>
+<td><code>90</code></td>
+<td>Yes, via <code>WRITE_ERROR_MESSAGE</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="424-link-to-the-vsam-program" tabindex="-1">4.2.4 Link to the VSAM Program</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS LINK PROGRAM(LGUCVS01)
+               COMMAREA(COMM_AREA)
+               LENGTH(225);</code></pre>
+</div>
+<p>The link is <strong>unconditional</strong>. <code>LGUCVS01</code> is called whatever the DB2 outcome was, including <code>01</code> and <code>90</code>.</p>
+<h3 id="43-lgucvs01--vsam-rewrite" tabindex="-1">4.3 LGUCVS01 — VSAM Rewrite</h3>
+<h4 id="431-processing-steps" tabindex="-1">4.3.1 Processing Steps</h4>
+<ol>
+<li>Copy <code>EIBCALEN</code> into <code>WS_Commarea_Len</code> and <code>WS_Commarea_LenF</code>.</li>
+<li>Read the customer record with an exclusive update lock:</li>
+</ol>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS READ FILE(&#039;KSDSCUST&#039;)
+               INTO(WS_Customer_Area)
+               RIDFLD(CA_CUSTOMER_NUM)
+               KEYLENGTH(10)
+               UPDATE
+               RESP(WS_RESP);</code></pre>
+</div>
+<ol start="3">
+<li>If <code>WS_RESP</code> is not <code>DFHRESP(NORMAL)</code>, save <code>EIBRESP2</code> in <code>WS_RESP2</code> and set <code>CA_RETURN_CODE = '81'</code>. Then call <code>WRITE_ERROR_MESSAGE</code>, issue <code>EXEC CICS ABEND ABCODE('LGV1') NODUMP</code>, and issue <code>EXEC CICS RETURN</code>.</li>
+<li>Rewrite the record from the COMMAREA data, starting at <code>CA_CUSTOMER_NUM</code>:</li>
+</ol>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS REWRITE FILE(&#039;KSDSCUST&#039;)
+               FROM(CA_CUSTOMER_NUM)
+               LENGTH(WS_Commarea_LenF)
+               RESP(WS_RESP);</code></pre>
+</div>
+<ol start="5">
+<li>If the rewrite fails, set <code>CA_RETURN_CODE = '82'</code>, log the error, and abend with <code>LGV2</code>.</li>
+<li>On success the program returns, leaving <code>CA_RETURN_CODE</code> as it was.</li>
+</ol>
+<h2 id="5-data-structures" tabindex="-1">5. Data Structures</h2>
+<h3 id="51-shared-commarea-lgcmarea" tabindex="-1">5.1 Shared COMMAREA (<code>LGCMAREA</code>)</h3>
+<p><code>LGCMAREA</code> is a pointer-based union structure included in all three programs. <code>COMM_AREA_RAW</code> is <code>CHAR(32500)</code>, which allows raw access for diagnostics. The customer request overlay uses these fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>CHAR(6)</code>, must be <code>01UCUS</code></td>
+<td><code>LGUCUS01</code></td>
+</tr>
+<tr>
+<td><code>CA_RETURN_CODE</code></td>
+<td><code>PIC '99'</code></td>
+<td>All</td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>PIC '9999999999'</code>, DB2 key and VSAM key</td>
+<td>All</td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>CHAR(10)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_DOB</code></td>
+<td><code>CHAR(10)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NAME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_HOUSE_NUM</code></td>
+<td><code>CHAR(4)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>CHAR(8)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_NUM_POLICIES</code></td>
+<td><code>PIC '999'</code></td>
+<td>Initialised to 0 by <code>LGUCUS01</code></td>
+</tr>
+<tr>
+<td><code>CA_PHONE_MOBILE</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_PHONE_HOME</code></td>
+<td><code>CHAR(20)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>CHAR(100)</code></td>
+<td>DB2, VSAM</td>
+</tr>
+<tr>
+<td><code>CA_POLICY_DATA</code></td>
+<td><code>CHAR(32267)</code>, forwarded unchanged</td>
+<td>Pass-through</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-entity-relationships" tabindex="-1">5.2 Entity Relationships</h3>
+<p>The same COMMAREA content feeds both the DB2 table and the VSAM file. Error messages are produced from the same data.</p>
+<div class="mermaid">
+erDiagram
+    COMM_AREA ||--|| CUSTOMER : "updates via LGUCDB01"
+    COMM_AREA ||--|| KSDSCUST : "rewrites via LGUCVS01"
+    COMM_AREA ||--o{ ERROR_MSG : "diagnostics via LGSTSQ"
+    COMM_AREA {
+        string CA_REQUEST_ID "6 chars - 01UCUS"
+        string CA_RETURN_CODE "2 digits"
+        string CA_CUSTOMER_NUM "10 digits"
+        string CA_FIRST_NAME "10 chars"
+        string CA_LAST_NAME "20 chars"
+        string CA_DOB "10 chars"
+        string CA_HOUSE_NAME "20 chars"
+        string CA_HOUSE_NUM "4 chars"
+        string CA_POSTCODE "8 chars"
+        string CA_PHONE_MOBILE "20 chars"
+        string CA_PHONE_HOME "20 chars"
+        string CA_EMAIL_ADDRESS "100 chars"
+    }
+    CUSTOMER {
+        int CUSTOMERNUMBER "PK"
+        string FIRSTNAME
+        string LASTNAME
+        string DATEOFBIRTH
+        string HOUSENAME
+        string HOUSENUMBER
+        string POSTCODE
+        string PHONEMOBILE
+        string PHONEHOME
+        string EMAILADDRESS
+    }
+    KSDSCUST {
+        string CA_CUSTOMER_NUM "KSDS key - 10 bytes"
+        string CUSTOMER_DATA "record from COMMAREA"
+    }
+    ERROR_MSG {
+        string EM_DATE "formatted date"
+        string EM_TIME "formatted time"
+        string EM_CUSNUM "customer number"
+        string EM_SQLREQ "SQL request name (DB2)"
+        string EM_SQLRC "SQLCODE (DB2)"
+        string EM_RESPRC "CICS RESP (VSAM)"
+        string EM_RESP2RC "CICS RESP2 (VSAM)"
+    }
+</div>
+<h2 id="6-error-handling" tabindex="-1">6. Error Handling</h2>
+<h3 id="61-return-code-and-abend-summary" tabindex="-1">6.1 Return Code and Abend Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Program</th>
+<th><code>CA_RETURN_CODE</code></th>
+<th>Abend</th>
+<th>Logged via <code>LGSTSQ</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No COMMAREA (<code>EIBCALEN = 0</code>)</td>
+<td><code>LGUCUS01</code> / <code>LGUCDB01</code></td>
+<td>n/a</td>
+<td><code>LGCA</code> (NODUMP)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Invalid request ID</td>
+<td><code>LGUCUS01</code></td>
+<td><code>99</code></td>
+<td>None</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Customer not found (SQLCODE 100)</td>
+<td><code>LGUCDB01</code></td>
+<td><code>01</code></td>
+<td>None</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Unexpected DB2 error</td>
+<td><code>LGUCDB01</code></td>
+<td><code>90</code></td>
+<td>None</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>VSAM read failure</td>
+<td><code>LGUCVS01</code></td>
+<td><code>81</code></td>
+<td><code>LGV1</code> (NODUMP)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>VSAM rewrite failure</td>
+<td><code>LGUCVS01</code></td>
+<td><code>82</code></td>
+<td><code>LGV2</code> (NODUMP)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Success</td>
+<td>All</td>
+<td><code>00</code></td>
+<td>None</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-error-logging-flow" tabindex="-1">6.2 Error Logging Flow</h3>
+<p><code>WRITE_ERROR_MESSAGE</code> exists in each program, and all copies follow the same pattern. The date and time are formatted first, and then <code>LGSTSQ</code> is linked up to twice. The first call carries <code>ERROR_MSG</code>. The second carries a COMMAREA dump, but only when a COMMAREA exists.</p>
+<div class="mermaid">
+graph TD
+    A[Error detected] --> B[Save SQLCODE or RESP/RESP2]
+    B --> C[EXEC CICS ASKTIME]
+    C --> D[EXEC CICS FORMATTIME<br>date and time]
+    D --> E[Populate ERROR_MSG]
+    E --> F[LINK LGSTSQ with ERROR_MSG]
+    F --> G{EIBCALEN > 0?}
+    G -- No --> H([Return])
+    G -- Yes --> I{EIBCALEN < 91?}
+    I -- Yes --> J[CA_DATA = first EIBCALEN bytes]
+    I -- No --> K[CA_DATA = first 90 bytes]
+    J --> L[LINK LGSTSQ with CA_ERROR_MSG<br>COMMAREA= prefix]
+    K --> L
+    L --> H
+</div>
+<p>The code pattern used for the 90-byte cap:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">EXEC CICS LINK PROGRAM(&#039;LGSTSQ&#039;)
+               COMMAREA(ERROR_MSG)
+               LENGTH(STG(ERROR_MSG));
+
+IF EIBCALEN &gt; 0 THEN DO;
+   IF EIBCALEN &lt; 91 THEN
+      CA_DATA = LEFT(COMM_AREA_RAW, EIBCALEN);
+   ELSE
+      CA_DATA = LEFT(COMM_AREA_RAW, 90);
+   EXEC CICS LINK PROGRAM(&#039;LGSTSQ&#039;)
+                  COMMAREA(CA_ERROR_MSG)
+                  LENGTH(STG(CA_ERROR_MSG));
+END;</code></pre>
+</div>
+<h3 id="63-return-code-lifecycle" tabindex="-1">6.3 Return Code Lifecycle</h3>
+<div class="mermaid">
+stateDiagram-v2
+    [*] --> RC00: LGUCUS01 initialises
+    RC00 --> RC99: Request ID invalid
+    RC00 --> RC01: SQLCODE 100
+    RC00 --> RC90: SQLCODE other
+    RC00 --> RC81: VSAM read fails
+    RC00 --> RC82: VSAM rewrite fails
+    RC00 --> [*]: Success
+    RC99 --> [*]
+    RC01 --> [*]
+    RC90 --> [*]
+    RC81 --> [*]: Task abended LGV1
+    RC82 --> [*]: Task abended LGV2
+</div>
+<h2 id="7-constraints-and-design-considerations" tabindex="-1">7. Constraints and Design Considerations</h2>
+<h3 id="71-commarea-constraints" tabindex="-1">7.1 COMMAREA Constraints</h3>
+<ul>
+<li>A COMMAREA must be present. The <code>EIBCALEN = 0</code> check is the first logic executed in <code>LGUCUS01</code> and in <code>LGUCDB01</code>.</li>
+<li>The maximum COMMAREA size is 32,500 bytes, and <code>LGUCUS01</code> passes all of it to <code>LGUCDB01</code>.</li>
+<li><code>LGUCDB01</code> forwards only the first 225 bytes to <code>LGUCVS01</code>. The VSAM program sees nothing beyond that.</li>
+<li><code>LGUCVS01</code> uses <code>EIBCALEN</code> as the I/O length. It reads into a <code>CHAR(1024)</code> buffer, so records larger than 1,024 bytes would overflow it.</li>
+</ul>
+<h3 id="72-sequencing-rules" tabindex="-1">7.2 Sequencing Rules</h3>
+<ul>
+<li>The request ID is validated before any update is attempted.</li>
+<li>DB2 is updated before VSAM. Both are only reached for a valid <code>01UCUS</code> request.</li>
+<li>In <code>LGUCVS01</code>, a successful <code>READ ... UPDATE</code> must precede the <code>REWRITE</code>. If the read fails, the rewrite is never attempted.</li>
+<li>Error logging always runs before an abend. Within the logger, <code>ASKTIME</code> runs before <code>FORMATTIME</code>.</li>
+</ul>
+<h3 id="73-data-constraints" tabindex="-1">7.3 Data Constraints</h3>
+<ul>
+<li>The customer number is exactly 10 numeric digits. It is the DB2 key, after conversion to integer, and also the 10-byte VSAM key.</li>
+<li>The DB2 update is all-or-nothing across nine fields. There is no partial update, so the caller must supply every field.</li>
+<li>The diagnostic COMMAREA dump is capped at 90 bytes (<code>CA_DATA</code> is <code>CHAR(90)</code>). The message text is capped at 63 characters (<code>EM_MSG_TEXT</code>).</li>
+</ul>
+<h3 id="74-consistency-observations" tabindex="-1">7.4 Consistency Observations</h3>
+<p>The following behaviours come directly from the program logic. Take them into account when you maintain or extend the flow:</p>
+<ul>
+<li><strong>Unconditional VSAM link.</strong> <code>LGUCDB01</code> links to <code>LGUCVS01</code> even after a DB2 <code>01</code> or <code>90</code> result. The VSAM file may therefore be touched when the DB2 update did not succeed.</li>
+<li><strong>Abends hide the return code.</strong> <code>LGUCVS01</code> sets <code>81</code> or <code>82</code> but then abends with <code>NODUMP</code>. The caller is therefore more likely to see an abend (<code>LGV1</code> or <code>LGV2</code>) than the return code.</li>
+<li><strong>Overwritten DB2 return code.</strong> On a successful VSAM step the return code is left as <code>LGUCDB01</code> set it, so a DB2 <code>01</code> or <code>90</code> still reaches the caller.</li>
+<li><strong>Record scope.</strong> <code>LGUCVS01</code> rewrites from <code>CA_CUSTOMER_NUM</code> onward, with a length derived from <code>EIBCALEN</code>. When it is invoked by <code>LGUCDB01</code> with a 225-byte COMMAREA, that length is 225.</li>
+</ul>
+<h2 id="8-usage-examples" tabindex="-1">8. Usage Examples</h2>
+<h3 id="81-valid-update-happy-path" tabindex="-1">8.1 Valid Update (Happy Path)</h3>
+<p><strong>Input COMMAREA:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_REQUEST_ID</code></td>
+<td><code>01UCUS</code></td>
+</tr>
+<tr>
+<td><code>CA_CUSTOMER_NUM</code></td>
+<td><code>0000001234</code></td>
+</tr>
+<tr>
+<td><code>CA_FIRST_NAME</code></td>
+<td><code>John</code></td>
+</tr>
+<tr>
+<td><code>CA_LAST_NAME</code></td>
+<td><code>Smith</code></td>
+</tr>
+<tr>
+<td><code>CA_POSTCODE</code></td>
+<td><code>SW1A 1AA</code></td>
+</tr>
+<tr>
+<td><code>CA_EMAIL_ADDRESS</code></td>
+<td><code>john.smith@example.com</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Flow:</strong></p>
+<ol>
+<li><code>LGUCUS01</code> accepts the request and sets <code>CA_RETURN_CODE = '00'</code>.</li>
+<li><code>LGUCDB01</code> runs the SQL <code>UPDATE</code> and gets SQLCODE 0.</li>
+<li><code>LGUCVS01</code> reads and rewrites the <code>KSDSCUST</code> record.</li>
+<li>The caller receives <code>CA_RETURN_CODE = '00'</code>.</li>
+</ol>
+<h3 id="82-invalid-request-id" tabindex="-1">8.2 Invalid Request ID</h3>
+<p>With <code>CA_REQUEST_ID = '01ICUS'</code> (an inquiry code), <code>LGUCUS01</code> sets <code>CA_RETURN_CODE = '99'</code> and returns. Neither <code>LGUCDB01</code> nor <code>LGUCVS01</code> is invoked, no data changes, and nothing is logged.</p>
+<h3 id="83-customer-not-found-in-db2" tabindex="-1">8.3 Customer Not Found in DB2</h3>
+<p>With <code>CA_CUSTOMER_NUM = '0000099999'</code> and no matching row, the SQL <code>UPDATE</code> returns SQLCODE 100. <code>LGUCDB01</code> sets <code>CA_RETURN_CODE = '01'</code> without logging. It still links to <code>LGUCVS01</code>, and the caller receives <code>01</code> unless the VSAM step abends.</p>
+<h3 id="84-unexpected-db2-error" tabindex="-1">8.4 Unexpected DB2 Error</h3>
+<p>If the <code>UPDATE</code> fails with, for example, <code>-803</code> or <code>-904</code>, <code>LGUCDB01</code> sets <code>CA_RETURN_CODE = '90'</code>. It writes the date, time, <code>LGUCDB01</code>, customer number and SQLCODE to the queue through <code>LGSTSQ</code>, followed by up to 90 bytes of the COMMAREA. It then continues to the VSAM link.</p>
+<h3 id="85-vsam-read-failure" tabindex="-1">8.5 VSAM Read Failure</h3>
+<p>If customer <code>0000009999</code> is not in <code>KSDSCUST</code>, the <code>READ ... UPDATE</code> returns a non-normal RESP. <code>LGUCVS01</code> captures <code>EIBRESP2</code>, sets <code>CA_RETURN_CODE = '81'</code> and logs the failure. It then abends with <code>LGV1</code> and never attempts the rewrite.</p>
+<h3 id="86-vsam-rewrite-failure" tabindex="-1">8.6 VSAM Rewrite Failure</h3>
+<p>If the read succeeds but the rewrite fails (for example, a file disabled or an I/O error), <code>LGUCVS01</code> sets <code>CA_RETURN_CODE = '82'</code>, logs the error, and abends with <code>LGV2</code>.</p>
+<h3 id="87-missing-commarea" tabindex="-1">8.7 Missing COMMAREA</h3>
+<p>If <code>LGUCUS01</code> is invoked with <code>EIBCALEN = 0</code>, it writes <code>' NO COMMAREA RECEIVED'</code> to the queue through <code>LGSTSQ</code> with a timestamp and the program name. It then abends with <code>LGCA</code> and no dump, and no update is attempted.</p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-domain-architecture.html" class="card">
+                <span class="card-title">Customer Domain Architecture</span>
+                <span class="card-description">Architecture of the customer domain: how the menu, business-logic, DB2 and VSAM layers interact for customer inquiry, add and update. It also covers how the programs relate to each other.</span>
+            </a>
+            <a href="customer-menu-transaction.html" class="card">
+                <span class="card-title">Customer Maintenance Menu (SSC1)</span>
+                <span class="card-description">The LGTESTC1 interactive BMS menu for customer inquiry, add and update. It covers the ENQ/DEQ-protected GENACNTL queue update and error display.</span>
+            </a>
+            <a href="error-logging.html" class="card">
+                <span class="card-title">Error Logging (LGSTSQ)</span>
+                <span class="card-description">The shared LGSTSQ logging utility that writes to the CSMT transient data queue and the GENAERRS temporary storage queue. It also covers the diagnostic message conventions used by the other programs.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-architecture">2.1 Component Architecture</a></li>
+<li class="toc-level-3"><a href="#22-component-responsibilities">2.2 Component Responsibilities</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-end-to-end-processing-flow">3. End-to-End Processing Flow</a>
+<ul>
+<li class="toc-level-3"><a href="#31-sequence-of-operations-successful-update">3.1 Sequence of Operations (Successful Update)</a></li>
+<li class="toc-level-3"><a href="#32-combined-decision-flow">3.2 Combined Decision Flow</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-component-details">4. Component Details</a>
+<ul>
+<li class="toc-level-3"><a href="#41-lgucus01--entry-point">4.1 LGUCUS01 — Entry Point</a>
+<ul>
+<li class="toc-level-4"><a href="#411-processing-steps">4.1.1 Processing Steps</a></li>
+<li class="toc-level-4"><a href="#412-delegation-to-the-db2-program">4.1.2 Delegation to the DB2 Program</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#42-lgucdb01--db2-update">4.2 LGUCDB01 — DB2 Update</a>
+<ul>
+<li class="toc-level-4"><a href="#421-processing-steps">4.2.1 Processing Steps</a></li>
+<li class="toc-level-4"><a href="#422-the-sql-update">4.2.2 The SQL Update</a></li>
+<li class="toc-level-4"><a href="#423-sqlcode-mapping">4.2.3 SQLCODE Mapping</a></li>
+<li class="toc-level-4"><a href="#424-link-to-the-vsam-program">4.2.4 Link to the VSAM Program</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#43-lgucvs01--vsam-rewrite">4.3 LGUCVS01 — VSAM Rewrite</a>
+<ul>
+<li class="toc-level-4"><a href="#431-processing-steps">4.3.1 Processing Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-data-structures">5. Data Structures</a>
+<ul>
+<li class="toc-level-3"><a href="#51-shared-commarea-lgcmarea">5.1 Shared COMMAREA (LGCMAREA)</a></li>
+<li class="toc-level-3"><a href="#52-entity-relationships">5.2 Entity Relationships</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-error-handling">6. Error Handling</a>
+<ul>
+<li class="toc-level-3"><a href="#61-return-code-and-abend-summary">6.1 Return Code and Abend Summary</a></li>
+<li class="toc-level-3"><a href="#62-error-logging-flow">6.2 Error Logging Flow</a></li>
+<li class="toc-level-3"><a href="#63-return-code-lifecycle">6.3 Return Code Lifecycle</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-constraints-and-design-considerations">7. Constraints and Design Considerations</a>
+<ul>
+<li class="toc-level-3"><a href="#71-commarea-constraints">7.1 COMMAREA Constraints</a></li>
+<li class="toc-level-3"><a href="#72-sequencing-rules">7.2 Sequencing Rules</a></li>
+<li class="toc-level-3"><a href="#73-data-constraints">7.3 Data Constraints</a></li>
+<li class="toc-level-3"><a href="#74-consistency-observations">7.4 Consistency Observations</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-usage-examples">8. Usage Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#81-valid-update-happy-path">8.1 Valid Update (Happy Path)</a></li>
+<li class="toc-level-3"><a href="#82-invalid-request-id">8.2 Invalid Request ID</a></li>
+<li class="toc-level-3"><a href="#83-customer-not-found-in-db2">8.3 Customer Not Found in DB2</a></li>
+<li class="toc-level-3"><a href="#84-unexpected-db2-error">8.4 Unexpected DB2 Error</a></li>
+<li class="toc-level-3"><a href="#85-vsam-read-failure">8.5 VSAM Read Failure</a></li>
+<li class="toc-level-3"><a href="#86-vsam-rewrite-failure">8.6 VSAM Rewrite Failure</a></li>
+<li class="toc-level-3"><a href="#87-missing-commarea">8.7 Missing COMMAREA</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

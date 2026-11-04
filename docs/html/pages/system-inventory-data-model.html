@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Program Inventory and Database Table Dependencies - GenApp PL/I Insurance Application Architecture &amp; Reference</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Architecture &amp; Reference</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Architecture &amp; Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="system-inventory-data-model.html" class="nav-link active" data-page-id="system-inventory-data-model">System Program Inventory and Database Table Dependencies</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture &amp; Lifecycle Orchestration</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Management Subsystem</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-presentation-orchestration.html" class="nav-link" data-page-id="customer-presentation-orchestration">Customer UI &amp; Business Flow Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 Data Persistence &amp; Security</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM File Services &amp; Key Management</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Management Subsystem</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-presentation-transactions.html" class="nav-link" data-page-id="policy-presentation-transactions">Policy Presentation &amp; Terminal Handlers</a>
+                <a href="policy-business-orchestration.html" class="nav-link" data-page-id="policy-business-orchestration">Policy Business Logic &amp; Operation Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Pricing Rules</a>
+                <a href="policy-vsam-storage.html" class="nav-link" data-page-id="policy-vsam-storage">Policy VSAM KSDS Data Persistence</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Diagnostics &amp; Batch Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="infrastructure-monitoring-logging.html" class="nav-link" data-page-id="infrastructure-monitoring-logging">Diagnostics, Error Logging &amp; Operational Telemetry</a>
+                <a href="batch-processing-reporting.html" class="nav-link" data-page-id="batch-processing-reporting">Batch Reporting &amp; Data Extraction Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Modernization &amp; Migration Impact Analysis</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-domain-migration-analysis.html" class="nav-link" data-page-id="customer-domain-migration-analysis">Customer Domain Migration &amp; Remote DB Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        
+                        <h1 id="system-program-inventory-and-database-table-dependencies" tabindex="-1">System Program Inventory and Database Table Dependencies</h1>
+<p>GenApp is a general insurance application running on z/OS that manages customers and insurance policies across four product lines: Motor, Endowment, House, and Commercial. The application is implemented entirely in PL/I and spans 35 programs organized across three online tiers plus a batch layer. All CICS online transactions share a common COMMAREA-based communication contract, while DB2 and VSAM serve as the dual persistence layer — DB2 as the authoritative store, and VSAM as a mirrored index for high-speed key lookup. This page provides a complete program inventory, inter-program linkage map, and DB2 table relational dependency reference across both the policy and customer domains.</p>
+<hr>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The GenApp application exposes CICS online transactions for the full lifecycle management of customers and insurance policies, and includes batch programs for reporting and data extraction. The architecture follows a strict three-tier layering:</p>
+<ul>
+<li><strong>Tier 1 — Presentation:</strong> Five BMS menu programs accept terminal input, present BMS maps, and dispatch requests downstream via <code>EXEC CICS LINK</code>.</li>
+<li><strong>Tier 2 — Orchestration:</strong> Seven business-logic programs validate the COMMAREA and route dynamically to the appropriate backend.</li>
+<li><strong>Tier 3 — Backend:</strong> Sixteen programs handle all physical I/O — eight against DB2 (embedded SQL) and seven against VSAM KSDS datasets, plus one customer-security insert program.</li>
+<li><strong>Supporting Services:</strong> Four cross-cutting CICS programs handle error logging, statistics collection, and environment setup.</li>
+<li><strong>Batch:</strong> Four programs handle offline customer reporting and motor-table extract.</li>
+</ul>
+<p>All programs communicate exclusively through a shared COMMAREA structure defined in <code>LGCMAREA.inc</code>. There are no direct inter-program data coupling paths outside this contract.</p>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The diagram below illustrates the full three-tier architecture of the GenApp application, including all program names, the direction of CICS LINK calls, and the external resources accessed at each tier.</p>
+<div class="mermaid">
+graph TD
+    subgraph TIER1["Tier 1 — Presentation / BMS Menu"]
+        LGTESTP1["LGTESTP1\nMotor Policy Menu"]
+        LGTESTP2["LGTESTP2\nEndowment Policy Menu"]
+        LGTESTP3["LGTESTP3\nHouse Policy Menu"]
+        LGTESTP4["LGTESTP4\nCommercial Policy Menu"]
+        LGTESTC1["LGTESTC1\nCustomer Menu"]
+    end
+
+    subgraph TIER2["Tier 2 — Orchestration / Business Logic"]
+        LGAPOL01["LGAPOL01\nAdd Policy"]
+        LGIPOL01["LGIPOL01\nInquire Policy"]
+        LGDPOL01["LGDPOL01\nDelete Policy"]
+        LGUPOL01["LGUPOL01\nUpdate Policy"]
+        LGACUS01["LGACUS01\nAdd Customer"]
+        LGICUS01["LGICUS01\nInquire Customer"]
+        LGUCUS01["LGUCUS01\nUpdate Customer"]
+    end
+
+    subgraph TIER3DB["Tier 3 — DB2 Backends"]
+        LGAPDB01["LGAPDB01\nAdd Policy DB2"]
+        LGIPDB01["LGIPDB01\nInquire Policy DB2"]
+        LGDPDB01["LGDPDB01\nDelete Policy DB2"]
+        LGUPDB01["LGUPDB01\nUpdate Policy DB2"]
+        LGACDB01["LGACDB01\nAdd Customer DB2"]
+        LGACDB02["LGACDB02\nAdd Customer Security DB2"]
+        LGICDB01["LGICDB01\nInquire Customer DB2"]
+        LGUCDB01["LGUCDB01\nUpdate Customer DB2"]
+    end
+
+    subgraph TIER3VS["Tier 3 — VSAM Backends"]
+        LGAPVS01["LGAPVS01\nAdd Policy VSAM"]
+        LGIPVS01["LGIPVS01\nInquire Policy VSAM"]
+        LGDPVS01["LGDPVS01\nDelete Policy VSAM"]
+        LGUPVS01["LGUPVS01\nUpdate Policy VSAM"]
+        LGACVS01["LGACVS01\nAdd Customer VSAM"]
+        LGICVS01["LGICVS01\nInquire Customer VSAM"]
+        LGUCVS01["LGUCVS01\nUpdate Customer VSAM"]
+    end
+
+    subgraph SUPPORT["Supporting CICS Services"]
+        LGSTSQ["LGSTSQ\nError Logger"]
+        LGASTAT1["LGASTAT1\nStatistics Counter"]
+        LGWEBST5["LGWEBST5\nStatistics Collector"]
+        LGSETUP["LGSETUP\nEnvironment Setup"]
+    end
+
+    subgraph BATCH["Batch Programs"]
+        LGBATCH["LGBATCH\nBatch Customer Report"]
+        LGBATDB2["LGBATDB2\nBatch DB2 Test Driver"]
+        LGMOTOUT["LGMOTOUT\nMotor Table Extract"]
+        LGBATCHF["LGBATCHF\nFormat Report Line"]
+    end
+
+    subgraph DB2["DB2 Tables"]
+        CUSTOMER[("CUSTOMER")]
+        CUSTOMER_SECURE[("CUSTOMER_SECURE")]
+        POLICY[("POLICY")]
+        ENDOWMENT[("ENDOWMENT")]
+        HOUSE[("HOUSE")]
+        MOTOR[("MOTOR")]
+        COMMERCIAL[("COMMERCIAL")]
+        CLAIM[("CLAIM")]
+    end
+
+    subgraph VSAM["VSAM Datasets"]
+        KSDSPOLY[("KSDSPOLY\nPolicy KSDS")]
+        KSDSCUST[("KSDSCUST\nCustomer KSDS")]
+    end
+
+    LGTESTP1 -->|CICS LINK| LGAPOL01
+    LGTESTP1 -->|CICS LINK| LGIPOL01
+    LGTESTP1 -->|CICS LINK| LGDPOL01
+    LGTESTP1 -->|CICS LINK| LGUPOL01
+    LGTESTP2 -->|CICS LINK| LGAPOL01
+    LGTESTP2 -->|CICS LINK| LGIPOL01
+    LGTESTP2 -->|CICS LINK| LGDPOL01
+    LGTESTP2 -->|CICS LINK| LGUPOL01
+    LGTESTP3 -->|CICS LINK| LGAPOL01
+    LGTESTP3 -->|CICS LINK| LGIPOL01
+    LGTESTP3 -->|CICS LINK| LGDPOL01
+    LGTESTP3 -->|CICS LINK| LGUPOL01
+    LGTESTP4 -->|CICS LINK| LGAPOL01
+    LGTESTP4 -->|CICS LINK| LGIPOL01
+    LGTESTP4 -->|CICS LINK| LGDPOL01
+    LGTESTC1 -->|CICS LINK| LGACUS01
+    LGTESTC1 -->|CICS LINK| LGICUS01
+    LGTESTC1 -->|CICS LINK| LGUCUS01
+
+    LGAPOL01 -->|CICS LINK| LGAPDB01
+    LGIPOL01 -->|CICS LINK| LGIPDB01
+    LGDPOL01 -->|CICS LINK| LGDPDB01
+    LGUPOL01 -->|CICS LINK| LGUPDB01
+    LGACUS01 -->|CICS LINK| LGACVS01
+    LGACUS01 -->|CICS LINK| LGACDB02
+    LGICUS01 -->|CICS LINK| LGICDB01
+    LGUCUS01 -->|CICS LINK| LGUCDB01
+
+    LGAPDB01 -->|CICS LINK| LGAPVS01
+    LGDPDB01 -->|CICS LINK| LGDPVS01
+    LGUPDB01 -->|CICS LINK| LGUPVS01
+    LGACDB01 -->|CICS LINK| LGACVS01
+    LGACDB01 -->|CICS LINK| LGACDB02
+    LGUCDB01 -->|CICS LINK| LGUCVS01
+
+    LGAPDB01 --> POLICY
+    LGAPDB01 --> ENDOWMENT
+    LGAPDB01 --> HOUSE
+    LGAPDB01 --> MOTOR
+    LGAPDB01 --> COMMERCIAL
+    LGAPDB01 --> CLAIM
+    LGIPDB01 --> CUSTOMER
+    LGIPDB01 --> POLICY
+    LGIPDB01 --> ENDOWMENT
+    LGIPDB01 --> HOUSE
+    LGIPDB01 --> MOTOR
+    LGIPDB01 --> COMMERCIAL
+    LGIPDB01 --> CLAIM
+    LGDPDB01 --> POLICY
+    LGUPDB01 --> POLICY
+    LGUPDB01 --> ENDOWMENT
+    LGUPDB01 --> HOUSE
+    LGUPDB01 --> MOTOR
+    LGACDB01 --> CUSTOMER
+    LGACDB02 --> CUSTOMER_SECURE
+    LGICDB01 --> CUSTOMER
+    LGUCDB01 --> CUSTOMER
+    LGACUS01 --> CUSTOMER
+    LGACUS01 --> POLICY
+
+    LGAPVS01 --> KSDSPOLY
+    LGIPVS01 --> KSDSPOLY
+    LGDPVS01 --> KSDSPOLY
+    LGUPVS01 --> KSDSPOLY
+    LGACVS01 --> KSDSCUST
+    LGICVS01 --> KSDSCUST
+    LGUCVS01 --> KSDSCUST
+
+    LGBATCH -->|static CALL| LGBATCHF
+    LGBATDB2 -->|static CALL| LGBATCHF
+    LGBATCH --> CUSTOMER
+    LGBATDB2 --> CUSTOMER
+    LGMOTOUT --> MOTOR
+</div>
+<p>The three-tier design enforces a clean separation of concerns: presentation programs are entirely free of SQL, orchestrators contain business logic but no file I/O, and backends are pure I/O handlers with no presentation awareness. Supporting services are consumed horizontally across all tiers.</p>
+<hr>
+<h2 id="3-program-inventory" tabindex="-1">3. Program Inventory</h2>
+<h3 id="31-tier-1--presentation--bms-menu-programs" tabindex="-1">3.1 Tier 1 — Presentation / BMS Menu Programs</h3>
+<p>Presentation programs receive control directly from CICS transactions. They display BMS maps to the terminal, accept user input, and dispatch to the orchestration tier via <code>EXEC CICS LINK</code>. None of these programs perform any DB2 or VSAM I/O directly.</p>
+<p>All five programs share the same entry point signature:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">Proc(DFHEIPTR, COMM_AREA_PTR) Options(Main, Reentrant)</code></pre>
+</div>
+<p>They use two common includes:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">%INCLUDE SSMAP;     /* BMS map structures for all screens     */
+%INCLUDE LGCMAREA;  /* Shared COMMAREA structure               */</code></pre>
+</div>
+<h4 id="311-lgtestp1--motor-policy-menu" tabindex="-1">3.1.1 LGTESTP1 — Motor Policy Menu</h4>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td>CICS — BMS Menu</td>
+</tr>
+<tr>
+<td><strong>CICS Transaction</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="customer-domain-architecture.html" class="card">
+                <span class="card-title">Customer Domain Architecture &amp; Lifecycle Orchestration</span>
+                <span class="card-description">Architectural design of the customer domain, detailing onboarding, security establishment, policy assignment, and customer lifecycle management rules.</span>
+            </a>
+            <a href="policy-db2-persistence.html" class="card">
+                <span class="card-title">Policy DB2 Persistence &amp; Pricing Rules</span>
+                <span class="card-description">Database persistence engines implementing DB2 CRUD operations, referential cascades, premium adjustments, peril surcharges, and broker commission calculations.</span>
+            </a>
+            <a href="customer-db2-persistence.html" class="card">
+                <span class="card-title">Customer DB2 Data Persistence &amp; Security</span>
+                <span class="card-description">Database access modules responsible for querying, inserting, and updating customer profiles and authentication credentials in DB2 tables.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-program-inventory">3. Program Inventory</a>
+<ul>
+<li class="toc-level-3"><a href="#31-tier-1--presentation--bms-menu-programs">3.1 Tier 1 — Presentation / BMS Menu Programs</a>
+<ul>
+<li class="toc-level-4"><a href="#311-lgtestp1--motor-policy-menu">3.1.1 LGTESTP1 — Motor Policy Menu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

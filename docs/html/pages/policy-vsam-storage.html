@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy VSAM KSDS Data Persistence - GenApp PL/I Insurance Application Architecture &amp; Reference</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I Insurance Application Architecture &amp; Reference</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Architecture &amp; Overview</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="system-inventory-data-model.html" class="nav-link" data-page-id="system-inventory-data-model">System Program Inventory and Database Table Dependencies</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture &amp; Lifecycle Orchestration</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Management Subsystem</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-presentation-orchestration.html" class="nav-link" data-page-id="customer-presentation-orchestration">Customer UI &amp; Business Flow Orchestration</a>
+                <a href="customer-db2-persistence.html" class="nav-link" data-page-id="customer-db2-persistence">Customer DB2 Data Persistence &amp; Security</a>
+                <a href="customer-vsam-storage.html" class="nav-link" data-page-id="customer-vsam-storage">Customer VSAM File Services &amp; Key Management</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Policy Management Subsystem</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="policy-presentation-transactions.html" class="nav-link" data-page-id="policy-presentation-transactions">Policy Presentation &amp; Terminal Handlers</a>
+                <a href="policy-business-orchestration.html" class="nav-link" data-page-id="policy-business-orchestration">Policy Business Logic &amp; Operation Orchestration</a>
+                <a href="policy-db2-persistence.html" class="nav-link" data-page-id="policy-db2-persistence">Policy DB2 Persistence &amp; Pricing Rules</a>
+                <a href="policy-vsam-storage.html" class="nav-link active" data-page-id="policy-vsam-storage">Policy VSAM KSDS Data Persistence</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Diagnostics &amp; Batch Services</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="infrastructure-monitoring-logging.html" class="nav-link" data-page-id="infrastructure-monitoring-logging">Diagnostics, Error Logging &amp; Operational Telemetry</a>
+                <a href="batch-processing-reporting.html" class="nav-link" data-page-id="batch-processing-reporting">Batch Reporting &amp; Data Extraction Services</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Modernization &amp; Migration Impact Analysis</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-domain-migration-analysis.html" class="nav-link" data-page-id="customer-domain-migration-analysis">Customer Domain Migration &amp; Remote DB Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(4)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGAPVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGAPVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGIPVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGIPVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGUPVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGUPVS01
+            </a></li>
+            <li><a href="../sources/program/pli/LGDPVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGDPVS01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="policy-vsam-ksds-data-persistence" tabindex="-1">Policy VSAM KSDS Data Persistence</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The Policy VSAM KSDS Data Persistence layer is the data access tier for the insurance policy file <code>KSDSPOLY</code>. It is a CICS VSAM Key-Sequenced Data Set that holds Commercial, Endowment, House and Motor policy records in one fixed-format file. Four Enterprise PL/I programs make up the layer. Each handles one kind of file operation:</p>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Operation</th>
+<th>CICS File Command</th>
+<th>Failure Return Code</th>
+<th>Abend Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LGAPVS01</code></td>
+<td>Add (write) a new policy record</td>
+<td><code>WRITE FILE</code></td>
+<td><code>80</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>LGIPVS01</code></td>
+<td>Generic key browse (inquiry)</td>
+<td><code>READ FILE GENERIC GTEQ</code></td>
+<td>Sentinel <code>13</code> in the returned key</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>LGUPVS01</code></td>
+<td>Update an existing policy record</td>
+<td><code>READ UPDATE</code> followed by <code>REWRITE</code></td>
+<td><code>81</code> (read), <code>82</code> (rewrite)</td>
+<td><code>LGV3</code>, <code>LGV4</code></td>
+</tr>
+<tr>
+<td><code>LGDPVS01</code></td>
+<td>Delete a policy record</td>
+<td><code>DELETE FILE</code></td>
+<td><code>81</code></td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p>All four programs share these design points:</p>
+<ul>
+<li><strong>Record layout.</strong> The record is 64 bytes. It has a 21-byte composite key followed by a 43-byte policy-type-specific payload.</li>
+<li><strong>Policy type.</strong> The 4th character of <code>CA_REQUEST_ID</code> selects the policy type: <code>C</code> (Commercial), <code>E</code> (Endowment), <code>H</code> (House) or <code>M</code> (Motor).</li>
+<li><strong>Interface.</strong> Callers pass a COMMAREA, described by the shared <code>LGCMAREA</code> layout. The programs signal failure back through <code>CA_RETURN_CODE</code>.</li>
+<li><strong>Error logging.</strong> Failures are logged by linking to the diagnostic program <code>LGSTSQ</code>.</li>
+<li><strong>No DB2.</strong> None of these programs use DB2. All persistence goes through CICS file control.</li>
+</ul>
+<h3 id="11-record-key-and-layout" tabindex="-1">1.1 Record Key and Layout</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Length</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WF_REQUEST_ID</code></td>
+<td>1 byte</td>
+<td>4th character of <code>CA_REQUEST_ID</code></td>
+</tr>
+<tr>
+<td><code>WF_CUSTOMER_NUM</code></td>
+<td>10 bytes</td>
+<td><code>CA_CUSTOMER_NUM</code></td>
+</tr>
+<tr>
+<td><code>WF_POLICY_NUM</code></td>
+<td>10 bytes</td>
+<td><code>CA_POLICY_NUM</code></td>
+</tr>
+<tr>
+<td><code>WF_POLICY_DATA</code> (UNION)</td>
+<td>43 bytes</td>
+<td>Commercial, Endowment, House or Motor overlay</td>
+</tr>
+<tr>
+<td><strong>Total record</strong></td>
+<td><strong>64 bytes</strong></td>
+<td>Written with <code>LENGTH(64)</code>, key length 21</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>Calling programs, such as the policy orchestrator <code>LGAPOL01</code>, pass a COMMAREA to one of the four VSAM programs. Each program builds the composite key and issues the matching CICS file control command against <code>KSDSPOLY</code>. Error diagnostics go to <code>LGSTSQ</code>.</p>
+<div class="mermaid">
+graph TD
+    A[Calling Programs<br>e.g. LGAPOL01] -->|EXEC CICS LINK<br>COMMAREA| B[LGAPVS01<br>Add Policy]
+    A -->|EXEC CICS LINK<br>COMMAREA| C[LGIPVS01<br>Generic Browse]
+    A -->|EXEC CICS LINK<br>COMMAREA| D[LGUPVS01<br>Update Policy]
+    A -->|EXEC CICS LINK<br>COMMAREA| E[LGDPVS01<br>Delete Policy]
+    T[CICS Terminal] -->|Direct invocation| C
+
+    B -->|WRITE FILE| F[(KSDSPOLY<br>VSAM KSDS)]
+    C -->|READ GENERIC GTEQ| F
+    D -->|READ UPDATE / REWRITE| F
+    E -->|DELETE FILE| F
+
+    B -.->|On failure LINK| G[LGSTSQ<br>Error Logger]
+    D -.->|On failure LINK| G
+    E -.->|On failure LINK| G
+
+    H[LGCMAREA<br>COMMAREA Layout] -.->|%INCLUDE| B
+    H -.->|%INCLUDE| D
+    H -.->|%INCLUDE| E
+</div>
+<h3 id="21-component-responsibilities" tabindex="-1">2.1 Component Responsibilities</h3>
+<ul>
+<li><strong><code>LGAPVS01</code></strong> builds the composite key and the policy payload, then issues <code>WRITE FILE</code>. It returns <code>80</code> on failure.</li>
+<li><strong><code>LGIPVS01</code></strong> accepts a partial key of policy type plus a customer number. It runs in two modes, COMMAREA (called by LINK) or terminal (RECEIVE), and does a single generic <code>GTEQ</code> read. It returns either the found key or a <code>Policy Bad=</code> indicator.</li>
+<li><strong><code>LGUPVS01</code></strong> maps the new field values into the working record. It locks the record with <code>READ UPDATE</code>, then does a <code>REWRITE</code>. It returns <code>81</code> or <code>82</code> and abends with <code>LGV3</code> or <code>LGV4</code> on failure.</li>
+<li><strong><code>LGDPVS01</code></strong> builds the key and issues <code>DELETE</code>. It returns <code>81</code> on failure.</li>
+<li><strong><code>LGSTSQ</code></strong> receives the formatted error message and, optionally, a snapshot of the COMMAREA.</li>
+<li><strong><code>LGCMAREA</code></strong> is the shared PL/I include. It defines the <code>COMM_AREA</code> UNION, 32,500 bytes in total, and its <code>COMM_AREA_RAW</code> overlay.</li>
+</ul>
+<h3 id="22-operation-to-command-relationships" tabindex="-1">2.2 Operation-to-Command Relationships</h3>
+<div class="mermaid">
+graph LR
+    subgraph Operations
+        W[Add]
+        R[Browse / Inquiry]
+        U[Update]
+        D[Delete]
+    end
+    subgraph CICS File Control
+        W --> W1[WRITE FILE<br>RIDFLD KEYLENGTH 21]
+        R --> R1[READ FILE<br>GENERIC GTEQ KEYLENGTH 11]
+        U --> U1[READ UPDATE]
+        U1 --> U2[REWRITE]
+        D --> D1[DELETE FILE<br>RIDFLD KEYLENGTH 21]
+    end
+    W1 --> F[(KSDSPOLY)]
+    R1 --> F
+    U2 --> F
+    D1 --> F
+</div>
+<h2 id="3-data-model" tabindex="-1">3. Data Model</h2>
+<h3 id="31-working-record-structure" tabindex="-1">3.1 Working Record Structure</h3>
+<p>The write, update and delete programs build the 21-byte key in working storage. The write and update programs also build the 43-byte payload. The payload is a PL/I <code>UNION</code>, so only the overlay for the active policy type holds data.</p>
+<div class="mermaid">
+erDiagram
+    KSDSPOLY {
+        char1 WF_REQUEST_ID "Key: policy type C/E/H/M"
+        char10 WF_CUSTOMER_NUM "Key: customer number"
+        char10 WF_POLICY_NUM "Key: policy number"
+        union WF_POLICY_DATA "43-byte type-specific payload"
+    }
+    COMMERCIAL {
+        char8 WF_B_POSTCODE
+        num WF_B_STATUS
+        char31 WF_B_CUSTOMER
+    }
+    ENDOWMENT {
+        char1 WF_E_WITH_PROFITS
+        char1 WF_E_EQUITIES
+        char1 WF_E_MANAGED_FUND
+        char10 WF_E_FUND_NAME
+        char30 WF_E_LIFE_ASSURED
+    }
+    HOUSE {
+        char15 WF_H_PROPERTY_TYPE
+        num3 WF_H_BEDROOMS
+        num8 WF_H_VALUE
+        char8 WF_H_POSTCODE
+        char9 WF_H_HOUSE_NAME
+    }
+    MOTOR {
+        char15 WF_M_MAKE
+        char15 WF_M_MODEL
+        num6 WF_M_VALUE
+        char7 WF_M_REGNUMBER
+    }
+    KSDSPOLY ||--o| COMMERCIAL : "type C"
+    KSDSPOLY ||--o| ENDOWMENT : "type E"
+    KSDSPOLY ||--o| HOUSE : "type H"
+    KSDSPOLY ||--o| MOTOR : "type M"
+</div>
+<h3 id="32-field-truncation-on-assignment" tabindex="-1">3.2 Field Truncation on Assignment</h3>
+<p>Some COMMAREA fields are longer than their record counterparts. PL/I truncates them on assignment, as shown below.</p>
+<table>
+<thead>
+<tr>
+<th>COMMAREA Field</th>
+<th>COMMAREA Length</th>
+<th>Record Field</th>
+<th>Stored Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CA_B_Customer</code></td>
+<td>255</td>
+<td><code>WF_B_Customer</code></td>
+<td>31</td>
+</tr>
+<tr>
+<td><code>CA_E_LIFE_ASSURED</code></td>
+<td>31</td>
+<td><code>WF_E_LIFE_ASSURED</code></td>
+<td>30</td>
+</tr>
+<tr>
+<td><code>CA_H_HOUSE_NAME</code></td>
+<td>20</td>
+<td><code>WF_H_HOUSE_NAME</code></td>
+<td>9 (documented for <code>LGUPVS01</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-composite-key-construction" tabindex="-1">3.3 Composite Key Construction</h3>
+<p>All programs that address a specific record build the key the same way:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>WF_Request_ID   = SUBSTR(CA_Request_ID,4,1);
+WF_Policy_Num   = CA_Policy_Num;
+WF_Customer_Num = CA_Customer_Num;</code></pre>
+</div>
+<p>For a Motor policy for customer <code>0000001234</code> with policy number <code>0000009901</code>, the key is <code>M</code> followed by <code>0000001234</code> and <code>0000009901</code>. That is 21 bytes in total.</p>
+<h2 id="4-add-policy-record-lgapvs01" tabindex="-1">4. Add Policy Record (<code>LGAPVS01</code>)</h2>
+<h3 id="41-processing-flow" tabindex="-1">4.1 Processing Flow</h3>
+<p><code>LGAPVS01</code> copies the key fields from the COMMAREA, then uses a <code>SELECT</code> on the policy type to fill the matching payload. It writes the 64-byte record and handles any non-normal response.</p>
+<div class="mermaid">
+flowchart TD
+    A([Start]) --> B[Capture EIBCALEN<br>Build key fields]
+    B --> C{Request type}
+    C -->|C| D[Copy commercial data]
+    C -->|E| E[Copy endowment data]
+    C -->|H| F[Copy house data]
+    C -->|M| G[Copy motor data]
+    C -->|Other| H[Blank WF_Policy_Text]
+    D --> I[Re-assign WF_Policy_Num]
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+    I --> J[EXEC CICS WRITE FILE KSDSPOLY]
+    J --> K{RESP NORMAL?}
+    K -->|Yes| L([Return])
+    K -->|No| M[Capture EIBRESP2<br>CA_RETURN_CODE = 80]
+    M --> N[WRITE_ERROR_MESSAGE]
+    N --> O([EXEC CICS RETURN])
+</div>
+<h3 id="42-write-command" tabindex="-1">4.2 Write Command</h3>
+<p>The program writes a fixed 64-byte record. The 21-byte key is passed as <code>RIDFLD</code>, and the CICS response goes to <code>WS_RESP</code>.</p>
+<pre><code class="language-pli">EXEC CICS WRITE FILE('KSDSPOLY')
+     FROM(WF_Policy_Info)
+     LENGTH(64)
+     RIDFLD(WF_Policy_Key)
+     KEYLENGTH(21)
+     RESP(WS_RESP);
+
+IF (WS_RESP</code></pre>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="policy-business-orchestration.html" class="card">
+                <span class="card-title">Policy Business Logic &amp; Operation Orchestration</span>
+                <span class="card-description">Front-end business logic handlers coordinating inquiry, creation, modification, and deletion across all insurance policy lines.</span>
+            </a>
+            <a href="policy-db2-persistence.html" class="card">
+                <span class="card-title">Policy DB2 Persistence &amp; Pricing Rules</span>
+                <span class="card-description">Database persistence engines implementing DB2 CRUD operations, referential cascades, premium adjustments, peril surcharges, and broker commission calculations.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a>
+<ul>
+<li class="toc-level-3"><a href="#11-record-key-and-layout">1.1 Record Key and Layout</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-component-responsibilities">2.1 Component Responsibilities</a></li>
+<li class="toc-level-3"><a href="#22-operation-to-command-relationships">2.2 Operation-to-Command Relationships</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-data-model">3. Data Model</a>
+<ul>
+<li class="toc-level-3"><a href="#31-working-record-structure">3.1 Working Record Structure</a></li>
+<li class="toc-level-3"><a href="#32-field-truncation-on-assignment">3.2 Field Truncation on Assignment</a></li>
+<li class="toc-level-3"><a href="#33-composite-key-construction">3.3 Composite Key Construction</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-add-policy-record-lgapvs01">4. Add Policy Record (LGAPVS01)</a>
+<ul>
+<li class="toc-level-3"><a href="#41-processing-flow">4.1 Processing Flow</a></li>
+<li class="toc-level-3"><a href="#42-write-command">4.2 Write Command</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

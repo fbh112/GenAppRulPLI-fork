@@ -1,0 +1,772 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Setup (LGSETUP) - GenApp PL/I General Insurance Application Wiki</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I General Insurance Application Wiki</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview &amp; Program Inventory</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="migration-impact-analysis.html" class="nav-link" data-page-id="migration-impact-analysis">Customer Domain Migration Risks &amp; Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">User Interface Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu-transaction.html" class="nav-link" data-page-id="customer-menu-transaction">Customer Maintenance Menu (SSC1)</a>
+                <a href="policy-menu-transactions.html" class="nav-link" data-page-id="policy-menu-transactions">Policy Maintenance Menus (SSP1–SSP4)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-inquiry.html" class="nav-link" data-page-id="customer-inquiry">Customer Inquiry</a>
+                <a href="customer-add.html" class="nav-link" data-page-id="customer-add">Customer Add &amp; Onboarding</a>
+                <a href="customer-update.html" class="nav-link" data-page-id="customer-update">Customer Update</a>
+                <a href="customer-vsam-utilities.html" class="nav-link" data-page-id="customer-vsam-utilities">Customer VSAM Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add</a>
+                <a href="policy-update.html" class="nav-link" data-page-id="policy-update">Policy Update</a>
+                <a href="policy-delete.html" class="nav-link" data-page-id="policy-delete">Policy Delete</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM (KSDSPOLY) Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Batch Processing</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="batch-customer-reporting.html" class="nav-link" data-page-id="batch-customer-reporting">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Infrastructure, Logging &amp; Statistics</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="error-logging.html" class="nav-link" data-page-id="error-logging">Error Logging (LGSTSQ)</a>
+                <a href="environment-setup.html" class="nav-link active" data-page-id="environment-setup">Environment Setup (LGSETUP)</a>
+                <a href="statistics-collection.html" class="nav-link" data-page-id="statistics-collection">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(2)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGSETUP.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGSETUP
+            </a></li>
+            <li><a href="../sources/program/pli/LGICVS01.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGICVS01
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="environment-setup-lgsetup" tabindex="-1">Environment Setup (LGSETUP)</h1>
+<p>The <code>LGSETUP</code> program is a CICS PL/I administrative utility that initializes or re-initializes the runtime environment for the General Insurance Application (GenApp). When invoked via a terminal transaction (such as <code>LGSE</code>), it accepts an optional upper bound for customer numbering, tears down and reconstructs all GenApp Temporary Storage (TS) queues, initializes the environment control queue (<code>GENACNTL</code>) with valid customer number boundaries, defines the customer numbering sequence counter (<code>GENACUSTNUM</code>), and resets all 36 transaction statistics counters in the CICS Named Counter pool <code>GENA</code> to zero.</p>
+<hr>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p>The primary function of <code>LGSETUP</code> is to bring the GenApp CICS environment to a known, consistent baseline state. This setup is crucial prior to running transactional workloads, performance benchmarks, or automated tests.</p>
+<p>Key actions executed by <code>LGSETUP</code>:</p>
+<ul>
+<li><strong>Terminal Input Capture</strong>: Reads an optional upper limit for the customer numbering sequence from the initiating terminal. If omitted, it applies a default value of <code>11</code>.</li>
+<li><strong>Temporary Storage Queue Teardown &amp; Reconstruction</strong>: Purges existing GenApp TS queues (<code>GENAERRS</code>, <code>GENASTRT</code>, <code>GENASTAT</code>, and <code>GENACNTL</code>) and writes initial control records to <code>GENACNTL</code>.</li>
+<li><strong>Customer Counter Initialization</strong>: Resets and defines the named counter <code>GENACUSTNUM</code> in the <code>GENA</code> counter pool seeded with the resolved upper customer number bound.</li>
+<li><strong>Transaction Statistics Reset</strong>: Iterates through a fixed set of 36 transaction statistics counters (representing success and failure metrics for Customer, Motor, Endowment, House, and Commercial policy operations) and sets their values to zero.</li>
+<li><strong>Terminal Confirmation</strong>: Returns a formatted message (<code>HIGH CUSTOMER=...</code>) to confirm the active upper boundary.</li>
+</ul>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p>The following diagram illustrates how <code>LGSETUP</code> interacts with terminal users, CICS Temporary Storage facilities, and the CICS Named Counter server pool (<code>GENA</code>).</p>
+<p>The setup utility acts as a central configuration manager. Other transactional programs in the GenApp suite (such as <code>LGICVS01</code> or policy update modules) consume the control boundaries placed in <code>GENACNTL</code> and increment the named counters managed in the <code>GENA</code> pool.</p>
+<hr>
+<h2 id="3-data-flows-and-operational-logic" tabindex="-1">3. Data Flows and Operational Logic</h2>
+<h3 id="31-end-to-end-execution-flow" tabindex="-1">3.1 End-to-End Execution Flow</h3>
+<p>When invoked, the program processes sequentially through receiving input, purging queues, writing control records, and resetting named counters.</p>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#6dbf9e,color:#000
+    classDef process fill:#c7ceea,stroke:#8a93cc,color:#000
+    classDef decision fill:#ffdac1,stroke:#f4a66e,color:#000
+    classDef io fill:#ffe4e1,stroke:#f4a0a0,color:#000
+
+    A([Start - LGSETUP]):::startEnd --> B[EXEC CICS RECEIVE<br>Read terminal input into WS_RECV]:::io
+    B --> C{{Input length > 5?}}:::decision
+    C -- Yes --> D[Extract high customer number<br>Override LASTCUSTNUM]:::process
+    C -- No --> E[Retain default LASTCUSTNUM = 11]:::process
+    D --> F[Delete TS Queues:<br>GENAERRS, GENASTRT,<br>GENASTAT, GENACNTL]:::io
+    E --> F
+    F --> G[WRITEQ TS GENACNTL:<br>1. Eyecatcher '**** GENAPP CNTL'<br>2. LOW CUSTOMER=0000000001<br>3. HIGH CUSTOMER=LASTCUSTNUM]:::io
+    G --> H[DELETE & DEFINE COUNTER<br>GENACUSTNUM in pool GENA<br>VALUE = LASTCUSTNUM]:::io
+    H --> I[Initialize Loop<br>COUNTER_IDX = 1]:::process
+    I --> J{{COUNTER_IDX <= 36?}}:::decision
+    J -- Yes --> K[DELETE & DEFINE COUNTER<br>COUNTER_NAME from table<br>VALUE = 0 in pool GENA]:::io
+    K --> L[COUNTER_IDX = COUNTER_IDX + 1]:::process
+    L --> J
+    J -- No --> M[EXEC CICS SEND TEXT<br>Display WRITE_MSG_H on terminal<br>ERASE, FREEKB, WAIT]:::io
+    M --> N([EXEC CICS RETURN]):::startEnd
+</div>
+<h3 id="32-sequence-of-operations" tabindex="-1">3.2 Sequence of Operations</h3>
+<p>The sequence diagram below shows the detailed chronological interaction across all resources during the execution of <code>LGSETUP</code>.</p>
+<div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Admin as Terminal Operator
+    participant Setup as LGSETUP Program
+    participant TS as CICS TS Queues
+    participant NC as Named Counter Pool (GENA)
+    participant Term as 3270 Terminal
+
+    Admin->>Setup: Initiate Transaction (e.g., LGSE 0000000050)
+    Setup->>Setup: Parse input length and extract LASTCUSTNUM
+    Setup->>TS: EXEC CICS DELETEQ TS QUEUE('GENAERRS')
+    Setup->>TS: EXEC CICS DELETEQ TS QUEUE('GENASTRT')
+    Setup->>TS: EXEC CICS DELETEQ TS QUEUE('GENASTAT')
+    Setup->>TS: EXEC CICS DELETEQ TS QUEUE('GENACNTL')
+    Setup->>TS: EXEC CICS WRITEQ TS QUEUE('GENACNTL') [Eyecatcher: '**** GENAPP CNTL    ']
+    Setup->>TS: EXEC CICS WRITEQ TS QUEUE('GENACNTL') ['LOW CUSTOMER=0000000001']
+    Setup->>TS: EXEC CICS WRITEQ TS QUEUE('GENACNTL') ['HIGH CUSTOMER=0000000050']
+    Setup->>NC: EXEC CICS DELETE COUNTER('GENACUSTNUM')
+    Setup->>NC: EXEC CICS DEFINE COUNTER('GENACUSTNUM') VALUE(50)
+    loop 36 Statistics Counters
+        Setup->>NC: EXEC CICS DELETE COUNTER(COUNTER_NAME)
+        Setup->>NC: EXEC CICS DEFINE COUNTER(COUNTER_NAME) VALUE(0)
+    end
+    Setup->>Term: EXEC CICS SEND TEXT ('HIGH CUSTOMER=0000000050') ERASE FREEKB WAIT
+    Setup->>Admin: Transaction Complete / Output Displayed
+</div>
+<hr>
+<h2 id="4-resource-definitions-and-structures" tabindex="-1">4. Resource Definitions and Structures</h2>
+<h3 id="41-temporary-storage-queues" tabindex="-1">4.1 Temporary Storage Queues</h3>
+<p><code>LGSETUP</code> manages four CICS Temporary Storage Queues:</p>
+<table>
+<thead>
+<tr>
+<th>Queue Name</th>
+<th>Variable Name</th>
+<th>Purpose</th>
+<th>Records Written by LGSETUP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GENACNTL</code></td>
+<td><code>STSQ_NAME</code></td>
+<td>Environment configuration &amp; customer ID range store</td>
+<td>3 fixed-length records (Eyecatcher, Low Customer, High Customer)</td>
+</tr>
+<tr>
+<td><code>GENAERRS</code></td>
+<td><code>STSQ_ERRS</code></td>
+<td>Application error logging</td>
+<td>Purged only (0 records written)</td>
+</tr>
+<tr>
+<td><code>GENASTRT</code></td>
+<td><code>STSQ_STRT</code></td>
+<td>Transaction start/heartbeat tracking</td>
+<td>Purged only (0 records written)</td>
+</tr>
+<tr>
+<td><code>GENASTAT</code></td>
+<td><code>STSQ_STAT</code></td>
+<td>Transaction execution statistics</td>
+<td>Purged only (0 records written)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="control-queue-genacntl-record-layout" tabindex="-1">Control Queue (<code>GENACNTL</code>) Record Layout</h4>
+<p>The three records written to <code>GENACNTL</code> follow strict byte layouts:</p>
+<div class="mermaid">
+classDiagram
+    class Record1_Eyecatcher {
+        +CHAR(20) WRITE_MSG_E = '**** GENAPP CNTL    '
+    }
+    class Record2_LowCustomer {
+        +CHAR(13) Label = 'LOW CUSTOMER='
+        +PIC(10)9 WRITE_MSG_LOW = 0000000001
+    }
+    class Record3_HighCustomer {
+        +CHAR(14) Label = 'HIGH CUSTOMER='
+        +PIC(10)9 WRITE_MSG_HIGH = e.g. 0000000011
+    }
+</div>
+<ul>
+<li><strong>Record 1 (20 bytes)</strong>: Environment identification string <code>'**** GENAPP CNTL    '</code>.</li>
+<li><strong>Record 2 (23 bytes)</strong>: Lower boundary string <code>'LOW CUSTOMER='</code> concatenated with <code>WRITE_MSG_LOW</code> (hardcoded to <code>1</code>, formatted as <code>0000000001</code>).</li>
+<li><strong>Record 3 (24 bytes)</strong>: Upper boundary string <code>'HIGH CUSTOMER='</code> concatenated with <code>WRITE_MSG_HIGH</code> (formatted as a 10-digit number based on <code>LASTCUSTNUM</code>).</li>
+</ul>
+<h3 id="42-named-counters-pool-gena" tabindex="-1">4.2 Named Counters (Pool <code>GENA</code>)</h3>
+<p>All named counters are maintained within the dedicated CICS counter pool named <code>GENA</code>.</p>
+<ol>
+<li>
+<p><strong>Customer Sequence Counter (<code>GENACUSTNUM</code>)</strong>:</p>
+<ul>
+<li>Re-defined with <code>VALUE(LASTCUSTNUM)</code>.</li>
+<li>Used by customer creation routines to assign sequential customer IDs.</li>
+</ul>
+</li>
+<li>
+<p><strong>36 Transaction Statistics Counters</strong>:</p>
+<ul>
+<li>Organized as a static array <code>COUNTER_TABLE</code> mapped via <code>COUNTER_ARRAY</code>.</li>
+<li>Represents operations across 5 entity types (Customer, Motor, Endowment, House, Commercial) and 4 CRUD operations (Inquire/Insert, Add, Delete, Update).</li>
+<li>Tracks success (<code>00</code> suffix) and failure (<code>99</code> suffix) outcomes (e.g., <code>GENA01ICUS00</code>, <code>GENA01ICUS99</code>, <code>GENA01UMOT00</code>, etc.).</li>
+<li>All 36 counters are re-defined with <code>VALUE(0)</code>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-implementation-code-examples" tabindex="-1">5. Implementation Code Examples</h2>
+<p>The following pseudo-code snippets demonstrate the core logic implemented in PL/I with embedded CICS commands.</p>
+<h3 id="51-terminal-receive-and-high-customer-override" tabindex="-1">5.1 Terminal Receive and High Customer Override</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Read up to 80 bytes from the terminal */
+EXEC CICS RECEIVE 
+     INTO(WS_RECV) 
+     LENGTH(WS_RECV_LEN) 
+     RESP(WS_RESP);
+
+/* If data was entered beyond the 5-char TranID, extract LASTCUSTNUM */
+IF WS_RECV_LEN &gt; 5 THEN DO;
+    WS_RECV_LEN = WS_RECV_LEN - 5;
+    LASTCUSTNUM = SUBSTR(WS_RECV_DATA, 1, WS_RECV_LEN);
+END;
+ELSE DO;
+    LASTCUSTNUM = 11; /* Compile-time default */
+END;</code></pre>
+</div>
+<h3 id="52-temporary-storage-queue-deletion-and-control-queue-population" tabindex="-1">5.2 Temporary Storage Queue Deletion and Control Queue Population</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Delete all existing TS queues */
+EXEC CICS DELETEQ TS QUEUE(&#039;GENAERRS&#039;) RESP(WS_RESP);
+EXEC CICS DELETEQ TS QUEUE(&#039;GENASTRT&#039;) RESP(WS_RESP);
+EXEC CICS DELETEQ TS QUEUE(&#039;GENASTAT&#039;) RESP(WS_RESP);
+EXEC CICS DELETEQ TS QUEUE(&#039;GENACNTL&#039;) RESP(WS_RESP);
+
+/* Format control records */
+WRITE_MSG_LOW  = FRSTCUSTNUM; /* Value = 1 */
+WRITE_MSG_HIGH = LASTCUSTNUM; /* Value = 11 or override */
+
+/* Write initial records to GENACNTL */
+EXEC CICS WRITEQ TS QUEUE(&#039;GENACNTL&#039;) 
+     FROM(WRITE_MSG_E) 
+     LENGTH(20) 
+     NOSUSPEND 
+     RESP(WS_RESP);
+
+EXEC CICS WRITEQ TS QUEUE(&#039;GENACNTL&#039;) 
+     FROM(WRITE_MSG_L) 
+     LENGTH(23) 
+     NOSUSPEND 
+     RESP(WS_RESP);
+
+EXEC CICS WRITEQ TS QUEUE(&#039;GENACNTL&#039;) 
+     FROM(WRITE_MSG_H) 
+     LENGTH(24) 
+     NOSUSPEND 
+     RESP(WS_RESP);</code></pre>
+</div>
+<h3 id="53-named-counter-reset" tabindex="-1">5.3 Named Counter Reset</h3>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">/* Reset customer numbering counter */
+EXEC CICS DELETE COUNTER(&#039;GENACUSTNUM&#039;) POOL(&#039;GENA&#039;) RESP(WS_RESP);
+EXEC CICS DEFINE COUNTER(&#039;GENACUSTNUM&#039;) POOL(&#039;GENA&#039;) 
+     VALUE(LASTCUSTNUM) 
+     RESP(WS_RESP);
+
+/* Reset all 36 statistics counters */
+DO COUNTER_IDX = 1 TO COUNTER_COUNT; /* COUNTER_COUNT = 36 */
+    EXEC CICS DELETE COUNTER(COUNTER_NAME(COUNTER_IDX)) 
+         POOL(&#039;GENA&#039;) 
+         RESP(WS_RESP);
+
+    EXEC CICS DEFINE COUNTER(COUNTER_NAME(COUNTER_IDX)) 
+         POOL(&#039;GENA&#039;) 
+         VALUE(0) 
+         RESP(WS_RESP);
+END;
+
+/* Send confirmation to terminal and return */
+EXEC CICS SEND TEXT 
+     FROM(WRITE_MSG_H) 
+     LENGTH(24) 
+     TERMINAL 
+     WAIT 
+     ERASE 
+     FREEKB;
+
+EXEC CICS RETURN;</code></pre>
+</div>
+<hr>
+<h2 id="6-constraints-and-error-handling-strategy" tabindex="-1">6. Constraints and Error Handling Strategy</h2>
+<h3 id="61-constraints" tabindex="-1">6.1 Constraints</h3>
+<ul>
+<li><strong>Single Procedure Structure</strong>: <code>LGSETUP</code> is written as a single, linear PL/I procedure (<code>LGSETUP: Proc Options(Main)</code>) without sub-routines or paragraphs.</li>
+<li><strong>Fixed Buffer Sizing</strong>: Terminal input is captured in an 80-byte buffer (<code>WS_RECV</code>). Trailing data beyond byte 80 is truncated.</li>
+<li><strong>Lower Customer Limit</strong>: <code>FRSTCUSTNUM</code> is statically fixed to <code>1</code> and cannot be modified via runtime input.</li>
+<li><strong>Data Conversion</strong>: The override string from <code>WS_RECV_DATA</code> is converted directly to <code>LASTCUSTNUM</code> (<code>FIXED BIN(31)</code>). Non-numeric input will cause a runtime PL/I conversion condition.</li>
+<li><strong>Counter Table Boundaries</strong>: Sized statically to 36 entries. Any change to tracked metrics requires recompilation of the static table and loop limits.</li>
+<li><strong>No Database Interaction</strong>: <code>LGSETUP</code> does not issue <code>EXEC SQL</code> commands and does not interact directly with DB2.</li>
+</ul>
+<h3 id="62-error-handling-behavior" tabindex="-1">6.2 Error Handling Behavior</h3>
+<ul>
+<li><strong>Passive Response Capture</strong>: Every CICS statement specifies <code>RESP(WS_RESP)</code>, which suppresses standard CICS condition raising and abends.</li>
+<li><strong>Tolerance of Missing Resources</strong>: When issuing <code>DELETEQ TS</code> or <code>DELETE COUNTER</code>, missing resources (e.g., <code>QIDERR</code> or <code>NOTFND</code>) are captured in <code>WS_RESP</code> but ignored, allowing clean execution during initial system installation when queues or counters do not yet exist.</li>
+<li><strong>Non-blocking Queue Writes</strong>: <code>WRITEQ TS</code> commands use <code>NOSUSPEND</code> to prevent task hanging if auxiliary storage is temporarily constrained.</li>
+<li><strong>Implicit Success Feedback</strong>: The transaction issues no diagnostic error logs; the display of the confirmation message <code>HIGH CUSTOMER=...</code> on an erased 3270 screen serves as the visual indicator to the operator that all queues and counters have been successfully rebuilt.</li>
+</ul>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="statistics-collection.html" class="card">
+                <span class="card-title">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</span>
+                <span class="card-description">Statistics pipeline: LGASTAT1 increments named counters per request and outcome. LGWEBST5 harvests the counters and writes absolute and delta values to temporary storage queues every minute.</span>
+            </a>
+            <a href="customer-vsam-utilities.html" class="card">
+                <span class="card-title">Customer VSAM Programs</span>
+                <span class="card-description">Programs that access the KSDSCUST VSAM file: LGACVS01 (add), LGUCVS01 (update) and LGICVS01 (random customer selection).</span>
+            </a>
+            <a href="error-logging.html" class="card">
+                <span class="card-title">Error Logging (LGSTSQ)</span>
+                <span class="card-description">The shared LGSTSQ logging utility that writes to the CSMT transient data queue and the GENAERRS temporary storage queue. It also covers the diagnostic message conventions used by the other programs.</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a></li>
+<li class="toc-level-2"><a href="#3-data-flows-and-operational-logic">3. Data Flows and Operational Logic</a>
+<ul>
+<li class="toc-level-3"><a href="#31-end-to-end-execution-flow">3.1 End-to-End Execution Flow</a></li>
+<li class="toc-level-3"><a href="#32-sequence-of-operations">3.2 Sequence of Operations</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-resource-definitions-and-structures">4. Resource Definitions and Structures</a>
+<ul>
+<li class="toc-level-3"><a href="#41-temporary-storage-queues">4.1 Temporary Storage Queues</a>
+<ul>
+<li class="toc-level-4"><a href="#control-queue-genacntl-record-layout">Control Queue (GENACNTL) Record Layout</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#42-named-counters-pool-gena">4.2 Named Counters (Pool GENA)</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-implementation-code-examples">5. Implementation Code Examples</a>
+<ul>
+<li class="toc-level-3"><a href="#51-terminal-receive-and-high-customer-override">5.1 Terminal Receive and High Customer Override</a></li>
+<li class="toc-level-3"><a href="#52-temporary-storage-queue-deletion-and-control-queue-population">5.2 Temporary Storage Queue Deletion and Control Queue Population</a></li>
+<li class="toc-level-3"><a href="#53-named-counter-reset">5.3 Named Counter Reset</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-constraints-and-error-handling-strategy">6. Constraints and Error Handling Strategy</a>
+<ul>
+<li class="toc-level-3"><a href="#61-constraints">6.1 Constraints</a></li>
+<li class="toc-level-3"><a href="#62-error-handling-behavior">6.2 Error Handling Behavior</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>

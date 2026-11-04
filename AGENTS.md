@@ -105,6 +105,8 @@ Menu (LGTESTP1-4 / LGTESTC1)
 
 Program metadata is stored in `.bobz/local-settings.json` (`databaseLocation` field). Use `execute_sql_query` for cross-program analysis (call chains, SQL table access, dependencies).
 
+When you perform any code anlaysis, always look into local metadata database first.
+
 ## Documentation Output
 
 All generated documentation must be saved under the `docs/` folder. Use the following sub-directory conventions:
@@ -116,6 +118,33 @@ All generated documentation must be saved under the `docs/` folder. Use the foll
 | `docs/impact-analysis/` | Impact analysis reports |
 | `docs/implementation-plans/` | Implementation plan documents |
 | `docs/business-rules/` | Business rules documentation (brd workflow output) |
+
+### Table of Contents Requirement — MANDATORY
+
+Every generated documentation file **must include a Table of Contents (TOC) at the very top** of the document, immediately after the document title. This applies to all documentation types:
+
+- Program documentation (`docs/programs/`)
+- Impact analysis reports (`docs/impact-analysis/`)
+- Implementation plans (`docs/implementation-plans/`)
+- Business rules documents (`docs/business-rules/`)
+- Wiki pages (`docs/wiki/`)
+
+**TOC format** (Markdown anchor links):
+
+```markdown
+## Table of Contents
+
+- [Section 1](#section-1)
+- [Section 2](#section-2)
+  - [Sub-section 2.1](#sub-section-21)
+- [Section 3](#section-3)
+```
+
+**Rules**:
+- The TOC must be generated **after** all sections of the document are known, so that every section heading has a corresponding entry.
+- Anchor IDs follow standard Markdown conventions: lowercase, spaces replaced with hyphens, punctuation removed.
+- Nested sections (sub-headings `###` and below) must be indented with two spaces per level under their parent entry.
+- Do **not** include the document title (`#`) itself as a TOC entry.
 ## Workspace Type
 
 IBM Z

@@ -1,0 +1,1019 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Motor Policy Extract - GenApp PL/I General Insurance Application Wiki</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../assets/mermaid.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+
+    <!-- Prism.js for syntax highlighting (bundled — no CDN required) -->
+    <link rel="stylesheet" href="../assets/prism-tomorrow.css">
+    <script src="../assets/prism-core.js"></script>
+    <script src="../assets/prism-languages.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <span class="header-app-name"><a href="../../index.html" style="color: inherit; text-decoration: none;">GenApp PL/I General Insurance Application Wiki</a></span>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+    <div class="shell">
+        <aside class="sidebar" id="wiki-sidebar">
+            <nav>
+                
+        <div class="nav-home-wrap">
+            <a href="../../index.html" class="nav-home">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6.5L8 2l6 4.5V14a1 1 0 01-1 1H3a1 1 0 01-1-1V6.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                Home
+            </a>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Application Documentation</div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Overview &amp; Architecture</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="project-overview.html" class="nav-link" data-page-id="project-overview">Project Overview &amp; Program Inventory</a>
+                <a href="customer-domain-architecture.html" class="nav-link" data-page-id="customer-domain-architecture">Customer Domain Architecture</a>
+                <a href="migration-impact-analysis.html" class="nav-link" data-page-id="migration-impact-analysis">Customer Domain Migration Risks &amp; Impact Analysis</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">User Interface Transactions</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-menu-transaction.html" class="nav-link" data-page-id="customer-menu-transaction">Customer Maintenance Menu (SSC1)</a>
+                <a href="policy-menu-transactions.html" class="nav-link" data-page-id="policy-menu-transactions">Policy Maintenance Menus (SSP1–SSP4)</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Customer Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="customer-inquiry.html" class="nav-link" data-page-id="customer-inquiry">Customer Inquiry</a>
+                <a href="customer-add.html" class="nav-link" data-page-id="customer-add">Customer Add &amp; Onboarding</a>
+                <a href="customer-update.html" class="nav-link" data-page-id="customer-update">Customer Update</a>
+                <a href="customer-vsam-utilities.html" class="nav-link" data-page-id="customer-vsam-utilities">Customer VSAM Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Policy Domain Programs</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="policy-inquiry.html" class="nav-link" data-page-id="policy-inquiry">Policy Inquiry</a>
+                <a href="policy-add.html" class="nav-link" data-page-id="policy-add">Policy Add</a>
+                <a href="policy-update.html" class="nav-link" data-page-id="policy-update">Policy Update</a>
+                <a href="policy-delete.html" class="nav-link" data-page-id="policy-delete">Policy Delete</a>
+                <a href="policy-vsam-programs.html" class="nav-link" data-page-id="policy-vsam-programs">Policy VSAM (KSDSPOLY) Programs</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle open" type="button">
+                <span class="nav-toggle-text">Batch Processing</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items open">
+                <a href="batch-customer-reporting.html" class="nav-link" data-page-id="batch-customer-reporting">Batch Customer Reporting</a>
+                <a href="batch-motor-extract.html" class="nav-link active" data-page-id="batch-motor-extract">Batch Motor Policy Extract</a>
+            </div>
+        </div>
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">Infrastructure, Logging &amp; Statistics</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="error-logging.html" class="nav-link" data-page-id="error-logging">Error Logging (LGSTSQ)</a>
+                <a href="environment-setup.html" class="nav-link" data-page-id="environment-setup">Environment Setup (LGSETUP)</a>
+                <a href="statistics-collection.html" class="nav-link" data-page-id="statistics-collection">Statistics Collection (LGASTAT1 &amp; LGWEBST5)</a>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Program Documentation</div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">business-rule</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/business-rule/pli/LGACUS01-overview.html" class="nav-link">LGACUS01-overview</a>
+                <a href="../sources/business-rule/pli/LGACUS01-inventory.html" class="nav-link">LGACUS01-inventory</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="nav-section">
+        <button class="nav-section-toggle" type="button">
+            <span class="nav-toggle-text">program</span>
+            <span class="nav-section-chevron">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+        <div class="nav-section-items">
+        <div class="nav-section">
+            <button class="nav-section-toggle" type="button">
+                <span class="nav-toggle-text">pli</span>
+                <span class="nav-section-chevron">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            <div class="nav-section-items">
+                <a href="../sources/program/pli/LGASTAT1.html" class="nav-link">LGASTAT1</a>
+                <a href="../sources/program/pli/LGMOTOUT.html" class="nav-link">LGMOTOUT</a>
+                <a href="../sources/program/pli/LGUCVS01.html" class="nav-link">LGUCVS01</a>
+                <a href="../sources/program/pli/LGBATCH.html" class="nav-link">LGBATCH</a>
+                <a href="../sources/program/pli/LGUCDB01.html" class="nav-link">LGUCDB01</a>
+                <a href="../sources/program/pli/LGDPDB01.html" class="nav-link">LGDPDB01</a>
+                <a href="../sources/program/pli/LGDPVS01.html" class="nav-link">LGDPVS01</a>
+                <a href="../sources/program/pli/LGBATCHF.html" class="nav-link">LGBATCHF</a>
+                <a href="../sources/program/pli/LGACUS01.html" class="nav-link">LGACUS01</a>
+                <a href="../sources/program/pli/LGTESTP1.html" class="nav-link">LGTESTP1</a>
+                <a href="../sources/program/pli/LGDPOL01.html" class="nav-link">LGDPOL01</a>
+                <a href="../sources/program/pli/LGBATDB2.html" class="nav-link">LGBATDB2</a>
+                <a href="../sources/program/pli/LGICUS01.html" class="nav-link">LGICUS01</a>
+                <a href="../sources/program/pli/LGUCUS01.html" class="nav-link">LGUCUS01</a>
+                <a href="../sources/program/pli/LGTESTC1.html" class="nav-link">LGTESTC1</a>
+                <a href="../sources/program/pli/LGTESTP4.html" class="nav-link">LGTESTP4</a>
+                <a href="../sources/program/pli/LGWEBST5.html" class="nav-link">LGWEBST5</a>
+                <a href="../sources/program/pli/LGUPOL01.html" class="nav-link">LGUPOL01</a>
+                <a href="../sources/program/pli/LGAPOL01.html" class="nav-link">LGAPOL01</a>
+                <a href="../sources/program/pli/LGTESTP2.html" class="nav-link">LGTESTP2</a>
+                <a href="../sources/program/pli/LGSTSQ.html" class="nav-link">LGSTSQ</a>
+                <a href="../sources/program/pli/LGTESTP3.html" class="nav-link">LGTESTP3</a>
+                <a href="../sources/program/pli/LGIPOL01.html" class="nav-link">LGIPOL01</a>
+                <a href="../sources/program/pli/LGAPVS01.html" class="nav-link">LGAPVS01</a>
+                <a href="../sources/program/pli/LGAPDB01.html" class="nav-link">LGAPDB01</a>
+                <a href="../sources/program/pli/LGACDB02.html" class="nav-link">LGACDB02</a>
+                <a href="../sources/program/pli/LGIPVS01.html" class="nav-link">LGIPVS01</a>
+                <a href="../sources/program/pli/LGSETUP.html" class="nav-link">LGSETUP</a>
+                <a href="../sources/program/pli/LGIPDB01.html" class="nav-link">LGIPDB01</a>
+                <a href="../sources/program/pli/LGUPDB01.html" class="nav-link">LGUPDB01</a>
+                <a href="../sources/program/pli/LGUPVS01.html" class="nav-link">LGUPVS01</a>
+                <a href="../sources/program/pli/LGACDB01.html" class="nav-link">LGACDB01</a>
+                <a href="../sources/program/pli/LGACVS01.html" class="nav-link">LGACVS01</a>
+                <a href="../sources/program/pli/LGICDB01.html" class="nav-link">LGICDB01</a>
+                <a href="../sources/program/pli/LGICVS01.html" class="nav-link">LGICVS01</a>
+            </div>
+        </div>
+        </div>
+    </div>
+            </nav>
+        </aside>
+        <main class="main">
+            <div class="page-container">
+                <div class="content-layout">
+                    <div class="prose">
+                        <details class="source-files-disclosure">
+            <summary>
+                <svg class="sf-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Source Files
+                <span style="margin-left:4px;font-size:11px;color:var(--fg-subtle)">(1)</span>
+            </summary>
+            <div class="source-files-body">
+                <ul class="source-files-list">
+            <li><a href="../sources/program/pli/LGMOTOUT.html">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+                    <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+                LGMOTOUT
+            </a></li>
+                </ul>
+            </div>
+        </details>
+                        <h1 id="batch-motor-policy-extract" tabindex="-1">Batch Motor Policy Extract</h1>
+<h2 id="1-overview" tabindex="-1">1. Overview</h2>
+<p><code>LGMOTOUT</code> is a batch, non-interactive PL/I program designed to extract all motor insurance policy records from the DB2 <code>GENASA1.MOTOR</code> table and serialize them into a sequential, fixed-block physical output file named <code>MOTOROUT</code>. Acting as a pure read-only utility, the program systematically scans the entire motor insurance table using a DB2 cursor, maps the retrieved columns to a formatted data layout, and outputs exactly one 132-byte fixed-length record per policy.</p>
+<p>The main business and technical objectives of the program include:</p>
+<ul>
+<li><strong>Full Database Extraction:</strong> Reading all vehicle and policy attributes (e.g., policy number, manufacture details, insurance premiums, accident records) without active filtering.</li>
+<li><strong>Data Standardization:</strong> Formatting and converting binary database types (such as <code>FIXED BIN</code> integers) into structured, readable character representation templates (using PL/I <code>PIC</code> picture formats).</li>
+<li><strong>Audit and Verification:</strong> Generating a final record count upon normal execution to verify data integrity against operational batch expectations.</li>
+<li><strong>Robust Failure Isolation:</strong> Gracefully trapping and reporting DB2 errors and z/OS file allocation or I/O failures, using distinctive batch return codes (<code>0</code>, <code>8</code>, or <code>12</code>) to communicate step status directly to the job control scheduler.</li>
+</ul>
+<hr>
+<h2 id="2-system-architecture" tabindex="-1">2. System Architecture</h2>
+<p><code>LGMOTOUT</code> runs as a standard batch job step in a z/OS mainframe environment. It connects to a DB2 subsystem to execute read-only queries and interfaces with the z/OS Data Management services to write output records to sequential datasets.</p>
+<h3 id="21-system-components-and-relationships" tabindex="-1">2.1 System Components and Relationships</h3>
+<p>The program serves as the processing logic hub. It depends on several external system components: the DB2 subsystem hosting the motor database table, the z/OS dataset allocation services providing the physical sequential file, and the z/OS runtime environment that manages job steps and records output messages in the console log.</p>
+<div class="mermaid">
+graph TD
+    subgraph mainframe [z/OS Mainframe Environment]
+        JCL[Batch JCL / Job Step] -->|Executes| LGMOTOUT[LGMOTOUT PL/I Batch Program]
+        DB2[(DB2 Subsystem: DBD1)] -->|GENASA1.MOTOR Table| LGMOTOUT
+        LGMOTOUT -->|Writes 132-byte records| MOTOROUT[MOTOROUT Sequential File FB 132]
+        LGMOTOUT -->|Displays Logs & Errors| SYSOUT[SYSOUT / Console Log]
+    end
+</div>
+<h3 id="22-data-flows-and-processes" tabindex="-1">2.2 Data Flows and Processes</h3>
+<p>The relationships between database attributes and their destination fields in the output sequential record are structured as a direct mapping. The following entity-relationship diagram shows the source columns within <code>GENASA1.MOTOR</code> and how they are structured inside the sequential target buffer:</p>
+<div class="mermaid">
+erDiagram
+    GENASA1_MOTOR {
+        int POLICYNUMBER PK
+        string MAKE
+        string MODEL
+        int VALUE
+        string REGNUMBER
+        string COLOUR
+        int CC
+        string YEAROFMANUFACTURE
+        int PREMIUM
+        int ACCIDENTS
+    }
+    MOTOROUT_REC {
+        string WS_OUT_POLNUM
+        string WS_OUT_MAKE
+        string WS_OUT_MODEL
+        string WS_OUT_VALUE
+        string WS_OUT_REGNUMBER
+        string WS_OUT_COLOUR
+        string WS_OUT_CC
+        string WS_OUT_YEAROFMFR
+        string WS_OUT_PREMIUM
+        string WS_OUT_ACCIDENTS
+    }
+    GENASA1_MOTOR ||--o{ MOTOROUT_REC : "extracted to"
+</div>
+<hr>
+<h2 id="3-technical-inputs-and-outputs" tabindex="-1">3. Technical Inputs and Outputs</h2>
+<h3 id="31-db2-database---genasa1motor-table-inputs" tabindex="-1">3.1 DB2 Database - GENASA1.MOTOR Table (Inputs)</h3>
+<p>All database values are retrieved sequentially using the DB2 cursor <code>MOTOR_CSR</code>. The program maps SQL column results directly into equivalent PL/I host variables:</p>
+<ul>
+<li><strong><code>POLICYNUMBER</code></strong> (fetched into <code>HV_POLICY_NUMBER</code> as <code>FIXED BIN(31)</code>): The unique identifier of the motor insurance policy.</li>
+<li><strong><code>MAKE</code></strong> (fetched into <code>HV_MAKE</code> as <code>CHAR(15)</code>): The vehicle manufacturer.</li>
+<li><strong><code>MODEL</code></strong> (fetched into <code>HV_MODEL</code> as <code>CHAR(15)</code>): The model identifier.</li>
+<li><strong><code>VALUE</code></strong> (fetched into <code>HV_VALUE</code> as <code>FIXED BIN(31)</code>): The declared monetary value of the vehicle.</li>
+<li><strong><code>REGNUMBER</code></strong> (fetched into <code>HV_REGNUMBER</code> as <code>CHAR(7)</code>): The legal vehicle registration plate number.</li>
+<li><strong><code>COLOUR</code></strong> (fetched into <code>HV_COLOUR</code> as <code>CHAR(8)</code>): The physical vehicle color.</li>
+<li><strong><code>CC</code></strong> (fetched into <code>HV_CC</code> as <code>FIXED BIN(15)</code>): The engine’s cubic centimeter displacement capacity.</li>
+<li><strong><code>YEAROFMANUFACTURE</code></strong> (fetched into <code>HV_YEAROFMANUFACTURE</code> as <code>CHAR(10)</code>): The manufacturing date/year.</li>
+<li><strong><code>PREMIUM</code></strong> (fetched into <code>HV_PREMIUM</code> as <code>FIXED BIN(31)</code>): The calculated insurance premium.</li>
+<li><strong><code>ACCIDENTS</code></strong> (fetched into <code>HV_ACCIDENTS</code> as <code>FIXED BIN(31)</code>): The historic accident count associated with the vehicle.</li>
+</ul>
+<h3 id="32-sequential-output-file---motorout-outputs" tabindex="-1">3.2 Sequential Output File - MOTOROUT (Outputs)</h3>
+<p>The output destination is a sequential dataset referred to via the <code>MOTOROUT</code> DD statement. It must be allocated as a Fixed-Block (FB) dataset with a record length (<code>LRECL</code>) of exactly 132 bytes.</p>
+<p>The logical record structure, defined by the <code>WS_MOTOR_LINE</code> structure, organizes the output data fields:</p>
+<ul>
+<li><strong><code>WS_OUT_POLNUM</code></strong> (<code>PIC '999999999'</code>): 9-position policy number.</li>
+<li><strong><code>WS_OUT_MAKE</code></strong> (<code>CHAR(15)</code>): 15-character vehicle manufacturer.</li>
+<li><strong><code>WS_OUT_MODEL</code></strong> (<code>CHAR(15)</code>): 15-character vehicle model name.</li>
+<li><strong><code>WS_OUT_VALUE</code></strong> (<code>PIC '999999999'</code>): 9-position vehicle value.</li>
+<li><strong><code>WS_OUT_REGNUMBER</code></strong> (<code>CHAR(7)</code>): 7-character registration plate.</li>
+<li><strong><code>WS_OUT_COLOUR</code></strong> (<code>CHAR(8)</code>): 8-character vehicle color.</li>
+<li><strong><code>WS_OUT_CC</code></strong> (<code>PIC '9999'</code>): 4-position engine cubic capacity.</li>
+<li><strong><code>WS_OUT_YEAROFMFR</code></strong> (<code>CHAR(10)</code>): 10-character year of manufacture.</li>
+<li><strong><code>WS_OUT_PREMIUM</code></strong> (<code>PIC '999999999'</code>): 9-position insurance premium.</li>
+<li><strong><code>WS_OUT_ACCIDENTS</code></strong> (<code>PIC '999999999'</code>): 9-position recorded accident count.</li>
+</ul>
+<h3 id="33-operational-and-error-messages" tabindex="-1">3.3 Operational and Error Messages</h3>
+<p>The program communicates its execution state using standard system console output:</p>
+<ul>
+<li><strong>Normal Termination Message:</strong> Displays the exact count of lines written to the sequential dataset:
+<code>LGMOTOUT: ROWS WRITTEN=&lt;WS_ROW_COUNT&gt;</code></li>
+<li><strong>File Open Diagnostic Failure:</strong> Outputs an explicit message when file allocation or availability fails:
+<code>LGMOTOUT: OPEN MOTOROUT FAILED</code></li>
+<li><strong>File Write Diagnostic Failure:</strong> Outputs a message indicating a physical write failure:
+<code>LGMOTOUT: WRITE FAILED</code></li>
+<li><strong>Centralized DB2 SQL Error Message:</strong> Displays a formatted, timestamped record containing critical SQL failure parameters:
+<code>&lt;DATE&gt; &lt;TIME&gt; LGMOTOUT &lt;OPERATION_NAME&gt; SQLCODE=&lt;SQL_CODE&gt;</code></li>
+</ul>
+<hr>
+<h2 id="4-processing-logic-and-sequence-of-operations" tabindex="-1">4. Processing Logic and Sequence of Operations</h2>
+<p>The logic within <code>LGMOTOUT</code> is strictly linear, starting with initialization and file openings, executing a controlled loop for data fetching and formatting, and ending with resource deallocation and status reporting.</p>
+<h3 id="41-main-execution-flow-and-sequence-of-operations" tabindex="-1">4.1 Main Execution Flow and Sequence of Operations</h3>
+<p>This sequence diagram illustrates the end-to-end interactions between the initiating JCL, the PL/I runtime program, the DB2 engine, the physical output sequential file, and the operator console:</p>
+<div class="mermaid">
+sequenceDiagram
+    participant JCL as JCL Batch Job
+    participant Prog as LGMOTOUT Program
+    participant DB2 as DB2 Subsystem
+    participant File as MOTOROUT File
+    participant Console as SYSOUT Console
+
+    JCL->>Prog: Launch Step
+    Prog->>File: Register ON UNDEFINEDFILE
+    Prog->>File: OPEN File (OUTPUT)
+    alt Open Failed
+        File-->>Prog: Open Failure (UNDEFINEDFILE)
+        Prog->>Console: DISPLAY 'LGMOTOUT: OPEN MOTOROUT FAILED'
+        Prog->>JCL: Return Code 12 (STOP)
+    else Open Succeeded
+        Prog->>DB2: OPEN MOTOR_CSR
+        alt Open Cursor Failed
+            DB2-->>Prog: SQLCODE != 0
+            Prog->>Console: DISPLAY SQL Error Message
+            Prog->>File: CLOSE File
+            Prog->>JCL: Return Code 12 (RETURN)
+        else Open Cursor Succeeded
+            loop Fetch Rows (While SQLCODE != 100 & SQLCODE >= 0)
+                Prog->>DB2: FETCH MOTOR_CSR
+                DB2-->>Prog: Returns Row & SQLCODE
+                alt SQLCODE = 0
+                    Prog->>File: WRITE Record (via STRING)
+                    alt Write Fails (TRANSMIT)
+                        File-->>Prog: TRANSMIT Error
+                        Prog->>Console: DISPLAY 'LGMOTOUT: WRITE FAILED' + SQL message
+                    else Write Succeeded
+                        Note over Prog: Increment WS_ROW_COUNT
+                    end
+                else SQLCODE = 100
+                    Note over Prog: Break Loop (End of Data)
+                else SQLCODE < 0
+                    Prog->>Console: DISPLAY FETCH SQL Error
+                    Note over Prog: Set Return Code 8
+                end
+            end
+            Prog->>DB2: CLOSE MOTOR_CSR
+            Prog->>File: CLOSE File
+            Prog->>Console: DISPLAY 'LGMOTOUT: ROWS WRITTEN=' || WS_ROW_COUNT
+            Prog->>JCL: Return Code 0 (or 8 if fetch error occurred)
+        end
+    end
+</div>
+<h3 id="42-high-level-logic-flow" tabindex="-1">4.2 High-Level Logic Flow</h3>
+<p>The program logic is governed by structured error handling and database status checks, as visualised below:</p>
+<div class="mermaid">
+graph TD
+    classDef startEnd fill:#b5ead7,stroke:#5a9e80,color:#000
+    classDef process fill:#c7ceea,stroke:#7a84c4,color:#000
+    classDef decision fill:#ffdac1,stroke:#d4956a,color:#000
+    classDef error fill:#ffb7b2,stroke:#c0504d,color:#000
+    classDef sub fill:#e2f0cb,stroke:#7aab5a,color:#000
+
+    A([Start LGMOTOUT]):::startEnd
+    B[Register ON UNDEFINEDFILE handler<br>for MOTOROUT]:::process
+    C[Open MOTOROUT output file]:::process
+    D{MOTOROUT open<br>failed?}:::decision
+    E[Display open error<br>Set return code 12<br>STOP]:::error
+    F[Set EM_SQLREQ to<br>OPEN MOTOR-CSR<br>Open DB2 MOTOR_CSR cursor]:::process
+    G{SQLCODE not 0?}:::decision
+    H[Write error message<br>Close MOTOROUT<br>Set return code 12<br>RETURN]:::error
+    I{SQLCODE not 100<br>and SQLCODE not negative?}:::decision
+    J[Call FETCH_MOTOR_ROWS]:::sub
+    K[Set EM_SQLREQ FETCH<br>FETCH one row from MOTOR_CSR]:::process
+    L{SQLCODE value?}:::decision
+    M[SQLCODE = 0<br>Call WRITE_MOTOR_ROW]:::sub
+    N[SQLCODE = 100<br>End of data - no-op]:::process
+    O[Other SQLCODE<br>Write error message<br>Set return code 8]:::error
+    P[Build WS_MOTOR_LINE<br>from host variables]:::process
+    Q[Convert structure to<br>132-byte MOTOROUT_REC<br>via STRING]:::process
+    R[Register ON TRANSMIT handler<br>Set MOTOROUT_OK = 1<br>Write record to MOTOROUT]:::process
+    S{MOTOROUT_OK = 0?<br>Write failed?}:::decision
+    T[Display write error<br>Call WRITE_ERROR_MESSAGE]:::error
+    U[Increment WS_ROW_COUNT]:::process
+    V[Close MOTOR_CSR cursor]:::process
+    W[Close MOTOROUT file]:::process
+    X[Display ROWS WRITTEN count]:::process
+    Y([End LGMOTOUT]):::startEnd
+
+    A --> B
+    B --> C
+    C --> D
+    D -- Yes --> E
+    D -- No --> F
+    F --> G
+    G -- Yes --> H
+    G -- No --> I
+    I -- Yes --> J
+    J --> K
+    K --> L
+    L -- SQLCODE=0 --> M
+    L -- SQLCODE=100 --> N
+    L -- Other --> O
+    M --> P
+    P --> Q
+    Q --> R
+    R --> S
+    S -- Yes --> T
+    S -- No --> U
+    T --> I
+    U --> I
+    N --> I
+    O --> I
+    I -- No --> V
+    V --> W
+    W --> X
+    X --> Y
+</div>
+<h3 id="43-detailed-procedure-descriptions" tabindex="-1">4.3 Detailed Procedure Descriptions</h3>
+<p>The functionality is structured into four main procedures:</p>
+<h4 id="431-lgmotout-main-procedure" tabindex="-1">4.3.1 LGMOTOUT (Main Procedure)</h4>
+<p>The primary execution module handles system initialization, resource opening, the main processing loop, and program shutdown. It establishes the <code>ON UNDEFINEDFILE</code> error handler for the file allocation check and handles the high-level response to DB2 database connection results. If the cursor opens successfully, it initiates a <code>DO WHILE</code> execution loop that calls <code>FETCH_MOTOR_ROWS</code> repeatedly. Once processing completes or terminates on error, this procedure closes all system assets and passes execution control back to the z/OS host with a designated status return code.</p>
+<h4 id="432-fetch_motor_rows" tabindex="-1">4.3.2 FETCH_MOTOR_ROWS</h4>
+<p>This sub-procedure issues a <code>FETCH</code> statement against the active database cursor to extract the next row of data into the registered PL/I host variables. It manages SQL execution checks using a structured <code>SELECT (SQLCODE)</code> block:</p>
+<ul>
+<li><code>WHEN (0)</code>: Calls <code>WRITE_MOTOR_ROW</code> to format and write the fetched record.</li>
+<li><code>WHEN (100)</code>: Evaluates as a standard end-of-file signal, letting the main loop terminate normally.</li>
+<li><code>OTHERWISE</code>: Treats the result as a database failure, logging the details using <code>WRITE_ERROR_MESSAGE</code> and setting the job return code to <code>8</code>.</li>
+</ul>
+<h4 id="433-write_motor_row" tabindex="-1">4.3.3 WRITE_MOTOR_ROW</h4>
+<p>This sub-procedure maps the raw host variables into the corresponding display fields in the structured <code>WS_MOTOR_LINE</code> record. It utilizes the PL/I <code>STRING</code> built-in function to serialize the structured layout into a 132-byte flat-character buffer. To handle physical I/O write failures, it registers a local <code>ON TRANSMIT</code> error handler. If the write executes successfully, the program increments the successful record counter (<code>WS_ROW_COUNT</code>). If a write failure occurs, the program reports the error and continues processing subsequent rows.</p>
+<h4 id="434-write_error_message" tabindex="-1">4.3.4 WRITE_ERROR_MESSAGE</h4>
+<p>This utility procedure formats and writes error diagnostics to the <code>SYSOUT</code> log. It combines the current system date, time, the failing DB2 operation name (such as open, close, or fetch), and the numeric SQLCODE return value into a single, structured log message.</p>
+<hr>
+<h2 id="5-environmental-and-system-dependencies" tabindex="-1">5. Environmental and System Dependencies</h2>
+<h3 id="51-db2-subsystem--plan-bindings" tabindex="-1">5.1 DB2 Subsystem &amp; Plan Bindings</h3>
+<ul>
+<li><strong>Target Subsystem:</strong> The database engine executes in a DB2 environment (default subsystem <code>DBD1</code>).</li>
+<li><strong>Table Definition:</strong> Requires structural access to the <code>GENASA1.MOTOR</code> database table.</li>
+<li><strong>Compile-Time Interface:</strong> Uses <code>SQLCA</code> via <code>EXEC SQL INCLUDE SQLCA</code> to retrieve status codes after every database action.</li>
+<li><strong>Bind Requirement:</strong> A JCL bind job (as defined in <code>GenAppBind.jcl</code>) must package the compilation’s database request module (DBRM) into an active execution package on the host DB2 engine before program execution.</li>
+</ul>
+<h3 id="52-sequential-file-configuration" tabindex="-1">5.2 Sequential File Configuration</h3>
+<p>The program requires runtime allocation of the sequential output file. If the file is not allocated via JCL or dynamic allocation, execution fails immediately.</p>
+<ul>
+<li><strong>DD Name:</strong> <code>MOTOROUT</code></li>
+<li><strong>Physical Properties:</strong> Fixed Blocked (<code>FB</code>), Record Length (<code>LRECL</code>) of exactly 132 bytes.</li>
+</ul>
+<h3 id="53-runtime-environment--compilers" tabindex="-1">5.3 Runtime Environment &amp; Compilers</h3>
+<ul>
+<li><strong>Language &amp; Compiler:</strong> Compiled using the Enterprise PL/I for z/OS compiler.</li>
+<li><strong>Execution Environment:</strong> Run within a batch environment under the z/OS Operating System.</li>
+<li><strong>Execution Libraries:</strong> Relies on PL/I runtime library routines for error-trapping and data serialization, including <code>PLIRETC</code> (return code setting), <code>STRING</code> (structure concatenation), and <code>STOP</code> / <code>RETURN</code> execution control.</li>
+</ul>
+<hr>
+<h2 id="6-system-constraints-and-validation-rules" tabindex="-1">6. System Constraints and Validation Rules</h2>
+<h3 id="61-data-format--field-size-constraints" tabindex="-1">6.1 Data Format &amp; Field Size Constraints</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Source Column</th>
+<th style="text-align:left">Target Field</th>
+<th style="text-align:left">Data Type</th>
+<th style="text-align:left">Constraint Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>POLICYNUMBER</code></td>
+<td style="text-align:left"><code>WS_OUT_POLNUM</code></td>
+<td style="text-align:left"><code>PIC '999999999'</code></td>
+<td style="text-align:left">Numeric values only. Values must be non-negative and fit within 9 decimal digits (0 to 999,999,999).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VALUE</code></td>
+<td style="text-align:left"><code>WS_OUT_VALUE</code></td>
+<td style="text-align:left"><code>PIC '999999999'</code></td>
+<td style="text-align:left">Monetary value, limited to positive integers up to 999,999,999.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>PREMIUM</code></td>
+<td style="text-align:left"><code>WS_OUT_PREMIUM</code></td>
+<td style="text-align:left"><code>PIC '999999999'</code></td>
+<td style="text-align:left">Must be a positive integer up to 999,999,999.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ACCIDENTS</code></td>
+<td style="text-align:left"><code>WS_OUT_ACCIDENTS</code></td>
+<td style="text-align:left"><code>PIC '999999999'</code></td>
+<td style="text-align:left">Maximum count up to 999,999,999.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CC</code></td>
+<td style="text-align:left"><code>WS_OUT_CC</code></td>
+<td style="text-align:left"><code>PIC '9999'</code></td>
+<td style="text-align:left">Constrained to 4 decimal digits (0 to 9,999).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>MAKE</code></td>
+<td style="text-align:left"><code>WS_OUT_MAKE</code></td>
+<td style="text-align:left"><code>CHAR(15)</code></td>
+<td style="text-align:left">Left-aligned, space-padded on the right. Truncated if DB2 size exceeds 15 characters.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>MODEL</code></td>
+<td style="text-align:left"><code>WS_OUT_MODEL</code></td>
+<td style="text-align:left"><code>CHAR(15)</code></td>
+<td style="text-align:left">Left-aligned, space-padded on the right. Truncated if DB2 size exceeds 15 characters.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>REGNUMBER</code></td>
+<td style="text-align:left"><code>WS_OUT_REGNUMBER</code></td>
+<td style="text-align:left"><code>CHAR(7)</code></td>
+<td style="text-align:left">Exact space mapping up to 7 characters.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>COLOUR</code></td>
+<td style="text-align:left"><code>WS_OUT_COLOUR</code></td>
+<td style="text-align:left"><code>CHAR(8)</code></td>
+<td style="text-align:left">Color value up to 8 characters.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>YEAROFMFR</code></td>
+<td style="text-align:left"><code>WS_OUT_YEAROFMFR</code></td>
+<td style="text-align:left"><code>CHAR(10)</code></td>
+<td style="text-align:left">Extracted as a 10-character string without format validation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-output-file-structure-constraints" tabindex="-1">6.2 Output File Structure Constraints</h3>
+<ul>
+<li><strong>Record Integrity:</strong> The sequential dataset <code>MOTOROUT</code> is defined with a fixed record length of 132 bytes. The structural mapping in the program (<code>WS_MOTOR_LINE</code>) totals 119 characters of active data and separator fields, followed by a 13-character trailing space filler. This ensures the output record matches the 132-byte physical allocation exactly.</li>
+<li><strong>Single-Record Output:</strong> The program uses a single-record write model. Blocked or multi-row writes are not supported.</li>
+</ul>
+<h3 id="63-db2-access-constraints" tabindex="-1">6.3 DB2 Access Constraints</h3>
+<ul>
+<li><strong>No Modifications:</strong> The SQL cursor is opened as <code>FOR READ ONLY</code>. Program actions are limited to extraction.</li>
+<li><strong>Unfiltered Extractor:</strong> The SQL command contains no <code>WHERE</code> filtering clause. The program performs a full table scan.</li>
+<li><strong>Data Integrity:</strong> Adding or removing columns in <code>GENASA1.MOTOR</code> without matching modifications in the PL/I source code will result in a compiler mismatch or runtime SQL bind error.</li>
+</ul>
+<h3 id="64-sequencing--operational-order-constraints" tabindex="-1">6.4 Sequencing &amp; Operational Order Constraints</h3>
+<ol>
+<li><strong>File Opening:</strong> The sequential output file must be opened before opening the DB2 cursor. If file opening fails, the program terminates immediately with return code <code>12</code> before initiating any DB2 operations.</li>
+<li><strong>Cursor Status Check:</strong> The program checks the cursor open status before attempting any fetch operations. If the open fails, the program logs the error, closes the sequential file, and exits with return code <code>12</code>.</li>
+<li><strong>Process Ordering:</strong> Each database row must be successfully fetched (<code>SQLCODE = 0</code>) before a write operation is attempted.</li>
+<li><strong>Resource Cleanup:</strong> When execution completes, the program closes the DB2 cursor before closing the output sequential file.</li>
+</ol>
+<hr>
+<h2 id="7-error-handling-and-recovery-strategy" tabindex="-1">7. Error Handling and Recovery Strategy</h2>
+<p>The program implements a structured, multi-tier error containment strategy to handle physical dataset and database failures.</p>
+<h3 id="71-file-io-error-handling" tabindex="-1">7.1 File I/O Error Handling</h3>
+<p>The program handles file-level errors using specific runtime handlers:</p>
+<h4 id="711-fatal-dataset-open-failure" tabindex="-1">7.1.1 Fatal Dataset Open Failure</h4>
+<ul>
+<li><strong>Handler:</strong> <code>ON UNDEFINEDFILE(MOTOROUT)</code></li>
+<li><strong>Reasoning:</strong> Executed if the output dataset is unallocated, locked, or incorrectly defined in the JCL.</li>
+<li><strong>Recovery Action:</strong> Displays a terminal diagnostic message (<code>LGMOTOUT: OPEN MOTOROUT FAILED</code>), registers a return code of <code>12</code> using <code>PLIRETC</code>, and halts program execution immediately via a <code>STOP</code> command.</li>
+</ul>
+<h4 id="712-physical-output-write-failure" tabindex="-1">7.1.2 Physical Output Write Failure</h4>
+<ul>
+<li><strong>Handler:</strong> <code>ON TRANSMIT(MOTOROUT)</code> (registered in the <code>WRITE_MOTOR_ROW</code> block).</li>
+<li><strong>Reasoning:</strong> Traps output failures, such as a full disk or an out-of-space condition on the sequential dataset.</li>
+<li><strong>Recovery Action:</strong> Sets the logical tracking flag <code>MOTOROUT_OK</code> to <code>'0'B</code> (false) when an error occurs. The program displays <code>LGMOTOUT: WRITE FAILED</code>, calls the centralized log procedure, and continues processing the remaining database rows. The row count for the failed record is not incremented, keeping the audit log accurate.</li>
+</ul>
+<h3 id="72-db2-sql-error-handling" tabindex="-1">7.2 DB2 SQL Error Handling</h3>
+<p>Every database access point is protected by explicit condition checks:</p>
+<ul>
+<li><strong>Cursor Open Check:</strong> Checked immediately after the cursor open call. If <code>SQLCODE != 0</code>, the program calls <code>WRITE_ERROR_MESSAGE</code>, closes <code>MOTOROUT</code>, sets return code <code>12</code>, and returns.</li>
+<li><strong>Fetch Integrity Check:</strong> Controlled by a strict loop condition:
+<code>DO WHILE (SQLCODE ^= 100 &amp; SQLCODE &gt;= 0)</code>
+This prevents the loop from processing further if a negative SQLCODE (indicating a database error) is encountered.</li>
+<li><strong>Fetch Level Failures:</strong> Managed within the fetch procedure’s <code>SELECT (SQLCODE)</code> block. When an unexpected code is received, the program logs the failure, sets the return code to <code>8</code> via <code>PLIRETC(8)</code>, and exits the processing loop.</li>
+</ul>
+<h3 id="73-centralized-error-reporting" tabindex="-1">7.3 Centralized Error Reporting</h3>
+<p>Database diagnostics are centralized in the <code>WRITE_ERROR_MESSAGE</code> procedure. This module formats a standard message containing:</p>
+<ul>
+<li>The system date (<code>EM_DATE</code>) and time (<code>EM_TIME</code>).</li>
+<li>The program name <code>LGMOTOUT</code>.</li>
+<li>The active SQL request value (<code>EM_SQLREQ</code>), representing the last attempted action (such as open, fetch, or close).</li>
+<li>The raw numeric <code>SQLCODE</code> error code (<code>EM_SQLRC</code>).</li>
+</ul>
+<h3 id="74-program-return-code-strategy" tabindex="-1">7.4 Program Return Code Strategy</h3>
+<p>The program communicates execution results to the z/OS operating system using specific return codes:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>┌─────────────────┐
+│   Execution     │
+│   Return Code   │
+└────────┬────────┘
+         │
+         ├─► RC = 0  ──► Successful Run (All fetched records written successfully)
+         │
+         ├─► RC = 8  ──► Fetch Warning/Error (SQL error occurred during processing; file is incomplete)
+         │
+         └─► RC = 12 ──► Fatal Initialization Failure (Unable to open sequential file or DB2 cursor)</code></pre>
+</div>
+<hr>
+<h2 id="8-code-examples-and-output-layouts" tabindex="-1">8. Code Examples and Output Layouts</h2>
+<p>The following examples demonstrate the file layouts and execution scenarios for the program.</p>
+<h3 id="81-ws_motor_line-output-format-layout" tabindex="-1">8.1 WS_MOTOR_LINE Output Format Layout</h3>
+<p>The physical output structure in the PL/I source code is defined as follows:</p>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">PLI</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code class="language-pli">DECLARE 1 WS_MOTOR_LINE,
+              3 WS_OUT_POLNUM      PICTURE &#039;999999999&#039;,
+              3 WS_OUT_GAP1        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_MAKE        CHAR(15),
+              3 WS_OUT_GAP2        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_MODEL       CHAR(15),
+              3 WS_OUT_GAP3        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_VALUE       PICTURE &#039;999999999&#039;,
+              3 WS_OUT_GAP4        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_REGNUMBER   CHAR(7),
+              3 WS_OUT_GAP5        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_COLOUR      CHAR(8),
+              3 WS_OUT_GAP6        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_CC          PICTURE &#039;9999&#039;,
+              3 WS_OUT_GAP7        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_YEAROFMFR   CHAR(10),
+              3 WS_OUT_GAP8        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_PREMIUM     PICTURE &#039;999999999&#039;,
+              3 WS_OUT_GAP9        CHAR(1) INIT(&#039; &#039;),
+              3 WS_OUT_ACCIDENTS   PICTURE &#039;999999999&#039;,
+              3 WS_OUT_FILLER      CHAR(13) INIT(&#039; &#039;);</code></pre>
+</div>
+<h3 id="82-example-1-successful-batch-export" tabindex="-1">8.2 Example 1: Successful Batch Export</h3>
+<p>In a normal execution scenario, the program processes two input records and exports them to the sequential file:</p>
+<h4 id="database-input-rows" tabindex="-1">Database Input Rows</h4>
+<ul>
+<li><strong>Row 1:</strong> <code>100000001</code>, <code>FORD</code>, <code>FOCUS</code>, <code>15000</code>, <code>AB12CDE</code>, <code>BLUE</code>, <code>1600</code>, <code>2018-01-01</code>, <code>1200</code>, <code>0</code></li>
+<li><strong>Row 2:</strong> <code>100000002</code>, <code>TOYOTA</code>, <code>COROLLA</code>, <code>18000</code>, <code>XY99ZZZ</code>, <code>RED</code>, <code>1800</code>, <code>2020-06-15</code>, <code>1500</code>, <code>2</code></li>
+</ul>
+<h4 id="generated-motorout-output-records-132-byte-fixed-format" tabindex="-1">Generated MOTOROUT Output Records (132-Byte Fixed Format)</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>100000001 FORD            FOCUS           000015000 AB12CDE BLUE     1600 2018-01-01 000001200 000000000               
+100000002 TOYOTA          COROLLA         000018000 XY99ZZZ RED      1800 2020-06-15 000001500 000000002</code></pre>
+</div>
+<h4 id="expected-log-console-output" tabindex="-1">Expected Log Console Output</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>LGMOTOUT: ROWS WRITTEN=000000002</code></pre>
+</div>
+<p><em>The step terminates with return code <code>0</code>.</em></p>
+<h3 id="83-example-2-db2-cursor-open-failure" tabindex="-1">8.3 Example 2: DB2 Cursor Open Failure</h3>
+<p>This scenario shows the system response when the program is unable to open the DB2 cursor (for example, if the table structure is missing, resulting in <code>SQLCODE = -204</code>):</p>
+<h4 id="expected-log-console-output-1" tabindex="-1">Expected Log Console Output</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>20241028 143210 LGMOTOUT OPEN MOTOR-CSR  SQLCODE= -204</code></pre>
+</div>
+<p><em>The step terminates immediately with return code <code>12</code>.</em></p>
+<h3 id="84-example-3-write-failure-handling" tabindex="-1">8.4 Example 3: Write Failure Handling</h3>
+<p>This scenario shows the recovery behavior when a physical write error occurs on the second record (for example, if the output dataset runs out of allocated space):</p>
+<h4 id="expected-log-console-output-2" tabindex="-1">Expected Log Console Output</h4>
+<div class="code-block">
+  <div class="code-block-header">
+    <span class="code-block-lang">CODE</span>
+    <button class="code-block-copy" type="button" onclick="(function(btn){var pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},2000)});})(this)">Copy</button>
+  </div>
+  <pre><code>LGMOTOUT: WRITE FAILED
+20241028 143522 LGMOTOUT FETCH MOTOR-CSR  SQLCODE=    0
+LGMOTOUT: ROWS WRITTEN=000000001</code></pre>
+</div>
+<p><em>The step completes with return code <code>0</code> (or <code>8</code> if a fetch error was also encountered), indicating that only one record was successfully written to the dataset.</em></p>
+
+                        <div class="related-pages">
+                            <p class="related-pages-title">Related Pages</p>
+                            <div class="card-grid">
+                                
+            <a href="batch-customer-reporting.html" class="card">
+                <span class="card-title">Batch Customer Reporting</span>
+                <span class="card-description">Batch customer report generation: the LGBATCH driver, the LGBATCHF formatting subroutine and the LGBATDB2 test driver.</span>
+            </a>
+            <a href="policy-inquiry.html" class="card">
+                <span class="card-title">Policy Inquiry</span>
+                <span class="card-description">Policy inquiry flow: LGIPOL01 (business-logic front end) and LGIPDB01 (DB2 retrieval of endowment, house, motor, commercial and claim data).</span>
+            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="toc-panel" aria-label="On this page">
+  <span class="toc-panel-label">On this page</span>
+  <ul class="toc-list">
+<li class="toc-level-2"><a href="#1-overview">1. Overview</a></li>
+<li class="toc-level-2"><a href="#2-system-architecture">2. System Architecture</a>
+<ul>
+<li class="toc-level-3"><a href="#21-system-components-and-relationships">2.1 System Components and Relationships</a></li>
+<li class="toc-level-3"><a href="#22-data-flows-and-processes">2.2 Data Flows and Processes</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#3-technical-inputs-and-outputs">3. Technical Inputs and Outputs</a>
+<ul>
+<li class="toc-level-3"><a href="#31-db2-database---genasa1motor-table-inputs">3.1 DB2 Database - GENASA1.MOTOR Table (Inputs)</a></li>
+<li class="toc-level-3"><a href="#32-sequential-output-file---motorout-outputs">3.2 Sequential Output File - MOTOROUT (Outputs)</a></li>
+<li class="toc-level-3"><a href="#33-operational-and-error-messages">3.3 Operational and Error Messages</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#4-processing-logic-and-sequence-of-operations">4. Processing Logic and Sequence of Operations</a>
+<ul>
+<li class="toc-level-3"><a href="#41-main-execution-flow-and-sequence-of-operations">4.1 Main Execution Flow and Sequence of Operations</a></li>
+<li class="toc-level-3"><a href="#42-high-level-logic-flow">4.2 High-Level Logic Flow</a></li>
+<li class="toc-level-3"><a href="#43-detailed-procedure-descriptions">4.3 Detailed Procedure Descriptions</a>
+<ul>
+<li class="toc-level-4"><a href="#431-lgmotout-main-procedure">4.3.1 LGMOTOUT (Main Procedure)</a></li>
+<li class="toc-level-4"><a href="#432-fetch_motor_rows">4.3.2 FETCH_MOTOR_ROWS</a></li>
+<li class="toc-level-4"><a href="#433-write_motor_row">4.3.3 WRITE_MOTOR_ROW</a></li>
+<li class="toc-level-4"><a href="#434-write_error_message">4.3.4 WRITE_ERROR_MESSAGE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#5-environmental-and-system-dependencies">5. Environmental and System Dependencies</a>
+<ul>
+<li class="toc-level-3"><a href="#51-db2-subsystem--plan-bindings">5.1 DB2 Subsystem &amp;amp; Plan Bindings</a></li>
+<li class="toc-level-3"><a href="#52-sequential-file-configuration">5.2 Sequential File Configuration</a></li>
+<li class="toc-level-3"><a href="#53-runtime-environment--compilers">5.3 Runtime Environment &amp;amp; Compilers</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#6-system-constraints-and-validation-rules">6. System Constraints and Validation Rules</a>
+<ul>
+<li class="toc-level-3"><a href="#61-data-format--field-size-constraints">6.1 Data Format &amp;amp; Field Size Constraints</a></li>
+<li class="toc-level-3"><a href="#62-output-file-structure-constraints">6.2 Output File Structure Constraints</a></li>
+<li class="toc-level-3"><a href="#63-db2-access-constraints">6.3 DB2 Access Constraints</a></li>
+<li class="toc-level-3"><a href="#64-sequencing--operational-order-constraints">6.4 Sequencing &amp;amp; Operational Order Constraints</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#7-error-handling-and-recovery-strategy">7. Error Handling and Recovery Strategy</a>
+<ul>
+<li class="toc-level-3"><a href="#71-file-io-error-handling">7.1 File I/O Error Handling</a>
+<ul>
+<li class="toc-level-4"><a href="#711-fatal-dataset-open-failure">7.1.1 Fatal Dataset Open Failure</a></li>
+<li class="toc-level-4"><a href="#712-physical-output-write-failure">7.1.2 Physical Output Write Failure</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#72-db2-sql-error-handling">7.2 DB2 SQL Error Handling</a></li>
+<li class="toc-level-3"><a href="#73-centralized-error-reporting">7.3 Centralized Error Reporting</a></li>
+<li class="toc-level-3"><a href="#74-program-return-code-strategy">7.4 Program Return Code Strategy</a></li>
+</ul>
+</li>
+<li class="toc-level-2"><a href="#8-code-examples-and-output-layouts">8. Code Examples and Output Layouts</a>
+<ul>
+<li class="toc-level-3"><a href="#81-ws_motor_line-output-format-layout">8.1 WS_MOTOR_LINE Output Format Layout</a></li>
+<li class="toc-level-3"><a href="#82-example-1-successful-batch-export">8.2 Example 1: Successful Batch Export</a>
+<ul>
+<li class="toc-level-4"><a href="#database-input-rows">Database Input Rows</a></li>
+<li class="toc-level-4"><a href="#generated-motorout-output-records-132-byte-fixed-format">Generated MOTOROUT Output Records (132-Byte Fixed Format)</a></li>
+<li class="toc-level-4"><a href="#expected-log-console-output">Expected Log Console Output</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#83-example-2-db2-cursor-open-failure">8.3 Example 2: DB2 Cursor Open Failure</a>
+<ul>
+<li class="toc-level-4"><a href="#expected-log-console-output-1">Expected Log Console Output</a></li>
+</ul>
+</li>
+<li class="toc-level-3"><a href="#84-example-3-write-failure-handling">8.4 Example 3: Write Failure Handling</a>
+<ul>
+<li class="toc-level-4"><a href="#expected-log-console-output-2">Expected Log Console Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</nav>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    /* toc-spy.js — highlights the active heading in the TOC panel on scroll */
+    (function () {
+      function init() {
+        var panel = document.querySelector('.toc-panel');
+        if (!panel) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll('a[href^="#"]'));
+        if (!links.length) return;
+
+        var headingIds = links.map(function (a) { return a.getAttribute('href').slice(1); });
+        var headings = headingIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+        function clearActive() {
+          panel.querySelectorAll('.toc-active').forEach(function (el) { el.classList.remove('toc-active'); });
+          panel.querySelectorAll('.toc-parent-active').forEach(function (el) { el.classList.remove('toc-parent-active'); });
+        }
+
+        function setActive(id) {
+          clearActive();
+          var link = panel.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          link.classList.add('toc-active');
+          var li = link.closest('li');
+          if (li) {
+            var parentLi = li.parentElement && li.parentElement.closest('li');
+            if (parentLi) parentLi.classList.add('toc-parent-active');
+          }
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+    <script>
+    /* sidebar-toggle.js — persists open/closed state across navigation */
+    (function () {
+
+      var STORAGE_KEY = 'sb_open';
+
+      function getOpenSet() {
+        try {
+          var raw = sessionStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveOpenSet(set) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(set)); } catch (e) {}
+      }
+
+      function findItems(toggle) {
+        var node = toggle.nextSibling;
+        while (node) {
+          if (node.nodeType === 1 && node.classList.contains('nav-section-items'))
+            return node;
+          node = node.nextSibling;
+        }
+        return null;
+      }
+
+      function toggleKey(toggle, index) {
+        var label = (toggle.querySelector('.nav-toggle-text') || toggle).textContent.trim().replace(/\s+/g, ' ');
+        return index + ':' + label;
+      }
+
+      function openSection(toggle, items, key, set) {
+        toggle.classList.add('open');
+        items.classList.add('open');
+        if (set) set[key] = true;
+      }
+
+      function closeSection(toggle, items, key, set) {
+        toggle.classList.remove('open');
+        items.classList.remove('open');
+        if (set) set[key] = false;
+      }
+
+      function init() {
+        var sidebar = document.getElementById('wiki-sidebar');
+        var toggles = Array.prototype.slice.call(
+          document.querySelectorAll('.nav-section-toggle')
+        );
+
+        var activeIdx = -1;
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+          if (items.querySelector('.nav-link.active')) {
+            activeIdx = idx;
+          }
+        });
+
+        var savedSet = getOpenSet();
+        var openSet = savedSet || {};
+
+        if (activeIdx !== -1) {
+          openSet[toggleKey(toggles[activeIdx], activeIdx)] = true;
+        }
+
+        toggles.forEach(function (toggle, idx) {
+          var items = findItems(toggle);
+          if (!items) return;
+
+          var key = toggleKey(toggle, idx);
+          var shouldOpen = openSet[key] === true;
+
+          if (shouldOpen) {
+            toggle.classList.add('open');
+            items.classList.add('open');
+          }
+
+          toggle.addEventListener('click', function () {
+            var nowOpen = toggle.classList.contains('open');
+            if (nowOpen) {
+              closeSection(toggle, items, key, openSet);
+            } else {
+              openSection(toggle, items, key, openSet);
+            }
+            saveOpenSet(openSet);
+          });
+        });
+
+        saveOpenSet(openSet);
+
+        /* Restore sidebar scroll position after sections are expanded so the
+           scroll height is correct when we apply scrollTop. */
+        if (sidebar) {
+          try {
+            var savedScroll = sessionStorage.getItem('sb_scroll');
+            if (savedScroll !== null) { sidebar.scrollTop = parseInt(savedScroll, 10) || 0; }
+          } catch (_e) {}
+        }
+
+        window.addEventListener('pagehide', function () {
+          saveOpenSet(openSet);
+          if (sidebar) {
+            try { sessionStorage.setItem('sb_scroll', String(sidebar.scrollTop)); } catch (_e) {}
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+    </script>
+    <script>
+    /* nav-tracking.js — only stamps sessionStorage when clicking a source-file link
+       that lives inside the "Source Files" disclosure section, not from sidebar or cards. */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.indexOf('sources/') === -1) return;
+        /* Only set referrer when the click originates from inside the Source Files
+           disclosure (.source-files-disclosure). Any other path — sidebar, cards,
+           direct navigation — must not set a referrer. */
+        if (!link.closest('.source-files-disclosure')) return;
+        try {
+          sessionStorage.setItem('wiki_referrer', JSON.stringify({
+            href: location.href,
+            title: document.title,
+            file: location.pathname.split('/').pop()
+          }));
+        } catch (_e) {}
+      });
+    })();
+    </script>
+    <footer class="wiki-footer">Made by IBM Bob Premium Package for Z</footer>
+</body>
+</html>
